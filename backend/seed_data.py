@@ -225,42 +225,54 @@ skills_data = [
     }
 ]
 
-# Testimonials data
+# Testimonials data - Real LinkedIn Recommendations
 testimonials_data = [
     {
-        "id": "sarah-almansoori-testimonial",
-        "name": "Sarah Al-Mansoori",
-        "position": "Operations Director",
-        "company": "ANDS",
-        "linkedin": "https://linkedin.com/in/sarah-almansoori",
-        "content": "Vinayak's analytical approach to supply chain optimization has been transformational for our operations. His ability to manage complex cross-regional logistics while maintaining exceptional accuracy is remarkable.",
+        "id": "dorrin-goyal-testimonial",
+        "name": "Dorrin Goyal",
+        "position": "Academic Manager",
+        "company": "SP Jain School of Global Management",
+        "linkedin": "https://linkedin.com/in/dorrin-goyal",
+        "content": "I had the privilege of mentoring Vinayak Bhadani in my International Business Research Project course at SP Jain School of Global Management in Singapore. During that time, I was pleased with his dedication to learn. He has strong passion for gaining knowledge. As a student, Vinayak consistently demonstrated good level of intellectual curiosity, and a willingness to engage deeply with complex concepts.",
         "rating": 5,
-        "relationship": "Direct Supervisor",
+        "relationship": "Academic Mentor",
         "order": 1,
         "isActive": True
     },
     {
-        "id": "rajesh-kumar-testimonial",
-        "name": "Rajesh Kumar",
-        "position": "Supply Chain Manager",
-        "company": "Global Automobiles",
-        "linkedin": "https://linkedin.com/in/rajesh-kumar-supply",
-        "content": "Working with Vinayak was exceptional. His technical background combined with practical supply chain expertise delivered measurable results in inventory optimization and cost reduction.",
+        "id": "rajiv-aserkar-testimonial", 
+        "name": "Rajiv Aserkar",
+        "position": "Professor - Logistics & Supply Chain Management",
+        "company": "SP Jain School of Global Management",
+        "linkedin": "https://linkedin.com/in/rajiv-aserkar-supply-chain",
+        "content": "It is a pleasure to write this recommendation for Vinayak Bhadani, who was my student at SP Jain School of Global Management. Vinayak specialized in Global Logistics and Supply Chain Management and displayed all the traits to be a successful professional in this domain. He has the required analytical skills, leadership qualities and he is a fine team player. He completed all his course work and projects with dedication and commitment.",
         "rating": 5,
-        "relationship": "Former Colleague",
+        "relationship": "Academic Professor",
         "order": 2,
         "isActive": True
     },
     {
-        "id": "michael-thompson-testimonial",
-        "name": "Dr. Michael Thompson",
-        "position": "Professor - Supply Chain Management",
-        "company": "SP Jain School of Global Management",
-        "linkedin": "https://linkedin.com/in/michael-thompson-prof",
-        "content": "Vinayak demonstrated exceptional analytical capabilities and strategic thinking throughout his MBA program. His practical experience enhanced classroom discussions significantly.",
+        "id": "sami-anthony-testimonial",
+        "name": "Sami Anthony Abu-Hanna",
+        "position": "Head of Operations/Supply Chain",
+        "company": "ANDS | MBA, PMP®, CFM®",
+        "linkedin": "https://linkedin.com/in/sami-anthony-abu-hanna",
+        "content": "I am pleased to recommend Vinayak Bhadani, who served as a Supply Chain Analyst at ANDS for 15 months. During this time, he played a key role in improving the S&OP process, optimizing logistics, and enhancing ERP systems. Vinayak's analytical skills, adaptability, and problem-solving abilities made him a valuable asset to the team. He consistently delivered results and collaborated effectively across teams to achieve shared goals.",
         "rating": 5,
-        "relationship": "Academic Mentor",
+        "relationship": "Direct Manager",
         "order": 3,
+        "isActive": True
+    },
+    {
+        "id": "additional-recommendation-4",
+        "name": "[Name from Screenshot 4]",
+        "position": "[Position from Screenshot 4]", 
+        "company": "[Company from Screenshot 4]",
+        "linkedin": "https://linkedin.com/in/placeholder",
+        "content": "[Please replace with content from IMG_6860.jpg]",
+        "rating": 5,
+        "relationship": "[Relationship from Screenshot]",
+        "order": 4,
         "isActive": True
     }
 ]
