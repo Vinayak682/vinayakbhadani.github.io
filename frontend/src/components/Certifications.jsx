@@ -53,6 +53,21 @@ const Certifications = () => {
 
   const certifications = [
     {
+      id: 'apics-cpim',
+      title: 'Certified in Production and Inventory Management',
+      abbreviation: 'CPIM',
+      issuer: 'Association for Supply Chain Management (ASCM)',
+      issuerAbbr: 'APICS/ASCM',
+      status: 'In Progress',
+      expectedCompletion: 'January 2026',
+      description: 'Comprehensive certification program covering production and inventory management, supply chain operations, and strategic planning methodologies.',
+      skills: ['Production Planning', 'Inventory Management', 'Supply Chain Operations', 'Master Scheduling', 'Material Requirements Planning'],
+      verificationUrl: 'https://www.ascm.org/learning-development/certifications-credentials/cpim/',
+      badgeColor: 'bg-orange-600',
+      icon: Award,
+      isInProgress: true
+    },
+    {
       id: 'ciscp',
       title: 'Certified International Supply Chain Professional',
       abbreviation: 'CISCP',
