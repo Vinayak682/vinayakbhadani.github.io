@@ -135,7 +135,7 @@ const Contact = () => {
           <div className="mb-6 lg:mb-8">
             <div className="w-20 lg:w-24 h-20 lg:h-24 mx-auto rounded-full overflow-hidden ring-2 lg:ring-4 ring-teal-200 shadow-lg">
               <img 
-                src="/vinayak-new-professional.jpg"
+                src="/vinayak-professional-final.jpg"
                 alt="Vinayak Bhadani"
                 className="w-full h-full object-cover object-center"
               />
