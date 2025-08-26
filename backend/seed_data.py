@@ -262,18 +262,6 @@ testimonials_data = [
         "relationship": "Direct Manager",
         "order": 3,
         "isActive": True
-    },
-    {
-        "id": "additional-recommendation-4",
-        "name": "[Name from Screenshot 4]",
-        "position": "[Position from Screenshot 4]", 
-        "company": "[Company from Screenshot 4]",
-        "linkedin": "https://linkedin.com/in/placeholder",
-        "content": "[Please replace with content from IMG_6860.jpg]",
-        "rating": 5,
-        "relationship": "[Relationship from Screenshot]",
-        "order": 4,
-        "isActive": True
     }
 ]
 
