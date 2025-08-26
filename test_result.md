@@ -354,7 +354,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "All backend API endpoints tested and verified"
+    - "Hero Section API Integration"
+    - "Navigation and Smooth Scrolling"
+    - "Loading States and Error Handling"
+    - "Mobile Responsiveness"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
