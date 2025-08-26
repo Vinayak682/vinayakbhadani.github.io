@@ -277,21 +277,36 @@ const Certifications = () => {
 
                     {/* Certification Details */}
                     <div className="space-y-2 mb-4 text-sm text-slate-500">
-                      <div className="flex items-center">
-                        <Calendar className="w-4 h-4 mr-2" />
-                        <span>Issued: {cert.issueDate}</span>
-                      </div>
-                      {cert.expiryDate && (
-                        <div className="flex items-center">
-                          <Shield className="w-4 h-4 mr-2" />
-                          <span>Expires: {cert.expiryDate}</span>
-                        </div>
-                      )}
-                      {cert.certificationId && (
-                        <div className="flex items-center">
-                          <CheckCircle className="w-4 h-4 mr-2" />
-                          <span className="truncate">ID: {cert.certificationId}</span>
-                        </div>
+                      {cert.isInProgress ? (
+                        <>
+                          <div className="flex items-center">
+                            <Clock className="w-4 h-4 mr-2 text-orange-500" />
+                            <span className="text-orange-600 font-medium">In Progress</span>
+                          </div>
+                          <div className="flex items-center">
+                            <Calendar className="w-4 h-4 mr-2" />
+                            <span>Expected: {cert.expectedCompletion}</span>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex items-center">
+                            <Calendar className="w-4 h-4 mr-2" />
+                            <span>Issued: {cert.issueDate}</span>
+                          </div>
+                          {cert.expiryDate && (
+                            <div className="flex items-center">
+                              <Shield className="w-4 h-4 mr-2" />
+                              <span>Expires: {cert.expiryDate}</span>
+                            </div>
+                          )}
+                          {cert.certificationId && (
+                            <div className="flex items-center">
+                              <CheckCircle className="w-4 h-4 mr-2" />
+                              <span className="truncate">ID: {cert.certificationId}</span>
+                            </div>
+                          )}
+                        </>
                       )}
                     </div>
 
