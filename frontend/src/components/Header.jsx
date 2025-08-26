@@ -12,10 +12,11 @@ import {
   MessageSquare,
   Home
 } from 'lucide-react';
-import mockData from '../mock';
+import { useApi } from '../hooks/useApi';
+import { getProfile } from '../services/api';
 
 const Header = () => {
-  const { personal } = mockData;
+  const { data: profileData } = useApi(getProfile);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
@@ -59,6 +60,14 @@ const Header = () => {
     { id: 'testimonials', label: 'Testimonials', icon: MessageSquare },
     { id: 'contact', label: 'Contact', icon: MessageSquare }
   ];
+
+  // Use fallback data if profile data is not loaded yet
+  const personal = profileData?.personal || {
+    name: 'Vinayak Bhadani',
+    email: 'vinayakbhadani1998@gmail.com',
+    phone: '+971556270561',
+    linkedin: 'https://www.linkedin.com/in/vinayakbhadani'
+  };
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${

@@ -9,10 +9,36 @@ import {
   ExternalLink,
   User
 } from 'lucide-react';
-import mockData from '../mock';
+import { useApi } from '../hooks/useApi';
+import { getTestimonials } from '../services/api';
 
 const Testimonials = () => {
-  const { testimonials } = mockData;
+  const { data: testimonialsData, loading, error } = useApi(getTestimonials);
+
+  if (loading) {
+    return (
+      <section id="testimonials" className="py-20 bg-slate-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-slate-600 text-lg">Loading testimonials...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error || !testimonialsData) {
+    return (
+      <section id="testimonials" className="py-20 bg-slate-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <p className="text-red-600 text-lg">Failed to load testimonials</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="testimonials" className="py-20 bg-slate-50">
@@ -33,7 +59,7 @@ const Testimonials = () => {
 
         {/* Testimonials Grid */}
         <div className="grid lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
+          {testimonialsData.map((testimonial) => (
             <Card key={testimonial.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-md bg-white">
               <CardContent className="p-8 h-full flex flex-col">
                 {/* Quote Icon */}

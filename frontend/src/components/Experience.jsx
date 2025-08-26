@@ -9,10 +9,36 @@ import {
   Building2,
   ArrowRight
 } from 'lucide-react';
-import mockData from '../mock';
+import { useApi } from '../hooks/useApi';
+import { getExperience } from '../services/api';
 
 const Experience = () => {
-  const { experience } = mockData;
+  const { data: experienceData, loading, error } = useApi(getExperience);
+
+  if (loading) {
+    return (
+      <section id="experience" className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-slate-600 text-lg">Loading experience...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error || !experienceData) {
+    return (
+      <section id="experience" className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <p className="text-red-600 text-lg">Failed to load experience information</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="experience" className="py-20 bg-white">
@@ -37,7 +63,7 @@ const Experience = () => {
           <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-slate-200 hidden lg:block"></div>
 
           <div className="space-y-12">
-            {experience.map((exp, index) => (
+            {experienceData.map((exp, index) => (
               <div key={exp.id} className="relative">
                 {/* Timeline Dot */}
                 <div className="absolute left-6 w-4 h-4 bg-teal-500 rounded-full border-4 border-white shadow-lg hidden lg:block z-10"></div>

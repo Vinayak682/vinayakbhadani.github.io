@@ -2,38 +2,12 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
-import { Database, Settings, Globe, BarChart3, Users, Zap } from 'lucide-react';
-import mockData from '../mock';
+import { Database, Settings, Globe, BarChart3 } from 'lucide-react';
+import { useApi } from '../hooks/useApi';
+import { getSkills } from '../services/api';
 
 const Skills = () => {
-  const { skills } = mockData;
-
-  const skillCategories = [
-    {
-      title: "Technical Expertise",
-      icon: Database,
-      skills: skills.technical,
-      color: "bg-blue-500",
-      borderColor: "border-blue-200",
-      textColor: "text-blue-700"
-    },
-    {
-      title: "Operational Excellence",
-      icon: Settings,
-      skills: skills.operational,
-      color: "bg-green-500",
-      borderColor: "border-green-200",
-      textColor: "text-green-700"
-    },
-    {
-      title: "Regional Expertise",
-      icon: Globe,
-      skills: skills.regional,
-      color: "bg-purple-500",
-      borderColor: "border-purple-200",
-      textColor: "text-purple-700"
-    }
-  ];
+  const { data: skillsData, loading, error } = useApi(getSkills);
 
   // Simulated skill proficiency levels
   const skillProficiency = {
@@ -60,6 +34,37 @@ const Skills = () => {
     "Demand Forecasting"
   ];
 
+  if (loading) {
+    return (
+      <section id="skills" className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-slate-600 text-lg">Loading skills...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error || !skillsData) {
+    return (
+      <section id="skills" className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <p className="text-red-600 text-lg">Failed to load skills information</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const iconMap = {
+    'Database': Database,
+    'Settings': Settings,
+    'Globe': Globe
+  };
+
   return (
     <section id="skills" className="py-20 bg-white">
       <div className="container mx-auto px-6">
@@ -79,31 +84,34 @@ const Skills = () => {
 
         {/* Skills Categories */}
         <div className="grid lg:grid-cols-3 gap-8 mb-16">
-          {skillCategories.map((category, index) => (
-            <Card key={index} className={`group hover:shadow-xl transition-all duration-300 ${category.borderColor} border-2 hover:border-opacity-50`}>
-              <CardHeader className="text-center pb-4">
-                <div className={`${category.color} w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <category.icon className="w-8 h-8 text-white" />
-                </div>
-                <CardTitle className={`text-xl font-bold ${category.textColor}`}>
-                  {category.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {category.skills.map((skill, skillIndex) => (
-                    <Badge 
-                      key={skillIndex} 
-                      variant="secondary" 
-                      className="text-sm font-medium mr-2 mb-2 bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors duration-200"
-                    >
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+          {skillsData.map((category, index) => {
+            const IconComponent = iconMap[category.icon] || Database;
+            return (
+              <Card key={category.id} className={`group hover:shadow-xl transition-all duration-300 ${category.borderColor} border-2 hover:border-opacity-50`}>
+                <CardHeader className="text-center pb-4">
+                  <div className={`${category.color} w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className="w-8 h-8 text-white" />
+                  </div>
+                  <CardTitle className={`text-xl font-bold ${category.textColor}`}>
+                    {category.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {category.skills.map((skill, skillIndex) => (
+                      <Badge 
+                        key={skillIndex} 
+                        variant="secondary" 
+                        className="text-sm font-medium mr-2 mb-2 bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors duration-200"
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
 
         {/* Proficiency Levels */}
