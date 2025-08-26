@@ -104,7 +104,7 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 text-base font-medium transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-teal-600/25"
-                onClick={() => window.open(personal.linkedin, '_blank')}
+                onClick={() => window.open('https://www.linkedin.com/in/vinayakbhadani', '_blank')}
               >
                 <LinkedinIcon className="w-5 h-5 mr-2" />
                 Connect on LinkedIn
