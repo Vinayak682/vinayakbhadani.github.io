@@ -177,7 +177,7 @@ const Testimonials = () => {
                 More Recommendations on LinkedIn
               </h3>
               <p className="text-slate-300 mb-6 max-w-md">
-                Connect with me to see additional professional recommendations and endorsements from industry colleagues.
+                View all my professional recommendations and endorsements directly on my LinkedIn profile.
               </p>
               <Button 
                 className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 text-base font-semibold shadow-lg hover:shadow-teal-600/25 transition-all duration-300"
