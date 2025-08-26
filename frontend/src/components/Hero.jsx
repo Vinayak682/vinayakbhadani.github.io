@@ -43,78 +43,78 @@ const Hero = () => {
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width=%2260%22%20height=%2260%22%20viewBox=%220%200%2060%2060%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg%20fill=%22none%22%20fill-rule=%22evenodd%22%3E%3Cg%20fill=%22%23ffffff%22%20fill-opacity=%220.03%22%3E%3Cpath%20d=%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
       
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="container mx-auto px-4 lg:px-6 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Content */}
-          <div className="space-y-8">
+          <div className="space-y-6 lg:space-y-8 order-2 lg:order-1">
             {/* Badge */}
-            <Badge variant="secondary" className="bg-teal-600/20 text-teal-300 border-teal-600/30 px-4 py-2 text-sm font-medium">
-              <MapPin className="w-4 h-4 mr-2" />
+            <Badge variant="secondary" className="bg-teal-600/20 text-teal-300 border-teal-600/30 px-3 lg:px-4 py-1 lg:py-2 text-xs lg:text-sm font-medium">
+              <MapPin className="w-3 lg:w-4 h-3 lg:h-4 mr-1 lg:mr-2" />
               Based in {personal.location}
             </Badge>
 
             {/* Main Title */}
-            <div className="space-y-4">
-              <h1 className="text-5xl lg:text-6xl font-bold text-white leading-tight">
+            <div className="space-y-3 lg:space-y-4">
+              <h1 className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
                 {personal.name}
-                <span className="block text-2xl lg:text-3xl font-normal text-slate-300 mt-2">
+                <span className="block text-lg lg:text-2xl xl:text-3xl font-normal text-slate-300 mt-1 lg:mt-2">
                   {personal.title}
                 </span>
               </h1>
               
-              <p className="text-xl lg:text-2xl text-teal-400 font-medium leading-relaxed">
+              <p className="text-base lg:text-xl xl:text-2xl text-teal-400 font-medium leading-relaxed">
                 {hero.tagline}
               </p>
               
-              <p className="text-lg text-slate-300 leading-relaxed max-w-2xl">
+              <p className="text-sm lg:text-lg text-slate-300 leading-relaxed max-w-2xl">
                 {hero.description}
               </p>
             </div>
 
             {/* Social Proof Stats */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
               <div className="text-center">
-                <div className="text-3xl lg:text-4xl font-bold text-teal-400">
+                <div className="text-2xl lg:text-3xl xl:text-4xl font-bold text-teal-400">
                   {hero.socialProof.experience}
                 </div>
-                <div className="text-sm text-slate-400 font-medium">Years Experience</div>
+                <div className="text-xs lg:text-sm text-slate-400 font-medium">Years Experience</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl lg:text-4xl font-bold text-teal-400">
+                <div className="text-2xl lg:text-3xl xl:text-4xl font-bold text-teal-400">
                   {hero.socialProof.unitsManaged}
                 </div>
-                <div className="text-sm text-slate-400 font-medium">Units Monthly</div>
+                <div className="text-xs lg:text-sm text-slate-400 font-medium">Units Monthly</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl lg:text-4xl font-bold text-teal-400">
+                <div className="text-2xl lg:text-3xl xl:text-4xl font-bold text-teal-400">
                   {hero.socialProof.costReduction}%
                 </div>
-                <div className="text-sm text-slate-400 font-medium">Cost Reduction</div>
+                <div className="text-xs lg:text-sm text-slate-400 font-medium">Cost Reduction</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl lg:text-4xl font-bold text-teal-400">
+                <div className="text-2xl lg:text-3xl xl:text-4xl font-bold text-teal-400">
                   {hero.socialProof.accuracyRate}%
                 </div>
-                <div className="text-sm text-slate-400 font-medium">Accuracy Rate</div>
+                <div className="text-xs lg:text-sm text-slate-400 font-medium">Accuracy Rate</div>
               </div>
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
               <Button 
                 size="lg" 
-                className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 text-base font-medium transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-teal-600/25"
+                className="bg-teal-600 hover:bg-teal-700 text-white px-6 lg:px-8 py-3 lg:py-4 text-sm lg:text-base font-medium transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-teal-600/25"
                 onClick={() => window.open('https://www.linkedin.com/in/vinayakbhadani', '_blank')}
               >
-                <LinkedinIcon className="w-5 h-5 mr-2" />
+                <LinkedinIcon className="w-4 lg:w-5 h-4 lg:h-5 mr-2" />
                 Connect on LinkedIn
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-4 lg:w-5 h-4 lg:h-5 ml-2" />
               </Button>
               
               <Button 
                 variant="outline" 
                 size="lg" 
-                className="border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white px-8 py-4 text-base font-medium transition-all duration-300"
+                className="border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white px-6 lg:px-8 py-3 lg:py-4 text-sm lg:text-base font-medium transition-all duration-300"
                 onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}
               >
                 View My Work
@@ -122,26 +122,26 @@ const Hero = () => {
             </div>
 
             {/* Contact Info */}
-            <div className="flex flex-wrap gap-6 pt-4 border-t border-slate-700">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 lg:gap-6 pt-3 lg:pt-4 border-t border-slate-700">
               <a 
                 href={`mailto:${personal.email}`}
-                className="flex items-center text-slate-400 hover:text-teal-400 transition-colors duration-300"
+                className="flex items-center text-slate-400 hover:text-teal-400 transition-colors duration-300 text-sm lg:text-base"
               >
-                <Mail className="w-4 h-4 mr-2" />
+                <Mail className="w-3 lg:w-4 h-3 lg:h-4 mr-2" />
                 {personal.email}
               </a>
               <a 
                 href={`tel:${personal.phone}`}
-                className="flex items-center text-slate-400 hover:text-teal-400 transition-colors duration-300"
+                className="flex items-center text-slate-400 hover:text-teal-400 transition-colors duration-300 text-sm lg:text-base"
               >
-                <Phone className="w-4 h-4 mr-2" />
+                <Phone className="w-3 lg:w-4 h-3 lg:h-4 mr-2" />
                 {personal.phone}
               </a>
             </div>
           </div>
 
           {/* Hero Image/Profile Section */}
-          <div className="relative">
+          <div className="relative order-1 lg:order-2">
             <div className="relative">
               {/* Professional Headshot - Mobile Optimized */}
               <div className="relative mb-6 lg:mb-8">
