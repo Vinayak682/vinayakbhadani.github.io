@@ -369,10 +369,13 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Hero Section API Integration"
-    - "Navigation and Smooth Scrolling"
-    - "Loading States and Error Handling"
-    - "Mobile Responsiveness"
+    - "About Section API Integration"
+    - "Skills Section API Integration"
+    - "Experience Section API Integration"
+    - "Projects Section API Integration"
+    - "Testimonials Section API Integration"
+    - "Contact Form Backend Integration"
+    - "Header Navigation API Integration"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
