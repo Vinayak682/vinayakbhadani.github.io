@@ -146,7 +146,7 @@ const Testimonials = () => {
                       variant="ghost" 
                       size="sm"
                       className="text-slate-400 hover:text-teal-600 hover:bg-teal-50 p-2 rounded-full transition-all duration-300"
-                      onClick={() => window.open(testimonial.linkedin, '_blank')}
+                      onClick={() => window.open('https://www.linkedin.com/in/vinayakbhadani/details/recommendations/', '_blank')}
                     >
                       <LinkedinIcon className="w-5 h-5" />
                     </Button>
