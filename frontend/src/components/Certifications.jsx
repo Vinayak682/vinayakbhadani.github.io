@@ -42,7 +42,6 @@ const Certifications = () => {
       graduationDate: "August 2021",
       certificateDate: "March 10, 2022",
       locations: "Bengaluru, India",
-      classGrade: "Second Class",
       duration: "4 years",
       description: "Comprehensive engineering program focusing on Information Science and Engineering, covering software development, data structures, algorithms, and modern computing technologies.",
       websiteUrl: "https://www.svce.ac.in",
