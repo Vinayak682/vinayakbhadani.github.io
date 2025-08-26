@@ -115,88 +115,109 @@ const Certifications = () => {
           </p>
         </div>
 
-        {/* MBA Degree Section */}
+        {/* Academic Degrees Section */}
         <div className="mb-16">
-          <Card className="bg-gradient-to-br from-slate-900 to-slate-800 border-0 shadow-2xl overflow-hidden">
-            <CardContent className="p-0">
-              <div className="grid lg:grid-cols-12">
-                {/* Left Section - Icon & Badge */}
-                <div className="lg:col-span-3 bg-gradient-to-br from-teal-600 to-teal-700 p-8 flex flex-col items-center justify-center text-center">
-                  <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                    <GraduationCap className="w-10 h-10 text-white" />
-                  </div>
-                  <Badge className="bg-white/20 text-white border-white/30 mb-2">
-                    Master's Degree
-                  </Badge>
-                  <p className="text-teal-100 text-sm">Australian Qualification Framework</p>
-                </div>
-
-                {/* Right Section - Content */}
-                <div className="lg:col-span-9 p-8">
-                  <div className="mb-6">
-                    <h3 className="text-3xl font-bold text-white mb-2">
-                      {education.degree}
-                    </h3>
-                    <p className="text-xl text-teal-400 font-semibold mb-4">
-                      Specialization: {education.specialization}
-                    </p>
-                    <p className="text-slate-300 leading-relaxed">
-                      {education.description}
-                    </p>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                      <h4 className="text-white font-semibold mb-3">Institution Details</h4>
-                      <div className="space-y-2 text-slate-300">
-                        <div className="flex items-center">
-                          <GraduationCap className="w-4 h-4 mr-2 text-teal-400" />
-                          <span className="text-sm">{education.institution}</span>
-                        </div>
-                        <div className="flex items-center">
-                          <MapPin className="w-4 h-4 mr-2 text-teal-400" />
-                          <span className="text-sm">{education.locations}</span>
-                        </div>
-                        <div className="flex items-center">
-                          <CheckCircle className="w-4 h-4 mr-2 text-teal-400" />
-                          <span className="text-sm">{education.accreditation}</span>
-                        </div>
+          <h3 className="text-3xl font-bold text-slate-900 mb-8 text-center">
+            Academic Qualifications
+          </h3>
+          
+          <div className="space-y-8">
+            {education.map((edu) => (
+              <Card key={edu.id} className={`bg-gradient-to-br ${edu.gradientFrom} ${edu.gradientTo} border-0 shadow-2xl overflow-hidden`}>
+                <CardContent className="p-0">
+                  <div className="grid lg:grid-cols-12">
+                    {/* Left Section - Icon & Badge */}
+                    <div className={`lg:col-span-3 bg-gradient-to-br ${edu.badgeColor.replace('bg-', 'from-')} ${edu.badgeColor.replace('bg-', 'to-')}-700 p-8 flex flex-col items-center justify-center text-center`}>
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                        <GraduationCap className="w-10 h-10 text-white" />
                       </div>
+                      <Badge className="bg-white/20 text-white border-white/30 mb-2">
+                        {edu.type} Degree
+                      </Badge>
+                      {edu.accreditation && (
+                        <p className="text-teal-100 text-sm">{edu.accreditation}</p>
+                      )}
+                      {edu.classGrade && (
+                        <p className="text-blue-100 text-sm">{edu.classGrade}</p>
+                      )}
                     </div>
 
-                    <div>
-                      <h4 className="text-white font-semibold mb-3">Program Details</h4>
-                      <div className="space-y-2 text-slate-300">
-                        <div className="flex items-center">
-                          <Calendar className="w-4 h-4 mr-2 text-teal-400" />
-                          <span className="text-sm">Graduated: {education.graduationDate}</span>
+                    {/* Right Section - Content */}
+                    <div className="lg:col-span-9 p-8">
+                      <div className="mb-6">
+                        <h3 className="text-3xl font-bold text-white mb-2">
+                          {edu.degree}
+                        </h3>
+                        <p className="text-xl text-teal-400 font-semibold mb-4">
+                          Specialization: {edu.specialization}
+                        </p>
+                        <p className="text-slate-300 leading-relaxed">
+                          {edu.description}
+                        </p>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                          <h4 className="text-white font-semibold mb-3">Institution Details</h4>
+                          <div className="space-y-2 text-slate-300">
+                            <div className="flex items-center">
+                              <GraduationCap className="w-4 h-4 mr-2 text-teal-400" />
+                              <span className="text-sm">{edu.institution}</span>
+                            </div>
+                            <div className="flex items-center">
+                              <MapPin className="w-4 h-4 mr-2 text-teal-400" />
+                              <span className="text-sm">{edu.locations}</span>
+                            </div>
+                            {edu.accreditation && (
+                              <div className="flex items-center">
+                                <CheckCircle className="w-4 h-4 mr-2 text-teal-400" />
+                                <span className="text-sm">{edu.accreditation}</span>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <div className="flex items-center">
-                          <Award className="w-4 h-4 mr-2 text-teal-400" />
-                          <span className="text-sm">Duration: {education.duration}</span>
+
+                        <div>
+                          <h4 className="text-white font-semibold mb-3">Program Details</h4>
+                          <div className="space-y-2 text-slate-300">
+                            <div className="flex items-center">
+                              <Calendar className="w-4 h-4 mr-2 text-teal-400" />
+                              <span className="text-sm">Graduated: {edu.graduationDate}</span>
+                            </div>
+                            {edu.certificateDate && (
+                              <div className="flex items-center">
+                                <Award className="w-4 h-4 mr-2 text-teal-400" />
+                                <span className="text-sm">Certificate: {edu.certificateDate}</span>
+                              </div>
+                            )}
+                            <div className="flex items-center">
+                              <Award className="w-4 h-4 mr-2 text-teal-400" />
+                              <span className="text-sm">Duration: {edu.duration}</span>
+                            </div>
+                            <div className="flex items-center">
+                              <Shield className="w-4 h-4 mr-2 text-teal-400" />
+                              <span className="text-sm">Student ID: {edu.studentNumber}</span>
+                            </div>
+                          </div>
                         </div>
-                        <div className="flex items-center">
-                          <Shield className="w-4 h-4 mr-2 text-teal-400" />
-                          <span className="text-sm">Student ID: {education.studentNumber}</span>
-                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-slate-700">
+                        <Button 
+                          variant="outline" 
+                          className="border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-slate-900"
+                          onClick={() => window.open(edu.websiteUrl, '_blank')}
+                        >
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          View Institution
+                        </Button>
                       </div>
                     </div>
                   </div>
-
-                  <div className="pt-4 border-t border-slate-700">
-                    <Button 
-                      variant="outline" 
-                      className="border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-slate-900"
-                      onClick={() => window.open('https://www.spjain.org/programs/postgraduate/mgb', '_blank')}
-                    >
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      View Program Details
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
 
         {/* Professional Certifications */}
