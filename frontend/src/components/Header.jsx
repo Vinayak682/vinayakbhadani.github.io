@@ -204,7 +204,7 @@ const Header = () => {
                         variant="outline"
                         size="sm"
                         className="flex-1"
-                        onClick={() => window.open(personal.linkedin, '_blank')}
+                        onClick={() => window.open('https://www.linkedin.com/in/vinayakbhadani', '_blank')}
                       >
                         <LinkedinIcon className="w-4 h-4 mr-2" />
                         LinkedIn
