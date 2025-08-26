@@ -14,17 +14,43 @@ import {
 } from 'lucide-react';
 
 const Certifications = () => {
-  const education = {
-    degree: "Master of Global Business (MGB)",
-    specialization: "Global Logistics and Supply Chain Management",
-    institution: "SP Jain School of Global Management",
-    studentNumber: "MS22GL091",
-    graduationDate: "June 29, 2023",
-    locations: "Dubai, Mumbai, Singapore, Sydney",
-    accreditation: "TEQSA Accredited (CRICOS 03335G)",
-    duration: "16 months",
-    description: "Designed to groom junior and middle-level managers into 'general managers' capable of assuming cross-functional roles, engaging in critical thinking, building teams and taking on leadership roles."
-  };
+  const education = [
+    {
+      id: 'mba',
+      type: 'Graduate',
+      degree: "Master of Global Business (MGB)",
+      specialization: "Global Logistics and Supply Chain Management",
+      institution: "SP Jain School of Global Management",
+      studentNumber: "MS22GL091",
+      graduationDate: "June 29, 2023",
+      locations: "Dubai, Mumbai, Singapore, Sydney",
+      accreditation: "TEQSA Accredited (CRICOS 03335G)",
+      duration: "16 months",
+      description: "Designed to groom junior and middle-level managers into 'general managers' capable of assuming cross-functional roles, engaging in critical thinking, building teams and taking on leadership roles.",
+      websiteUrl: "https://www.spjain.org/programs/postgraduate/mgb",
+      gradientFrom: "from-slate-900",
+      gradientTo: "to-slate-800",
+      badgeColor: "bg-teal-600"
+    },
+    {
+      id: 'undergraduate',
+      type: 'Undergraduate',
+      degree: "Bachelor of Engineering (B.E.)",
+      specialization: "Information Science & Engineering",
+      institution: "Sri Venkateshwara College of Engineering",
+      studentNumber: "1VE17IS057",
+      graduationDate: "August 2021",
+      certificateDate: "March 10, 2022",
+      locations: "Bengaluru, India",
+      classGrade: "Second Class",
+      duration: "4 years",
+      description: "Comprehensive engineering program focusing on Information Science and Engineering, covering software development, data structures, algorithms, and modern computing technologies.",
+      websiteUrl: "https://www.svce.ac.in",
+      gradientFrom: "from-blue-900",
+      gradientTo: "to-blue-800",
+      badgeColor: "bg-blue-600"
+    }
+  ];
 
   const certifications = [
     {
