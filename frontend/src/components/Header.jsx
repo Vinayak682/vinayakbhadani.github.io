@@ -56,6 +56,7 @@ const Header = () => {
     { id: 'about', label: 'About', icon: User },
     { id: 'skills', label: 'Skills', icon: Award },
     { id: 'experience', label: 'Experience', icon: Briefcase },
+    { id: 'certifications', label: 'Credentials', icon: Award },
     { id: 'projects', label: 'Projects', icon: Briefcase },
     { id: 'testimonials', label: 'Testimonials', icon: MessageSquare },
     { id: 'contact', label: 'Contact', icon: MessageSquare }
