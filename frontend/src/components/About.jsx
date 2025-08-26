@@ -82,7 +82,7 @@ const About = () => {
           <div className="mt-6 lg:mt-8">
             <div className="w-24 lg:w-32 h-24 lg:h-32 mx-auto rounded-full overflow-hidden ring-2 lg:ring-4 ring-teal-200 shadow-lg">
               <img 
-                src="/vinayak-new-professional.jpg"
+                src="/vinayak-professional-final.jpg"
                 alt="Vinayak Bhadani"
                 className="w-full h-full object-cover object-center"
               />
