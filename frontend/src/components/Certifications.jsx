@@ -331,11 +331,11 @@ const Certifications = () => {
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="w-full text-slate-600 border-slate-300 hover:bg-slate-50"
+                        className={`w-full text-slate-600 border-slate-300 hover:bg-slate-50 ${cert.isInProgress ? 'text-orange-600 border-orange-300 hover:bg-orange-50' : ''}`}
                         onClick={() => window.open(cert.verificationUrl, '_blank')}
                       >
                         <ExternalLink className="w-4 h-4 mr-2" />
-                        Verify Credential
+                        {cert.isInProgress ? 'Learn More' : 'Verify Credential'}
                       </Button>
                     )}
                   </div>
