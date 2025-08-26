@@ -136,9 +136,6 @@ const Certifications = () => {
                       {edu.accreditation && (
                         <p className="text-teal-100 text-sm">{edu.accreditation}</p>
                       )}
-                      {edu.classGrade && (
-                        <p className="text-blue-100 text-sm">{edu.classGrade}</p>
-                      )}
                     </div>
 
                     {/* Right Section - Content */}
