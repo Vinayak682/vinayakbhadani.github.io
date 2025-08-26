@@ -140,49 +140,27 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Hero Image/Profile Section */}
+          {/* Hero Background Section */}
           <div className="relative order-1 lg:order-2">
-            <div className="relative">
-              {/* Professional Headshot - Mobile Optimized */}
-              <div className="relative mb-6 lg:mb-8">
-                <div className="w-48 h-48 lg:w-80 lg:h-80 mx-auto rounded-full overflow-hidden ring-4 lg:ring-8 ring-white shadow-2xl">
-                  <img 
-                    src="/vinayak-professional-final.jpg"
-                    alt="Vinayak Bhadani - Supply Chain Professional"
-                    className="w-full h-full object-cover object-center"
-                  />
-                </div>
-                {/* Professional Verification Badge - Mobile Responsive */}
-                <div className="absolute -bottom-1 -right-4 lg:-bottom-2 lg:-right-8 bg-teal-600 rounded-full p-2 lg:p-4 shadow-lg ring-2 lg:ring-4 ring-white">
-                  <svg className="w-4 h-4 lg:w-8 lg:h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Background Supply Chain Image - Mobile Hidden */}
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl h-48 lg:h-64 opacity-10 lg:opacity-20 hidden lg:block">
-                <img 
-                  src={personal.heroImage}
-                  alt="Supply Chain Operations Background"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent"></div>
-              </div>
-
-              {/* Professional Stats Overlay - Mobile Optimized */}
-              <div className="absolute bottom-2 lg:bottom-4 left-2 lg:left-4 right-2 lg:right-4 bg-white/95 backdrop-blur-md rounded-lg lg:rounded-xl p-3 lg:p-4 border border-teal-200 hidden lg:block">
-                <div className="text-center">
-                  <div className="text-teal-700 text-xs lg:text-sm font-medium mb-1">Current Achievement</div>
-                  <div className="text-slate-900 text-sm lg:text-lg font-bold">Supply Chain Excellence</div>
-                  <div className="text-slate-600 text-xs lg:text-sm">Optimizing operations across MENA & GCC</div>
-                </div>
+            <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+              <img 
+                src={personal.heroImage}
+                alt="Modern Supply Chain Operations"
+                className="w-full h-[400px] lg:h-[500px] xl:h-[600px] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+              
+              {/* Floating Stats Card */}
+              <div className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 lg:right-6 bg-white/10 backdrop-blur-md rounded-xl p-4 lg:p-6 border border-white/20">
+                <div className="text-white text-sm lg:text-base font-medium mb-2">Current Achievement</div>
+                <div className="text-teal-400 text-lg lg:text-xl font-bold">30% Cost Reduction in Air Freight</div>
+                <div className="text-white/80 text-sm lg:text-base">Through strategic vendor consolidation</div>
               </div>
             </div>
 
-            {/* Decorative Elements - Mobile Reduced */}
-            <div className="absolute -top-4 lg:-top-8 -right-4 lg:-right-8 w-16 lg:w-32 h-16 lg:h-32 bg-teal-600/10 rounded-full blur-xl lg:blur-2xl"></div>
-            <div className="absolute -bottom-4 lg:-bottom-8 -left-4 lg:-left-8 w-20 lg:w-40 h-20 lg:h-40 bg-slate-700/10 rounded-full blur-2xl lg:blur-3xl"></div>
+            {/* Decorative Elements */}
+            <div className="absolute -top-4 lg:-top-8 -right-4 lg:-right-8 w-16 lg:w-32 h-16 lg:h-32 bg-teal-600/20 rounded-full blur-xl lg:blur-2xl"></div>
+            <div className="absolute -bottom-4 lg:-bottom-8 -left-4 lg:-left-8 w-20 lg:w-40 h-20 lg:h-40 bg-slate-700/30 rounded-full blur-2xl lg:blur-3xl"></div>
           </div>
         </div>
       </div>
