@@ -127,9 +127,21 @@ const Contact = () => {
           <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
             {contact.cta}
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-6">
             {contact.description}
           </p>
+          
+          {/* Professional Photo */}
+          <div className="mb-8">
+            <div className="w-24 h-24 mx-auto rounded-full overflow-hidden ring-4 ring-teal-200 shadow-lg">
+              <img 
+                src="/vinayak-professional.jpg"
+                alt="Vinayak Bhadani"
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
+            <p className="text-sm text-slate-500 mt-3">Let's discuss your supply chain opportunities</p>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-12">
