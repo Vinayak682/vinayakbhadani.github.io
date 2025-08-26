@@ -129,7 +129,7 @@ const Header = () => {
                   ? 'text-slate-600 hover:text-teal-600 hover:bg-teal-50' 
                   : 'text-slate-300 hover:text-white hover:bg-white/10'
               }`}
-              onClick={() => window.open(personal.linkedin, '_blank')}
+              onClick={() => window.open('https://www.linkedin.com/in/vinayakbhadani', '_blank')}
             >
               <LinkedinIcon className="w-4 h-4" />
             </Button>
