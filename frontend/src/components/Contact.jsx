@@ -131,16 +131,16 @@ const Contact = () => {
             {contact.description}
           </p>
           
-          {/* Professional Photo */}
-          <div className="mb-8">
-            <div className="w-24 h-24 mx-auto rounded-full overflow-hidden ring-4 ring-teal-200 shadow-lg">
+          {/* Professional Photo - Mobile Optimized */}
+          <div className="mb-6 lg:mb-8">
+            <div className="w-20 lg:w-24 h-20 lg:h-24 mx-auto rounded-full overflow-hidden ring-2 lg:ring-4 ring-teal-200 shadow-lg">
               <img 
-                src="/vinayak-professional.jpg"
+                src="/vinayak-new-professional.jpg"
                 alt="Vinayak Bhadani"
                 className="w-full h-full object-cover object-center"
               />
             </div>
-            <p className="text-sm text-slate-500 mt-3">Let's discuss your supply chain opportunities</p>
+            <p className="text-xs lg:text-sm text-slate-500 mt-2 lg:mt-3">Let's discuss your supply chain opportunities</p>
           </div>
         </div>
 
