@@ -18,7 +18,7 @@ const Certifications = () => {
   const education = [
     {
       id: 'mba',
-      type: 'Graduate',
+      type: 'Post Graduation',
       degree: "Master of Global Business (MGB)",
       specialization: "Global Logistics and Supply Chain Management",
       institution: "SP Jain School of Global Management",
@@ -35,7 +35,7 @@ const Certifications = () => {
     },
     {
       id: 'undergraduate',
-      type: 'Undergraduate',
+      type: 'Graduation',
       degree: "Bachelor of Engineering (B.E.)",
       specialization: "Information Science & Engineering",
       institution: "Sri Venkateshwara College of Engineering",
