@@ -242,12 +242,12 @@ testimonials_data = [
     {
         "id": "rajiv-aserkar-testimonial", 
         "name": "Rajiv Aserkar",
-        "position": "Professor - Logistics & Supply Chain Management",
+        "position": "HEAD OF SUPPLY CHAIN DEPARTMENT",
         "company": "SP Jain School of Global Management",
         "linkedin": "https://linkedin.com/in/rajiv-aserkar-supply-chain",
         "content": "It is a pleasure to write this recommendation for Vinayak Bhadani, who was my student at SP Jain School of Global Management. Vinayak specialized in Global Logistics and Supply Chain Management and displayed all the traits to be a successful professional in this domain. He has the required analytical skills, leadership qualities and he is a fine team player. He completed all his course work and projects with dedication and commitment.",
         "rating": 5,
-        "relationship": "Academic Professor",
+        "relationship": "Department Head & Professor",
         "order": 2,
         "isActive": True
     },
