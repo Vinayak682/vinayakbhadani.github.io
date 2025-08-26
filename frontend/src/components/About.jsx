@@ -77,17 +77,6 @@ const About = () => {
             From engineering foundations to supply chain excellence, discover how I transform 
             complex logistics challenges into streamlined, profitable operations.
           </p>
-          
-          {/* Professional Photo in About Section - Mobile Optimized */}
-          <div className="mt-6 lg:mt-8">
-            <div className="w-24 lg:w-32 h-24 lg:h-32 mx-auto rounded-full overflow-hidden ring-2 lg:ring-4 ring-teal-200 shadow-lg">
-              <img 
-                src="/vinayak-professional-final.jpg"
-                alt="Vinayak Bhadani"
-                className="w-full h-full object-cover object-center"
-              />
-            </div>
-          </div>
         </div>
 
         {/* Story Timeline */}
