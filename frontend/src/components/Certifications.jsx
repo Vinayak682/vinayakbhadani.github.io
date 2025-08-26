@@ -238,7 +238,7 @@ const Certifications = () => {
             Professional Certifications
           </h3>
           
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-4 gap-8">
             {certifications.map((cert) => (
               <Card key={cert.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden">
                 <CardContent className="p-0">
