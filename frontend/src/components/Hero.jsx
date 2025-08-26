@@ -140,27 +140,49 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Hero Image */}
+          {/* Hero Image/Profile Section */}
           <div className="relative">
-            <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-              <img 
-                src={personal.heroImage}
-                alt="Modern Supply Chain Operations"
-                className="w-full h-[500px] lg:h-[600px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
-              
-              {/* Floating Stats Card */}
-              <div className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                <div className="text-white text-sm font-medium mb-2">Latest Achievement</div>
-                <div className="text-teal-400 text-lg font-bold">30% Cost Reduction in Air Freight</div>
-                <div className="text-white/80 text-sm">Through strategic vendor consolidation</div>
+            <div className="relative">
+              {/* Professional Headshot */}
+              <div className="relative mb-8">
+                <div className="w-80 h-80 mx-auto rounded-full overflow-hidden ring-8 ring-white shadow-2xl">
+                  <img 
+                    src="/vinayak-professional.jpg"
+                    alt="Vinayak Bhadani - Supply Chain Professional"
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
+                {/* Professional Verification Badge */}
+                <div className="absolute -bottom-2 -right-8 bg-teal-600 rounded-full p-4 shadow-lg ring-4 ring-white">
+                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Background Supply Chain Image */}
+              <div className="relative overflow-hidden rounded-2xl shadow-2xl h-64 opacity-20">
+                <img 
+                  src={personal.heroImage}
+                  alt="Supply Chain Operations Background"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent"></div>
+              </div>
+
+              {/* Professional Stats Overlay */}
+              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-xl p-4 border border-teal-200">
+                <div className="text-center">
+                  <div className="text-teal-700 text-sm font-medium mb-1">Current Achievement</div>
+                  <div className="text-slate-900 text-lg font-bold">Supply Chain Excellence</div>
+                  <div className="text-slate-600 text-sm">Optimizing operations across MENA & GCC</div>
+                </div>
               </div>
             </div>
 
             {/* Decorative Elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-teal-600/20 rounded-full blur-xl"></div>
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-slate-700/30 rounded-full blur-2xl"></div>
+            <div className="absolute -top-8 -right-8 w-32 h-32 bg-teal-600/10 rounded-full blur-2xl"></div>
+            <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-slate-700/10 rounded-full blur-3xl"></div>
           </div>
         </div>
       </div>
