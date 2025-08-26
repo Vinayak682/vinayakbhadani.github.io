@@ -243,14 +243,25 @@ const Certifications = () => {
               <Card key={cert.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden">
                 <CardContent className="p-0">
                   {/* Header with Icon */}
-                  <div className={`${cert.badgeColor} p-6 text-white text-center relative`}>
+                  <div className={`${cert.badgeColor} p-6 text-white text-center relative ${cert.isInProgress ? 'bg-gradient-to-r from-orange-500 to-orange-600' : ''}`}>
                     <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
                     <div className="relative">
                       <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <cert.icon className="w-8 h-8 text-white" />
+                        {cert.isInProgress ? (
+                          <Clock className="w-8 h-8 text-white" />
+                        ) : (
+                          <cert.icon className="w-8 h-8 text-white" />
+                        )}
                       </div>
                       <h4 className="text-xl font-bold mb-1">{cert.abbreviation}</h4>
                       <p className="text-sm opacity-90">{cert.issuerAbbr}</p>
+                      {cert.isInProgress && (
+                        <div className="mt-2">
+                          <span className="bg-white/20 text-white text-xs px-2 py-1 rounded-full">
+                            In Progress
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
