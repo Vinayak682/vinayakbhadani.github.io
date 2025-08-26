@@ -10,7 +10,8 @@ import {
   Calendar,
   MapPin,
   CheckCircle,
-  Trophy
+  Trophy,
+  Clock
 } from 'lucide-react';
 
 const Certifications = () => {
