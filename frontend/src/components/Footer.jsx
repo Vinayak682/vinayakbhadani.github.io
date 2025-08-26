@@ -64,7 +64,7 @@ const Footer = () => {
                   variant="outline"
                   size="sm"
                   className="border-slate-600 text-slate-300 hover:bg-teal-600 hover:border-teal-600 hover:text-white transition-colors duration-300"
-                  onClick={() => window.open(personal.linkedin, '_blank')}
+                  onClick={() => window.open('https://www.linkedin.com/in/vinayakbhadani', '_blank')}
                 >
                   <LinkedinIcon className="w-4 h-4 mr-2" />
                   LinkedIn
