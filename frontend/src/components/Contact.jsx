@@ -15,10 +15,12 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
-import mockData from '../mock';
+import { useApi, useApiMutation } from '../hooks/useApi';
+import { getProfile, submitContactMessage } from '../services/api';
 
 const Contact = () => {
-  const { contact, personal } = mockData;
+  const { data: profileData, loading: profileLoading } = useApi(getProfile);
+  const { mutate: submitMessage, loading: submitting } = useApiMutation(submitContactMessage);
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
@@ -26,7 +28,6 @@ const Contact = () => {
     company: '',
     message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -37,18 +38,48 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      await submitMessage(formData);
       toast({
         title: "Message Sent Successfully!",
         description: "Thank you for reaching out. I'll get back to you within 24 hours.",
       });
       setFormData({ name: '', email: '', company: '', message: '' });
-      setIsSubmitting(false);
-    }, 1500);
+    } catch (error) {
+      toast({
+        title: "Failed to Send Message",
+        description: error.message || "Please try again later.",
+      });
+    }
   };
+
+  if (profileLoading) {
+    return (
+      <section id="contact" className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-slate-600 text-lg">Loading contact information...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!profileData) {
+    return (
+      <section id="contact" className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <p className="text-red-600 text-lg">Failed to load contact information</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const { contact, personal } = profileData;
 
   const contactMethods = [
     {
@@ -177,10 +208,10 @@ const Contact = () => {
                   <Button 
                     type="submit" 
                     size="lg" 
-                    disabled={isSubmitting}
+                    disabled={submitting}
                     className="w-full bg-teal-600 hover:bg-teal-700 text-white h-12 text-base font-semibold"
                   >
-                    {isSubmitting ? (
+                    {submitting ? (
                       <>
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                         Sending Message...
