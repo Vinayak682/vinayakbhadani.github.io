@@ -2,10 +2,41 @@ import React from 'react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { ArrowRight, MapPin, LinkedinIcon, Mail, Phone } from 'lucide-react';
-import mockData from '../mock';
+import { useApi } from '../hooks/useApi';
+import { getProfile } from '../services/api';
 
 const Hero = () => {
-  const { personal, hero } = mockData;
+  const { data: profileData, loading, error } = useApi(getProfile);
+
+  if (loading) {
+    return (
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-teal-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-300 text-lg">Loading profile...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="text-center">
+          <p className="text-red-400 text-lg mb-4">Failed to load profile: {error}</p>
+          <Button onClick={() => window.location.reload()} variant="outline" className="border-slate-600 text-slate-300">
+            Retry
+          </Button>
+        </div>
+      </section>
+    );
+  }
+
+  if (!profileData) {
+    return null;
+  }
+
+  const { personal, hero } = profileData;
 
   return (
     <section className="relative min-h-screen flex items-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
