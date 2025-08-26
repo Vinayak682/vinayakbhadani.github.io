@@ -102,7 +102,7 @@ const Contact = () => {
       icon: LinkedinIcon,
       label: "LinkedIn",
       value: "Connect Professionally",
-      action: () => window.open(personal.linkedin, '_blank'),
+      action: () => window.open('https://www.linkedin.com/in/vinayakbhadani', '_blank'),
       color: "text-blue-700",
       bgColor: "bg-blue-50"
     },
