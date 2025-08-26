@@ -105,14 +105,23 @@ const Testimonials = () => {
                           src={recommenderImages[testimonial.id]}
                           alt={`${testimonial.name} - ${testimonial.position}`}
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                          onError={(e) => {
-                            // Fallback to initials if image fails to load
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
+                          crossOrigin="anonymous"
+                          loading="eager"
+                          onLoad={(e) => {
+                            console.log(`Image loaded for ${testimonial.name}`);
+                            e.target.style.opacity = '1';
                           }}
+                          onError={(e) => {
+                            console.log(`Image error for ${testimonial.name}:`, e);
+                            // Show initials fallback if image fails
+                            e.target.style.display = 'none';
+                            const fallback = e.target.parentNode.querySelector('.initials-fallback');
+                            if (fallback) fallback.style.display = 'flex';
+                          }}
+                          style={{ opacity: 0, transition: 'opacity 0.3s ease' }}
                         />
                         {/* Fallback initials */}
-                        <div className="w-full h-full bg-slate-600 text-white font-bold text-lg hidden items-center justify-center">
+                        <div className="initials-fallback w-full h-full bg-slate-600 text-white font-bold text-lg hidden items-center justify-center">
                           {testimonial.name.split(' ').map(n => n[0]).join('')}
                         </div>
                       </div>
