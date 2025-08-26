@@ -105,7 +105,6 @@ const Testimonials = () => {
                           src={recommenderImages[testimonial.id]}
                           alt={`${testimonial.name} - ${testimonial.position}`}
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                          crossOrigin="anonymous"
                           loading="eager"
                           onLoad={(e) => {
                             console.log(`Image loaded for ${testimonial.name}`);
@@ -118,7 +117,7 @@ const Testimonials = () => {
                             const fallback = e.target.parentNode.querySelector('.initials-fallback');
                             if (fallback) fallback.style.display = 'flex';
                           }}
-                          style={{ opacity: 0, transition: 'opacity 0.3s ease' }}
+                          style={{ opacity: 1 }}
                         />
                         {/* Fallback initials */}
                         <div className="initials-fallback w-full h-full bg-slate-600 text-white font-bold text-lg hidden items-center justify-center">
