@@ -147,7 +147,7 @@ const Hero = () => {
               <div className="relative mb-6 lg:mb-8">
                 <div className="w-48 h-48 lg:w-80 lg:h-80 mx-auto rounded-full overflow-hidden ring-4 lg:ring-8 ring-white shadow-2xl">
                   <img 
-                    src="/vinayak-new-professional.jpg"
+                    src="/vinayak-professional-final.jpg"
                     alt="Vinayak Bhadani - Supply Chain Professional"
                     className="w-full h-full object-cover object-center"
                   />
