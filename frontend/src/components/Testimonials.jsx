@@ -14,11 +14,11 @@ import { getTestimonials } from '../services/api';
 const Testimonials = () => {
   const { data: testimonialsData, loading, error } = useApi(getTestimonials);
 
-  // Professional headshot images for each recommender
+  // Professional headshot images for each recommender (served locally)
   const recommenderImages = {
-    "rajiv-aserkar-testimonial": "https://customer-assets.emergentagent.com/job_profile-pro-3/artifacts/cqsl81si_IMG_6861.jpg",
-    "dorrin-goyal-testimonial": "https://customer-assets.emergentagent.com/job_profile-pro-3/artifacts/o0az39uz_IMG_6862.jpg", 
-    "sami-anthony-testimonial": "https://customer-assets.emergentagent.com/job_profile-pro-3/artifacts/yb6o7uh5_IMG_6864.jpg"
+    "rajiv-aserkar-testimonial": "/testimonials/rajiv-aserkar.jpg",
+    "dorrin-goyal-testimonial": "/testimonials/dorrin-goyal.jpg", 
+    "sami-anthony-testimonial": "/testimonials/sami-anthony.jpg"
   };
 
   if (loading) {
