@@ -181,10 +181,10 @@ const Testimonials = () => {
               </p>
               <Button 
                 className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 text-base font-semibold shadow-lg hover:shadow-teal-600/25 transition-all duration-300"
-                onClick={() => window.open('https://www.linkedin.com/in/vinayakbhadani', '_blank')}
+                onClick={() => window.open('https://www.linkedin.com/in/vinayakbhadani/details/recommendations/', '_blank')}
               >
                 <LinkedinIcon className="w-5 h-5 mr-3" />
-                View LinkedIn Profile
+                View LinkedIn Recommendations
                 <ExternalLink className="w-4 h-4 ml-3" />
               </Button>
             </CardContent>
