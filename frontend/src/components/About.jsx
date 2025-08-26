@@ -2,10 +2,38 @@ import React from 'react';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { Quote, Target, TrendingUp, Lightbulb, Rocket } from 'lucide-react';
-import mockData from '../mock';
+import { useApi } from '../hooks/useApi';
+import { getProfile } from '../services/api';
 
 const About = () => {
-  const { about } = mockData;
+  const { data: profileData, loading, error } = useApi(getProfile);
+
+  if (loading) {
+    return (
+      <section id="about" className="py-20 bg-slate-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-slate-600 text-lg">Loading about information...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error || !profileData) {
+    return (
+      <section id="about" className="py-20 bg-slate-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <p className="text-red-600 text-lg mb-4">Failed to load about information</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const { about } = profileData;
 
   const storySteps = [
     {
