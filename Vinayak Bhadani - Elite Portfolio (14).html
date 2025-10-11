@@ -31,12 +31,10 @@
     }
     a { color: var(--accent); text-decoration: none; transition: color .2s ease; }
     a:hover { color: #0284c7; }
-
     /* Layout */
     .container { max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
     section { background: var(--white); padding: var(--pad); border-radius: var(--radius); box-shadow: var(--shadow); margin: 20px 0; }
     .section-title { font-size: 1.35rem; letter-spacing: .4px; font-weight: 700; color: var(--navy); margin: 0 0 14px; }
-
     /* Header / Hero */
     .hero { background: linear-gradient(135deg, var(--navy), #0f2d59); color: #eaf2ff; overflow: hidden; position: relative; }
     .hero .inner { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
@@ -51,13 +49,11 @@
     .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.18); }
     .btn.primary { background: #22c55e; color: #07331a; border: none; }
     .btn.secondary { background: #93c5fd; color: #0b2546; }
-
     /* Cards and grids */
     .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
     .card { background: var(--white); border: 1px solid #eef2f7; border-radius: 14px; padding: 18px; box-shadow: var(--shadow); transition: transform .2s ease, box-shadow .2s ease; }
     .card:hover { transform: translateY(-3px); box-shadow: 0 16px 30px rgba(0,0,0,.12); }
-
     /* Animations */
     [data-fade] { opacity: 0; transform: translateY(8px); animation: fadeIn .6s ease forwards; }
     [data-fade="2"] { animation-delay: .1s; }
@@ -65,10 +61,8 @@
     @keyframes fadeIn { to { opacity: 1; transform: none; } }
     .hover-rise { transition: transform .2s ease, box-shadow .2s ease; }
     .hover-rise:hover { transform: translateY(-4px); box-shadow: 0 14px 28px rgba(0,0,0,.12); }
-
     /* Lists */
     ul.clean { margin: 8px 0; padding-left: 18px; color: var(--muted); }
-
     /* Responsive */
     @media (max-width: 900px) {
       .hero .inner { grid-template-columns: 1fr; }
@@ -105,7 +99,7 @@
             <a class="btn primary" href="resume.pdf" target="_blank" rel="noopener">
               <i class="fa-solid fa-file-arrow-down"></i> Download Resume
             </a>
-            <a class="btn secondary" href="https://www.linkedin.com/in/vinayakbhadani/details/recommendations?profileUrn=urn:li:fsd_profile:ACoAAC1r0sQBIwPnpAemRtvo62zwuJHRj0oozAk" target="_blank" rel="noopener">
+            <a class="btn secondary" href="https://www.linkedin.com/in/vinayakbhadani/details/recommendations/" target="_blank" rel="noopener">
               <i class="fa-brands fa-linkedin"></i> View LinkedIn Recommendations
             </a>
           </div>
@@ -122,7 +116,6 @@
       </div>
     </div>
   </header>
-
   <main class="container" aria-live="polite">
     <!-- Example existing sections rewritten with spacing/colors/animations without removing original content intent -->
     <section class="hover-rise" data-fade>
@@ -148,12 +141,11 @@
         </div>
       </div>
     </section>
-
     <section class="hover-rise" data-fade="2">
       <h2 class="section-title">Education</h2>
       <div class="grid-2">
         <div class="card">
-          <h3>Master of Global Business</h3>
+          <strong>Master of Global Business</strong>
           <p class="muted">Global Logistics and Supply Chain Management</p>
           <p>S P Jain School of Global Management • Dubai • Mumbai • Singapore • Sydney</p>
           <p><i class="fa-regular fa-calendar"></i> Oct 2022 - Oct 2023</p>
@@ -163,7 +155,7 @@
           </ul>
         </div>
         <div class="card">
-          <h3>Bachelor of Engineering</h3>
+          <strong>Bachelor of Engineering</strong>
           <p class="muted">Information Science & Engineering</p>
           <p>Visvesvaraya Technological University • Belagavi, Karnataka, India</p>
           <p><i class="fa-regular fa-calendar"></i> Jun 2017 - Jun 2021</p>
@@ -173,7 +165,6 @@
         </div>
       </div>
     </section>
-
     <section class="hover-rise" data-fade="3">
       <h2 class="section-title">Skills</h2>
       <div class="grid-3">
@@ -182,20 +173,23 @@
         <div class="card"><strong>Soft</strong><ul class="clean"><li>Stakeholder Mgmt</li><li>Communication</li><li>Problem Solving</li></ul></div>
       </div>
     </section>
-
     <section class="hover-rise" data-fade>
       <h2 class="section-title">Recommendations</h2>
       <p style="color:var(--muted)">Read full testimonials from managers and peers on LinkedIn.</p>
-      <a class="btn secondary" href="https://www.linkedin.com/in/vinayakbhadani/details/recommendations?profileUrn=urn:li:fsd_profile:ACoAAC1r0sQBIwPnpAemRtvo62zwuJHRj0oozAk" target="_blank" rel="noopener">
+      <a class="btn secondary" href="https://www.linkedin.com/in/vinayakbhadani/details/recommendations/" target="_blank" rel="noopener">
         <i class="fa-brands fa-linkedin"></i> View LinkedIn Recommendations
       </a>
     </section>
   </main>
-
   <footer class="container" style="padding-bottom:48px">
     <section class="hover-rise" data-fade>
       <h2 class="section-title">Contact</h2>
-      <p>Email: <a href="mailto:vinayak.bhadani@gmail.com">vinayak.bhadani@gmail.com</a> • LinkedIn: <a href="https://www.linkedin.com/in/vinayakbhadani" target="_blank" rel="noopener">/in/vinayakbhadani</a></p>
+      <form action="https://formsubmit.co/vinayakbhadani1998@gmail.com" method="POST">
+        <input type="text" name="name" required placeholder="Your Name">
+        <input type="email" name="email" required placeholder="Your Email">
+        <textarea name="message" required placeholder="Your Message"></textarea>
+        <button type="submit">Send</button>
+      </form>
     </section>
   </footer>
 </body>
