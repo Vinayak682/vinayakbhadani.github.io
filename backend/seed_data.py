@@ -60,9 +60,9 @@ profile_data = {
 # Experience data
 experience_data = [
     {
-        "id": "ands-supply-chain-analyst",
+        "id": "ands-demand-planning-analyst",
         "company": "ANDS",
-        "position": "Supply Chain Analyst",
+        "position": "Demand Planning Analyst",
         "location": "Dubai, United Arab Emirates",
         "duration": "October 2023 - Present",
         "type": "Current Role",
@@ -72,7 +72,7 @@ experience_data = [
             "Supervised 3PL logistics execution, driving 25% improvement in on-time delivery",
             "Maintained 98% documentation accuracy through Dubai Trade and ERP tools"
         ],
-        "skills": ["S&OP Planning", "Cross-functional Leadership", "ERP Systems", "3PL Management"],
+        "skills": ["S&OP Planning", "Demand Forecasting", "Cross-functional Leadership", "ERP Systems", "3PL Management"],
         "impact": {
             "primary": "30% improvement in forecast accuracy",
             "secondary": "25% improvement in on-time delivery"
