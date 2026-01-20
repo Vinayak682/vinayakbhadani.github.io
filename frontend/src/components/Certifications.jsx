@@ -69,6 +69,45 @@ const Certifications = () => {
       isInProgress: true
     },
     {
+      id: 'ai-for-engineers',
+      title: 'AI for Engineers',
+      abbreviation: 'AI-ENG',
+      issuer: 'Outskill',
+      issuerAbbr: 'Outskill',
+      issueDate: '2024',
+      description: 'Professional certification in Artificial Intelligence applications for engineers, covering machine learning, AI implementation, and engineering problem-solving with AI tools.',
+      skills: ['Artificial Intelligence', 'Machine Learning', 'AI Implementation', 'Engineering Applications', 'Problem Solving'],
+      verificationUrl: '#',
+      badgeColor: 'bg-indigo-600',
+      icon: Award
+    },
+    {
+      id: 'generative-ai-mastermind',
+      title: 'Generative AI Mastermind',
+      abbreviation: 'Gen-AI',
+      issuer: 'Outskill',
+      issuerAbbr: 'Outskill',
+      issueDate: '2024',
+      description: 'Advanced certification in Generative AI technologies, covering prompt engineering, AI model implementation, and practical applications in business environments.',
+      skills: ['Generative AI', 'Prompt Engineering', 'AI Models', 'Business Applications', 'Technology Innovation'],
+      verificationUrl: '#',
+      badgeColor: 'bg-purple-600',
+      icon: Award
+    },
+    {
+      id: 'mckinsey-forward',
+      title: 'McKinsey Forward Program',
+      abbreviation: 'McKinsey',
+      issuer: 'McKinsey.org',
+      issuerAbbr: 'McKinsey',
+      issueDate: 'December 10, 2025',
+      description: 'Strategic business program focused on developing practical skills for success in the future of work, covering problem-solving, effective communication, and adaptive mindset development.',
+      skills: ['Strategic Thinking', 'Problem Solving', 'Business Communication', 'Leadership', 'Adaptive Mindset'],
+      verificationUrl: '#',
+      badgeColor: 'bg-slate-600',
+      icon: Trophy
+    },
+    {
       id: 'ciscp',
       title: 'Certified International Supply Chain Professional',
       abbreviation: 'CISCP',
@@ -99,17 +138,18 @@ const Certifications = () => {
       icon: Trophy
     },
     {
-      id: 'ascm',
+      id: 'ascm-verified',
       title: 'ASCM Professional Member',
       abbreviation: 'ASCM',
       issuer: 'Association for Supply Chain Management',
       issuerAbbr: 'ASCM',
-      issueDate: 'Current',
-      description: 'Professional membership in the leading global association for supply chain professionals.',
+      issueDate: 'February 19, 2025',
+      description: 'Verified professional membership in the leading global association for supply chain professionals with demonstrated commitment to professional development.',
       skills: ['Industry Networking', 'Professional Development', 'Supply Chain Best Practices', 'Continuous Learning'],
       verificationUrl: 'https://www.credly.com/badges/b1be0868-e292-47e5-a691-7ee215c0de49/linked_in_profile',
-      badgeColor: 'bg-purple-600',
-      icon: Award
+      badgeColor: 'bg-emerald-600',
+      icon: Award,
+      isVerified: true
     }
   ];
 
