@@ -23,7 +23,7 @@ profile_data = {
     "id": "vinayak-bhadani-profile",
     "personal": {
         "name": "Vinayak Bhadani",
-        "title": "Supply Chain Analyst | Demand Planning | Data-Driven Logistics",
+        "title": "Demand Planning Analyst | Supply Chain | Data-Driven Logistics",
         "location": "Dubai, UAE",
         "phone": "+971556270561",
         "email": "vinayakbhadani1998@gmail.com",
