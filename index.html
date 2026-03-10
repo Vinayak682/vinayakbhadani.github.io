@@ -490,6 +490,127 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
   .pchip{padding:10px 6px;}
   .pchip-n{font-size:.85rem;}
 }
+
+/* ═══════ VIDEO PRESENTATION SECTION ═══════ */
+#vid-section{
+  padding:88px 0 80px;
+  background:linear-gradient(180deg,var(--bg0) 0%,var(--bg1) 45%,var(--bg0) 100%);
+  position:relative;overflow:hidden;
+}
+#vid-section::before{
+  content:'';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);width:900px;height:500px;
+  background:radial-gradient(ellipse at center,rgba(0,212,168,.05),transparent 70%);
+  pointer-events:none;
+}
+.vid-inner{max-width:900px;margin:0 auto;padding:0 24px;}
+.vid-player-wrap{
+  position:relative;border-radius:16px;overflow:hidden;background:#000;
+  box-shadow:0 40px 100px rgba(0,0,0,.7),0 0 0 1px rgba(0,212,168,.18),0 0 80px rgba(0,212,168,.06);
+  aspect-ratio:16/9;cursor:pointer;margin-bottom:28px;
+}
+.vid-player-wrap video{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.vid-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  background:linear-gradient(180deg,rgba(0,0,0,.3) 0%,rgba(0,0,0,.05) 40%,rgba(0,0,0,.65) 100%);
+  transition:opacity .35s ease;z-index:2;
+}
+.vid-overlay.vid-hidden{opacity:0;pointer-events:none;}
+.vid-play-btn{
+  width:82px;height:82px;border-radius:50%;
+  background:rgba(0,212,168,.9);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .25s ease;
+  animation:vidpulse 2.6s ease infinite;
+}
+.vid-play-btn:hover{background:var(--teal);transform:scale(1.12);box-shadow:0 0 0 6px rgba(0,212,168,.25);}
+.vid-play-btn svg{width:30px;height:30px;fill:#020c1b;margin-left:5px;}
+@keyframes vidpulse{
+  0%{box-shadow:0 0 0 0 rgba(0,212,168,.55);}
+  65%{box-shadow:0 0 0 22px rgba(0,212,168,0);}
+  100%{box-shadow:0 0 0 0 rgba(0,212,168,0);}
+}
+.vid-top-bar{
+  position:absolute;top:20px;left:20px;right:20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.vid-badge{
+  font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.8);background:rgba(0,0,0,.45);backdrop-filter:blur(10px);
+  padding:5px 13px;border-radius:20px;border:1px solid rgba(255,255,255,.13);
+  display:flex;align-items:center;gap:6px;
+}
+.vid-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);display:inline-block;animation:pulse 2s infinite;}
+.vid-dur{
+  font-size:.68rem;font-weight:600;color:rgba(255,255,255,.75);
+  background:rgba(0,0,0,.45);backdrop-filter:blur(10px);
+  padding:5px 13px;border-radius:20px;border:1px solid rgba(255,255,255,.13);
+}
+.vid-bottom-bar{
+  position:absolute;bottom:20px;left:20px;right:20px;
+}
+.vid-title{
+  font-size:1.05rem;font-weight:800;color:#fff;
+  text-shadow:0 2px 12px rgba(0,0,0,.9);margin-bottom:5px;
+}
+.vid-subtitle{font-size:.73rem;color:rgba(255,255,255,.6);}
+.vid-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.12);z-index:3;}
+.vid-progress-fill{height:100%;background:var(--teal);width:0%;transition:width .4s linear;}
+/* Pause icon (shown while playing) */
+.vid-pause-icon{
+  width:82px;height:82px;border-radius:50%;
+  background:rgba(0,0,0,.5);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;
+  border:2px solid rgba(255,255,255,.2);
+}
+.vid-pause-icon svg{width:22px;height:22px;fill:#fff;}
+/* Highlights row */
+.vid-highlights{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.vid-hlitem{
+  background:var(--bg2);border:1px solid var(--brd);border-radius:10px;
+  padding:16px 14px;text-align:center;transition:all var(--tr);
+}
+.vid-hlitem:hover{border-color:rgba(0,212,168,.3);transform:translateY(-2px);background:var(--bg3);}
+.vid-hlitem-icon{font-size:1.35rem;margin-bottom:8px;}
+.vid-hlitem-text{font-size:.71rem;font-weight:600;color:var(--t2);line-height:1.45;}
+/* Watch button in hero */
+.btn-watch{
+  background:rgba(0,212,168,.1);color:var(--teal) !important;
+  border:1.5px solid rgba(0,212,168,.35);gap:7px;
+}
+.btn-watch:hover{background:rgba(0,212,168,.2);transform:translateY(-2px);border-color:var(--teal);}
+.btn-watch-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;flex-shrink:0;}
+/* MODAL */
+.vid-modal{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,.93);align-items:center;justify-content:center;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.vid-modal.vid-modal-open{display:flex;}
+.vid-modal-inner{
+  position:relative;width:min(92vw,1080px);
+  box-shadow:0 60px 120px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.07);
+  border-radius:14px;overflow:hidden;
+  animation:modal-in .25s ease;
+}
+@keyframes modal-in{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
+.vid-modal video{width:100%;display:block;}
+.vid-modal-close{
+  position:absolute;top:-48px;right:0;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.2);cursor:pointer;border-radius:50%;
+  color:#fff;font-size:1.4rem;width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all var(--tr);line-height:1;
+}
+.vid-modal-close:hover{background:rgba(255,255,255,.2);}
+@media(max-width:768px){.vid-highlights{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){
+  .vid-play-btn{width:62px;height:62px;}
+  .vid-play-btn svg{width:22px;height:22px;}
+}
 </style>
 </head>
 <body>
@@ -541,6 +662,7 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
         </div>
         <div class="hero-ctas">
           <a id="hero-cv-btn" href="#" class="btn btn-primary">⬇ Download CV</a>
+          <button onclick="openVidModal()" class="btn btn-watch"><span class="btn-watch-dot"></span>▶ Watch Presentation</button>
           <a href="#projects" class="btn btn-ghost">View Projects</a>
           <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank" rel="noopener" class="btn btn-ghost" style="border-color:rgba(255,255,255,.2);color:var(--t2);">🔗 LinkedIn</a>
         </div>
@@ -638,6 +760,78 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
     </div>
   </div>
 </section>
+
+<!-- VIDEO PRESENTATION -->
+<section id="vid-section" aria-label="Featured Video Presentation">
+  <div class="vid-inner">
+    <p class="sec-label">Featured Presentation</p>
+    <h2 class="sec-title">The Value-Driven <span>Supply Chain</span></h2>
+    <p class="sec-sub" style="margin-bottom:36px;">A practitioner's deep-dive into data-driven demand planning, cost reduction strategy, and supply chain transformation across MENA &amp; GCC markets.</p>
+
+    <!-- CINEMATIC VIDEO PLAYER -->
+    <div class="vid-player-wrap" id="vidWrap">
+      <video id="vidPlayer" preload="metadata" poster="./video-poster.jpg" playsinline>
+        <source src="./vinayak-supply-chain-video.mp4" type="video/mp4"/>
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Overlay shown when paused / not yet started -->
+      <div class="vid-overlay" id="vidOverlay">
+        <!-- Top badge + duration -->
+        <div class="vid-top-bar">
+          <span class="vid-badge">Supply Chain Professional Brief</span>
+          <span class="vid-dur">3 min 35 sec</span>
+        </div>
+        <!-- Central play button -->
+        <div class="vid-play-btn" id="vidPlayBtn" role="button" aria-label="Play video presentation" tabindex="0">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <!-- Pause icon (visible while playing) -->
+        <div class="vid-pause-icon" id="vidPauseIcon">
+          <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </div>
+        <!-- Bottom title bar -->
+        <div class="vid-bottom-bar">
+          <div class="vid-title">The Value-Driven Supply Chain</div>
+          <div class="vid-subtitle">Vinayak Bhadani &nbsp;·&nbsp; Demand Planning Analyst &nbsp;·&nbsp; Dubai, UAE</div>
+        </div>
+      </div>
+
+      <!-- Scrub progress bar -->
+      <div class="vid-progress"><div class="vid-progress-fill" id="vidProgressFill"></div></div>
+    </div>
+
+    <!-- Topic highlights grid -->
+    <div class="vid-highlights">
+      <div class="vid-hlitem">
+        <div class="vid-hlitem-icon">📊</div>
+        <div class="vid-hlitem-text">S&amp;OP Planning &amp; Demand Forecasting</div>
+      </div>
+      <div class="vid-hlitem">
+        <div class="vid-hlitem-icon">✂️</div>
+        <div class="vid-hlitem-text">30% Logistics Cost Reduction Strategy</div>
+      </div>
+      <div class="vid-hlitem">
+        <div class="vid-hlitem-icon">🌐</div>
+        <div class="vid-hlitem-text">China – MENA – GCC Trade Lane Operations</div>
+      </div>
+      <div class="vid-hlitem">
+        <div class="vid-hlitem-icon">🤖</div>
+        <div class="vid-hlitem-text">AI-Powered Inventory Optimisation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO MODAL (triggered from hero button) -->
+<div class="vid-modal" id="vidModal" role="dialog" aria-modal="true" aria-label="Video Presentation">
+  <div class="vid-modal-inner">
+    <button class="vid-modal-close" id="vidModalClose" aria-label="Close video">&times;</button>
+    <video id="vidModalPlayer" controls preload="none" poster="./video-poster.jpg" playsinline>
+      <source src="./vinayak-supply-chain-video.mp4" type="video/mp4"/>
+    </video>
+  </div>
+</div>
 
 <!-- SKILLS -->
 <section id="skills" aria-label="Core Competencies">
@@ -1063,6 +1257,92 @@ if('IntersectionObserver' in window){
   },{rootMargin:'-40% 0px -55% 0px'});
   secs.forEach(function(s){obs.observe(s);});
 }
+</script>
+
+<!-- ══ VIDEO PLAYER LOGIC ══ -->
+<script>
+(function(){
+  var vid=document.getElementById('vidPlayer');
+  var overlay=document.getElementById('vidOverlay');
+  var playBtn=document.getElementById('vidPlayBtn');
+  var pauseIcon=document.getElementById('vidPauseIcon');
+  var progressFill=document.getElementById('vidProgressFill');
+  var wrap=document.getElementById('vidWrap');
+
+  function showOverlay(){
+    overlay.classList.remove('vid-hidden');
+    if(vid.paused){
+      playBtn.style.display='flex';
+      pauseIcon.style.display='none';
+    } else {
+      playBtn.style.display='none';
+      pauseIcon.style.display='flex';
+    }
+  }
+  function hideOverlay(){
+    if(!vid.paused) overlay.classList.add('vid-hidden');
+  }
+
+  /* Click on overlay — toggle play/pause */
+  overlay.addEventListener('click',function(){
+    if(vid.paused){
+      vid.play();
+      if(typeof gtag!=='undefined') gtag('event','video_play',{event_category:'engagement',event_label:'portfolio_video'});
+    } else {
+      vid.pause();
+    }
+  });
+  playBtn.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){overlay.click();}});
+
+  vid.addEventListener('play',function(){
+    playBtn.style.display='none';
+    pauseIcon.style.display='flex';
+    setTimeout(hideOverlay,800);
+  });
+  vid.addEventListener('pause',function(){showOverlay();});
+  vid.addEventListener('ended',function(){
+    overlay.classList.remove('vid-hidden');
+    playBtn.style.display='flex';
+    pauseIcon.style.display='none';
+    progressFill.style.width='0%';
+    if(typeof gtag!=='undefined') gtag('event','video_complete',{event_category:'engagement',event_label:'portfolio_video'});
+  });
+  vid.addEventListener('timeupdate',function(){
+    if(vid.duration) progressFill.style.width=((vid.currentTime/vid.duration)*100)+'%';
+  });
+
+  /* Show overlay briefly on hover when playing */
+  wrap.addEventListener('mouseenter',function(){showOverlay();});
+  wrap.addEventListener('mouseleave',function(){hideOverlay();});
+
+  /* Initial state */
+  showOverlay();
+})();
+
+/* ── MODAL CONTROLS ── */
+function openVidModal(){
+  var modal=document.getElementById('vidModal');
+  var mp=document.getElementById('vidModalPlayer');
+  modal.classList.add('vid-modal-open');
+  document.body.style.overflow='hidden';
+  mp.play();
+  if(typeof gtag!=='undefined') gtag('event','video_modal_open',{event_category:'engagement',event_label:'hero_watch_btn'});
+}
+function closeVidModal(){
+  var modal=document.getElementById('vidModal');
+  var mp=document.getElementById('vidModalPlayer');
+  mp.pause();
+  mp.currentTime=0;
+  modal.classList.remove('vid-modal-open');
+  document.body.style.overflow='';
+}
+document.getElementById('vidModalClose').addEventListener('click',closeVidModal);
+document.getElementById('vidModal').addEventListener('click',function(e){
+  if(e.target===this) closeVidModal();
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape') closeVidModal();
+});
 </script>
 </body>
 </html>
