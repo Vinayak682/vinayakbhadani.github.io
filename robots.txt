@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vinayak682.github.io/vinayakbhadani.github.io/sitemap.xml
+
+# NOTE: Once vinayakbhadani.com is registered, change Sitemap to:
+# Sitemap: https://vinayakbhadani.com/sitemap.xml
