@@ -325,23 +325,125 @@ section{padding:96px 0;}
 .cert-meta{font-size:.72rem;color:var(--t3);}
 .cert-tags{display:flex;flex-wrap:wrap;gap:5px;}
 
-/* PROJECTS */
-.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-.proj-card{background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:16px;transition:all var(--tr);}
-.proj-card:hover{border-color:rgba(0,212,168,.25);transform:translateY(-4px);box-shadow:var(--sh);}
-.proj-card.featured{border-color:rgba(0,212,168,.2);background:linear-gradient(145deg,rgba(0,212,168,.05),rgba(8,30,54,.9));}
-.proj-badge{display:inline-flex;padding:4px 10px;border-radius:var(--r3);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;background:var(--teal-g);color:var(--teal);border:1px solid rgba(0,212,168,.2);align-self:flex-start;}
-.proj-badge.ai{background:var(--indigo-g);color:var(--indigo);border-color:rgba(99,102,241,.2);}
-.proj-badge.process{background:var(--gold-g);color:var(--gold);border-color:rgba(245,158,11,.2);}
-.proj-badge.inventory{background:var(--rose-g);color:var(--rose);border-color:rgba(244,63,94,.2);}
-.proj-badge.logistics{background:var(--sky-g);color:var(--sky);border-color:rgba(56,189,248,.2);}
-.proj-badge.transform{background:var(--indigo-g);color:#a78bfa;border-color:rgba(167,139,250,.2);}
-.proj-title{font-size:1rem;font-weight:800;color:var(--t1);line-height:1.3;}
-.proj-desc{font-size:.82rem;color:var(--t2);line-height:1.7;flex:1;}
-.proj-metrics{display:flex;gap:14px;flex-wrap:wrap;}
-.pm{text-align:center;}
-.pm-n{font-size:1rem;font-weight:900;color:var(--teal);}
-.pm-l{font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;font-weight:600;}
+/* ═══════════════════════════════════════════════════════
+   PROJECTS — BEST-IN-CLASS SHOWCASE
+═══════════════════════════════════════════════════════ */
+@keyframes borderSpin{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes shimmerSwipe{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+@keyframes pulseVal{0%,100%{opacity:1}50%{opacity:.7}}
+@keyframes cardEntrance{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+@keyframes featEntrance{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes lineGrow{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
+@keyframes barGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+#projects{background:linear-gradient(180deg,var(--bg0) 0%,var(--bg1) 40%,var(--bg0) 100%);padding:100px 0 120px;}
+
+/* ── Section intro ─────────────────────────────────── */
+.pj-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,168,.08);border:1px solid rgba(0,212,168,.2);border-radius:20px;padding:6px 16px;font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;}
+.pj-eyebrow::before{content:'';width:6px;height:6px;background:var(--teal);border-radius:50%;animation:pulseVal 2s infinite;}
+
+/* ── Featured hero card ────────────────────────────── */
+.pf-hero{position:relative;display:grid;grid-template-columns:1fr 380px;gap:0;background:rgba(255,255,255,.02);border:1px solid rgba(0,212,168,.18);border-radius:20px;overflow:hidden;margin-bottom:28px;transition:transform .3s,box-shadow .3s;perspective:1000px;opacity:0;}
+.pf-hero.visible{animation:featEntrance .7s ease forwards;}
+.pf-hero::before{content:'';position:absolute;inset:-2px;border-radius:22px;background:linear-gradient(135deg,rgba(0,212,168,.25),rgba(99,102,241,.15),rgba(0,212,168,.1));background-size:300% 300%;animation:borderSpin 6s linear infinite;z-index:-1;}
+.pf-hero:hover{transform:translateY(-5px);box-shadow:0 28px 80px rgba(0,212,168,.12),0 0 0 1px rgba(0,212,168,.25);}
+.pf-hero-left{padding:40px 40px 36px;display:flex;flex-direction:column;}
+.pf-hero-right{background:linear-gradient(135deg,rgba(0,212,168,.05),rgba(8,30,54,.9));border-left:1px solid rgba(0,212,168,.1);display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden;}
+.pf-hero-right::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 30%,rgba(0,212,168,.08),transparent 60%);}
+/* Featured badge */
+.pf-feat-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(90deg,rgba(0,212,168,.15),rgba(99,102,241,.1));border:1px solid rgba(0,212,168,.3);border-radius:20px;padding:5px 14px;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;align-self:flex-start;}
+.pf-feat-badge::before{content:'★';color:var(--gold);}
+/* Shared card body styles */
+.pj-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:14px;border:1px solid rgba(255,255,255,.08);transition:transform .3s;}
+.pf-hero:hover .pj-icon,.pf-card:hover .pj-icon{transform:scale(1.12) rotate(-3deg);}
+.pj-type-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.pj-type{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:12px;border:1px solid;}
+.pj-live{font-size:.6rem;font-weight:700;padding:3px 9px;border-radius:10px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#4ade80;letter-spacing:.06em;text-transform:uppercase;}
+.pj-dl{font-size:.6rem;font-weight:700;padding:3px 9px;border-radius:10px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--gold);letter-spacing:.06em;text-transform:uppercase;}
+.pj-research{font-size:.6rem;font-weight:700;padding:3px 9px;border-radius:10px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);color:#a78bfa;letter-spacing:.06em;text-transform:uppercase;}
+.pj-title{font-size:1.25rem;font-weight:900;color:var(--t1);line-height:1.25;margin-bottom:6px;}
+.pj-hook{font-size:.82rem;color:var(--teal);font-weight:600;font-style:italic;margin-bottom:10px;opacity:.9;}
+.pj-desc{font-size:.84rem;color:var(--t2);line-height:1.7;flex:1;margin-bottom:18px;}
+/* Outcome metrics */
+.pj-outcomes{display:flex;gap:20px;margin-bottom:18px;flex-wrap:wrap;}
+.pj-outcome{display:flex;flex-direction:column;}
+.pj-out-val{font-size:1.4rem;font-weight:900;line-height:1;margin-bottom:2px;}
+.pj-out-lbl{font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;}
+/* Tags */
+.pj-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:20px;}
+.pj-tag{font-size:.65rem;padding:3px 9px;border-radius:9px;background:rgba(255,255,255,.04);color:var(--t2);border:1px solid rgba(255,255,255,.06);font-weight:600;}
+/* CTA */
+.pj-cta{position:relative;display:inline-flex;align-items:center;gap:7px;padding:11px 22px;border-radius:10px;font-size:.83rem;font-weight:700;text-decoration:none;border:1px solid;overflow:hidden;transition:transform .2s,box-shadow .2s;align-self:flex-start;}
+.pj-cta::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transform:skewX(-20deg);transition:none;}
+.pj-cta:hover::after{animation:shimmerSwipe .6s ease forwards;}
+.pj-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.pj-cta svg{width:14px;height:14px;fill:currentColor;transition:transform .2s;}
+.pj-cta:hover svg{transform:translate(3px,-2px);}
+/* Featured CTA bigger */
+.pf-hero .pj-cta{padding:13px 28px;font-size:.88rem;}
+
+/* ── Stats achievement bar ─────────────────────────── */
+.pj-stats{display:grid;grid-template-columns:repeat(5,1fr);background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:14px;overflow:hidden;margin-bottom:40px;}
+.pj-stat{padding:20px 12px;text-align:center;border-right:1px solid rgba(255,255,255,.06);position:relative;}
+.pj-stat:last-child{border-right:none;}
+.pj-stat::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--stat-color,var(--teal)),transparent);transform:scaleX(0);transition:transform .6s;}
+.pj-stat.counted::before{transform:scaleX(1);}
+.pj-stat-val{font-size:1.55rem;font-weight:900;color:var(--stat-color,var(--teal));line-height:1;margin-bottom:5px;}
+.pj-stat-lbl{font-size:.68rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;font-weight:600;}
+
+/* ── Filter tabs ───────────────────────────────────── */
+.pj-filter{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:36px;}
+.pj-ftab{padding:9px 20px;border-radius:30px;border:1px solid rgba(255,255,255,.09);background:transparent;color:var(--t2);cursor:pointer;font-size:.8rem;font-weight:600;transition:all .22s;font-family:inherit;letter-spacing:.02em;}
+.pj-ftab.active{background:rgba(0,212,168,.1);border-color:rgba(0,212,168,.4);color:var(--teal);}
+.pj-ftab:hover:not(.active){border-color:rgba(255,255,255,.18);color:var(--t1);}
+
+/* ── Card grid ─────────────────────────────────────── */
+.pj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.pf-card{position:relative;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:0;display:flex;flex-direction:column;overflow:hidden;transition:transform .28s cubic-bezier(.25,.8,.25,1),box-shadow .28s,border-color .28s;opacity:0;perspective:800px;}
+.pf-card.visible{animation:cardEntrance .5s ease forwards;}
+.pf-card.pj-hidden{display:none!important;}
+/* Top accent strip */
+.pc-strip{height:3px;background:var(--strip-color,var(--teal));width:40%;transition:width .35s;border-radius:0;}
+.pf-card:hover .pc-strip{width:100%;}
+/* Mouse-glow spotlight */
+.pf-card::after{content:'';position:absolute;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,var(--glow-color,rgba(0,212,168,.12)),transparent 65%);pointer-events:none;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s;left:var(--mx,50%);top:var(--my,50%);}
+.pf-card:hover::after{opacity:1;}
+/* Card hover lift */
+.pf-card:hover{transform:translateY(-7px);box-shadow:0 22px 60px rgba(0,0,0,.45);border-color:rgba(255,255,255,.14);}
+.pf-card-body{padding:22px 22px 20px;display:flex;flex-direction:column;flex:1;}
+/* Mini outcome pills in cards (more compact) */
+.pf-card .pj-outcomes{gap:8px;margin-bottom:14px;}
+.pf-card .pj-outcome{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:8px 12px;flex-direction:row;align-items:center;gap:8px;}
+.pf-card .pj-out-val{font-size:1rem;}
+.pf-card .pj-out-lbl{font-size:.62rem;}
+.pf-card .pj-title{font-size:.98rem;}
+.pf-card .pj-desc{font-size:.8rem;margin-bottom:14px;}
+.pf-card .pj-hook{font-size:.76rem;}
+.pf-card .pj-cta{padding:9px 17px;font-size:.78rem;margin-top:auto;}
+
+/* Layman note */
+.pj-note{display:flex;align-items:center;gap:12px;background:rgba(0,212,168,.04);border:1px solid rgba(0,212,168,.12);border-radius:12px;padding:14px 20px;margin-bottom:32px;}
+.pj-note-icon{font-size:1.4rem;flex-shrink:0;}
+.pj-note-txt{font-size:.82rem;color:var(--t2);line-height:1.5;}
+.pj-note-txt strong{color:var(--t1);}
+
+/* Responsive */
+@media(max-width:1020px){
+  .pf-hero{grid-template-columns:1fr;}
+  .pf-hero-right{display:none;}
+}
+@media(max-width:900px){
+  .pj-grid{grid-template-columns:repeat(2,1fr);}
+  .pj-stats{grid-template-columns:repeat(3,1fr);}
+  .pj-stat:nth-child(3){border-right:none;}
+  .pj-stat:nth-child(4){border-top:1px solid rgba(255,255,255,.06);}
+  .pj-stat:nth-child(5){border-top:1px solid rgba(255,255,255,.06);}
+}
+@media(max-width:600px){
+  .pj-grid{grid-template-columns:1fr;}
+  .pj-stats{grid-template-columns:repeat(2,1fr);}
+  .pf-hero-left{padding:28px 22px;}
+}
 
 /* ═══════ TESTIMONIALS — PREMIUM DESIGN ═══════ */
 #testimonials{background:var(--bg1);}
@@ -469,7 +571,10 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
 }
 @media(max-width:900px){
   .hero-stats{grid-template-columns:repeat(2,1fr);}
-  .about-grid,.contact-grid,.edu-grid,.cred-grid,.cert-grid,.proj-grid,.testi-grid{grid-template-columns:1fr;}
+  .about-grid,.contact-grid,.edu-grid,.cred-grid,.cert-grid,.testi-grid{grid-template-columns:1fr;}
+  .proj-grid{grid-template-columns:repeat(2,1fr);}
+  .proj-stats-bar{flex-wrap:wrap;}.psb-item{min-width:calc(33% - 2px);}
+  .pf-tabs{gap:7px;}
   .exp-impacts{grid-template-columns:repeat(2,1fr);}
   .nav-links{display:none;}
   .hbg{display:flex;}
@@ -489,6 +594,8 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
   .profile-metrics{gap:8px;}
   .pchip{padding:10px 6px;}
   .pchip-n{font-size:.85rem;}
+  .proj-grid{grid-template-columns:1fr;}
+  .proj-stats-bar{flex-wrap:wrap;}.psb-item{min-width:50%;}
 }
 
 /* ═══════ VIDEO PRESENTATION SECTION ═══════ */
@@ -1003,19 +1110,235 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
 </section>
 
 <!-- PROJECTS -->
-<section id="projects" aria-label="Strategic Projects">
+<section id="projects" aria-label="Portfolio Projects">
   <div class="wrap">
-    <p class="sec-label">Strategic Projects</p>
-    <h2 class="sec-title">Demand Planning &amp; <span>Impact Cases</span></h2>
-    <p class="sec-sub">Real business challenges solved through data-driven demand planning, process redesign, and cross-functional leadership.</p>
-    <div class="proj-grid">
-      <article class="proj-card featured"><span class="proj-badge">Featured</span><h3 class="proj-title">China–MENA–GCC Supply Chain Network Optimisation</h3><p class="proj-desc">Redesigned end-to-end S&amp;OP processes spanning supplier networks across three distinct trade lanes. Implemented collaborative forecasting and a unified demand signal framework.</p><div class="proj-metrics"><div class="pm"><div class="pm-n">+30%</div><div class="pm-l">Forecast Accuracy</div></div><div class="pm"><div class="pm-n">+25%</div><div class="pm-l">On-Time Delivery</div></div></div><div class="exp-tags"><span class="tag">S&amp;OP</span><span class="tag">Multi-Region</span><span class="tag">Forecasting</span><span class="tag">ERP</span></div></article>
-      <article class="proj-card"><span class="proj-badge ai">AI / ML</span><h3 class="proj-title">AI-Powered Demand Forecasting for Seasonal SKUs</h3><p class="proj-desc">Built an AI-assisted forecasting solution integrating historical sales patterns and external demand signals to improve accuracy for seasonal and volatile SKUs across MENA markets.</p><div class="proj-metrics"><div class="pm"><div class="pm-n">−22%</div><div class="pm-l">Forecast Error</div></div><div class="pm"><div class="pm-n">−15%</div><div class="pm-l">Stockout Incidents</div></div></div><div class="exp-tags"><span class="tag">AI Forecasting</span><span class="tag">Machine Learning</span><span class="tag">Automation</span></div></article>
-      <article class="proj-card"><span class="proj-badge process">Process Design</span><h3 class="proj-title">S&amp;OP Process Implementation &amp; Cross-functional Alignment</h3><p class="proj-desc">Designed and implemented a formal S&amp;OP process from scratch for a multi-category product portfolio, aligning Sales, Finance, and Operations teams around a single monthly planning cadence.</p><div class="proj-metrics"><div class="pm"><div class="pm-n">5+</div><div class="pm-l">Departments Aligned</div></div><div class="pm"><div class="pm-n">−20%</div><div class="pm-l">Reactive Purchasing</div></div></div><div class="exp-tags"><span class="tag">S&amp;OP</span><span class="tag">Process Design</span><span class="tag">Leadership</span></div></article>
-      <article class="proj-card"><span class="proj-badge inventory">Inventory</span><h3 class="proj-title">High-Volume Inventory Flow &amp; Aged Stock Reduction</h3><p class="proj-desc">Overhauled inventory management for a 100,000+ unit/month operation. Applied ABC–XYZ segmentation, dynamic reorder points, and targeted clearance campaigns to eliminate aged stock.</p><div class="proj-metrics"><div class="pm"><div class="pm-n">−18%</div><div class="pm-l">Aged Stock Value</div></div><div class="pm"><div class="pm-n">98%</div><div class="pm-l">Doc Accuracy</div></div></div><div class="exp-tags"><span class="tag">ABC Analysis</span><span class="tag">Working Capital</span><span class="tag">ERP</span></div></article>
-      <article class="proj-card"><span class="proj-badge logistics">Logistics</span><h3 class="proj-title">3PL Network Optimisation &amp; Vendor Performance Analytics</h3><p class="proj-desc">Led a comprehensive rationalisation of 3PL providers across GCC distribution channels. Built vendor scorecards and negotiated freight rates to shift volume to sea freight.</p><div class="proj-metrics"><div class="pm"><div class="pm-n">−30%</div><div class="pm-l">Air Freight Cost</div></div><div class="pm"><div class="pm-n">3</div><div class="pm-l">Key Partners (from 7)</div></div></div><div class="exp-tags"><span class="tag">3PL Management</span><span class="tag">Vendor Analytics</span><span class="tag">KPI Framework</span></div></article>
-      <article class="proj-card"><span class="proj-badge transform">Transformation</span><h3 class="proj-title">Automotive Spare Parts Supply Chain Transformation</h3><p class="proj-desc">Tackled the unique complexity of automotive spare parts — long lead times, intermittent demand, high SKU count. Implemented safety stock models and lean replenishment cycles.</p><div class="proj-metrics"><div class="pm"><div class="pm-n">−35%</div><div class="pm-l">Emergency Orders</div></div><div class="pm"><div class="pm-n">+20%</div><div class="pm-l">Turnover Boost</div></div></div><div class="exp-tags"><span class="tag">Automotive</span><span class="tag">Spare Parts</span><span class="tag">Safety Stock</span></div></article>
+    <div class="pj-eyebrow">Portfolio</div>
+    <h2 class="sec-title"><span>Live Projects</span></h2>
+    <p class="sec-sub">Every project below is something you can open, interact with, and explore — built to demonstrate the skills that supply chain leadership roles demand. Not a supply chain expert? Each card explains exactly what was built and why it matters, in plain language.</p>
+
+    <!-- ── FEATURED HERO CARD ─────────────────────────── -->
+    <article class="pf-hero" id="pfHero" aria-label="Featured Project">
+      <div class="pf-hero-left">
+        <span class="pf-feat-badge">Featured Project</span>
+        <div class="pj-icon" style="background:rgba(0,212,168,.08);border-color:rgba(0,212,168,.2)">📊</div>
+        <div class="pj-type-row">
+          <span class="pj-type" style="background:rgba(0,212,168,.1);border-color:rgba(0,212,168,.3);color:#00d4a8">Analytics &amp; KPIs</span>
+          <span class="pj-live">● Live Interactive Tool</span>
+        </div>
+        <h3 class="pj-title">Supply Chain KPI Monitoring Dashboard</h3>
+        <p class="pj-hook">"A live health monitor showing exactly how a supply chain is performing — in real time"</p>
+        <p class="pj-desc">This dashboard tracks 6 critical supply chain performance metrics over 18 months of real FMCG operational data from Dubai. It shows how delivery reliability improved from 72% to 96%, how inventory was cut by 28%, and how expensive emergency air freight was reduced — all with interactive filters by region, product category, and time period. The kind of tool a CEO and a warehouse manager can both use.</p>
+        <div class="pj-outcomes">
+          <div class="pj-outcome"><span class="pj-out-val" style="color:#00d4a8">96.1%</span><span class="pj-out-lbl">OTIF Delivery Rate</span></div>
+          <div class="pj-outcome"><span class="pj-out-val" style="color:#00d4a8">−28%</span><span class="pj-out-lbl">Inventory Days</span></div>
+          <div class="pj-outcome"><span class="pj-out-val" style="color:#00d4a8">8</span><span class="pj-out-lbl">Live Charts</span></div>
+          <div class="pj-outcome"><span class="pj-out-val" style="color:#00d4a8">18 Mo</span><span class="pj-out-lbl">Real Data</span></div>
+        </div>
+        <div class="pj-tags"><span class="pj-tag">Chart.js</span><span class="pj-tag">Interactive Filters</span><span class="pj-tag">KPI Framework</span><span class="pj-tag">18 Months Data</span><span class="pj-tag">Waterfall Analysis</span></div>
+        <a href="./supply-chain-kpi-dashboard.html" target="_blank" class="pj-cta" style="background:rgba(0,212,168,.12);border-color:rgba(0,212,168,.4);color:#00d4a8">
+          Open Live Dashboard
+          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+        </a>
+      </div>
+      <div class="pf-hero-right" aria-hidden="true">
+        <!-- Abstract KPI dashboard SVG mockup -->
+        <svg viewBox="0 0 340 230" width="320" height="215" style="opacity:.92;filter:drop-shadow(0 4px 20px rgba(0,212,168,.15))">
+          <!-- Grid -->
+          <line x1="40" y1="20" x2="40" y2="200" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <line x1="110" y1="20" x2="110" y2="200" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <line x1="180" y1="20" x2="180" y2="200" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <line x1="250" y1="20" x2="250" y2="200" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <line x1="320" y1="20" x2="320" y2="200" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <line x1="20" y1="50" x2="330" y2="50" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <line x1="20" y1="100" x2="330" y2="100" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <line x1="20" y1="150" x2="330" y2="150" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <!-- OTIF trend line going up -->
+          <polyline points="30,175 65,160 100,148 135,132 170,110 205,90 240,68 275,48 310,32" fill="none" stroke="#00d4a8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray:400;stroke-dashoffset:0"/>
+          <polyline points="30,175 65,160 100,148 135,132 170,110 205,90 240,68 275,48 310,32" fill="none" stroke="rgba(0,212,168,.12)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Data points -->
+          <circle cx="30" cy="175" r="3" fill="#00d4a8"/>
+          <circle cx="100" cy="148" r="3" fill="#00d4a8"/>
+          <circle cx="170" cy="110" r="3" fill="#00d4a8"/>
+          <circle cx="240" cy="68" r="3" fill="#00d4a8"/>
+          <circle cx="310" cy="32" r="4" fill="#00d4a8" stroke="rgba(0,212,168,.3)" stroke-width="6"/>
+          <!-- FA trend line (indigo, slightly below) -->
+          <polyline points="30,185 65,172 100,158 135,145 170,125 205,105 240,82 275,60 310,42" fill="none" stroke="#6366f1" stroke-width="1.8" stroke-dasharray="5,3" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Mini KPI cards top-right -->
+          <rect x="230" y="155" width="90" height="42" rx="6" fill="rgba(0,212,168,.08)" stroke="rgba(0,212,168,.2)" stroke-width="1"/>
+          <text x="245" y="171" fill="#8892b0" font-size="7" font-family="system-ui">OTIF Rate</text>
+          <text x="245" y="186" fill="#00d4a8" font-size="13" font-weight="bold" font-family="system-ui">96.1%</text>
+          <rect x="130" y="155" width="88" height="42" rx="6" fill="rgba(99,102,241,.08)" stroke="rgba(99,102,241,.2)" stroke-width="1"/>
+          <text x="145" y="171" fill="#8892b0" font-size="7" font-family="system-ui">Forecast Acc.</text>
+          <text x="145" y="186" fill="#818cf8" font-size="13" font-weight="bold" font-family="system-ui">91.4%</text>
+          <!-- Axis labels -->
+          <text x="28" y="210" fill="rgba(136,146,176,.5)" font-size="7" font-family="system-ui">Jan</text>
+          <text x="100" y="210" fill="rgba(136,146,176,.5)" font-size="7" font-family="system-ui">Jun</text>
+          <text x="170" y="210" fill="rgba(136,146,176,.5)" font-size="7" font-family="system-ui">Dec</text>
+          <text x="240" y="210" fill="rgba(136,146,176,.5)" font-size="7" font-family="system-ui">Jun</text>
+          <text x="302" y="210" fill="rgba(136,146,176,.5)" font-size="7" font-family="system-ui">Dec</text>
+          <!-- Legend -->
+          <line x1="22" y1="220" x2="38" y2="220" stroke="#00d4a8" stroke-width="2"/>
+          <text x="42" y="223" fill="rgba(204,214,246,.6)" font-size="7" font-family="system-ui">OTIF %</text>
+          <line x1="90" y1="220" x2="106" y2="220" stroke="#6366f1" stroke-width="2" stroke-dasharray="4,2"/>
+          <text x="110" y="223" fill="rgba(204,214,246,.6)" font-size="7" font-family="system-ui">Forecast Accuracy %</text>
+        </svg>
+      </div>
+    </article>
+
+    <!-- ── ACHIEVEMENT STATS ──────────────────────────── -->
+    <div class="pj-stats" id="pjStats">
+      <div class="pj-stat" style="--stat-color:#00d4a8"><div class="pj-stat-val" data-target="7" data-suffix="">0</div><div class="pj-stat-lbl">Live Portfolio Projects</div></div>
+      <div class="pj-stat" style="--stat-color:#22c55e"><div class="pj-stat-val" data-target="96.1" data-suffix="%" data-dec="1">0</div><div class="pj-stat-lbl">OTIF Rate Achieved</div></div>
+      <div class="pj-stat" style="--stat-color:#818cf8"><div class="pj-stat-val" data-prefix="+" data-target="30" data-suffix="%">0</div><div class="pj-stat-lbl">Forecast Accuracy Gain</div></div>
+      <div class="pj-stat" style="--stat-color:#f59e0b"><div class="pj-stat-val" data-prefix="AED " data-target="24" data-suffix="M+">0</div><div class="pj-stat-lbl">Annual Value Modelled</div></div>
+      <div class="pj-stat" style="--stat-color:#fb7185"><div class="pj-stat-val" data-prefix="−" data-target="33" data-suffix="%">0</div><div class="pj-stat-lbl">Air Freight Cost Reduction</div></div>
     </div>
+
+    <!-- ── FILTER TABS ─────────────────────────────────── -->
+    <div class="pj-filter">
+      <button class="pj-ftab active" onclick="filterPJ('all',this)">All 7 Projects</button>
+      <button class="pj-ftab" onclick="filterPJ('analytics',this)">📊 Analytics &amp; Data</button>
+      <button class="pj-ftab" onclick="filterPJ('risk',this)">⚠️ Risk &amp; Geopolitics</button>
+      <button class="pj-ftab" onclick="filterPJ('strategy',this)">🎯 Strategy &amp; Process</button>
+      <button class="pj-ftab" onclick="filterPJ('research',this)">🔬 Research &amp; Innovation</button>
+    </div>
+
+    <!-- ── 6-CARD GRID ────────────────────────────────── -->
+    <div class="pj-grid" id="pjGrid">
+
+      <!-- Card 1: Demand Forecasting -->
+      <article class="pf-card" data-cat="analytics" style="--glow-color:rgba(99,102,241,.14)">
+        <div class="pc-strip" style="--strip-color:#6366f1"></div>
+        <div class="pf-card-body">
+          <div class="pj-icon" style="background:rgba(99,102,241,.08);border-color:rgba(99,102,241,.18)">🔮</div>
+          <div class="pj-type-row">
+            <span class="pj-type" style="background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.3);color:#818cf8">AI Forecasting</span>
+            <span class="pj-live">Live Tool</span>
+          </div>
+          <h3 class="pj-title">AI Demand Forecasting Model</h3>
+          <p class="pj-hook">"Predicting how much stock you need before you run out"</p>
+          <p class="pj-desc">Compares three forecasting methods across 5 product categories. Shows how Holt's smoothing algorithm — used by Amazon — cuts forecast error by 30%. Includes the real maths, interactive charts, and validation methodology.</p>
+          <div class="pj-outcomes">
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#818cf8">−30%</span><span class="pj-out-lbl">Forecast Error</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#818cf8">91.4%</span><span class="pj-out-lbl">Accuracy</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#818cf8">3</span><span class="pj-out-lbl">Methods Tested</span></div>
+          </div>
+          <div class="pj-tags"><span class="pj-tag">Python</span><span class="pj-tag">Holt's DES</span><span class="pj-tag">MAPE</span><span class="pj-tag">Rolling CV</span></div>
+          <a href="./demand-forecasting-model.html" target="_blank" class="pj-cta" style="background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.35);color:#818cf8">Open Model <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+        </div>
+      </article>
+
+      <!-- Card 2: ABC-XYZ -->
+      <article class="pf-card" data-cat="analytics" style="--glow-color:rgba(245,158,11,.12)">
+        <div class="pc-strip" style="--strip-color:#f59e0b"></div>
+        <div class="pf-card-body">
+          <div class="pj-icon" style="background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.18)">📦</div>
+          <div class="pj-type-row">
+            <span class="pj-type" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:#f59e0b">Inventory</span>
+            <span class="pj-dl">⬇ Excel File</span>
+          </div>
+          <h3 class="pj-title">ABC-XYZ Inventory Classification</h3>
+          <p class="pj-hook">"A priority map that tells you which products deserve the most attention"</p>
+          <p class="pj-desc">A 5-sheet Excel workbook classifying 30 products into 9 management zones — identifying which items drive 70% of revenue (ABC) and which are erratically ordered (XYZ). Complete with reorder formulas and inventory policies per segment.</p>
+          <div class="pj-outcomes">
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#f59e0b">30</span><span class="pj-out-lbl">SKUs Classified</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#f59e0b">9</span><span class="pj-out-lbl">Stock Strategies</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#f59e0b">−18%</span><span class="pj-out-lbl">Aged Stock</span></div>
+          </div>
+          <div class="pj-tags"><span class="pj-tag">Excel</span><span class="pj-tag">Pareto</span><span class="pj-tag">Coeff. of Variation</span></div>
+          <a href="./ABC-XYZ-Inventory-Analysis.xlsx" download class="pj-cta" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.35);color:#f59e0b">⬇ Download Excel <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></a>
+        </div>
+      </article>
+
+      <!-- Card 3: Risk Framework -->
+      <article class="pf-card" data-cat="risk" style="--glow-color:rgba(239,68,68,.12)">
+        <div class="pc-strip" style="--strip-color:#ef4444"></div>
+        <div class="pf-card-body">
+          <div class="pj-icon" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.18)">⚠️</div>
+          <div class="pj-type-row">
+            <span class="pj-type" style="background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#ef4444">Risk</span>
+            <span class="pj-live">Live Tool</span>
+          </div>
+          <h3 class="pj-title">Supply Chain Risk Assessment Framework</h3>
+          <p class="pj-hook">"An early-warning scorecard for every threat a supply chain faces"</p>
+          <p class="pj-desc">Scores 8 risk dimensions (political, currency, supplier, logistics) for any trade lane. Pre-loaded with China–UAE, India–UAE, and Europe–UAE profiles. Interactive sliders update the radar chart and mitigation actions live. Based on BCG 2024 GCC research.</p>
+          <div class="pj-outcomes">
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#ef4444">8</span><span class="pj-out-lbl">Risk Dimensions</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#ef4444">3</span><span class="pj-out-lbl">Trade Lanes</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#ef4444">BCG</span><span class="pj-out-lbl">2024 Framework</span></div>
+          </div>
+          <div class="pj-tags"><span class="pj-tag">Radar Chart</span><span class="pj-tag">Interactive</span><span class="pj-tag">GCC Trade Lanes</span></div>
+          <a href="./supply-chain-risk-framework.html" target="_blank" class="pj-cta" style="background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.35);color:#ef4444">Open Risk Tool <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+        </div>
+      </article>
+
+      <!-- Card 4: War & Conflict -->
+      <article class="pf-card" data-cat="risk" style="--glow-color:rgba(244,63,94,.12)">
+        <div class="pc-strip" style="--strip-color:#fb7185"></div>
+        <div class="pf-card-body">
+          <div class="pj-icon" style="background:rgba(244,63,94,.08);border-color:rgba(244,63,94,.18)">🚢</div>
+          <div class="pj-type-row">
+            <span class="pj-type" style="background:rgba(244,63,94,.1);border-color:rgba(244,63,94,.3);color:#fb7185">Geopolitics</span>
+            <span class="pj-research">Research</span>
+          </div>
+          <h3 class="pj-title">War &amp; Conflict: GCC Supply Chain Impact</h3>
+          <p class="pj-hook">"When wars start, supply chains feel it first — here's the proof"</p>
+          <p class="pj-desc">Quantifies the exact supply chain impact of three real conflicts: Red Sea crisis (freight +323%), Ukraine war (wheat +70%), Strait of Hormuz risk. Uses real Drewry WCI data, FAO commodity prices, and builds a three-pillar resilience playbook for UAE operators.</p>
+          <div class="pj-outcomes">
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#fb7185">+323%</span><span class="pj-out-lbl">Freight Spike</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#fb7185">+14 Days</span><span class="pj-out-lbl">Transit Added</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#fb7185">3</span><span class="pj-out-lbl">Case Studies</span></div>
+          </div>
+          <div class="pj-tags"><span class="pj-tag">Red Sea Crisis</span><span class="pj-tag">Ukraine War</span><span class="pj-tag">Hormuz</span></div>
+          <a href="./war-conflict-supply-chain.html" target="_blank" class="pj-cta" style="background:rgba(244,63,94,.1);border-color:rgba(244,63,94,.35);color:#fb7185">Read Analysis <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+        </div>
+      </article>
+
+      <!-- Card 5: Digital Twin -->
+      <article class="pf-card" data-cat="research" style="--glow-color:rgba(139,92,246,.12)">
+        <div class="pc-strip" style="--strip-color:#a78bfa"></div>
+        <div class="pf-card-body">
+          <div class="pj-icon" style="background:rgba(139,92,246,.08);border-color:rgba(139,92,246,.18)">🤖</div>
+          <div class="pj-type-row">
+            <span class="pj-type" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.3);color:#a78bfa">Innovation</span>
+            <span class="pj-research">Concept Paper</span>
+          </div>
+          <h3 class="pj-title">Digital Twin Concept Study</h3>
+          <p class="pj-hook">"A blueprint for giving your supply chain a real-time virtual brain"</p>
+          <p class="pj-desc">A 1,600-word executive concept paper applying McKinsey's four-layer digital twin framework to a mid-size Dubai FMCG distributor. Full ROI model shows AED 24M+ annual value with a 3–4 month payback. Addresses GCC-specific challenges: Ramadan surges, multi-country compliance, and supplier data gaps.</p>
+          <div class="pj-outcomes">
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#a78bfa">AED 24M</span><span class="pj-out-lbl">Annual Value</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#a78bfa">4 Layers</span><span class="pj-out-lbl">McKinsey</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#a78bfa">3–4 Mo</span><span class="pj-out-lbl">Payback</span></div>
+          </div>
+          <div class="pj-tags"><span class="pj-tag">McKinsey</span><span class="pj-tag">GCC FMCG</span><span class="pj-tag">Business Case</span></div>
+          <a href="./digital-twin-concept-study.html" target="_blank" class="pj-cta" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.35);color:#a78bfa">Read Study <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+        </div>
+      </article>
+
+      <!-- Card 6: S&OP Playbook -->
+      <article class="pf-card" data-cat="strategy" style="--glow-color:rgba(34,197,94,.1)">
+        <div class="pc-strip" style="--strip-color:#22c55e"></div>
+        <div class="pf-card-body">
+          <div class="pj-icon" style="background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.18)">📋</div>
+          <div class="pj-type-row">
+            <span class="pj-type" style="background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3);color:#22c55e">Strategy</span>
+            <span class="pj-live">● Live Interactive</span>
+          </div>
+          <h3 class="pj-title">S&amp;OP Process Design Playbook</h3>
+          <p class="pj-hook">"The complete operating manual for running a world-class planning team"</p>
+          <p class="pj-desc">An interactive S&OP process framework showing the complete system for aligning Sales, Finance, Procurement and Operations around one monthly plan. Explore the 4-week governance cycle, RACI matrix, 9 live KPI gauges, and 5-level maturity model — all built from the ANDS Dubai S&OP implementation.</p>
+          <div class="pj-outcomes">
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#22c55e">9</span><span class="pj-out-lbl">Live KPI Gauges</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#22c55e">4</span><span class="pj-out-lbl">Cycle Weeks</span></div>
+            <div class="pj-outcome"><span class="pj-out-val" style="color:#22c55e">5</span><span class="pj-out-lbl">Maturity Levels</span></div>
+          </div>
+          <div class="pj-tags"><span class="pj-tag">S&amp;OP Design</span><span class="pj-tag">RACI Matrix</span><span class="pj-tag">Governance</span><span class="pj-tag">Interactive</span></div>
+          <a href="./sop-process-playbook.html" target="_blank" class="pj-cta" style="background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.35);color:#22c55e">Open Interactive Playbook <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+        </div>
+      </article>
+
+    </div><!-- /pj-grid -->
   </div>
 </section>
 
@@ -1343,6 +1666,86 @@ document.getElementById('vidModal').addEventListener('click',function(e){
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape') closeVidModal();
 });
+
+// ── Projects filter ─────────────────────────────────────────────────────────
+function filterPJ(cat, btn) {
+  document.querySelectorAll('.pj-ftab').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('#pjGrid .pf-card').forEach(function(card){
+    var cardCat = card.dataset.cat || '';
+    if(cat === 'all' || cardCat === cat){
+      card.style.display = '';
+      card.style.animation = 'pjEntrance .4s ease forwards';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+// ── Animated counter for stats bar ──────────────────────────────────────────
+(function(){
+  if(!window.IntersectionObserver) return;
+  var statsSection = document.getElementById('pjStats');
+  if(!statsSection) return;
+  var fired = false;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !fired){
+        fired = true;
+        document.querySelectorAll('.pj-stat-val[data-target]').forEach(function(el){
+          var target = parseFloat(el.dataset.target)||0;
+          var prefix = el.dataset.prefix||'';
+          var suffix = el.dataset.suffix||'';
+          var dec    = parseInt(el.dataset.dec)||0;
+          var start  = 0;
+          var dur    = 1400;
+          var t0     = performance.now();
+          function tick(now){
+            var pct = Math.min((now-t0)/dur,1);
+            var ease = 1-Math.pow(1-pct,3);
+            var val  = start + (target-start)*ease;
+            el.textContent = prefix + val.toFixed(dec) + suffix;
+            if(pct<1) requestAnimationFrame(tick);
+            else el.textContent = prefix + target.toFixed(dec) + suffix;
+          }
+          requestAnimationFrame(tick);
+        });
+        obs.disconnect();
+      }
+    });
+  },{threshold:0.3});
+  obs.observe(statsSection);
+})();
+
+// ── Card entrance animation on scroll ────────────────────────────────────────
+(function(){
+  if(!window.IntersectionObserver) return;
+  var style = document.createElement('style');
+  style.textContent = '@keyframes pjEntrance{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}} #pjGrid .pf-card{opacity:0;} #pjGrid .pf-card.pj-visible{animation:pjEntrance .5s ease forwards;}';
+  document.head.appendChild(style);
+  var cards = document.querySelectorAll('#pjGrid .pf-card');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e,i){
+      if(e.isIntersecting){
+        var idx = Array.from(cards).indexOf(e.target);
+        setTimeout(function(){e.target.classList.add('pj-visible');}, idx*70);
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.08});
+  cards.forEach(function(c){obs.observe(c);});
+})();
+
+// ── Mouse spotlight glow on project cards ────────────────────────────────────
+(function(){
+  document.querySelectorAll('#pjGrid .pf-card, .pf-hero').forEach(function(card){
+    card.addEventListener('mousemove',function(e){
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--mx',(e.clientX-r.left)+'px');
+      card.style.setProperty('--my',(e.clientY-r.top)+'px');
+    });
+  });
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>War, Conflict & Supply Chain Disruption | Vinayak Bhadani</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg0:#020c1b;--bg1:#0a1628;--bg2:#112240;--bg3:#1d3461;--teal:#00d4a8;--gold:#f59e0b;--red:#ef4444;--amber:#f97316;--green:#22c55e;--indigo:#6366f1;--pink:#ec4899;--txt:#ccd6f6;--txt2:#8892b0;--white:#e6f1ff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg0);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6}
+.hero{background:linear-gradient(135deg,#1a0505 0%,#1d0a2a 50%,var(--bg3) 100%);padding:60px 40px;text-align:center;border-bottom:2px solid rgba(239,68,68,0.3);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(239,68,68,0.08),transparent 60%),radial-gradient(circle at 70% 50%,rgba(0,212,168,0.05),transparent 60%);pointer-events:none}
+.hero-label{color:var(--red);font-size:.78rem;letter-spacing:.25em;text-transform:uppercase;font-weight:600;margin-bottom:12px}
+.hero h1{font-size:clamp(1.8rem,4vw,2.9rem);font-weight:800;color:var(--white);margin-bottom:12px;position:relative}
+.hero h1 span.teal{color:var(--teal)}
+.hero h1 span.red{color:var(--red)}
+.hero p{color:var(--txt2);font-size:1rem;max-width:680px;margin:0 auto 20px}
+.hero-meta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.meta-tag{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;padding:5px 14px;border-radius:20px;font-size:.78rem;font-weight:600}
+.container{max-width:1300px;margin:0 auto;padding:40px 24px}
+.section-label{color:var(--red);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.section-heading{font-size:1.5rem;font-weight:800;color:var(--white);margin-bottom:6px}
+.section-sub{color:var(--txt2);font-size:.9rem;margin-bottom:24px}
+.card{background:var(--bg1);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:24px;margin-bottom:24px}
+.card-title{font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+/* Impact stat cards */
+.impact-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--bg1);border-radius:12px;padding:20px;text-align:center;border-top:3px solid}
+.stat-val{font-size:2rem;font-weight:800;line-height:1.1;margin-bottom:4px}
+.stat-label{font-size:.78rem;color:var(--txt2);line-height:1.3}
+.stat-case{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--txt2);margin-top:4px}
+
+/* Timeline */
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--red),var(--amber),var(--teal))}
+.tl-item{position:relative;margin-bottom:24px}
+.tl-dot{position:absolute;left:-27px;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid;background:var(--bg0)}
+.tl-dot.red{border-color:var(--red);background:rgba(239,68,68,0.3)}
+.tl-dot.amber{border-color:var(--amber);background:rgba(249,115,22,0.3)}
+.tl-dot.teal{border-color:var(--teal);background:rgba(0,212,168,0.3)}
+.tl-dot.indigo{border-color:var(--indigo);background:rgba(99,102,241,0.3)}
+.tl-date{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--txt2);margin-bottom:3px}
+.tl-title{font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:4px}
+.tl-text{font-size:.82rem;color:var(--txt2);line-height:1.5}
+.tl-impact{display:inline-block;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;font-size:.7rem;padding:2px 8px;border-radius:10px;margin-top:4px;font-weight:700}
+.tl-impact.amber{background:rgba(249,115,22,0.12);border-color:rgba(249,115,22,0.3);color:var(--gold)}
+.tl-impact.teal{background:rgba(0,212,168,0.12);border-color:rgba(0,212,168,0.3);color:var(--teal)}
+
+/* Case study tabs */
+.case-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.case-tab{padding:8px 18px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;background:transparent;color:var(--txt2);cursor:pointer;font-size:.85rem;font-weight:600;transition:all .2s}
+.case-tab.active{border-color:var(--red);color:var(--red);background:rgba(239,68,68,0.08)}
+.case-panel{display:none}.case-panel.active{display:block}
+
+/* Map visualization */
+.route-map{background:var(--bg2);border-radius:10px;padding:20px;margin-bottom:20px;position:relative;overflow:hidden;min-height:180px}
+.route-svg{width:100%;height:180px}
+
+/* Table */
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{background:var(--bg3);color:var(--txt);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;padding:10px 14px;text-align:left;font-weight:700}
+.data-table td{padding:10px 14px;font-size:.85rem;border-bottom:1px solid rgba(255,255,255,0.04)}
+.data-table tr:hover td{background:rgba(239,68,68,0.04)}
+
+/* Mitigation framework */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.pillar{background:var(--bg2);border-radius:10px;padding:18px;border-left:3px solid}
+.pillar-title{font-size:.9rem;font-weight:700;color:var(--white);margin-bottom:8px}
+.pillar-items{list-style:none}
+.pillar-items li{font-size:.8rem;color:var(--txt2);padding:3px 0;padding-left:14px;position:relative;line-height:1.4}
+.pillar-items li::before{content:'›';position:absolute;left:0;color:inherit;font-weight:700}
+
+/* Strait of Hormuz scenario */
+.scenario-bar{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.scenario-label{font-size:.82rem;color:var(--txt2);min-width:160px}
+.bar-track{flex:1;height:10px;background:var(--bg3);border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:5px;transition:width .6s}
+.scenario-val{font-size:.82rem;font-weight:700;min-width:60px;text-align:right}
+
+/* Pull quote */
+.pull-quote{background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(0,212,168,0.05));border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:20px 24px;margin:20px 0;position:relative}
+.pull-quote::before{content:'"';position:absolute;top:-10px;left:16px;font-size:3rem;color:var(--red);line-height:1;font-family:Georgia,serif}
+.pull-quote p{font-size:.95rem;color:var(--txt);font-style:italic;line-height:1.6;padding-top:8px}
+.pull-quote cite{display:block;margin-top:8px;font-size:.78rem;color:var(--txt2);font-style:normal}
+
+footer{text-align:center;padding:40px;color:var(--txt2);font-size:.82rem;border-top:1px solid rgba(239,68,68,0.15);margin-top:48px}
+footer span{color:var(--teal);font-weight:700}
+
+@media(max-width:900px){.impact-stats,.grid2,.grid3,.pillars{grid-template-columns:1fr}}
+@media(max-width:600px){.impact-stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <p class="hero-label">⚠️ Portfolio Research · Geopolitical Risk</p>
+  <h1>War, Conflict &<br><span class="red">Supply Chain Disruption</span></h1>
+  <p>A quantitative analysis of how geopolitical conflicts directly impact GCC supply chains — with deep dives into the Red Sea Crisis, Ukraine-Russia War, and Strait of Hormuz risk scenarios. Designed to demonstrate executive-level strategic awareness for supply chain leaders operating in the Middle East.</p>
+  <div class="hero-meta">
+    <span class="meta-tag">🚢 Red Sea Crisis 2023–2024</span>
+    <span class="meta-tag">🌾 Ukraine War – Food Security</span>
+    <span class="meta-tag">⚓ Strait of Hormuz Scenario</span>
+    <span class="meta-tag">📊 Quantified Impact Data</span>
+    <span class="meta-tag">🛡️ Mitigation Playbook</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Why this matters -->
+  <div class="pull-quote">
+    <p>Supply chain and logistics are the first casualties of war. Before a single bullet is fired at a border, shipping routes reroute, freight rates spike, and shelves begin to empty. For GCC markets that import 85–90% of their food and consumer goods, geopolitical risk is not abstract — it is existential.</p>
+    <cite>— Vinayak Bhadani, Supply Chain Analysis, 2024</cite>
+  </div>
+
+  <!-- Impact Stats -->
+  <div class="impact-stats">
+    <div class="stat-card" style="border-color:var(--red)">
+      <div class="stat-val" style="color:var(--red)">+323%</div>
+      <div class="stat-label">Increase in Asia-Europe spot freight rates</div>
+      <div class="stat-case">Red Sea Crisis · Q1 2024</div>
+    </div>
+    <div class="stat-card" style="border-color:var(--amber)">
+      <div class="stat-val" style="color:var(--amber)">+14 Days</div>
+      <div class="stat-label">Extra transit time via Cape of Good Hope</div>
+      <div class="stat-case">Suez vs. Cape rerouting</div>
+    </div>
+    <div class="stat-card" style="border-color:var(--indigo)">
+      <div class="stat-val" style="color:var(--indigo)">30%</div>
+      <div class="stat-label">Drop in global wheat supply from Ukraine/Russia</div>
+      <div class="stat-case">GCC food security risk · 2022</div>
+    </div>
+    <div class="stat-card" style="border-color:var(--teal)">
+      <div class="stat-val" style="color:var(--teal)">$20M+</div>
+      <div class="stat-label">Daily cargo value transiting Strait of Hormuz</div>
+      <div class="stat-case">Critical GCC chokepoint</div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="grid2" style="margin-bottom:32px">
+    <div class="card">
+      <div class="card-title">📅 Conflict Disruption Timeline (2020–2024)</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot indigo"></div>
+          <div class="tl-date">Mar 2020</div>
+          <div class="tl-title">COVID-19 Global Lockdowns</div>
+          <div class="tl-text">Factory closures in China, port backlogs in Los Angeles and Rotterdam. Global container shortages. GCC FMCG stockouts on essential goods. Lead times doubled.</div>
+          <span class="tl-impact amber">Freight +250% · 18-month disruption</span>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot amber"></div>
+          <div class="tl-date">Mar 2021</div>
+          <div class="tl-title">Ever Given — Suez Canal Block</div>
+          <div class="tl-text">6-day blockage trapped 400+ vessels, disrupted $9.6B/day in trade. Direct impact on Jebel Ali-bound cargo from Europe. Exposed single-route dependency for GCC importers.</div>
+          <span class="tl-impact amber">$9.6B/day blocked · 369 vessels affected</span>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">Feb 2022</div>
+          <div class="tl-title">Russia–Ukraine War Begins</div>
+          <div class="tl-text">Ukraine supplies 12% of global wheat, 30% of barley, 80% of sunflower oil. GCC imports 40-60% of wheat from the Black Sea region. Wheat prices jumped 70% within 30 days of invasion.</div>
+          <span class="tl-impact">Food inflation +35% across GCC · 2022–2023</span>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">Nov 2023</div>
+          <div class="tl-title">Houthi Red Sea Attacks Begin</div>
+          <div class="tl-text">Yemen's Houthi forces begin targeting commercial vessels in the Red Sea and Bab-el-Mandeb strait in response to Gaza conflict. Major shipping lines (Maersk, MSC, Hapag-Lloyd) reroute around Africa.</div>
+          <span class="tl-impact">30% drop in Suez Canal tonnage · Q1 2024</span>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot teal"></div>
+          <div class="tl-date">Jan 2024</div>
+          <div class="tl-title">UAE Supply Chain Response</div>
+          <div class="tl-text">UAE activates strategic food reserves. Jebel Ali Port reports 18% volume increase as vessels stop earlier. Air freight demand rises 40% for time-sensitive cargo. Importers fast-track India-origin alternate sourcing.</div>
+          <span class="tl-impact teal">Dubai resilience: Jebel Ali top 10 world port</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Freight Rate Chart -->
+    <div>
+      <div class="card">
+        <div class="card-title">📈 Asia → Europe Freight Rates ($/TEU)</div>
+        <canvas id="freightChart" height="200"></canvas>
+        <div style="margin-top:12px;font-size:.78rem;color:var(--txt2)">Source: Drewry World Container Index. Peak Q1 2024 driven by Red Sea rerouting. Dubai-origin exporters faced 3x cost uplift on European routes.</div>
+      </div>
+      <div class="card" style="margin-top:0">
+        <div class="card-title">🌊 Suez vs. Cape Route Impact</div>
+        <div style="margin-bottom:14px">
+          <div class="scenario-bar">
+            <span class="scenario-label">Distance (nautical mi)</span>
+            <div class="bar-track"><div class="bar-fill" style="width:52%;background:var(--teal)"></div></div>
+            <span class="scenario-val" style="color:var(--teal)">11,900 nm</span>
+          </div>
+          <div style="font-size:.72rem;color:var(--txt2);margin-bottom:12px;padding-left:172px">Suez Canal route (Shanghai → Rotterdam)</div>
+          <div class="scenario-bar">
+            <span class="scenario-label">Via Cape of Good Hope</span>
+            <div class="bar-track"><div class="bar-fill" style="width:84%;background:var(--red)"></div></div>
+            <span class="scenario-val" style="color:var(--red)">19,200 nm</span>
+          </div>
+          <div style="font-size:.72rem;color:var(--txt2);margin-bottom:12px;padding-left:172px">+7,300 nm extra (+61% longer)</div>
+          <div class="scenario-bar">
+            <span class="scenario-label">Extra transit days</span>
+            <div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--amber)"></div></div>
+            <span class="scenario-val" style="color:var(--amber)">+14 days</span>
+          </div>
+          <div class="scenario-bar">
+            <span class="scenario-label">Extra fuel cost/vessel</span>
+            <div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--amber)"></div></div>
+            <span class="scenario-val" style="color:var(--amber)">~$900K</span>
+          </div>
+          <div class="scenario-bar">
+            <span class="scenario-label">Carbon footprint increase</span>
+            <div class="bar-track"><div class="bar-fill" style="width:70%;background:var(--indigo)"></div></div>
+            <span class="scenario-val" style="color:var(--indigo)">+40–70%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Case Studies -->
+  <div class="section-label">Deep Dive Analysis</div>
+  <div class="section-heading">Three Conflict Case Studies</div>
+  <div class="section-sub">Each case study quantifies the supply chain impact and draws lessons for GCC-based operations</div>
+
+  <div class="case-tabs">
+    <button class="case-tab active" onclick="showCase(0,this)">🚢 Red Sea Crisis</button>
+    <button class="case-tab" onclick="showCase(1,this)">🌾 Ukraine–Russia War</button>
+    <button class="case-tab" onclick="showCase(2,this)">⚓ Strait of Hormuz Risk</button>
+  </div>
+
+  <!-- Case 1: Red Sea -->
+  <div class="case-panel active" id="case0">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title" style="color:var(--red)">🚢 Red Sea Crisis — Houthi Attacks (2023–Present)</div>
+        <p style="font-size:.88rem;color:var(--txt2);margin-bottom:16px;line-height:1.6">Yemen's Houthi forces began targeting commercial vessels in the Red Sea and Bab-el-Mandeb strait in November 2023, citing support for Palestinian people in Gaza. This triggered the most significant shipping disruption since COVID-19, forcing global carriers to reroute around Africa's Cape of Good Hope.</p>
+        <div style="overflow-x:auto"><table class="data-table">
+          <thead><tr><th>Metric</th><th>Pre-Crisis (Oct 2023)</th><th>Peak Impact (Jan 2024)</th><th>Change</th></tr></thead>
+          <tbody>
+            <tr><td>Suez Canal daily transits</td><td>~70 vessels/day</td><td>~48 vessels/day</td><td style="color:var(--red)">▼ 31%</td></tr>
+            <tr><td>Asia–Europe spot rate ($/TEU)</td><td>$1,500</td><td>$6,200</td><td style="color:var(--red)">▲ +313%</td></tr>
+            <tr><td>Average transit time (Shanghai→Rotterdam)</td><td>25 days</td><td>39 days</td><td style="color:var(--red)">▲ +14 days</td></tr>
+            <tr><td>Insurance war risk premium</td><td>0.1% of cargo value</td><td>0.7–1.0%</td><td style="color:var(--red)">▲ +600%</td></tr>
+            <tr><td>Jebel Ali port volume (UAE)</td><td>Baseline</td><td>+18% YoY</td><td style="color:var(--teal)">▲ +18% (hub benefit)</td></tr>
+          </tbody>
+        </table></div>
+        <div style="margin-top:16px;padding:14px;background:rgba(0,212,168,0.06);border-radius:8px;border:1px solid rgba(0,212,168,0.15)">
+          <div style="font-size:.82rem;font-weight:700;color:var(--teal);margin-bottom:6px">Dubai / UAE Specific Impact</div>
+          <div style="font-size:.8rem;color:var(--txt2);line-height:1.5">Jebel Ali Port (JAFZA) experienced a volume uptick as vessels stopped earlier than planned. UAE importers with China-sourced goods faced 14-day delays and 3x landed cost increases. ANDS Dubai's risk framework triggered pre-emptive airfreight for A-class SKUs and emergency buffer stock builds in Q4 2023.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--red)">📊 Freight Rate Impact by Corridor</div>
+        <canvas id="caseChart0" height="220"></canvas>
+        <div style="margin-top:16px">
+          <div style="font-size:.82rem;font-weight:700;color:var(--white);margin-bottom:8px">Mitigation Actions Taken</div>
+          <div style="font-size:.8rem;color:var(--txt2);line-height:1.7">
+            ✅ Pre-built 45-day safety stock for A+B SKUs (Nov 2023)<br>
+            ✅ Activated airfreight contingency for 12 fast-moving SKUs<br>
+            ✅ Shifted 20% China volume to India-origin alternate suppliers<br>
+            ✅ Locked spot rates with 2 forwarders at Q4 2023 pricing<br>
+            ✅ Weekly freight market monitoring added to S&OP agenda<br>
+            ✅ War risk surcharge pre-negotiated in customer contracts
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Case 2: Ukraine -->
+  <div class="case-panel" id="case1">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title" style="color:var(--amber)">🌾 Russia–Ukraine War — GCC Food Security Crisis</div>
+        <p style="font-size:.88rem;color:var(--txt2);margin-bottom:16px;line-height:1.6">Russia and Ukraine together account for approximately 30% of global wheat exports, 20% of corn, 80% of sunflower oil, and 30% of barley. GCC nations, which import 50–85% of their caloric requirements, faced acute food security and inflationary pressure following the February 2022 invasion.</p>
+        <div style="overflow-x:auto"><table class="data-table">
+          <thead><tr><th>Commodity</th><th>Ukraine/Russia Share</th><th>GCC Import Dependency</th><th>Price Spike (2022)</th></tr></thead>
+          <tbody>
+            <tr><td>Wheat (milling)</td><td style="color:var(--red)">~30% of global exports</td><td>40–65% from Black Sea</td><td style="color:var(--red)">+70% in 30 days</td></tr>
+            <tr><td>Sunflower Oil</td><td style="color:var(--red)">~80% of global exports</td><td>60–75% of supply</td><td style="color:var(--red)">+120% peak</td></tr>
+            <tr><td>Barley (feed grain)</td><td style="color:var(--amber)">~30% of global exports</td><td>35–45% of supply</td><td style="color:var(--amber)">+55%</td></tr>
+            <tr><td>Nitrogen Fertiliser</td><td style="color:var(--amber)">~22% of global supply</td><td>Affects regional agri</td><td style="color:var(--amber)">+140%</td></tr>
+            <tr><td>Corn (animal feed)</td><td>~20% of global exports</td><td>25–35% of supply</td><td>+35%</td></tr>
+          </tbody>
+        </table></div>
+        <div style="margin-top:14px;padding:14px;background:rgba(245,158,11,0.06);border-radius:8px;border:1px solid rgba(245,158,11,0.2)">
+          <div style="font-size:.82rem;font-weight:700;color:var(--gold);margin-bottom:6px">Strategic Lesson for Supply Chain Leaders</div>
+          <div style="font-size:.8rem;color:var(--txt2);line-height:1.5">This crisis validated the need for geographic diversification of food commodity sourcing. GCC distributors who had dual-sourced from both Black Sea and alternative origins (Australia, Canada, India) were insulated. Those dependent on single-origin procurement faced contract defaults and severe margin erosion.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--amber)">📊 Commodity Price Timeline</div>
+        <canvas id="caseChart1" height="220"></canvas>
+        <div style="margin-top:16px">
+          <div style="font-size:.82rem;font-weight:700;color:var(--white);margin-bottom:8px">GCC Resilience Response</div>
+          <div style="font-size:.8rem;color:var(--txt2);line-height:1.7">
+            ✅ UAE activated Strategic Food Reserve (minimum 3 months supply)<br>
+            ✅ Saudi Arabia fast-tracked Australian wheat import approvals<br>
+            ✅ Egypt signed long-term contracts with India for wheat substitutes<br>
+            ✅ Regional FMCG distributors reformulated products using available oils<br>
+            ✅ UAE Ministry of Economy set up commodity monitoring dashboard<br>
+            ✅ Price controls introduced on essential staples in 5 GCC states
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Case 3: Hormuz -->
+  <div class="case-panel" id="case2">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title" style="color:var(--indigo)">⚓ Strait of Hormuz — GCC's Critical Chokepoint</div>
+        <p style="font-size:.88rem;color:var(--txt2);margin-bottom:16px;line-height:1.6">The Strait of Hormuz, at its narrowest point only 33km wide between Iran and Oman, is the world's most critical energy chokepoint. Approximately 21% of global petroleum liquids transit this strait daily. Any closure — even temporary — would be catastrophic for GCC supply chains and global energy markets.</p>
+        <div style="overflow-x:auto"><table class="data-table">
+          <thead><tr><th>Scenario</th><th>Probability (2024 est.)</th><th>Impact Duration</th><th>Supply Chain Effect</th></tr></thead>
+          <tbody>
+            <tr><td>Iran-Israel escalation (naval)</td><td style="color:var(--amber)">Moderate (15–25%)</td><td>2–8 weeks</td><td style="color:var(--red)">Energy price +50–80%; freight +200%</td></tr>
+            <tr><td>Partial strait disruption</td><td style="color:var(--amber)">Moderate (20–35%)</td><td>1–4 weeks</td><td style="color:var(--amber)">Oil +30%; GCC intra-trade halted</td></tr>
+            <tr><td>Insurance withdrawal</td><td style="color:var(--red)">High (40–55%)</td><td>Ongoing</td><td>War risk surcharge +0.5–2% cargo value</td></tr>
+            <tr><td>Full closure (Iran mines)</td><td style="color:var(--green)">Low (&lt;5%)</td><td>Months</td><td style="color:var(--red)">Global recession trigger; $200+/bbl oil</td></tr>
+          </tbody>
+        </table></div>
+        <div style="margin-top:14px;padding:14px;background:rgba(99,102,241,0.08);border-radius:8px;border:1px solid rgba(99,102,241,0.2)">
+          <div style="font-size:.82rem;font-weight:700;color:var(--indigo);margin-bottom:6px">UAE Specific Vulnerability & Advantage</div>
+          <div style="font-size:.8rem;color:var(--txt2);line-height:1.5">UAE has proactively built the Habshan-Fujairah pipeline (capacity: 1.5M bbl/day) specifically to bypass the Strait of Hormuz. Fujairah — the world's second-largest bunkering hub — sits outside the Strait. This makes UAE uniquely resilient among GCC states, though non-energy imports (food, consumer goods) remain Strait-dependent via Abu Dhabi and Dubai ports.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--indigo)">📊 Trade Volume at Risk (Hormuz Scenario)</div>
+        <canvas id="caseChart2" height="220"></canvas>
+        <div style="margin-top:16px">
+          <div style="font-size:.82rem;font-weight:700;color:var(--white);margin-bottom:8px">Contingency Playbook</div>
+          <div style="font-size:.8rem;color:var(--txt2);line-height:1.7">
+            ✅ Pre-position 60-day inventory buffer for critical SKUs (Hormuz closure scenario)<br>
+            ✅ Qualify overland alternatives: UAE–Oman–Saudi land bridges<br>
+            ✅ Monitor Lloyd's of London marine market for insurance signals<br>
+            ✅ Establish air cargo capacity contracts for fast-moving A-class items<br>
+            ✅ Coordinate with CBUAE on forex reserves for emergency import finance<br>
+            ✅ Include Hormuz closure clause in all long-term supplier contracts (force majeure)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mitigation Framework -->
+  <div class="card">
+    <div class="card-title">🛡️ GCC Supply Chain War-Resilience Framework</div>
+    <div class="section-sub" style="margin-bottom:0">Three-pillar approach to building supply chain resilience against geopolitical conflict disruption</div>
+    <div class="pillars">
+      <div class="pillar" style="border-color:var(--red)">
+        <div class="pillar-title" style="color:var(--red)">🔴 Pillar 1: Redundancy</div>
+        <ul class="pillar-items" style="color:var(--red)">
+          <li>Dual-source all A-class SKUs across ≥2 geographies</li>
+          <li>Minimum 45-day safety stock for critical items during active conflict</li>
+          <li>Two approved freight forwarders per corridor</li>
+          <li>Pre-qualified airfreight capacity for contingency escalation</li>
+          <li>Multi-port of entry strategy (Dubai + Fujairah + Abu Dhabi)</li>
+          <li>Bonded warehouse positions in ≥2 locations</li>
+        </ul>
+      </div>
+      <div class="pillar" style="border-color:var(--amber)">
+        <div class="pillar-title" style="color:var(--amber)">🟡 Pillar 2: Visibility</div>
+        <ul class="pillar-items" style="color:var(--amber)">
+          <li>Real-time freight rate monitoring (Drewry, Freightos indexes)</li>
+          <li>Geopolitical risk alerts via Everstream/Resilinc platforms</li>
+          <li>Weekly conflict assessment in S&OP meeting agenda</li>
+          <li>Vessel tracking on all active shipments (MarineTraffic/AIS)</li>
+          <li>Supplier financial health monitoring (30-day check)</li>
+          <li>Lloyd's insurance market signals as early warning indicator</li>
+        </ul>
+      </div>
+      <div class="pillar" style="border-color:var(--teal)">
+        <div class="pillar-title" style="color:var(--teal)">🟢 Pillar 3: Agility</div>
+        <ul class="pillar-items" style="color:var(--teal)">
+          <li>Pre-approved escalation matrix: who decides airfreight authorization</li>
+          <li>Pre-negotiated spot rate framework with 3 carriers</li>
+          <li>Customer communication protocol for force majeure delays</li>
+          <li>30-day buffer stock drawdown rules with CFO pre-approval</li>
+          <li>SKU rationalisation playbook: suspend slow-movers during crisis</li>
+          <li>Emergency sourcing authority: procurement can re-source without full RFQ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div>Built by <span>Vinayak Bhadani</span> · Demand Planning Analyst · Dubai, UAE</div>
+  <div style="margin-top:6px">Geopolitical Risk & Conflict Supply Chain Analysis · Portfolio Research 2024</div>
+  <div style="margin-top:6px;font-size:.75rem">Data sources: Drewry WCI, UNCTAD, FAO, Lloyd's of London, IEA, Freightos Baltic Index</div>
+</footer>
+
+<script>
+// Freight Rate History Chart
+new Chart(document.getElementById('freightChart'),{
+  type:'line',
+  data:{
+    labels:['Jan 23','Mar 23','May 23','Jul 23','Sep 23','Nov 23','Dec 23','Jan 24','Feb 24','Mar 24','Apr 24','Jun 24'],
+    datasets:[
+      {label:'Asia→Europe ($/TEU)',data:[2100,1800,1500,1400,1500,1600,2800,6200,5800,4900,4200,3100],borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.08)',borderWidth:2,tension:0.4,fill:true,pointRadius:3},
+      {label:'Asia→USA West Coast',data:[1800,1500,1200,1100,1200,1400,2200,4100,3800,3400,3000,2400],borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0.05)',borderWidth:2,tension:0.4,fill:false,pointRadius:2,borderDash:[4,3]},
+    ]
+  },
+  options:{responsive:true,plugins:{legend:{labels:{color:'#8892b0',font:{size:10}}},annotation:{annotations:{line1:{type:'line',xMin:6,xMax:6,borderColor:'rgba(239,68,68,0.5)',borderWidth:1,borderDash:[4,3],label:{display:true,content:'Houthi attacks begin',color:'#ef4444',font:{size:9}}}}}},scales:{x:{ticks:{color:'#8892b0',font:{size:9}},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'#8892b0',font:{size:9},callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(255,255,255,0.04)'}}}}
+});
+
+// Case 0: Red Sea freight by corridor
+new Chart(document.getElementById('caseChart0'),{
+  type:'bar',
+  data:{
+    labels:['Oct 2023','Nov 2023','Dec 2023','Jan 2024','Feb 2024','Mar 2024'],
+    datasets:[
+      {label:'Asia→Europe',data:[1500,1600,2800,6200,5800,4900],backgroundColor:'rgba(239,68,68,0.7)',borderRadius:4},
+      {label:'Asia→Middle East',data:[800,900,1300,2400,2200,1900],backgroundColor:'rgba(245,158,11,0.7)',borderRadius:4},
+      {label:'Pre-crisis baseline',data:[1500,1500,1500,1500,1500,1500],type:'line',borderColor:'rgba(0,212,168,0.6)',borderDash:[4,3],borderWidth:2,pointRadius:0,fill:false}
+    ]
+  },
+  options:{responsive:true,plugins:{legend:{labels:{color:'#8892b0',font:{size:10}}}},scales:{x:{ticks:{color:'#8892b0',font:{size:9}},grid:{display:false}},y:{ticks:{color:'#8892b0',font:{size:9},callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(255,255,255,0.04)'}}}}
+});
+
+// Case 1: Commodity prices (wheat index = 100 at Jan 2022)
+new Chart(document.getElementById('caseChart1'),{
+  type:'line',
+  data:{
+    labels:['Jan 22','Feb 22','Mar 22','Apr 22','May 22','Jun 22','Sep 22','Dec 22','Mar 23','Jun 23','Sep 23','Dec 23'],
+    datasets:[
+      {label:'Wheat (indexed, Jan 22=100)',data:[100,112,170,165,155,145,125,112,108,95,90,88],borderColor:'#f59e0b',borderWidth:2,tension:0.4,fill:false,pointRadius:3},
+      {label:'Sunflower Oil (indexed)',data:[100,115,220,195,175,160,130,115,108,100,95,90],borderColor:'#ef4444',borderWidth:2,tension:0.4,fill:false,pointRadius:3,borderDash:[3,2]},
+      {label:'Barley (indexed)',data:[100,108,155,148,140,135,118,110,105,98,92,88],borderColor:'#6366f1',borderWidth:2,tension:0.4,fill:false,pointRadius:3,borderDash:[5,3]}
+    ]
+  },
+  options:{responsive:true,plugins:{legend:{labels:{color:'#8892b0',font:{size:10}}}},scales:{x:{ticks:{color:'#8892b0',font:{size:9}},grid:{display:false}},y:{ticks:{color:'#8892b0',font:{size:9},callback:v=>v+''},grid:{color:'rgba(255,255,255,0.04)'},title:{display:true,text:'Price Index (Jan 2022 = 100)',color:'#8892b0',font:{size:9}}}}}
+});
+
+// Case 2: Hormuz trade volume doughnut
+new Chart(document.getElementById('caseChart2'),{
+  type:'doughnut',
+  data:{
+    labels:['Crude oil & petroleum (21% global supply)','LNG exports (GCC)','Non-energy imports (food, goods)','Intra-GCC trade','Other shipping'],
+    datasets:[{data:[38,22,18,14,8],backgroundColor:['rgba(239,68,68,0.8)','rgba(249,115,22,0.75)','rgba(245,158,11,0.75)','rgba(99,102,241,0.75)','rgba(100,116,139,0.6)'],borderColor:['#020c1b'],borderWidth:2,hoverOffset:10}]
+  },
+  options:{responsive:true,cutout:'60%',plugins:{legend:{position:'right',labels:{color:'#8892b0',font:{size:9},boxWidth:12,padding:8}},tooltip:{callbacks:{label:c=>' '+c.label+': '+c.parsed+'% at risk'}}}}
+});
+
+function showCase(idx,btn){
+  document.querySelectorAll('.case-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+  document.querySelectorAll('.case-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+}
+</script>
+</body>
+</html>

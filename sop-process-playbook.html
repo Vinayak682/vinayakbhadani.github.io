@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>S&OP Process Playbook — Vinayak Bhadani</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg0:#020c1b;--bg1:#0a1628;--bg2:#0f1f38;--bg3:#162544;
+  --teal:#00d4a8;--teal2:#00b894;--gold:#f59e0b;--indigo:#6366f1;
+  --red:#ef4444;--green:#22c55e;--blue:#3b82f6;--purple:#a855f7;
+  --txt:#e2e8f0;--muted:#94a3b8;--border:rgba(255,255,255,.07);
+  --card:rgba(255,255,255,.035);--glow:rgba(0,212,168,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg0);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;overflow-x:hidden;}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(2,12,27,.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:.75rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-size:.9rem;font-weight:700;color:var(--teal);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:1.5rem;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.04em;transition:color .2s;}
+.nav-links a:hover{color:var(--teal);}
+.nav-back{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1rem;
+  background:rgba(0,212,168,.1);border:1px solid rgba(0,212,168,.25);
+  border-radius:999px;color:var(--teal);text-decoration:none;font-size:.78rem;
+  font-weight:600;letter-spacing:.06em;transition:all .25s;}
+.nav-back:hover{background:rgba(0,212,168,.18);}
+
+/* ─── HERO ─── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:7rem 2rem 4rem;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(0,212,168,.08) 0%,transparent 70%);
+  pointer-events:none;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem 1rem;
+  background:rgba(0,212,168,.08);border:1px solid rgba(0,212,168,.25);
+  border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.12em;
+  color:var(--teal);text-transform:uppercase;margin-bottom:1.5rem;}
+.hero h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;line-height:1.12;
+  background:linear-gradient(135deg,#fff 30%,var(--teal) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:1.2rem;}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:640px;margin:0 auto 2.5rem;}
+.hero-pills{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:3rem;}
+.pill{padding:.3rem .9rem;background:var(--card);border:1px solid var(--border);
+  border-radius:999px;font-size:.74rem;font-weight:600;color:var(--muted);}
+.pill.teal{color:var(--teal);border-color:rgba(0,212,168,.3);}
+.pill.gold{color:var(--gold);border-color:rgba(245,158,11,.3);}
+.scroll-cue{width:32px;height:32px;border:2px solid rgba(0,212,168,.3);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin:0 auto;animation:bobble 2s ease-in-out infinite;}
+@keyframes bobble{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ─── SECTION SHELL ─── */
+section{padding:5rem 2rem;}
+.container{max-width:1200px;margin:0 auto;}
+.sec-label{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:.5rem;}
+.sec-title{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;margin-bottom:.8rem;}
+.sec-desc{color:var(--muted);max-width:600px;margin-bottom:3rem;font-size:.95rem;}
+.divider{height:1px;background:var(--border);margin:0;}
+
+/* ─── CYCLE DIAGRAM ─── */
+.cycle-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+@media(max-width:768px){.cycle-wrap{grid-template-columns:1fr;}}
+.cycle-ring{position:relative;width:340px;height:340px;margin:0 auto;}
+.cycle-ring svg{position:absolute;inset:0;width:100%;height:100%;}
+.cycle-center{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;}
+.cycle-center-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;color:var(--teal);text-transform:uppercase;}
+.cycle-center-title{font-size:1.1rem;font-weight:800;line-height:1.2;margin-top:.2rem;}
+.week-node{position:absolute;width:68px;height:68px;border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:transform .25s,box-shadow .25s;font-weight:700;font-size:.65rem;
+  text-align:center;line-height:1.2;border:2px solid transparent;}
+.week-node:hover{transform:scale(1.1);z-index:10;}
+.week-node.w1{top:-34px;left:50%;transform:translateX(-50%);background:rgba(0,212,168,.15);border-color:var(--teal);color:var(--teal);}
+.week-node.w2{right:-34px;top:50%;transform:translateY(-50%);background:rgba(245,158,11,.15);border-color:var(--gold);color:var(--gold);}
+.week-node.w3{bottom:-34px;left:50%;transform:translateX(-50%);background:rgba(99,102,241,.15);border-color:var(--indigo);color:var(--indigo);}
+.week-node.w4{left:-34px;top:50%;transform:translateY(-50%);background:rgba(168,85,247,.15);border-color:var(--purple);color:var(--purple);}
+.week-node.w1:hover{transform:translateX(-50%) scale(1.12);}
+.week-node.w2:hover{transform:translateY(-50%) scale(1.12);}
+.week-node.w3:hover{transform:translateX(-50%) scale(1.12);}
+.week-node.w4:hover{transform:translateY(-50%) scale(1.12);}
+
+.week-details{display:flex;flex-direction:column;gap:1rem;}
+.week-card{padding:1.2rem 1.4rem;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;border-left:3px solid transparent;cursor:pointer;transition:all .25s;}
+.week-card.active,.week-card:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);}
+.week-card.wc1{border-left-color:var(--teal);}
+.week-card.wc2{border-left-color:var(--gold);}
+.week-card.wc3{border-left-color:var(--indigo);}
+.week-card.wc4{border-left-color:var(--purple);}
+.wk-hdr{display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem;}
+.wk-badge{font-size:.62rem;font-weight:700;padding:.2rem .6rem;border-radius:999px;letter-spacing:.08em;}
+.wk-badge.b1{background:rgba(0,212,168,.15);color:var(--teal);}
+.wk-badge.b2{background:rgba(245,158,11,.15);color:var(--gold);}
+.wk-badge.b3{background:rgba(99,102,241,.15);color:var(--indigo);}
+.wk-badge.b4{background:rgba(168,85,247,.15);color:var(--purple);}
+.wk-title{font-size:.88rem;font-weight:700;}
+.wk-meeting{font-size:.78rem;color:var(--muted);}
+.wk-tasks{list-style:none;margin-top:.6rem;display:flex;flex-direction:column;gap:.25rem;}
+.wk-tasks li{font-size:.77rem;color:var(--muted);display:flex;align-items:flex-start;gap:.5rem;}
+.wk-tasks li::before{content:'→';color:var(--teal);flex-shrink:0;font-size:.7rem;margin-top:.1rem;}
+
+/* ─── PROCESS FLOW ─── */
+.flow-wrap{overflow-x:auto;padding-bottom:1rem;}
+.flow-diagram{display:flex;align-items:center;gap:0;min-width:900px;position:relative;}
+.flow-step{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;}
+.flow-box{padding:1rem .8rem;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;text-align:center;cursor:pointer;transition:all .3s;width:100%;max-width:150px;
+  position:relative;overflow:hidden;}
+.flow-box::before{content:'';position:absolute;inset:0;background:var(--box-glow,transparent);
+  opacity:0;transition:opacity .3s;border-radius:12px;}
+.flow-box:hover::before{opacity:1;}
+.flow-box:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.15);}
+.flow-icon{font-size:1.6rem;margin-bottom:.4rem;display:block;}
+.flow-name{font-size:.72rem;font-weight:700;line-height:1.3;}
+.flow-owner{font-size:.62rem;color:var(--muted);margin-top:.2rem;}
+.flow-arrow{width:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--muted);}
+.flow-arrow svg{width:24px;opacity:.5;}
+/* step colors */
+.fs0{--box-glow:rgba(0,212,168,.06);} .fs0 .flow-icon{color:var(--teal);}
+.fs1{--box-glow:rgba(59,130,246,.06);} .fs1 .flow-icon{color:var(--blue);}
+.fs2{--box-glow:rgba(245,158,11,.06);} .fs2 .flow-icon{color:var(--gold);}
+.fs3{--box-glow:rgba(99,102,241,.06);} .fs3 .flow-icon{color:var(--indigo);}
+.fs4{--box-glow:rgba(168,85,247,.06);} .fs4 .flow-icon{color:var(--purple);}
+.fs5{--box-glow:rgba(34,197,94,.06);} .fs5 .flow-icon{color:var(--green);}
+
+.flow-tooltip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);
+  background:var(--bg3);border:1px solid var(--border);border-radius:10px;
+  padding:.8rem 1rem;width:220px;font-size:.75rem;color:var(--muted);line-height:1.5;
+  opacity:0;pointer-events:none;transition:opacity .2s;z-index:20;text-align:left;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);}
+.flow-step:hover .flow-tooltip{opacity:1;}
+.flow-tooltip strong{display:block;color:var(--txt);margin-bottom:.3rem;font-size:.8rem;}
+
+/* ─── RACI TABLE ─── */
+.raci-wrap{overflow-x:auto;}
+table.raci{width:100%;border-collapse:collapse;font-size:.8rem;}
+table.raci th{padding:.7rem .9rem;background:var(--bg2);font-weight:700;font-size:.7rem;
+  letter-spacing:.06em;color:var(--muted);text-align:center;border-bottom:1px solid var(--border);}
+table.raci th:first-child{text-align:left;width:260px;}
+table.raci td{padding:.65rem .9rem;border-bottom:1px solid rgba(255,255,255,.04);
+  text-align:center;color:var(--muted);vertical-align:middle;transition:background .15s;}
+table.raci td:first-child{text-align:left;color:var(--txt);font-weight:500;}
+table.raci tr:hover td{background:rgba(255,255,255,.025);}
+.raci-r{display:inline-block;padding:.18rem .55rem;border-radius:6px;font-weight:700;font-size:.7rem;letter-spacing:.04em;}
+.raci-R{background:rgba(0,212,168,.15);color:var(--teal);}
+.raci-A{background:rgba(245,158,11,.15);color:var(--gold);}
+.raci-C{background:rgba(99,102,241,.15);color:var(--indigo);}
+.raci-I{background:rgba(148,163,184,.1);color:var(--muted);}
+.raci-legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:1rem;font-size:.75rem;}
+.raci-legend span{display:flex;align-items:center;gap:.4rem;color:var(--muted);}
+
+/* ─── KPI GAUGES ─── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.5rem;}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:1.4rem;text-align:center;position:relative;overflow:hidden;transition:transform .25s;}
+.kpi-card:hover{transform:translateY(-3px);}
+.kpi-card-accent{position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi-gauge-wrap{position:relative;width:120px;height:60px;margin:0 auto .7rem;overflow:hidden;}
+.kpi-gauge-bg,.kpi-gauge-fill{position:absolute;bottom:0;left:0;right:0;height:120px;
+  border-radius:120px 120px 0 0;border:10px solid transparent;border-bottom:none;}
+.kpi-gauge-bg{border-color:rgba(255,255,255,.07);}
+.kpi-gauge-needle{position:absolute;bottom:0;left:50%;width:2px;height:54px;
+  background:linear-gradient(to top,var(--needle-color,#fff),transparent);
+  transform-origin:bottom center;transform:rotate(var(--needle-deg,-90deg));transition:transform 1.2s cubic-bezier(.34,1.56,.64,1);}
+.kpi-val{font-size:1.4rem;font-weight:800;color:var(--txt);}
+.kpi-name{font-size:.72rem;font-weight:600;color:var(--muted);margin:.2rem 0;}
+.kpi-target{font-size:.68rem;color:var(--muted);opacity:.7;}
+.kpi-delta{display:inline-flex;align-items:center;gap:.3rem;font-size:.7rem;
+  font-weight:700;padding:.2rem .55rem;border-radius:999px;margin-top:.5rem;}
+.kpi-up{background:rgba(34,197,94,.12);color:var(--green);}
+.kpi-dn{background:rgba(239,68,68,.12);color:var(--red);}
+
+/* ─── MATURITY MODEL ─── */
+.maturity-track{display:flex;gap:0;margin-bottom:2rem;overflow:hidden;border-radius:12px;}
+.mat-step{flex:1;padding:1.2rem 1rem;text-align:center;cursor:pointer;transition:all .25s;
+  border-right:1px solid rgba(255,255,255,.06);position:relative;}
+.mat-step:last-child{border-right:none;}
+.mat-step.current{background:rgba(0,212,168,.08);}
+.mat-num{font-size:1.3rem;font-weight:900;opacity:.3;display:block;margin-bottom:.25rem;}
+.mat-step.current .mat-num{opacity:1;color:var(--teal);}
+.mat-label{font-size:.72rem;font-weight:700;display:block;letter-spacing:.04em;}
+.mat-step.current .mat-label{color:var(--teal);}
+.mat-desc{font-size:.68rem;color:var(--muted);margin-top:.3rem;line-height:1.4;}
+.mat-bar{display:flex;gap:4px;margin-top:.5rem;justify-content:center;}
+.mat-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.08);}
+.mat-dot.on{background:var(--teal);}
+.mat-detail{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:1.5rem;display:none;}
+.mat-detail.active{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.mat-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1rem;}
+@media(max-width:600px){.mat-detail-grid{grid-template-columns:1fr;}}
+.mat-col h4{font-size:.78rem;font-weight:700;color:var(--teal);margin-bottom:.5rem;letter-spacing:.06em;text-transform:uppercase;}
+.mat-col ul{list-style:none;display:flex;flex-direction:column;gap:.3rem;}
+.mat-col li{font-size:.78rem;color:var(--muted);display:flex;align-items:flex-start;gap:.5rem;}
+.mat-col li::before{content:'✓';color:var(--green);flex-shrink:0;font-size:.7rem;}
+
+/* ─── FOOTER ─── */
+footer{padding:2rem;text-align:center;border-top:1px solid var(--border);
+  color:var(--muted);font-size:.8rem;}
+footer a{color:var(--teal);text-decoration:none;}
+
+/* ─── UTILS ─── */
+.tag-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;}
+.tag{font-size:.68rem;font-weight:700;padding:.2rem .7rem;border-radius:6px;
+  background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--border);}
+
+/* Animated underline section title */
+.section-head{margin-bottom:3rem;}
+.section-head h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;display:inline-block;
+  background:linear-gradient(90deg,#fff,var(--teal));-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text;}
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="./index.html" class="nav-logo">VB</a>
+  <ul class="nav-links">
+    <li><a href="#cycle">Cycle</a></li>
+    <li><a href="#flow">Flow</a></li>
+    <li><a href="#raci">RACI</a></li>
+    <li><a href="#kpis">KPIs</a></li>
+    <li><a href="#maturity">Maturity</a></li>
+  </ul>
+  <a href="./index.html" class="nav-back">← Portfolio</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    Interactive S&OP Playbook
+  </div>
+  <h1>Sales & Operations<br>Planning Process</h1>
+  <p class="hero-sub">A replicable S&OP governance framework — designed for mid-size FMCG distributors. Monthly cadence, cross-functional alignment, and data-driven decisions.</p>
+  <div class="hero-pills">
+    <span class="pill teal">4-Week Governance Cycle</span>
+    <span class="pill gold">RACI Matrix</span>
+    <span class="pill">9 KPI Definitions</span>
+    <span class="pill">Meeting Cadences</span>
+    <span class="pill">5-Level Maturity Model</span>
+    <span class="pill teal">Replicable Framework</span>
+  </div>
+  <div class="scroll-cue">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 1: 4-WEEK CYCLE -->
+<section id="cycle">
+<div class="container reveal">
+  <div class="section-head">
+    <div class="sec-label">01 — Governance Calendar</div>
+    <h2>The Monthly S&OP Cycle</h2>
+    <p class="sec-desc">Four structured weeks. Four critical meetings. One aligned plan. Click each week to explore the agenda, participants, and key outputs.</p>
+  </div>
+  <div class="cycle-wrap">
+    <!-- Ring diagram -->
+    <div>
+      <div class="cycle-ring">
+        <svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+          <!-- Dashed outer ring -->
+          <circle cx="170" cy="170" r="148" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="6,4"/>
+          <!-- Arc segments for 4 weeks -->
+          <!-- Week 1 top arc (teal) -->
+          <path d="M 170 22 A 148 148 0 0 1 318 170" fill="none" stroke="#00d4a8" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+          <!-- Week 2 right arc (gold) -->
+          <path d="M 318 170 A 148 148 0 0 1 170 318" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+          <!-- Week 3 bottom arc (indigo) -->
+          <path d="M 170 318 A 148 148 0 0 1 22 170" fill="none" stroke="#6366f1" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+          <!-- Week 4 left arc (purple) -->
+          <path d="M 22 170 A 148 148 0 0 1 170 22" fill="none" stroke="#a855f7" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+          <!-- Center circle -->
+          <circle cx="170" cy="170" r="70" fill="rgba(0,212,168,.06)" stroke="rgba(0,212,168,.2)" stroke-width="1.5"/>
+          <!-- Connecting dots -->
+          <circle cx="170" cy="22" r="5" fill="#00d4a8"/>
+          <circle cx="318" cy="170" r="5" fill="#f59e0b"/>
+          <circle cx="170" cy="318" r="5" fill="#6366f1"/>
+          <circle cx="22" cy="170" r="5" fill="#a855f7"/>
+          <!-- Arrows on arcs -->
+          <polygon points="318,166 312,158 324,158" fill="#f59e0b" opacity=".7"/>
+          <polygon points="166,318 158,312 158,324" fill="#6366f1" opacity=".7"/>
+          <polygon points="22,174 28,182 16,182" fill="#a855f7" opacity=".7"/>
+          <polygon points="174,22 182,28 182,16" fill="#00d4a8" opacity=".7"/>
+        </svg>
+        <!-- Week nodes -->
+        <div class="week-node w1" onclick="activateWeek(1)">WEEK<br>1</div>
+        <div class="week-node w2" onclick="activateWeek(2)">WEEK<br>2</div>
+        <div class="week-node w3" onclick="activateWeek(3)">WEEK<br>3</div>
+        <div class="week-node w4" onclick="activateWeek(4)">WEEK<br>4</div>
+        <div class="cycle-center">
+          <span class="cycle-center-label">Monthly</span>
+          <span class="cycle-center-title">S&OP<br>Cycle</span>
+        </div>
+      </div>
+    </div>
+    <!-- Detail cards -->
+    <div class="week-details" id="weekDetails">
+      <div class="week-card wc1 active" id="wk1" onclick="activateWeek(1)">
+        <div class="wk-hdr"><span class="wk-badge b1">WEEK 1</span><span class="wk-title">Demand Review</span></div>
+        <div class="wk-meeting">📅 Meeting Day 5–7 | Duration: 90 min</div>
+        <ul class="wk-tasks">
+          <li>Statistical forecast generation vs. consensus baseline</li>
+          <li>Commercial team adjustments: new listings, promotions, discontinuations</li>
+          <li>Customer input: confirmed POs, retailer range reviews</li>
+          <li>Output: Unconstrained demand plan (SKU × week × channel)</li>
+        </ul>
+      </div>
+      <div class="week-card wc2" id="wk2" onclick="activateWeek(2)">
+        <div class="wk-hdr"><span class="wk-badge b2">WEEK 2</span><span class="wk-title">Supply Review</span></div>
+        <div class="wk-meeting">📅 Meeting Day 10–12 | Duration: 60 min</div>
+        <ul class="wk-tasks">
+          <li>Capacity validation against unconstrained demand plan</li>
+          <li>Supplier lead time confirmations & import pipeline review</li>
+          <li>Inventory projection: WOS, DOS, buffer stock coverage</li>
+          <li>Output: Constrained supply plan with risk flags</li>
+        </ul>
+      </div>
+      <div class="week-card wc3" id="wk3" onclick="activateWeek(3)">
+        <div class="wk-hdr"><span class="wk-badge b3">WEEK 3</span><span class="wk-title">Pre-S&OP Reconciliation</span></div>
+        <div class="wk-meeting">📅 Meeting Day 16–18 | Duration: 120 min</div>
+        <ul class="wk-tasks">
+          <li>Gap analysis: demand vs. supply mismatch resolution</li>
+          <li>Financial reconciliation: revenue vs. budget bridge</li>
+          <li>Escalation list prep: unresolved gaps, risk scenarios</li>
+          <li>Output: Balanced plan + escalation dossier for exec review</li>
+        </ul>
+      </div>
+      <div class="week-card wc4" id="wk4" onclick="activateWeek(4)">
+        <div class="wk-hdr"><span class="wk-badge b4">WEEK 4</span><span class="wk-title">Executive S&OP</span></div>
+        <div class="wk-meeting">📅 Meeting Day 22–24 | Duration: 90 min</div>
+        <ul class="wk-tasks">
+          <li>Executive decisions on escalated gaps & risk trade-offs</li>
+          <li>Next 3-month rolling plan approval</li>
+          <li>KPI performance review vs. prior month targets</li>
+          <li>Output: Signed-off plan, action register, month-close</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: PROCESS FLOW -->
+<section id="flow" style="background:var(--bg1);">
+<div class="container reveal">
+  <div class="section-head">
+    <div class="sec-label">02 — Data Flow</div>
+    <h2>S&OP Information Flow</h2>
+    <p class="sec-desc">How data moves from raw inputs through four functional layers to an executive decision. Hover each step for inputs & outputs.</p>
+  </div>
+  <div class="flow-wrap">
+    <div class="flow-diagram">
+
+      <div class="flow-step fs0">
+        <div class="flow-box">
+          <span class="flow-icon">📊</span>
+          <div class="flow-name">Data Inputs</div>
+          <div class="flow-owner">Analytics / IT</div>
+        </div>
+        <div class="flow-tooltip">
+          <strong>Data Inputs</strong>
+          POS sell-out, WMS inventory, ERP open orders, supplier lead time confirmations, CRM pipeline, financial actuals vs. budget.
+        </div>
+      </div>
+
+      <div class="flow-arrow"><svg viewBox="0 0 24 8" fill="none"><path d="M0 4h20M16 1l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div class="flow-step fs1">
+        <div class="flow-box">
+          <span class="flow-icon">🔮</span>
+          <div class="flow-name">Demand Planning</div>
+          <div class="flow-owner">Planning Lead</div>
+        </div>
+        <div class="flow-tooltip">
+          <strong>Demand Planning</strong>
+          Statistical baseline (12-week rolling), commercial overlays, promo uplifts, new product ramp curves. Output: unconstrained forecast.
+        </div>
+      </div>
+
+      <div class="flow-arrow"><svg viewBox="0 0 24 8" fill="none"><path d="M0 4h20M16 1l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div class="flow-step fs2">
+        <div class="flow-box">
+          <span class="flow-icon">🏭</span>
+          <div class="flow-name">Supply Planning</div>
+          <div class="flow-owner">SC Manager</div>
+        </div>
+        <div class="flow-tooltip">
+          <strong>Supply Planning</strong>
+          Capacity check, MOQ/lead time constraints, PO recommendation, safety stock calculation. Output: constrained supply plan.
+        </div>
+      </div>
+
+      <div class="flow-arrow"><svg viewBox="0 0 24 8" fill="none"><path d="M0 4h20M16 1l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div class="flow-step fs3">
+        <div class="flow-box">
+          <span class="flow-icon">⚖️</span>
+          <div class="flow-name">Pre-S&OP</div>
+          <div class="flow-owner">Cross-Functional</div>
+        </div>
+        <div class="flow-tooltip">
+          <strong>Pre-S&OP Reconciliation</strong>
+          Gap resolution, financial bridge (plan vs. budget), scenario modelling, escalation prep. Output: balanced plan + decision register.
+        </div>
+      </div>
+
+      <div class="flow-arrow"><svg viewBox="0 0 24 8" fill="none"><path d="M0 4h20M16 1l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div class="flow-step fs4">
+        <div class="flow-box">
+          <span class="flow-icon">👔</span>
+          <div class="flow-name">Exec S&OP</div>
+          <div class="flow-owner">C-Suite / GM</div>
+        </div>
+        <div class="flow-tooltip">
+          <strong>Executive S&OP</strong>
+          Strategic decisions, trade-off approvals, budget re-forecast alignment, risk acceptance. Duration: 90 min.
+        </div>
+      </div>
+
+      <div class="flow-arrow"><svg viewBox="0 0 24 8" fill="none"><path d="M0 4h20M16 1l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div class="flow-step fs5">
+        <div class="flow-box">
+          <span class="flow-icon">✅</span>
+          <div class="flow-name">Execution</div>
+          <div class="flow-owner">Operations</div>
+        </div>
+        <div class="flow-tooltip">
+          <strong>Execution & Monitoring</strong>
+          PO release, warehouse labour plans, distribution scheduling, weekly actuals tracking vs. approved plan.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Sub-flows -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;margin-top:3rem;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--teal);margin-bottom:.6rem;text-transform:uppercase;">Demand Inputs</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.7;">
+        📦 POS Sell-out (weekly)<br>
+        🛒 Customer order book (confirmed)<br>
+        📈 Promo calendar (marketing)<br>
+        🆕 NPD pipeline (commercial)<br>
+        🌍 Market intelligence (external)
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--gold);margin-bottom:.6rem;text-transform:uppercase;">Supply Inputs</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.7;">
+        🏭 Supplier confirmations (lead time)<br>
+        📋 Open PO schedule (ERP)<br>
+        🚢 In-transit inventory (3PL)<br>
+        📊 WMS stock positions (daily)<br>
+        ⚠️ Quality hold / block stock (QA)
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--indigo);margin-bottom:.6rem;text-transform:uppercase;">Financial Inputs</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.7;">
+        💰 Revenue actuals vs. budget<br>
+        📉 Gross margin by SKU / channel<br>
+        🏦 Working capital: DIO, DPO, DSO<br>
+        🎯 Promotional ROI vs. plan<br>
+        📊 Cost variance: freight, storage
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--green);margin-bottom:.6rem;text-transform:uppercase;">Key Outputs</div>
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.7;">
+        ✅ Approved rolling 3-month plan<br>
+        📋 Action register + owners + dates<br>
+        🚦 Risk log with mitigation steps<br>
+        💹 Revised financial forecast<br>
+        📊 Updated KPI scorecard (monthly)
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: RACI -->
+<section id="raci">
+<div class="container reveal">
+  <div class="section-head">
+    <div class="sec-label">03 — Accountability</div>
+    <h2>RACI Responsibility Matrix</h2>
+    <p class="sec-desc">Who is Responsible, Accountable, Consulted, or Informed across every S&OP activity.</p>
+  </div>
+  <div class="raci-wrap">
+    <table class="raci">
+      <thead>
+        <tr>
+          <th>Activity / Decision</th>
+          <th>Planning Mgr</th>
+          <th>SC Manager</th>
+          <th>Commercial Dir</th>
+          <th>Finance</th>
+          <th>GM / VP</th>
+          <th>Procurement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="7" style="background:rgba(0,212,168,.04);font-size:.68rem;font-weight:700;color:var(--teal);letter-spacing:.08em;text-transform:uppercase;padding:.5rem .9rem;">DEMAND PLANNING</td></tr>
+        <tr><td>Statistical forecast generation</td><td><span class="raci-r raci-R">R</span></td><td>–</td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-I">I</span></td><td>–</td><td>–</td></tr>
+        <tr><td>Commercial overlay & adjustment</td><td><span class="raci-r raci-C">C</span></td><td>–</td><td><span class="raci-r raci-R">R</span></td><td><span class="raci-r raci-I">I</span></td><td>–</td><td>–</td></tr>
+        <tr><td>Demand plan approval (Week 1)</td><td><span class="raci-r raci-R">R</span></td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-A">A</span></td><td><span class="raci-r raci-I">I</span></td><td><span class="raci-r raci-I">I</span></td><td>–</td></tr>
+        <tr><td colspan="7" style="background:rgba(245,158,11,.04);font-size:.68rem;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;padding:.5rem .9rem;">SUPPLY PLANNING</td></tr>
+        <tr><td>Supply plan development</td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-R">R</span></td><td>–</td><td><span class="raci-r raci-I">I</span></td><td>–</td><td><span class="raci-r raci-C">C</span></td></tr>
+        <tr><td>Supplier confirmation & PO release</td><td>–</td><td><span class="raci-r raci-A">A</span></td><td>–</td><td>–</td><td>–</td><td><span class="raci-r raci-R">R</span></td></tr>
+        <tr><td>Inventory target-setting (WOS/DOS)</td><td><span class="raci-r raci-R">R</span></td><td><span class="raci-r raci-A">A</span></td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-I">I</span></td><td>–</td></tr>
+        <tr><td colspan="7" style="background:rgba(99,102,241,.04);font-size:.68rem;font-weight:700;color:var(--indigo);letter-spacing:.08em;text-transform:uppercase;padding:.5rem .9rem;">RECONCILIATION & FINANCIALS</td></tr>
+        <tr><td>Gap analysis & resolution</td><td><span class="raci-r raci-R">R</span></td><td><span class="raci-r raci-R">R</span></td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-A">A</span></td><td>–</td></tr>
+        <tr><td>Financial bridge (revenue vs. budget)</td><td><span class="raci-r raci-C">C</span></td><td>–</td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-R">R</span></td><td><span class="raci-r raci-A">A</span></td><td>–</td></tr>
+        <tr><td colspan="7" style="background:rgba(168,85,247,.04);font-size:.68rem;font-weight:700;color:var(--purple);letter-spacing:.08em;text-transform:uppercase;padding:.5rem .9rem;">EXECUTIVE S&OP</td></tr>
+        <tr><td>Meeting facilitation</td><td><span class="raci-r raci-R">R</span></td><td><span class="raci-r raci-I">I</span></td><td><span class="raci-r raci-I">I</span></td><td><span class="raci-r raci-I">I</span></td><td><span class="raci-r raci-A">A</span></td><td>–</td></tr>
+        <tr><td>Trade-off decisions (allocation)</td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-R raci-A" style="background:rgba(168,85,247,.15);color:var(--purple)">R/A</span></td><td>–</td></tr>
+        <tr><td>Rolling plan sign-off</td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-C">C</span></td><td><span class="raci-r raci-A">A</span></td><td>–</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="raci-legend">
+    <span><span class="raci-r raci-R">R</span> Responsible — does the work</span>
+    <span><span class="raci-r raci-A">A</span> Accountable — ultimate owner</span>
+    <span><span class="raci-r raci-C">C</span> Consulted — provides input</span>
+    <span><span class="raci-r raci-I">I</span> Informed — kept in the loop</span>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: KPI GAUGES -->
+<section id="kpis" style="background:var(--bg1);">
+<div class="container reveal">
+  <div class="section-head">
+    <div class="sec-label">04 — Performance Management</div>
+    <h2>S&OP KPI Dashboard</h2>
+    <p class="sec-desc">Nine core metrics reviewed monthly. Targets benchmarked against GCC FMCG best-in-class. Hover each card for definition.</p>
+  </div>
+  <div class="kpi-grid">
+
+    <div class="kpi-card" title="OTIF = Orders Delivered On Time + In Full as % of total orders">
+      <div class="kpi-card-accent" style="background:var(--teal);"></div>
+      <canvas id="g0" width="120" height="60" style="display:block;margin:0 auto .5rem;"></canvas>
+      <div class="kpi-val">94.2%</div>
+      <div class="kpi-name">OTIF Rate</div>
+      <div class="kpi-target">Target: ≥ 95%</div>
+      <div class="kpi-delta kpi-dn">▼ 0.8% vs. target</div>
+    </div>
+
+    <div class="kpi-card" title="Forecast Accuracy = 1 − |Actual − Forecast| / Actual">
+      <div class="kpi-card-accent" style="background:var(--gold);"></div>
+      <canvas id="g1" width="120" height="60" style="display:block;margin:0 auto .5rem;"></canvas>
+      <div class="kpi-val">87.6%</div>
+      <div class="kpi-name">Forecast Accuracy</div>
+      <div class="kpi-target">Target: ≥ 85%</div>
+      <div class="kpi-delta kpi-up">▲ 2.6% above target</div>
+    </div>
+
+    <div class="kpi-card" title="Weeks of Supply = Current Inventory ÷ Average Weekly Demand">
+      <div class="kpi-card-accent" style="background:var(--indigo);"></div>
+      <canvas id="g2" width="120" height="60" style="display:block;margin:0 auto .5rem;"></canvas>
+      <div class="kpi-val">6.2 WOS</div>
+      <div class="kpi-name">Weeks of Supply</div>
+      <div class="kpi-target">Target: 5–8 WOS</div>
+      <div class="kpi-delta kpi-up">✓ Within range</div>
+    </div>
+
+    <div class="kpi-card" title="Fill Rate = Lines Shipped Complete ÷ Total Lines Ordered">
+      <div class="kpi-card-accent" style="background:var(--blue);"></div>
+      <canvas id="g3" width="120" height="60" style="display:block;margin:0 auto .5rem;"></canvas>
+      <div class="kpi-val">96.8%</div>
+      <div class="kpi-name">Fill Rate</div>
+      <div class="kpi-target">Target: ≥ 96%</div>
+      <div class="kpi-delta kpi-up">▲ On target</div>
+    </div>
+
+    <div class="kpi-card" title="Days Inventory Outstanding = Inventory Value ÷ COGS × 365">
+      <div class="kpi-card-accent" style="background:var(--purple);"></div>
+      <canvas id="g4" width="120" height="60" style="display:block;margin:0 auto .5rem;"></canvas>
+      <div class="kpi-val">42 days</div>
+      <div class="kpi-name">DIO</div>
+      <div class="kpi-target">Target: ≤ 45 days</div>
+      <div class="kpi-delta kpi-up">▲ 3 days better</div>
+    </div>
+
+    <div class="kpi-card" title="Waste & Obsolescence = Value of Expired/Destroyed ÷ Total Inventory Value">
+      <div class="kpi-card-accent" style="background:var(--red);"></div>
+      <canvas id="g5" width="120" height="60" style="display:block;margin:0 auto .5rem;"></canvas>
+      <div class="kpi-val">1.4%</div>
+      <div class="kpi-name">Waste & Obsolescence</div>
+      <div class="kpi-target">Target: ≤ 1.5%</div>
+      <div class="kpi-delta kpi-up">▲ Within limit</div>
+    </div>
+
+    <div class="kpi-card" title="Forecast Bias = Mean signed difference. Positive = over-forecasting; Negative = under-forecasting">
+      <div class="kpi-card-accent" style="background:var(--teal);"></div>
+      <canvas id="g6" width="120" height="60" style="display:block;margin:0 auto .5rem;"></canvas>
+      <div class="kpi-val">+2.1%</div>
+      <div class="kpi-name">Forecast Bias</div>
+      <div class="kpi-target">Target: −3% to +3%</div>
+      <div class="kpi-delta kpi-up">▲ Slightly over-forecast</div>
+    </div>
+
+    <div class="kpi-card" title="Supplier OTIF = Supplier deliveries received On Time + In Full vs. PO">
+      <div class="kpi-card-accent" style="background:var(--gold);"></div>
+      <canvas id="g7" width="120" height="60" style="display:block;margin:0 auto .5rem;"></canvas>
+      <div class="kpi-val">91.5%</div>
+      <div class="kpi-name">Supplier OTIF</div>
+      <div class="kpi-target">Target: ≥ 92%</div>
+      <div class="kpi-delta kpi-dn">▼ 0.5% gap</div>
+    </div>
+
+    <div class="kpi-card" title="Customer Service Level = % of customer orders fully satisfied without substitution or backorder">
+      <div class="kpi-card-accent" style="background:var(--green);"></div>
+      <canvas id="g8" width="120" height="60" style="display:block;margin:0 auto .5rem;"></canvas>
+      <div class="kpi-val">95.1%</div>
+      <div class="kpi-name">Customer Service Level</div>
+      <div class="kpi-target">Target: ≥ 95%</div>
+      <div class="kpi-delta kpi-up">▲ On target</div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: MATURITY MODEL -->
+<section id="maturity">
+<div class="container reveal">
+  <div class="section-head">
+    <div class="sec-label">05 — Capability Assessment</div>
+    <h2>S&OP Maturity Model</h2>
+    <p class="sec-desc">Five levels from reactive firefighting to fully integrated IBP. Click each level to explore the capabilities, tools, and transformation requirements.</p>
+  </div>
+  <div class="maturity-track">
+    <div class="mat-step" onclick="selectMat(1)" id="ms1">
+      <span class="mat-num">1</span>
+      <span class="mat-label">Reactive</span>
+      <p class="mat-desc">Ad-hoc, silo'd, fire-fighting</p>
+      <div class="mat-bar"><div class="mat-dot on"></div><div class="mat-dot"></div><div class="mat-dot"></div><div class="mat-dot"></div><div class="mat-dot"></div></div>
+    </div>
+    <div class="mat-step" onclick="selectMat(2)" id="ms2">
+      <span class="mat-num">2</span>
+      <span class="mat-label">Functional</span>
+      <p class="mat-desc">Basic S&OP process exists</p>
+      <div class="mat-bar"><div class="mat-dot on"></div><div class="mat-dot on"></div><div class="mat-dot"></div><div class="mat-dot"></div><div class="mat-dot"></div></div>
+    </div>
+    <div class="mat-step current" onclick="selectMat(3)" id="ms3">
+      <span class="mat-num">3</span>
+      <span class="mat-label">Integrated</span>
+      <p class="mat-desc">Cross-functional cadence</p>
+      <div class="mat-bar"><div class="mat-dot on"></div><div class="mat-dot on"></div><div class="mat-dot on"></div><div class="mat-dot"></div><div class="mat-dot"></div></div>
+    </div>
+    <div class="mat-step" onclick="selectMat(4)" id="ms4">
+      <span class="mat-num">4</span>
+      <span class="mat-label">Collaborative</span>
+      <p class="mat-desc">External visibility, CPFR</p>
+      <div class="mat-bar"><div class="mat-dot on"></div><div class="mat-dot on"></div><div class="mat-dot on"></div><div class="mat-dot on"></div><div class="mat-dot"></div></div>
+    </div>
+    <div class="mat-step" onclick="selectMat(5)" id="ms5">
+      <span class="mat-num">5</span>
+      <span class="mat-label">IBP</span>
+      <p class="mat-desc">Integrated Business Planning</p>
+      <div class="mat-bar"><div class="mat-dot on"></div><div class="mat-dot on"></div><div class="mat-dot on"></div><div class="mat-dot on"></div><div class="mat-dot on"></div></div>
+    </div>
+  </div>
+
+  <!-- Detail panels -->
+  <div id="md1" class="mat-detail">
+    <div style="font-size:.9rem;font-weight:700;color:var(--red);margin-bottom:.3rem;">Level 1 — Reactive</div>
+    <div style="font-size:.8rem;color:var(--muted);">No formal process. Decisions driven by crises, gut feel, and individual heroes. High stock-outs, high waste, low trust between functions.</div>
+    <div class="mat-detail-grid">
+      <div class="mat-col"><h4>Characteristics</h4><ul><li>No monthly cadence</li><li>Spreadsheet chaos (100+ versions)</li><li>Demand = last year + 10%</li><li>Supply decisions daily / weekly</li></ul></div>
+      <div class="mat-col"><h4>Upgrade Path to L2</h4><ul><li>Define a monthly meeting cadence</li><li>Appoint a planning owner</li><li>Agree on a single demand number</li><li>Basic KPI scorecard (OTIF, FA)</li></ul></div>
+    </div>
+  </div>
+  <div id="md2" class="mat-detail">
+    <div style="font-size:.9rem;font-weight:700;color:var(--gold);margin-bottom:.3rem;">Level 2 — Functional</div>
+    <div style="font-size:.8rem;color:var(--muted);">Basic S&OP exists but within silos. Demand and supply meetings happen but outputs aren't reconciled. Limited executive engagement.</div>
+    <div class="mat-detail-grid">
+      <div class="mat-col"><h4>Characteristics</h4><ul><li>Monthly demand & supply meetings</li><li>Statistical forecasting in Excel</li><li>Inventory targets exist but not enforced</li><li>Finance not connected to supply plan</li></ul></div>
+      <div class="mat-col"><h4>Upgrade Path to L3</h4><ul><li>Integrate demand → supply → finance</li><li>Formal Pre-S&OP reconciliation step</li><li>Executive S&OP with decision authority</li><li>RACI and meeting templates</li></ul></div>
+    </div>
+  </div>
+  <div id="md3" class="mat-detail active">
+    <div style="font-size:.9rem;font-weight:700;color:var(--teal);margin-bottom:.3rem;">Level 3 — Integrated ← Current State (ANDS)</div>
+    <div style="font-size:.8rem;color:var(--muted);">Cross-functional monthly cadence with demand, supply, finance, and executive alignment. Single version of truth. This playbook codifies Level 3.</div>
+    <div class="mat-detail-grid">
+      <div class="mat-col"><h4>Characteristics</h4><ul><li>4-week governance calendar (this doc)</li><li>Consensus-based demand plan</li><li>Constrained supply plan</li><li>Financial bridge reviewed monthly</li><li>Rolling 3-month planning horizon</li></ul></div>
+      <div class="mat-col"><h4>Upgrade Path to L4</h4><ul><li>Supplier collaboration portal (CPFR)</li><li>Customer POS data integration</li><li>External event calendar (seasonality DB)</li><li>Scenario planning (3 scenarios monthly)</li></ul></div>
+    </div>
+  </div>
+  <div id="md4" class="mat-detail">
+    <div style="font-size:.9rem;font-weight:700;color:var(--indigo);margin-bottom:.3rem;">Level 4 — Collaborative</div>
+    <div style="font-size:.8rem;color:var(--muted);">External supply chain visibility. Supplier and customer data integrated. CPFR with key trading partners. Scenario planning as standard practice.</div>
+    <div class="mat-detail-grid">
+      <div class="mat-col"><h4>Characteristics</h4><ul><li>POS sell-out auto-fed to planning</li><li>Supplier capacity sharing (EDI/portal)</li><li>3-scenario planning each cycle</li><li>12-month rolling horizon</li></ul></div>
+      <div class="mat-col"><h4>Upgrade Path to L5</h4><ul><li>Deploy IBP platform (SAP IBP / Kinaxis)</li><li>Integrate strategic planning cycles</li><li>One planning cycle for all horizons</li><li>Continuous planning (not just monthly)</li></ul></div>
+    </div>
+  </div>
+  <div id="md5" class="mat-detail">
+    <div style="font-size:.9rem;font-weight:700;color:var(--purple);margin-bottom:.3rem;">Level 5 — Integrated Business Planning (IBP)</div>
+    <div style="font-size:.8rem;color:var(--muted);">S&OP, strategic planning, and financial planning unified in one process. Real-time, AI-assisted. Used by Unilever, Nestlé, P&G regional hubs.</div>
+    <div class="mat-detail-grid">
+      <div class="mat-col"><h4>Characteristics</h4><ul><li>Single planning platform (SAP IBP / o9)</li><li>AI-driven demand sensing</li><li>Rolling 18–24 month horizon</li><li>Strategic portfolio & capex integrated</li></ul></div>
+      <div class="mat-col"><h4>Enablers Required</h4><ul><li>ERP fully integrated (no manual feeds)</li><li>Dedicated IBP/planning platform</li><li>Planning CoE with advanced analytics</li><li>Executive sponsorship for data governance</li></ul></div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  Built by <a href="./index.html">Vinayak Bhadani</a> · S&OP Specialist · Dubai, UAE ·
+  <a href="https://linkedin.com/in/vinayakbhadani" target="_blank" rel="noopener">LinkedIn</a>
+</footer>
+
+<script>
+/* ── Week cycle activator ── */
+function activateWeek(n){
+  document.querySelectorAll('.week-card').forEach(c=>c.classList.remove('active'));
+  document.getElementById('wk'+n).classList.add('active');
+}
+
+/* ── Maturity selector ── */
+function selectMat(n){
+  document.querySelectorAll('.mat-step').forEach(s=>s.classList.remove('current'));
+  document.querySelectorAll('.mat-detail').forEach(d=>{d.classList.remove('active');});
+  document.getElementById('ms'+n).classList.add('current');
+  document.getElementById('md'+n).classList.add('active');
+}
+
+/* ── KPI Gauges via Chart.js ── */
+const kpiData=[
+  {val:94.2,max:100,color:'#00d4a8'},
+  {val:87.6,max:100,color:'#f59e0b'},
+  {val:6.2, max:10, color:'#6366f1'},
+  {val:96.8,max:100,color:'#3b82f6'},
+  {val:42,  max:60, color:'#a855f7',invert:true},
+  {val:1.4, max:3,  color:'#ef4444',invert:true},
+  {val:2.1, max:6,  color:'#00d4a8'},
+  {val:91.5,max:100,color:'#f59e0b'},
+  {val:95.1,max:100,color:'#22c55e'},
+];
+kpiData.forEach(function(d,i){
+  var ctx=document.getElementById('g'+i);
+  if(!ctx) return;
+  var pct=d.invert?(1-(d.val/d.max)):(d.val/d.max);
+  pct=Math.max(0,Math.min(1,pct));
+  new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      datasets:[{
+        data:[pct*100,(1-pct)*100],
+        backgroundColor:[d.color,'rgba(255,255,255,.06)'],
+        borderWidth:0,
+        circumference:180,
+        rotation:270
+      }]
+    },
+    options:{
+      cutout:'70%',
+      plugins:{legend:{display:false},tooltip:{enabled:false}},
+      animation:{duration:1200,easing:'easeOutCubic'},
+      responsive:false
+    }
+  });
+});
+
+/* ── Scroll reveal ── */
+(function(){
+  if(!window.IntersectionObserver) return;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+})();
+</script>
+</body>
+</html>

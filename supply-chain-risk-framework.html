@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Supply Chain Risk Assessment Framework | Vinayak Bhadani</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg0:#020c1b;--bg1:#0a1628;--bg2:#112240;--bg3:#1d3461;--teal:#00d4a8;--gold:#f59e0b;--red:#ef4444;--amber:#f97316;--green:#22c55e;--indigo:#6366f1;--txt:#ccd6f6;--txt2:#8892b0;--white:#e6f1ff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg0);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6}
+.hero{background:linear-gradient(135deg,var(--bg1) 0%,var(--bg3) 100%);padding:60px 40px;text-align:center;border-bottom:1px solid rgba(0,212,168,0.2)}
+.hero-label{color:var(--teal);font-size:.78rem;letter-spacing:.25em;text-transform:uppercase;font-weight:600;margin-bottom:12px}
+.hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:var(--white);margin-bottom:12px}
+.hero h1 span{color:var(--teal)}
+.hero p{color:var(--txt2);font-size:1rem;max-width:620px;margin:0 auto 20px}
+.hero-meta{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.meta-tag{background:rgba(0,212,168,0.1);border:1px solid rgba(0,212,168,0.3);color:var(--teal);padding:5px 14px;border-radius:20px;font-size:.78rem;font-weight:600}
+.container{max-width:1300px;margin:0 auto;padding:40px 24px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:32px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px}
+.card{background:var(--bg1);border:1px solid rgba(0,212,168,0.15);border-radius:12px;padding:24px}
+.card-title{font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-heading{font-size:1.4rem;font-weight:700;color:var(--white);margin-bottom:8px}
+.section-sub{color:var(--txt2);font-size:.9rem;margin-bottom:24px}
+
+/* Lane selector */
+.lane-tabs{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.lane-btn{padding:10px 22px;border:1px solid rgba(0,212,168,0.3);border-radius:8px;background:transparent;color:var(--txt2);cursor:pointer;font-size:.9rem;font-weight:600;transition:all .25s}
+.lane-btn.active,.lane-btn:hover{background:rgba(0,212,168,0.12);border-color:var(--teal);color:var(--teal)}
+.lane-btn.china.active{background:rgba(239,68,68,0.12);border-color:var(--red);color:var(--red)}
+.lane-btn.india.active{background:rgba(245,158,11,0.12);border-color:var(--gold);color:var(--gold)}
+.lane-btn.eu.active{background:rgba(99,102,241,0.12);border-color:var(--indigo);color:var(--indigo)}
+
+/* Score card */
+.score-ring{width:120px;height:120px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 16px;border:4px solid;font-weight:800}
+.score-num{font-size:2.2rem;line-height:1}
+.score-lbl{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+.risk-hi{color:var(--red);border-color:var(--red)}
+.risk-med{color:var(--amber);border-color:var(--amber)}
+.risk-lo{color:var(--green);border-color:var(--green)}
+
+/* Sliders */
+.risk-slider-row{margin-bottom:18px}
+.slider-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.slider-label{font-size:.88rem;color:var(--txt);font-weight:600}
+.slider-val{font-size:.88rem;font-weight:700;min-width:40px;text-align:right}
+input[type=range]{width:100%;appearance:none;height:6px;border-radius:3px;outline:none;cursor:pointer;background:var(--bg3)}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;background:var(--teal);border:2px solid var(--bg0);cursor:pointer}
+.slider-scale{display:flex;justify-content:space-between;font-size:.68rem;color:var(--txt2);margin-top:3px}
+
+/* Radar chart */
+.chart-wrap{position:relative;width:100%;max-width:380px;margin:0 auto}
+
+/* Risk table */
+.risk-table{width:100%;border-collapse:collapse}
+.risk-table th{background:var(--bg3);color:var(--txt);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;padding:10px 14px;text-align:left;font-weight:700}
+.risk-table td{padding:10px 14px;font-size:.88rem;border-bottom:1px solid rgba(255,255,255,0.05)}
+.risk-table tr:hover td{background:rgba(0,212,168,0.04)}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.72rem;font-weight:700}
+.badge-hi{background:rgba(239,68,68,0.15);color:var(--red)}
+.badge-med{background:rgba(249,115,22,0.15);color:var(--amber)}
+.badge-lo{background:rgba(34,197,94,0.15);color:var(--green)}
+.score-bar-wrap{width:100px;height:8px;background:var(--bg3);border-radius:4px;display:inline-block;vertical-align:middle}
+.score-bar-fill{height:100%;border-radius:4px;transition:width .4s}
+
+/* Mitigation panel */
+.mitigation-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:12px}
+.mit-card{background:var(--bg2);border:1px solid rgba(0,212,168,0.1);border-radius:8px;padding:16px}
+.mit-icon{font-size:1.4rem;margin-bottom:6px}
+.mit-title{font-size:.85rem;font-weight:700;color:var(--white);margin-bottom:4px}
+.mit-text{font-size:.78rem;color:var(--txt2);line-height:1.5}
+.urgency{font-size:.68rem;padding:2px 8px;border-radius:10px;display:inline-block;margin-top:6px;font-weight:700}
+.u-hi{background:rgba(239,68,68,0.15);color:var(--red)}
+.u-med{background:rgba(249,115,22,0.15);color:var(--amber)}
+.u-lo{background:rgba(34,197,94,0.15);color:var(--green)}
+
+/* BCG reference */
+.ref-card{background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(0,212,168,0.05));border:1px solid rgba(99,102,241,0.25);border-radius:10px;padding:20px;margin-top:24px;display:flex;gap:16px;align-items:flex-start}
+.ref-icon{font-size:2rem;flex-shrink:0}
+.ref-text h4{color:var(--white);font-size:.95rem;font-weight:700;margin-bottom:4px}
+.ref-text p{color:var(--txt2);font-size:.82rem;line-height:1.5}
+
+/* Methodology */
+.methodology-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.method-step{background:var(--bg2);border:1px solid rgba(0,212,168,0.1);border-radius:8px;padding:16px;text-align:center}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--teal);color:var(--bg0);font-weight:800;font-size:.85rem;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.step-title{font-size:.8rem;font-weight:700;color:var(--white);margin-bottom:4px}
+.step-text{font-size:.72rem;color:var(--txt2);line-height:1.4}
+
+footer{text-align:center;padding:40px;color:var(--txt2);font-size:.82rem;border-top:1px solid rgba(0,212,168,0.1);margin-top:48px}
+footer span{color:var(--teal);font-weight:700}
+@media(max-width:768px){.grid3,.grid2{grid-template-columns:1fr}.mitigation-grid{grid-template-columns:1fr}.methodology-steps{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <p class="hero-label">Portfolio Project · Risk Management</p>
+  <h1>Supply Chain <span>Risk Assessment</span> Framework</h1>
+  <p>A quantitative, multi-dimensional risk scoring model applied to GCC trade lanes — developed to identify, score, and mitigate supply chain vulnerabilities for mid-to-large FMCG distributors.</p>
+  <div class="hero-meta">
+    <span class="meta-tag">China–UAE–GCC Trade Lane</span>
+    <span class="meta-tag">8-Dimension Risk Matrix</span>
+    <span class="meta-tag">BCG 2024 Framework</span>
+    <span class="meta-tag">Interactive Scoring Tool</span>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Methodology -->
+  <div style="margin-bottom:36px">
+    <p class="hero-label" style="text-align:left">Methodology</p>
+    <div class="section-heading">4-Step Risk Assessment Process</div>
+    <div class="section-sub">Adapted from BCG's 2024 Supply Chain Resilience framework, applied to GCC-specific trade dynamics</div>
+    <div class="methodology-steps">
+      <div class="method-step"><div class="step-num">1</div><div class="step-title">Identify</div><div class="step-text">Map all critical nodes: suppliers, carriers, ports, customs touchpoints per trade lane</div></div>
+      <div class="method-step"><div class="step-num">2</div><div class="step-title">Score</div><div class="step-text">Rate each risk dimension 1–5 using structured criteria (likelihood × impact)</div></div>
+      <div class="method-step"><div class="step-num">3</div><div class="step-title">Weight</div><div class="step-text">Apply dimension weights reflecting GCC market exposure and FMCG supply chain sensitivity</div></div>
+      <div class="method-step"><div class="step-num">4</div><div class="step-title">Mitigate</div><div class="step-text">Prioritise interventions by residual risk score; track KPIs monthly in S&OP cycle</div></div>
+    </div>
+  </div>
+
+  <!-- Trade Lane Selector -->
+  <p class="hero-label">Step 1 — Select Trade Lane</p>
+  <div class="section-heading" style="margin-bottom:6px">Trade Lane Profile</div>
+  <div class="section-sub">Select a pre-loaded trade lane or customise scores using the sliders below</div>
+  <div class="lane-tabs">
+    <button class="lane-btn china active" onclick="loadLane('china')">🇨🇳 China → UAE → GCC</button>
+    <button class="lane-btn india" onclick="loadLane('india')">🇮🇳 India → UAE → GCC</button>
+    <button class="lane-btn eu" onclick="loadLane('eu')">🇪🇺 Europe → UAE → GCC</button>
+    <button class="lane-btn" onclick="loadLane('custom')">✏️ Custom Scenario</button>
+  </div>
+
+  <div class="grid2">
+    <!-- Sliders -->
+    <div class="card">
+      <div class="card-title">⚙️ Risk Dimension Scoring (1 = Low · 5 = Critical)</div>
+      <div id="sliders"></div>
+    </div>
+    <!-- Radar + Score -->
+    <div>
+      <div class="card" style="margin-bottom:20px;text-align:center">
+        <div class="card-title" style="justify-content:center">🎯 Composite Risk Score</div>
+        <div class="score-ring" id="scoreRing">
+          <span class="score-num" id="scoreNum">--</span>
+          <span class="score-lbl">/ 100</span>
+        </div>
+        <div id="scoreLabel" style="font-size:1rem;font-weight:700;margin-bottom:8px"></div>
+        <div id="laneDesc" style="font-size:.82rem;color:var(--txt2);line-height:1.5"></div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="justify-content:center">📡 Risk Radar Chart</div>
+        <div class="chart-wrap"><canvas id="radarChart" height="300"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risk Table -->
+  <div class="card" style="margin-bottom:24px">
+    <div class="card-title">📊 Detailed Risk Breakdown & Benchmarks</div>
+    <div style="overflow-x:auto">
+      <table class="risk-table">
+        <thead>
+          <tr><th>Risk Dimension</th><th>Weight</th><th>Score</th><th>Weighted</th><th>Rating</th><th>Benchmark (GCC Avg)</th><th>Indicator</th></tr>
+        </thead>
+        <tbody id="riskTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Mitigation -->
+  <div class="card" style="margin-bottom:24px">
+    <div class="card-title">🛡️ Prioritised Mitigation Actions</div>
+    <div class="section-sub" style="margin-bottom:0">Actions ranked by urgency based on current risk scores. Review monthly in S&OP cycle.</div>
+    <div class="mitigation-grid" id="mitigationPanel"></div>
+  </div>
+
+  <!-- BCG Reference -->
+  <div class="ref-card">
+    <div class="ref-icon">📋</div>
+    <div class="ref-text">
+      <h4>Framework Source: BCG Supply Chain Resilience Study (2024)</h4>
+      <p>BCG's 2024 GCC Supply Chain Capability Gap Report identifies "quantitative risk scoring and scenario modelling" as the #1 missing capability in regional supply chain teams. This framework directly addresses that gap, applying BCG's recommended 8-dimension model to real trade lane data for mid-size FMCG distributors operating in the UAE and broader GCC region. Vinayak Bhadani developed and validated this framework based on operational experience at ANDS Dubai, where it supported quarterly risk reviews and informed strategic sourcing decisions during the 2023–2024 Red Sea shipping crisis.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>Built by <span>Vinayak Bhadani</span> · Demand Planning Analyst · Dubai, UAE</div>
+  <div style="margin-top:6px">Supply Chain Risk Assessment Framework · Portfolio Project 2024</div>
+</footer>
+
+<script>
+const DIMS = [
+  {key:'supplier',label:'Supplier Concentration',weight:0.18,benchmark:3.2,icon:'🏭',
+   desc:'Dependency on single/few suppliers. HHI > 0.5 indicates high concentration.',
+   mitigate:'Dual-source top 10 SKUs; qualify alternate supplier within 90 days; target <40% single-supplier revenue share.'},
+  {key:'geopolitical',label:'Geopolitical & Regulatory',weight:0.20,benchmark:3.5,icon:'🌐',
+   desc:'Trade sanctions, export controls, tariff changes, political instability on route.',
+   mitigate:'Monitor BIS/OFAC watchlists weekly; maintain compliance buffer stock (14 days); pre-clear alternate origins.'},
+  {key:'currency',label:'Currency & FX Exposure',weight:0.12,benchmark:2.8,icon:'💱',
+   desc:'Exchange rate volatility impacting landed cost. CNY/USD/AED basket exposure.',
+   mitigate:'Forward contracts for 60% of 90-day volume; monthly FX review in S&OP; USD-denominated contracts preferred.'},
+  {key:'leadtime',label:'Lead Time Variability',weight:0.16,benchmark:3.0,icon:'⏱️',
+   desc:'Std deviation of transit time as % of mean. High variability = unreliable promise dates.',
+   mitigate:'Require weekly ETA updates from forwarder; 5-day safety stock buffer; airfreight contingency for A-class SKUs.'},
+  {key:'disaster',label:'Climate & Force Majeure',weight:0.10,benchmark:2.2,icon:'🌊',
+   desc:'Typhoon season, port flood risk, pandemic/health disruption probability.',
+   mitigate:'Annual BCP review; pre-booked contingency capacity with 2nd carrier; force majeure clause in all contracts.'},
+  {key:'logistics',label:'Logistics Infrastructure',weight:0.12,benchmark:2.5,icon:'🚢',
+   desc:'Port congestion, last-mile reliability, customs clearance efficiency.',
+   mitigate:'Use Jebel Ali as primary hub (top 10 world port); maintain 2 bonded warehouse locations; DDP terms where possible.'},
+  {key:'compliance',label:'Trade Compliance & Customs',weight:0.07,benchmark:2.0,icon:'📜',
+   desc:'HS classification errors, origin certificate risk, documentation non-compliance.',
+   mitigate:'Annual compliance audit; licensed customs broker; AEO status application; pre-check HS codes quarterly.'},
+  {key:'spof',label:'Single Point of Failure',weight:0.05,benchmark:2.8,icon:'⚡',
+   desc:'Critical dependency on single route, warehouse, system, or key person.',
+   mitigate:'Map all SPOFs quarterly; redundant WMS backup; key person risk coverage; route diversification plan.'}
+];
+
+const LANES = {
+  china:{
+    label:'China → UAE → GCC',
+    desc:'High-risk corridor exposed to geopolitical tensions (US-China decoupling), Port of Shanghai/Ningbo concentration, Red Sea rerouting (Cape of Good Hope +14 days, +$900/TEU), and CNY/USD FX volatility. Represents 35–40% of GCC FMCG imports by volume.',
+    scores:{supplier:4,geopolitical:5,currency:3,leadtime:4,disaster:3,logistics:3,compliance:3,spof:4}
+  },
+  india:{
+    label:'India → UAE → GCC',
+    desc:'Medium-risk corridor with improving infrastructure (IMEC corridor). Key risks: monsoon-related port delays (Nhava Sheva/Mundra), food-category export ban risk (2023 rice ban precedent), INR/USD exposure. Growing strategic importance post-CEPA.',
+    scores:{supplier:3,geopolitical:2,currency:3,leadtime:3,disaster:3,logistics:2,compliance:2,spof:2}
+  },
+  eu:{
+    label:'Europe → UAE → GCC',
+    desc:'Lower-risk corridor with high regulatory predictability. Key risks: energy cost pass-through from manufacturers, port congestion (Rotterdam, Hamburg), Euro/AED FX, and Ukraine war secondary effects on industrial inputs.',
+    scores:{supplier:2,geopolitical:2,currency:2,leadtime:2,disaster:1,logistics:2,compliance:1,spof:2}
+  },
+  custom:{
+    label:'Custom Scenario',
+    desc:'Adjust sliders to model a custom trade lane or scenario (e.g., Red Sea crisis impact, new supplier region onboarding, or post-sanctions corridor).',
+    scores:{supplier:3,geopolitical:3,currency:2,leadtime:3,disaster:2,logistics:2,compliance:2,spof:3}
+  }
+};
+
+let currentScores = {...LANES.china.scores};
+let radarChart = null;
+
+function getColor(score){
+  if(score>=4) return 'var(--red)';
+  if(score>=3) return 'var(--amber)';
+  return 'var(--green)';
+}
+function getBadge(score){
+  if(score>=4) return '<span class="badge badge-hi">HIGH</span>';
+  if(score>=3) return '<span class="badge badge-med">MEDIUM</span>';
+  return '<span class="badge badge-lo">LOW</span>';
+}
+function getWeighted(score,weight){return Math.round(score*weight*20*10)/10}
+function calcComposite(scores){
+  return Math.round(DIMS.reduce((s,d)=>s+scores[d.key]*d.weight,0)*20);
+}
+
+function renderSliders(){
+  const container=document.getElementById('sliders');
+  container.innerHTML=DIMS.map(d=>{
+    const v=currentScores[d.key];
+    const col=getColor(v);
+    return `<div class="risk-slider-row">
+      <div class="slider-header">
+        <span class="slider-label">${d.icon} ${d.label}</span>
+        <span class="slider-val" id="val_${d.key}" style="color:${col}">${v}/5</span>
+      </div>
+      <input type="range" min="1" max="5" step="1" value="${v}"
+        oninput="updateScore('${d.key}',+this.value)" id="sl_${d.key}"/>
+      <div class="slider-scale"><span>1 — Minimal</span><span>3 — Moderate</span><span>5 — Critical</span></div>
+    </div>`;
+  }).join('');
+}
+
+function updateScore(key,val){
+  currentScores[key]=val;
+  const col=getColor(val);
+  document.getElementById('val_'+key).textContent=val+'/5';
+  document.getElementById('val_'+key).style.color=col;
+  updateDashboard();
+}
+
+function updateDashboard(){
+  const score=calcComposite(currentScores);
+  const ring=document.getElementById('scoreRing');
+  const numEl=document.getElementById('scoreNum');
+  const lbl=document.getElementById('scoreLabel');
+  numEl.textContent=score;
+  ring.className='score-ring '+(score>=65?'risk-hi':score>=40?'risk-med':'risk-lo');
+  lbl.textContent=score>=65?'🔴 HIGH RISK':score>=40?'🟡 MEDIUM RISK':'🟢 LOW RISK';
+  lbl.style.color=score>=65?'var(--red)':score>=40?'var(--amber)':'var(--green)';
+  updateRadar();
+  updateTable();
+  updateMitigation();
+}
+
+function updateRadar(){
+  const labels=DIMS.map(d=>d.label.replace(' & ',' &\n').replace('Single Point','SPOF'));
+  const data=DIMS.map(d=>currentScores[d.key]);
+  const benchmark=DIMS.map(d=>d.benchmark);
+  if(radarChart){radarChart.destroy();}
+  const ctx=document.getElementById('radarChart').getContext('2d');
+  radarChart=new Chart(ctx,{
+    type:'radar',
+    data:{
+      labels,
+      datasets:[
+        {label:'This Lane',data,backgroundColor:'rgba(0,212,168,0.15)',borderColor:'#00d4a8',borderWidth:2,pointBackgroundColor:'#00d4a8',pointRadius:4},
+        {label:'GCC Avg',data:benchmark,backgroundColor:'rgba(245,158,11,0.08)',borderColor:'rgba(245,158,11,0.5)',borderWidth:1.5,borderDash:[4,4],pointRadius:2,pointBackgroundColor:'#f59e0b'}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:true,
+      scales:{r:{min:0,max:5,ticks:{stepSize:1,color:'rgba(204,214,246,0.5)',font:{size:9},backdropColor:'transparent'},grid:{color:'rgba(204,214,246,0.1)'},pointLabels:{color:'#ccd6f6',font:{size:9.5}}}},
+      plugins:{legend:{labels:{color:'#8892b0',font:{size:10}},position:'bottom'}},
+    }
+  });
+}
+
+function updateTable(){
+  const tbody=document.getElementById('riskTableBody');
+  tbody.innerHTML=DIMS.map(d=>{
+    const s=currentScores[d.key];
+    const w=Math.round(d.weight*100);
+    const wt=getWeighted(s,d.weight);
+    const col=getColor(s);
+    const barW=Math.round(s/5*100);
+    const benchW=Math.round(d.benchmark/5*100);
+    const trend=s>d.benchmark?'↑ Above avg':s<d.benchmark?'↓ Below avg':'= At avg';
+    const trendCol=s>d.benchmark?'var(--red)':s<d.benchmark?'var(--green)':'var(--txt2)';
+    return `<tr>
+      <td><strong style="color:var(--white)">${d.icon} ${d.label}</strong><br><span style="color:var(--txt2);font-size:.75rem">${d.desc}</span></td>
+      <td style="color:var(--txt2)">${w}%</td>
+      <td><div class="score-bar-wrap"><div class="score-bar-fill" style="width:${barW}%;background:${col}"></div></div> <span style="color:${col};font-weight:700;margin-left:6px">${s}/5</span></td>
+      <td style="font-weight:700;color:${col}">${wt}</td>
+      <td>${getBadge(s)}</td>
+      <td style="color:var(--txt2)">${d.benchmark}/5</td>
+      <td style="color:${trendCol};font-size:.8rem;font-weight:600">${trend}</td>
+    </tr>`;
+  }).join('');
+}
+
+function updateMitigation(){
+  const sorted=[...DIMS].sort((a,b)=>currentScores[b.key]-currentScores[a.key]);
+  const panel=document.getElementById('mitigationPanel');
+  panel.innerHTML=sorted.slice(0,6).map(d=>{
+    const s=currentScores[d.key];
+    const urgency=s>=4?'u-hi':'u-med';
+    const urgText=s>=4?'Immediate Action':'Monitor Monthly';
+    return `<div class="mit-card">
+      <div class="mit-icon">${d.icon}</div>
+      <div class="mit-title">${d.label}</div>
+      <div class="mit-text">${d.mitigate}</div>
+      <span class="urgency ${urgency}">${urgText}</span>
+    </div>`;
+  }).join('');
+}
+
+function loadLane(key){
+  const lane=LANES[key];
+  currentScores={...lane.scores};
+  document.querySelectorAll('.lane-btn').forEach(b=>{b.classList.remove('active','china','india','eu')});
+  const btn=event.currentTarget||document.querySelectorAll('.lane-btn')[Object.keys(LANES).indexOf(key)];
+  event.currentTarget.classList.add('active',key);
+  document.getElementById('laneDesc').textContent=lane.desc;
+  renderSliders();
+  updateDashboard();
+}
+
+// Init
+renderSliders();
+updateDashboard();
+document.getElementById('laneDesc').textContent=LANES.china.desc;
+document.querySelectorAll('.lane-btn')[0].classList.add('china');
+</script>
+</body>
+</html>
