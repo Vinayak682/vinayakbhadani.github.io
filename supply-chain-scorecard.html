@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Supply Chain Scorecard | Vinayak Bhadani</title>
+<meta name="description" content="Interactive Supply Chain Scorecard — Demand Planning, Inventory Management, Supplier Performance, and Logistics KPIs with GCC benchmarks."/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg0:#020c1b;--bg1:#051629;--bg2:#081e36;--bg3:#0d2544;
+  --teal:#00d4a8;--teal2:#00b890;
+  --indigo:#6366f1;--gold:#f59e0b;--rose:#f43f5e;
+  --sky:#38bdf8;--violet:#a855f7;--emerald:#10b981;--orange:#f97316;
+  --t1:#f1f7ff;--t2:#94a3b8;--t3:#4d6b8a;
+  --brd:rgba(255,255,255,.07);--brd2:rgba(255,255,255,.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg0);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased;}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* ── HEADER ── */
+header{background:rgba(2,12,27,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);padding:0 24px;position:sticky;top:0;z-index:50;}
+.hdr-i{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px;}
+.hdr-brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.hdr-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--teal),var(--indigo));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.hdr-name{font-size:.85rem;font-weight:800;color:var(--t1);}
+.hdr-sub{font-size:.58rem;color:var(--teal);font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+.hdr-right{display:flex;align-items:center;gap:12px;}
+.bench-toggle{display:flex;background:rgba(255,255,255,.05);border:1px solid var(--brd2);border-radius:8px;overflow:hidden;}
+.bench-btn{padding:6px 14px;font-size:.72rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--t2);transition:all .2s;white-space:nowrap;}
+.bench-btn.active{background:var(--teal);color:#020c1b;}
+.period-select{background:rgba(255,255,255,.05);border:1px solid var(--brd2);color:var(--t1);font-size:.75rem;padding:6px 10px;border-radius:8px;cursor:pointer;outline:none;}
+.back-link{font-size:.75rem;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:4px;opacity:.8;}
+.back-link:hover{opacity:1;}
+
+/* ── LAYOUT ── */
+main{max-width:1200px;margin:0 auto;padding:32px 24px 80px;}
+
+/* ── HERO SCORE ── */
+.hero-row{display:grid;grid-template-columns:320px 1fr;gap:24px;margin-bottom:28px;align-items:stretch;}
+.score-card{background:linear-gradient(135deg,rgba(0,212,168,.07),rgba(99,102,241,.07));border:1px solid var(--brd2);border-radius:20px;padding:32px 28px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.score-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(0,212,168,.06),transparent 60%);pointer-events:none;}
+.score-label{font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;}
+.score-ring-wrap{position:relative;width:160px;height:160px;margin-bottom:16px;}
+#scoreRing{width:160px;height:160px;}
+.score-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.score-number{font-size:2.6rem;font-weight:900;line-height:1;color:var(--t1);}
+.score-denom{font-size:.8rem;color:var(--t2);font-weight:500;}
+.score-grade{display:inline-block;padding:4px 16px;border-radius:50px;font-size:.8rem;font-weight:800;letter-spacing:.04em;margin-bottom:8px;}
+.grade-b{background:rgba(0,212,168,.15);border:1px solid rgba(0,212,168,.4);color:var(--teal);}
+.grade-a{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.4);color:var(--emerald);}
+.grade-c{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.4);color:var(--gold);}
+.score-period{font-size:.72rem;color:var(--t3);}
+.score-delta{font-size:.8rem;font-weight:700;margin-top:4px;}
+.delta-up{color:var(--teal);}
+.delta-dn{color:var(--rose);}
+
+.summary-cards{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:12px;}
+.sum-card{background:rgba(255,255,255,.025);border:1px solid var(--brd);border-radius:14px;padding:18px 16px;position:relative;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .2s;}
+.sum-card:hover{border-color:var(--brd2);transform:translateY(-2px);}
+.sum-card.active-dim{border-color:rgba(255,255,255,.25);}
+.sum-strip{position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0;}
+.sum-dim{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;}
+.sum-score-row{display:flex;align-items:baseline;gap:6px;margin-bottom:6px;}
+.sum-score-val{font-size:1.7rem;font-weight:900;line-height:1;}
+.sum-score-max{font-size:.75rem;color:var(--t2);}
+.sum-bar-track{height:4px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;}
+.sum-bar-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.sum-delta-row{display:flex;justify-content:space-between;margin-top:6px;}
+.sum-delta{font-size:.68rem;font-weight:600;}
+.sum-bench{font-size:.63rem;color:var(--t3);}
+
+/* ── DIMENSION SECTIONS ── */
+.dim-section{background:rgba(255,255,255,.018);border:1px solid var(--brd);border-radius:18px;margin-bottom:20px;overflow:hidden;}
+.dim-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--brd);cursor:pointer;transition:background .2s;}
+.dim-header:hover{background:rgba(255,255,255,.025);}
+.dim-h-left{display:flex;align-items:center;gap:14px;}
+.dim-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.dim-title{font-size:1rem;font-weight:700;}
+.dim-subtitle{font-size:.72rem;color:var(--t2);margin-top:2px;}
+.dim-h-right{display:flex;align-items:center;gap:14px;}
+.dim-score-badge{display:flex;flex-direction:column;align-items:center;min-width:56px;}
+.dim-score-num{font-size:1.5rem;font-weight:900;line-height:1;}
+.dim-score-lbl{font-size:.6rem;color:var(--t2);font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+.dim-chevron{color:var(--t3);font-size:.85rem;transition:transform .25s;}
+.dim-header.open .dim-chevron{transform:rotate(180deg);}
+.dim-body{display:none;padding:24px;}
+.dim-body.open{display:block;}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:20px;}
+.kpi-card{background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:12px;padding:16px;}
+.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.kpi-name{font-size:.72rem;font-weight:600;color:var(--t2);line-height:1.3;}
+.kpi-status{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:2px;}
+.status-green{background:#22c55e;box-shadow:0 0 6px rgba(34,197,94,.5);}
+.status-amber{background:var(--gold);box-shadow:0 0 6px rgba(245,158,11,.5);}
+.status-red{background:var(--rose);box-shadow:0 0 6px rgba(244,63,94,.5);}
+.kpi-value{font-size:1.4rem;font-weight:900;line-height:1;margin-bottom:2px;}
+.kpi-target{font-size:.65rem;color:var(--t3);}
+.kpi-bar-track{height:3px;background:rgba(255,255,255,.08);border-radius:3px;margin:8px 0 6px;overflow:hidden;}
+.kpi-bar-fill{height:100%;border-radius:3px;}
+.kpi-vs{font-size:.62rem;font-weight:600;}
+
+/* INSIGHT BOX */
+.insight-box{background:rgba(0,212,168,.04);border:1px solid rgba(0,212,168,.15);border-radius:10px;padding:14px 16px;display:flex;gap:10px;}
+.insight-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+.insight-text{font-size:.78rem;color:var(--t2);line-height:1.6;}
+.insight-text strong{color:var(--t1);}
+
+/* ── CHARTS ROW ── */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.chart-card{background:rgba(255,255,255,.025);border:1px solid var(--brd);border-radius:16px;padding:22px;}
+.chart-title{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t2);margin-bottom:4px;}
+.chart-subtitle{font-size:.68rem;color:var(--t3);margin-bottom:16px;}
+.chart-wrap{position:relative;height:200px;}
+
+/* ── RECOMMENDATIONS ── */
+.reco-section{background:rgba(255,255,255,.018);border:1px solid var(--brd);border-radius:18px;padding:24px;}
+.reco-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.reco-title{font-size:1rem;font-weight:700;}
+.reco-badge{font-size:.65rem;padding:4px 10px;border-radius:50px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:var(--gold);font-weight:700;}
+.reco-list{display:flex;flex-direction:column;gap:12px;}
+.reco-item{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:start;background:rgba(255,255,255,.025);border:1px solid var(--brd);border-radius:12px;padding:14px 16px;transition:border-color .2s;}
+.reco-item:hover{border-color:var(--brd2);}
+.reco-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0;}
+.reco-body{}
+.reco-head{font-size:.83rem;font-weight:700;margin-bottom:3px;}
+.reco-desc{font-size:.73rem;color:var(--t2);line-height:1.55;}
+.reco-impact{text-align:right;flex-shrink:0;}
+.reco-impact-val{font-size:.75rem;font-weight:700;white-space:nowrap;}
+.reco-impact-lbl{font-size:.6rem;color:var(--t3);}
+.priority-badge{display:inline-block;padding:3px 8px;border-radius:4px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:4px;}
+.priority-high{background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.3);color:#fb7185;}
+.priority-med{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:var(--gold);}
+.priority-low{background:rgba(0,212,168,.1);border:1px solid rgba(0,212,168,.25);color:var(--teal);}
+
+/* ── FOOTER ── */
+.sc-footer{text-align:center;padding:32px 24px;border-top:1px solid var(--brd);margin-top:40px;font-size:.73rem;color:var(--t3);}
+.sc-footer a{color:var(--teal);text-decoration:none;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero-row{grid-template-columns:1fr;}
+  .charts-row{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .summary-cards{grid-template-columns:1fr 1fr;}
+  .hdr-sub,.back-link{display:none;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-i">
+    <a href="./index.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Portfolio
+    </a>
+    <a href="./index.html" class="hdr-brand">
+      <div class="hdr-icon">📊</div>
+      <div>
+        <div class="hdr-name">Supply Chain Scorecard</div>
+        <div class="hdr-sub">Vinayak Bhadani · GCC FMCG Distributor</div>
+      </div>
+    </a>
+    <div class="hdr-right">
+      <div class="bench-toggle">
+        <button class="bench-btn active" onclick="setBench('gcc',this)">GCC Benchmark</button>
+        <button class="bench-btn" onclick="setBench('world',this)">World Class</button>
+      </div>
+      <select class="period-select" onchange="setPeriod(this.value)">
+        <option value="dec">Dec 2024</option>
+        <option value="nov">Nov 2024</option>
+        <option value="oct">Oct 2024</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── HERO SCORE ── -->
+  <div class="hero-row">
+
+    <div class="score-card">
+      <div class="score-label">Overall SC Health</div>
+      <div class="score-ring-wrap">
+        <canvas id="scoreRing"></canvas>
+        <div class="score-center">
+          <span class="score-number" id="overallNum">0</span>
+          <span class="score-denom">/ 100</span>
+        </div>
+      </div>
+      <span class="score-grade grade-b" id="gradeLabel">B+</span>
+      <span class="score-period">December 2024 · GCC Benchmark</span>
+      <span class="score-delta delta-up" id="deltaLabel">▲ +3.2 pts vs Nov 2024</span>
+    </div>
+
+    <div class="summary-cards">
+
+      <div class="sum-card" id="dim-card-0" onclick="openDim(0)">
+        <div class="sum-strip" style="background:var(--teal)"></div>
+        <div class="sum-dim" style="color:var(--teal)">Demand Planning</div>
+        <div class="sum-score-row">
+          <span class="sum-score-val" id="dScore0" style="color:var(--teal)">0</span>
+          <span class="sum-score-max">/ 100</span>
+        </div>
+        <div class="sum-bar-track"><div class="sum-bar-fill" id="dBar0" style="background:var(--teal);width:0"></div></div>
+        <div class="sum-delta-row">
+          <span class="sum-delta delta-up" id="dDelta0">▲ +2.1</span>
+          <span class="sum-bench" id="dBench0">GCC avg: 74</span>
+        </div>
+      </div>
+
+      <div class="sum-card" id="dim-card-1" onclick="openDim(1)">
+        <div class="sum-strip" style="background:var(--sky)"></div>
+        <div class="sum-dim" style="color:var(--sky)">Inventory Mgmt</div>
+        <div class="sum-score-row">
+          <span class="sum-score-val" id="dScore1" style="color:var(--sky)">0</span>
+          <span class="sum-score-max">/ 100</span>
+        </div>
+        <div class="sum-bar-track"><div class="sum-bar-fill" id="dBar1" style="background:var(--sky);width:0"></div></div>
+        <div class="sum-delta-row">
+          <span class="sum-delta delta-up" id="dDelta1">▲ +4.3</span>
+          <span class="sum-bench" id="dBench1">GCC avg: 70</span>
+        </div>
+      </div>
+
+      <div class="sum-card" id="dim-card-2" onclick="openDim(2)">
+        <div class="sum-strip" style="background:var(--violet)"></div>
+        <div class="sum-dim" style="color:var(--violet)">Supplier Performance</div>
+        <div class="sum-score-row">
+          <span class="sum-score-val" id="dScore2" style="color:var(--violet)">0</span>
+          <span class="sum-score-max">/ 100</span>
+        </div>
+        <div class="sum-bar-track"><div class="sum-bar-fill" id="dBar2" style="background:var(--violet);width:0"></div></div>
+        <div class="sum-delta-row">
+          <span class="sum-delta delta-dn" id="dDelta2">▼ -1.5</span>
+          <span class="sum-bench" id="dBench2">GCC avg: 68</span>
+        </div>
+      </div>
+
+      <div class="sum-card" id="dim-card-3" onclick="openDim(3)">
+        <div class="sum-strip" style="background:var(--orange)"></div>
+        <div class="sum-dim" style="color:var(--orange)">Logistics & Service</div>
+        <div class="sum-score-row">
+          <span class="sum-score-val" id="dScore3" style="color:var(--orange)">0</span>
+          <span class="sum-score-max">/ 100</span>
+        </div>
+        <div class="sum-bar-track"><div class="sum-bar-fill" id="dBar3" style="background:var(--orange);width:0"></div></div>
+        <div class="sum-delta-row">
+          <span class="sum-delta delta-up" id="dDelta3">▲ +5.0</span>
+          <span class="sum-bench" id="dBench3">GCC avg: 72</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── DIMENSION 1: DEMAND PLANNING ── -->
+  <div class="dim-section" id="dim-0">
+    <div class="dim-header open" onclick="toggleDim(0)">
+      <div class="dim-h-left">
+        <div class="dim-icon" style="background:rgba(0,212,168,.1);border:1px solid rgba(0,212,168,.2)">📈</div>
+        <div>
+          <div class="dim-title" style="color:var(--teal)">Demand Planning</div>
+          <div class="dim-subtitle">Forecast accuracy, bias control, and planning cycle efficiency</div>
+        </div>
+      </div>
+      <div class="dim-h-right">
+        <div class="dim-score-badge">
+          <div class="dim-score-num" style="color:var(--teal)" id="bigScore0">82</div>
+          <div class="dim-score-lbl">Score</div>
+        </div>
+        <span class="dim-chevron">▾</span>
+      </div>
+    </div>
+    <div class="dim-body open" id="dimbody-0">
+      <div class="kpi-grid">
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Forecast Accuracy (1 – MAPE)</span>
+            <span class="kpi-status status-amber"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--teal)">87.3%</div>
+          <div class="kpi-target">Target: ≥90% &nbsp;|&nbsp; World class: 95%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--teal);width:87.3%"></div></div>
+          <div class="kpi-vs" style="color:var(--gold)">2.7 pts below GCC target — Ramadan spikes key driver</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Forecast Bias</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--teal)">+2.1%</div>
+          <div class="kpi-target">Target: ±3% &nbsp;|&nbsp; World class: ±1.5%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--teal);width:72%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Within target — slight over-forecasting, manageable</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">SKU Forecast Coverage</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--teal)">96.4%</div>
+          <div class="kpi-target">Target: ≥95% &nbsp;|&nbsp; World class: 99%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--teal);width:96.4%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Exceeds GCC target — 3.6% uncovered are C-class tails</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Planning Cycle Time</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--teal)">3.2 days</div>
+          <div class="kpi-target">Target: ≤5 days &nbsp;|&nbsp; World class: ≤2 days</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--teal);width:80%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Beats GCC target by 36% — powered by automated data pulls</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Consensus Forecast Adoption</span>
+            <span class="kpi-status status-amber"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--teal)">78%</div>
+          <div class="kpi-target">Target: ≥85% &nbsp;|&nbsp; World class: 95%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--gold);width:78%"></div></div>
+          <div class="kpi-vs" style="color:var(--gold)">Sales team overriding stats model for 22% of SKUs</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">New Product Forecast Err.</span>
+            <span class="kpi-status status-red"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--rose)">31.4%</div>
+          <div class="kpi-target">Target: ≤25% &nbsp;|&nbsp; World class: ≤15%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--rose);width:68%"></div></div>
+          <div class="kpi-vs" style="color:var(--rose)">NPD pipeline accelerating — analogue-based model needed</div>
+        </div>
+
+      </div>
+      <div class="insight-box">
+        <span class="insight-icon">💡</span>
+        <p class="insight-text"><strong>Key Insight:</strong> Forecast accuracy is strong for core SKUs but weak at new product launch. Implementing an <strong>analogue model</strong> (mapping new SKUs to historical launch curves) can close the gap by 8–12 pts, directly improving initial stocking decisions and reducing first-90-day write-offs. <strong>Priority: High.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DIMENSION 2: INVENTORY MANAGEMENT ── -->
+  <div class="dim-section" id="dim-1">
+    <div class="dim-header" onclick="toggleDim(1)">
+      <div class="dim-h-left">
+        <div class="dim-icon" style="background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2)">📦</div>
+        <div>
+          <div class="dim-title" style="color:var(--sky)">Inventory Management</div>
+          <div class="dim-subtitle">Turns, fill rate, days of supply, ABC-XYZ segmentation, and excess & obsolete</div>
+        </div>
+      </div>
+      <div class="dim-h-right">
+        <div class="dim-score-badge">
+          <div class="dim-score-num" style="color:var(--sky)" id="bigScore1">78</div>
+          <div class="dim-score-lbl">Score</div>
+        </div>
+        <span class="dim-chevron">▾</span>
+      </div>
+    </div>
+    <div class="dim-body" id="dimbody-1">
+      <div class="kpi-grid">
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Inventory Turnover Ratio</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--sky)">8.4×</div>
+          <div class="kpi-target">Target: ≥7× &nbsp;|&nbsp; World class: 12×</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--sky);width:75%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Above GCC benchmark — A-class SKUs turning 14×</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Line Fill Rate</span>
+            <span class="kpi-status status-amber"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--sky)">94.5%</div>
+          <div class="kpi-target">Target: ≥95% &nbsp;|&nbsp; World class: 98.5%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--gold);width:94.5%"></div></div>
+          <div class="kpi-vs" style="color:var(--gold)">0.5 pts below target — 14 SKUs drive 80% of shortfalls</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Days of Supply (DOS)</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--sky)">43.5 days</div>
+          <div class="kpi-target">Target: 40–50 days &nbsp;|&nbsp; World class: 30–35</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--sky);width:78%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Within optimal band — China supplier lead times buffered</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Excess & Obsolete (%)</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--sky)">3.1%</div>
+          <div class="kpi-target">Target: ≤5% &nbsp;|&nbsp; World class: ≤1.5%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--sky);width:65%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Well within GCC target — mid-2025 NPD launches are at-risk</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">ABC-XYZ A/X Coverage</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--sky)">99.1%</div>
+          <div class="kpi-target">Target: ≥98% &nbsp;|&nbsp; World class: 99.5%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--sky);width:99%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Near world-class — top revenue SKUs always in stock</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Safety Stock Efficiency</span>
+            <span class="kpi-status status-amber"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--gold)">71%</div>
+          <div class="kpi-target">Target: ≥80% &nbsp;|&nbsp; World class: 90%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--gold);width:71%"></div></div>
+          <div class="kpi-vs" style="color:var(--gold)">Over-buffered in C-class SKUs — locking AED 1.2M working capital</div>
+        </div>
+
+      </div>
+      <div class="insight-box">
+        <span class="insight-icon">💡</span>
+        <p class="insight-text"><strong>Key Insight:</strong> Inventory performance is solid at the top of the range but <strong>safety stock is over-calibrated for C-class SKUs</strong> — a legacy of manual buffer rules. Dynamic safety stock recalibration using statistical service-level targets (Z × σ × √LT) can release <strong>AED 1.2M–1.8M in working capital</strong> with no service degradation. <strong>Priority: High ROI.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DIMENSION 3: SUPPLIER PERFORMANCE ── -->
+  <div class="dim-section" id="dim-2">
+    <div class="dim-header" onclick="toggleDim(2)">
+      <div class="dim-h-left">
+        <div class="dim-icon" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2)">🏭</div>
+        <div>
+          <div class="dim-title" style="color:var(--violet)">Supplier Performance</div>
+          <div class="dim-subtitle">On-time delivery, quality, lead time compliance, and cost variance across China-MENA-GCC supply base</div>
+        </div>
+      </div>
+      <div class="dim-h-right">
+        <div class="dim-score-badge">
+          <div class="dim-score-num" style="color:var(--violet)" id="bigScore2">71</div>
+          <div class="dim-score-lbl">Score</div>
+        </div>
+        <span class="dim-chevron">▾</span>
+      </div>
+    </div>
+    <div class="dim-body" id="dimbody-2">
+      <div class="kpi-grid">
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Supplier On-Time Delivery</span>
+            <span class="kpi-status status-amber"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--violet)">88.6%</div>
+          <div class="kpi-target">Target: ≥92% &nbsp;|&nbsp; World class: 97%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--violet);width:88.6%"></div></div>
+          <div class="kpi-vs" style="color:var(--gold)">Red Sea re-routing extended China-to-Jebel Ali by 9 days avg</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Quality Acceptance Rate</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--violet)">97.8%</div>
+          <div class="kpi-target">Target: ≥97% &nbsp;|&nbsp; World class: 99.5%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--violet);width:97.8%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Meets target — rejections concentrated in 2 Chinese suppliers</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Lead Time Variance</span>
+            <span class="kpi-status status-red"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--rose)">±18 days</div>
+          <div class="kpi-target">Target: ≤±10 days &nbsp;|&nbsp; World class: ≤±5</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--rose);width:55%"></div></div>
+          <div class="kpi-vs" style="color:var(--rose)">Critical gap — Suez/Red Sea disruptions doubling variability</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Purchase Price Variance</span>
+            <span class="kpi-status status-amber"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--violet)">+3.1%</div>
+          <div class="kpi-target">Target: ≤±2% &nbsp;|&nbsp; World class: ≤±1%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--gold);width:60%"></div></div>
+          <div class="kpi-vs" style="color:var(--gold)">USD freight surcharge + CNY shift contributing +1.8%</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Supplier Scorecard Adoption</span>
+            <span class="kpi-status status-amber"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--violet)">62%</div>
+          <div class="kpi-target">Target: ≥80% &nbsp;|&nbsp; World class: 95%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--gold);width:62%"></div></div>
+          <div class="kpi-vs" style="color:var(--gold)">38% of suppliers not yet on formal scorecard framework</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Dual-Source Coverage</span>
+            <span class="kpi-status status-red"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--rose)">34%</div>
+          <div class="kpi-target">Target: ≥60% &nbsp;|&nbsp; World class: 80%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--rose);width:34%"></div></div>
+          <div class="kpi-vs" style="color:var(--rose)">66% of strategic SKUs single-sourced — highest risk dimension</div>
+        </div>
+
+      </div>
+      <div class="insight-box" style="border-color:rgba(244,63,94,.2);background:rgba(244,63,94,.04);">
+        <span class="insight-icon">🚨</span>
+        <p class="insight-text"><strong>Critical Gap:</strong> Only <strong>34% dual-source coverage</strong> on strategic SKUs against a 60% target. With Red Sea disruption adding 9-day average delays and lead-time variance at ±18 days, a single major supplier delay can trigger stockouts on A-class revenue lines. <strong>Priority: Urgent. Initiate regional backup sourcing qualification for top-20 SKUs.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DIMENSION 4: LOGISTICS & CUSTOMER SERVICE ── -->
+  <div class="dim-section" id="dim-3">
+    <div class="dim-header" onclick="toggleDim(3)">
+      <div class="dim-h-left">
+        <div class="dim-icon" style="background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2)">🚚</div>
+        <div>
+          <div class="dim-title" style="color:var(--orange)">Logistics & Customer Service</div>
+          <div class="dim-subtitle">Perfect order rate, OTD, freight cost, OTIF, and returns</div>
+        </div>
+      </div>
+      <div class="dim-h-right">
+        <div class="dim-score-badge">
+          <div class="dim-score-num" style="color:var(--orange)" id="bigScore3">80</div>
+          <div class="dim-score-lbl">Score</div>
+        </div>
+        <span class="dim-chevron">▾</span>
+      </div>
+    </div>
+    <div class="dim-body" id="dimbody-3">
+      <div class="kpi-grid">
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Perfect Order Rate</span>
+            <span class="kpi-status status-amber"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--orange)">89.4%</div>
+          <div class="kpi-target">Target: ≥92% &nbsp;|&nbsp; World class: 97%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--orange);width:89.4%"></div></div>
+          <div class="kpi-vs" style="color:var(--gold)">Wrong-item picks account for 47% of imperfect orders</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">On-Time In-Full (OTIF)</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--orange)">93.1%</div>
+          <div class="kpi-target">Target: ≥93% &nbsp;|&nbsp; World class: 97%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--orange);width:93.1%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Exactly on target — positive trend from last 2 months</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Freight Cost per Unit</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--orange)">AED 8.20</div>
+          <div class="kpi-target">Target: ≤AED 8.50 &nbsp;|&nbsp; World class: ≤AED 6.50</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--orange);width:75%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">3.5% below target — route consolidation savings landing</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Order Cycle Time</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--orange)">1.8 days</div>
+          <div class="kpi-target">Target: ≤2 days &nbsp;|&nbsp; World class: ≤0.5 days</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--orange);width:82%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Within target — same-day dispatch achieved on 71% of orders</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">Returns Rate</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--orange)">1.7%</div>
+          <div class="kpi-target">Target: ≤2.5% &nbsp;|&nbsp; World class: ≤0.8%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--orange);width:70%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Well below target — near-expiry product returns improving</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-name">3PL SLA Compliance</span>
+            <span class="kpi-status status-green"></span>
+          </div>
+          <div class="kpi-value" style="color:var(--orange)">96.2%</div>
+          <div class="kpi-target">Target: ≥95% &nbsp;|&nbsp; World class: 99%</div>
+          <div class="kpi-bar-track"><div class="kpi-bar-fill" style="background:var(--orange);width:96.2%"></div></div>
+          <div class="kpi-vs" style="color:var(--teal)">Exceeds target — Q3 3PL contract renegotiation created penalties</div>
+        </div>
+
+      </div>
+      <div class="insight-box" style="border-color:rgba(249,115,22,.2);background:rgba(249,115,22,.04);">
+        <span class="insight-icon">💡</span>
+        <p class="insight-text"><strong>Key Insight:</strong> Logistics performance is improving (OTIF just hit target), but the <strong>Perfect Order Rate gap is a pick-accuracy issue</strong>, not a delivery issue. Wrong-item picks account for 47% of failures. A WMS barcode-scan verification step at pick (zero-capital change) typically closes this gap by 4–6 pts within 30 days of rollout.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CHARTS ROW ── -->
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">Performance Radar</div>
+      <div class="chart-subtitle">Current vs GCC Benchmark vs World Class — all 4 dimensions</div>
+      <div class="chart-wrap"><canvas id="radarChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">6-Month Score Trend</div>
+      <div class="chart-subtitle">Overall SC Health Score — monthly progression</div>
+      <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ── RECOMMENDATIONS ── -->
+  <div class="reco-section">
+    <div class="reco-title-row">
+      <div class="reco-title">Strategic Action Priorities</div>
+      <span class="reco-badge">5 Initiatives · Q1–Q2 2025</span>
+    </div>
+    <div class="reco-list">
+
+      <div class="reco-item">
+        <div class="reco-num" style="background:rgba(244,63,94,.15);color:#fb7185;border:1px solid rgba(244,63,94,.3)">1</div>
+        <div class="reco-body">
+          <div class="reco-head">Dual-Source Qualification: Top-20 Strategic SKUs</div>
+          <div class="reco-desc">Identify and qualify regional backup suppliers (Turkey, India, UAE local) for the top-20 A-class SKUs currently single-sourced from China. Red Sea risk + ±18-day lead time variance creates stockout exposure on highest-revenue lines. Target: bring dual-source coverage from 34% → 60% within 90 days.</div>
+          <span class="priority-badge priority-high">Urgent</span>
+        </div>
+        <div class="reco-impact">
+          <div class="reco-impact-val" style="color:var(--rose)">+8 pts</div>
+          <div class="reco-impact-lbl">Supplier Score</div>
+          <div class="reco-impact-val" style="color:var(--teal);margin-top:4px">AED 3.2M</div>
+          <div class="reco-impact-lbl">Stockout risk mitigated</div>
+        </div>
+      </div>
+
+      <div class="reco-item">
+        <div class="reco-num" style="background:rgba(245,158,11,.15);color:var(--gold);border:1px solid rgba(245,158,11,.3)">2</div>
+        <div class="reco-body">
+          <div class="reco-head">Dynamic Safety Stock Recalibration — C-Class SKUs</div>
+          <div class="reco-desc">Replace flat-rule safety stock buffers on C-class SKUs with statistical service-level model (Z × σ_demand × √lead_time). Current over-buffering locks AED 1.2M–1.8M working capital with no service benefit. Recalibrate using 12-month demand history and current lead-time distributions.</div>
+          <span class="priority-badge priority-high">High ROI</span>
+        </div>
+        <div class="reco-impact">
+          <div class="reco-impact-val" style="color:var(--sky)">+6 pts</div>
+          <div class="reco-impact-lbl">Inventory Score</div>
+          <div class="reco-impact-val" style="color:var(--teal);margin-top:4px">AED 1.5M</div>
+          <div class="reco-impact-lbl">Working capital released</div>
+        </div>
+      </div>
+
+      <div class="reco-item">
+        <div class="reco-num" style="background:rgba(99,102,241,.15);color:var(--indigo);border:1px solid rgba(99,102,241,.3)">3</div>
+        <div class="reco-body">
+          <div class="reco-head">Analogue Forecasting Model for New Product Launches</div>
+          <div class="reco-desc">New product forecast error at 31.4% vs 25% target is the biggest single drag on Demand Planning score. Build an analogue model library: map each NPD to 3 historical comparable launches by category, price tier, and channel — weight actuals to generate initial forecast curves. Reduce NPD error to &lt;22% within 2 launch cycles.</div>
+          <span class="priority-badge priority-med">Medium</span>
+        </div>
+        <div class="reco-impact">
+          <div class="reco-impact-val" style="color:var(--teal)">+5 pts</div>
+          <div class="reco-impact-lbl">Demand Planning</div>
+          <div class="reco-impact-val" style="color:var(--teal);margin-top:4px">-12%</div>
+          <div class="reco-impact-lbl">NPD write-off risk</div>
+        </div>
+      </div>
+
+      <div class="reco-item">
+        <div class="reco-num" style="background:rgba(249,115,22,.15);color:var(--orange);border:1px solid rgba(249,115,22,.3)">4</div>
+        <div class="reco-body">
+          <div class="reco-head">WMS Pick-Verification: Scan-to-Confirm at Pick Stage</div>
+          <div class="reco-desc">47% of imperfect orders are wrong-item picks — a WMS configuration change (barcode scan confirmation before pick completion) eliminates this category of errors at near-zero cost. Most WMS platforms support this natively. A 30-day pilot typically shows 4–6 pt improvement in Perfect Order Rate, pushing OTIF above 95%.</div>
+          <span class="priority-badge priority-med">Quick Win</span>
+        </div>
+        <div class="reco-impact">
+          <div class="reco-impact-val" style="color:var(--orange)">+5 pts</div>
+          <div class="reco-impact-lbl">Logistics Score</div>
+          <div class="reco-impact-val" style="color:var(--teal);margin-top:4px">~AED 0</div>
+          <div class="reco-impact-lbl">Implementation cost</div>
+        </div>
+      </div>
+
+      <div class="reco-item">
+        <div class="reco-num" style="background:rgba(168,85,247,.15);color:var(--violet);border:1px solid rgba(168,85,247,.3)">5</div>
+        <div class="reco-body">
+          <div class="reco-head">Formal Supplier Scorecard — Extend to 100% of Supply Base</div>
+          <div class="reco-desc">38% of suppliers operate without a formal scorecard. Standardise the existing scorecard template (OTD, quality, lead-time variance, PPV) across all suppliers. Conduct quarterly business reviews for strategic suppliers (top-30 by spend). Scorecard visibility alone drives 5–8% OTD improvement via supplier self-correction in comparable GCC implementations.</div>
+          <span class="priority-badge priority-low">Strategic</span>
+        </div>
+        <div class="reco-impact">
+          <div class="reco-impact-val" style="color:var(--violet)">+7 pts</div>
+          <div class="reco-impact-lbl">Supplier Score</div>
+          <div class="reco-impact-val" style="color:var(--teal);margin-top:4px">6–8%</div>
+          <div class="reco-impact-lbl">OTD improvement</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer class="sc-footer">
+  Built by <a href="./index.html">Vinayak Bhadani</a> · Demand Planning Analyst · Dubai, UAE ·
+  Benchmark sources: Gartner Supply Chain Top 25, GCC Logistics Report 2024, McKinsey Global Supply Chain Survey 2024
+</footer>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+const DATA = {
+  gcc: {
+    overall: 77.75,
+    dims: [82, 78, 71, 80],
+    deltas: ['+2.1', '+4.3', '−1.5', '+5.0'],
+    benchmarks: ['GCC avg: 74','GCC avg: 70','GCC avg: 68','GCC avg: 72'],
+    radarCurrent: [82, 78, 71, 80],
+    radarBench: [74, 70, 68, 72],
+    radarWC: [95, 92, 90, 94],
+  },
+  world: {
+    overall: 77.75,
+    dims: [82, 78, 71, 80],
+    deltas: ['+2.1', '+4.3', '−1.5', '+5.0'],
+    benchmarks: ['World class: 95','World class: 92','World class: 90','World class: 94'],
+    radarCurrent: [82, 78, 71, 80],
+    radarBench: [95, 92, 90, 94],
+    radarWC: [99, 99, 99, 99],
+  }
+};
+let bench = 'gcc';
+let overallChart, radarChart, trendChart;
+
+// ── ANIMATE COUNTER ──────────────────────────────────────────
+function animateVal(el, target, duration){
+  const start = performance.now();
+  const from = parseFloat(el.textContent)||0;
+  function tick(now){
+    const p = Math.min((now-start)/duration,1);
+    const ease = p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+    el.textContent = Math.round(from + (target-from)*ease);
+    if(p<1) requestAnimationFrame(tick);
+    else el.textContent = Math.round(target);
+  }
+  requestAnimationFrame(tick);
+}
+
+// ── BUILD SCORE RING ─────────────────────────────────────────
+function buildScoreRing(score){
+  const ctx = document.getElementById('scoreRing').getContext('2d');
+  if(overallChart) overallChart.destroy();
+  const pct = score/100;
+  overallChart = new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      datasets:[{
+        data:[pct,1-pct],
+        backgroundColor:['rgba(0,212,168,1)','rgba(255,255,255,.05)'],
+        borderWidth:0,
+        borderRadius:[8,0]
+      }]
+    },
+    options:{
+      cutout:'74%',
+      rotation:-90,
+      circumference:360,
+      plugins:{legend:{display:false},tooltip:{enabled:false}},
+      animation:{duration:1200,easing:'easeInOutQuart'}
+    }
+  });
+  animateVal(document.getElementById('overallNum'), Math.round(score), 1200);
+  // Grade
+  const grade = score>=90?'A+':score>=85?'A':score>=80?'B+':score>=75?'B':score>=70?'C+':'C';
+  const gradeEl = document.getElementById('gradeLabel');
+  gradeEl.textContent = grade;
+  gradeEl.className = 'score-grade ' + (score>=80?'grade-b':score>=70?'grade-c':'grade-c');
+}
+
+// ── BUILD RADAR ───────────────────────────────────────────────
+function buildRadar(d){
+  const ctx = document.getElementById('radarChart').getContext('2d');
+  if(radarChart) radarChart.destroy();
+  radarChart = new Chart(ctx,{
+    type:'radar',
+    data:{
+      labels:['Demand\nPlanning','Inventory\nMgmt','Supplier\nPerf.','Logistics &\nService'],
+      datasets:[
+        {label:'Current',data:d.radarCurrent,borderColor:'rgba(0,212,168,1)',backgroundColor:'rgba(0,212,168,.12)',pointBackgroundColor:'rgba(0,212,168,1)',borderWidth:2,pointRadius:4},
+        {label:bench==='gcc'?'GCC Benchmark':'World Class Target',data:d.radarBench,borderColor:'rgba(99,102,241,.7)',backgroundColor:'rgba(99,102,241,.06)',pointBackgroundColor:'rgba(99,102,241,.7)',borderWidth:1.5,borderDash:[4,3],pointRadius:3}
+      ]
+    },
+    options:{
+      scales:{r:{min:50,max:100,ticks:{font:{size:9},color:'rgba(148,163,184,.5)',stepSize:10},grid:{color:'rgba(255,255,255,.06)'},pointLabels:{color:'rgba(241,247,255,.6)',font:{size:10,weight:'600'}},angleLines:{color:'rgba(255,255,255,.06)'}}},
+      plugins:{legend:{labels:{color:'rgba(148,163,184,.8)',font:{size:10},boxWidth:10}}},
+      animation:{duration:900}
+    }
+  });
+}
+
+// ── BUILD TREND ───────────────────────────────────────────────
+function buildTrend(){
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  if(trendChart) trendChart.destroy();
+  trendChart = new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:['Jul','Aug','Sep','Oct','Nov','Dec'],
+      datasets:[
+        {label:'Overall Score',data:[68.5,70.1,71.8,73.2,74.55,77.75],borderColor:'rgba(0,212,168,1)',backgroundColor:'rgba(0,212,168,.08)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'rgba(0,212,168,1)',borderWidth:2},
+        {label:'Demand Planning',data:[75,76,78,79,79.9,82],borderColor:'rgba(0,212,168,.4)',backgroundColor:'transparent',fill:false,tension:.4,pointRadius:3,borderWidth:1.5,borderDash:[3,2]},
+        {label:'Supplier Perf.',data:[76,75,74,73,72.5,71],borderColor:'rgba(168,85,247,.5)',backgroundColor:'transparent',fill:false,tension:.4,pointRadius:3,borderWidth:1.5,borderDash:[3,2]}
+      ]
+    },
+    options:{
+      scales:{
+        x:{ticks:{color:'rgba(148,163,184,.7)',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},
+        y:{min:60,max:100,ticks:{color:'rgba(148,163,184,.7)',font:{size:10},stepSize:10},grid:{color:'rgba(255,255,255,.04)'}}
+      },
+      plugins:{legend:{labels:{color:'rgba(148,163,184,.8)',font:{size:9},boxWidth:8,padding:10}}},
+      animation:{duration:900}
+    }
+  });
+}
+
+// ── RENDER SUMMARY CARDS ──────────────────────────────────────
+function renderSummary(d){
+  const colors = ['var(--teal)','var(--sky)','var(--violet)','var(--orange)'];
+  const deltaColors = [d.deltas[0].includes('−')?'delta-dn':'delta-up',d.deltas[1].includes('−')?'delta-dn':'delta-up',d.deltas[2].includes('−')?'delta-dn':'delta-up',d.deltas[3].includes('−')?'delta-dn':'delta-up'];
+  const arrows = d.deltas.map(v=>v.includes('−')?'▼':'▲');
+  d.dims.forEach(function(score,i){
+    const el = document.getElementById('dScore'+i);
+    animateVal(el, score, 900);
+    document.getElementById('dBar'+i).style.width = score+'%';
+    document.getElementById('dDelta'+i).textContent = arrows[i]+' '+d.deltas[i];
+    document.getElementById('dDelta'+i).className = 'sum-delta '+deltaColors[i];
+    document.getElementById('dBench'+i).textContent = d.benchmarks[i];
+  });
+}
+
+// ── TOGGLE DIM SECTION ───────────────────────────────────────
+function toggleDim(n){
+  const body = document.getElementById('dimbody-'+n);
+  const hdr  = document.querySelectorAll('.dim-header')[n];
+  if(body.classList.contains('open')){
+    body.classList.remove('open'); body.style.display='none';
+    hdr.classList.remove('open');
+  } else {
+    body.classList.add('open'); body.style.display='block';
+    hdr.classList.add('open');
+  }
+}
+function openDim(n){
+  const body = document.getElementById('dimbody-'+n);
+  const hdr  = document.querySelectorAll('.dim-header')[n];
+  body.classList.add('open'); body.style.display='block';
+  hdr.classList.add('open');
+  document.getElementById('dim-'+n).scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ── BENCHMARK TOGGLE ─────────────────────────────────────────
+function setBench(b,btn){
+  bench = b;
+  document.querySelectorAll('.bench-btn').forEach(function(el){el.classList.remove('active');});
+  btn.classList.add('active');
+  const d = DATA[b];
+  buildScoreRing(d.overall);
+  renderSummary(d);
+  buildRadar(d);
+}
+
+function setPeriod(v){
+  // Period variation — slight adjustment for demo
+  const adj = {dec:0,nov:-3.2,oct:-4.7};
+  const d = JSON.parse(JSON.stringify(DATA[bench]));
+  const shift = adj[v]||0;
+  d.overall = Math.max(0, d.overall + shift);
+  d.dims = d.dims.map(function(s){return Math.max(0,s+shift);});
+  buildScoreRing(d.overall);
+  renderSummary(d);
+  if(v==='nov') document.getElementById('deltaLabel').textContent = '— Current period';
+  else document.getElementById('deltaLabel').textContent = '▲ +3.2 pts vs Nov 2024';
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function(){
+  const d = DATA[bench];
+  buildScoreRing(d.overall);
+  renderSummary(d);
+  buildRadar(d);
+  buildTrend();
+  // Open first dim body on load
+  document.getElementById('dimbody-0').style.display='block';
+});
+</script>
+</body>
+</html>
