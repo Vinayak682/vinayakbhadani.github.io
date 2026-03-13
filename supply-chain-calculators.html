@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Free Supply Chain Calculators — Safety Stock, EOQ, MAPE, Reorder Point | Vinayak Bhadani</title>
+<meta name="description" content="Free supply chain calculators: Safety Stock, EOQ, Reorder Point, MAPE Forecast Accuracy, Inventory Turnover, and Carrying Cost. Instant results, GCC-context formulas, no signup required."/>
+<meta name="keywords" content="safety stock calculator, EOQ calculator, reorder point calculator, MAPE calculator, forecast accuracy calculator, inventory turnover calculator, supply chain calculator, GCC supply chain tools, free inventory calculator"/>
+<meta name="author" content="Vinayak Bhadani"/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://vinayak682.github.io/vinayakbhadani.github.io/supply-chain-calculators.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Free Supply Chain Calculators — Safety Stock, EOQ, MAPE & More"/>
+<meta property="og:description" content="6 free supply chain calculators with instant results and formula explanations. Used by planners across GCC & MENA."/>
+<meta property="og:url" content="https://vinayak682.github.io/vinayakbhadani.github.io/supply-chain-calculators.html"/>
+<meta property="og:image" content="https://vinayak682.github.io/vinayakbhadani.github.io/og-preview.jpg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Free Supply Chain Calculators","description":"Safety Stock, EOQ, Reorder Point, MAPE, Inventory Turnover and Carrying Cost calculators for supply chain professionals.","url":"https://vinayak682.github.io/vinayakbhadani.github.io/supply-chain-calculators.html","author":{"@type":"Person","name":"Vinayak Bhadani","url":"https://vinayak682.github.io/vinayakbhadani.github.io/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg0:#020c1b;--bg1:#051629;--bg2:#081e36;--bg3:#0d2544;
+  --teal:#00d4a8;--teal2:#00b890;--teal-g:rgba(0,212,168,.10);
+  --indigo:#6366f1;--gold:#f59e0b;--rose:#f43f5e;
+  --sky:#38bdf8;--violet:#a855f7;--emerald:#10b981;--orange:#f97316;
+  --t1:#f1f7ff;--t2:#94a3b8;--t3:#4d6b8a;
+  --brd:rgba(255,255,255,.07);--brd2:rgba(255,255,255,.13);
+  --r:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg0);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:var(--teal);text-decoration:none;}
+a:hover{color:var(--teal2);}
+
+/* ── HEADER ── */
+header{background:rgba(2,12,27,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);padding:0 24px;position:sticky;top:0;z-index:50;}
+.hdr-i{max-width:1100px;margin:0 auto;display:flex;align-items:center;height:60px;gap:16px;}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;color:var(--t2);transition:color .2s;white-space:nowrap;}
+.back-btn:hover{color:var(--teal);}
+.hdr-title{font-size:.95rem;font-weight:800;color:var(--t1);margin-left:auto;margin-right:auto;}
+.hdr-badge{font-size:.65rem;padding:4px 10px;border-radius:50px;background:rgba(0,212,168,.1);border:1px solid rgba(0,212,168,.25);color:var(--teal);font-weight:700;white-space:nowrap;}
+
+/* ── HERO ── */
+.page-hero{text-align:center;padding:60px 24px 48px;position:relative;}
+.page-hero::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,168,.2),transparent);}
+.hero-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+.hero-h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.1;margin-bottom:16px;}
+.hero-h1 span{background:linear-gradient(130deg,var(--teal),var(--indigo));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{color:var(--t2);font-size:.95rem;max-width:560px;margin:0 auto 28px;line-height:1.75;}
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:8px;}
+.pill{display:inline-block;padding:5px 14px;border-radius:50px;font-size:.72rem;font-weight:600;border:1px solid var(--brd2);color:var(--t2);background:rgba(255,255,255,.04);}
+.pill.active{border-color:rgba(0,212,168,.4);color:var(--teal);background:rgba(0,212,168,.07);cursor:pointer;}
+.pill.active:hover{background:rgba(0,212,168,.12);}
+
+/* ── CALC GRID ── */
+.calc-grid{max-width:1100px;margin:0 auto;padding:40px 24px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:24px;}
+
+/* ── CALC CARD ── */
+.calc-card{background:rgba(255,255,255,.022);border:1px solid var(--brd);border-radius:20px;overflow:hidden;transition:border-color .2s;}
+.calc-card:hover{border-color:var(--brd2);}
+.calc-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--brd);}
+.calc-head-left{display:flex;align-items:center;gap:12px;}
+.calc-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.calc-name{font-size:.95rem;font-weight:800;}
+.calc-desc{font-size:.7rem;color:var(--t2);margin-top:2px;}
+.search-tag{font-size:.6rem;padding:3px 8px;border-radius:4px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--gold);font-weight:600;}
+
+.calc-body{padding:20px 24px;}
+
+/* INPUTS */
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.input-row.cols-3{grid-template-columns:1fr 1fr 1fr;}
+.input-row.cols-1{grid-template-columns:1fr;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg label{font-size:.68rem;font-weight:600;color:var(--t2);letter-spacing:.04em;}
+.fg input,.fg select{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--t1);font-size:.83rem;padding:9px 12px;border-radius:8px;outline:none;transition:border-color .2s;font-family:inherit;}
+.fg input:focus,.fg select:focus{border-color:rgba(0,212,168,.45);}
+.fg .hint{font-size:.6rem;color:var(--t3);margin-top:2px;}
+
+/* CALC BUTTON */
+.calc-btn{width:100%;padding:11px;border:none;border-radius:10px;font-size:.83rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;margin:14px 0 16px;transition:all .2s;}
+
+/* RESULT BOX */
+.result-box{border-radius:12px;padding:16px 18px;display:none;}
+.result-box.show{display:block;}
+.result-primary{font-size:2rem;font-weight:900;line-height:1;margin-bottom:4px;}
+.result-label{font-size:.7rem;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.result-mini{background:rgba(255,255,255,.04);border-radius:8px;padding:8px 10px;}
+.result-mini-val{font-size:.95rem;font-weight:800;}
+.result-mini-lbl{font-size:.6rem;color:var(--t3);}
+
+/* FORMULA BOX */
+.formula-toggle{font-size:.7rem;color:var(--t3);cursor:pointer;display:flex;align-items:center;gap:4px;margin-top:12px;width:fit-content;}
+.formula-toggle:hover{color:var(--t2);}
+.formula-box{background:rgba(0,0,0,.25);border:1px solid var(--brd);border-radius:8px;padding:12px 14px;margin-top:8px;display:none;}
+.formula-box.show{display:block;}
+.formula-box p{font-size:.72rem;color:var(--t2);line-height:1.7;}
+.formula-box strong{color:var(--t1);}
+.formula-box code{background:rgba(255,255,255,.07);padding:1px 5px;border-radius:3px;font-family:monospace;font-size:.75rem;color:var(--teal);}
+
+/* ── SHARE CTA ── */
+.share-strip{background:linear-gradient(135deg,rgba(0,212,168,.08),rgba(99,102,241,.08));border:1px solid var(--brd2);border-radius:16px;max-width:1100px;margin:0 auto 60px;padding:32px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.share-text h3{font-size:1.1rem;font-weight:800;margin-bottom:6px;}
+.share-text p{font-size:.82rem;color:var(--t2);max-width:500px;line-height:1.6;}
+.share-btns{display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap;}
+.share-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:50px;font-size:.78rem;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:all .2s;}
+.share-li{background:linear-gradient(135deg,#0077b5,#0a66c2);color:#fff;}
+.share-li:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,119,181,.4);color:#fff;}
+.share-port{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#020c1b;}
+.share-port:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,212,168,.35);color:#020c1b;}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:32px 24px;border-top:1px solid var(--brd);font-size:.73rem;color:var(--t3);}
+footer a{color:var(--teal);}
+
+/* ── COLORS PER CARD ── */
+.c-teal .calc-icon{background:rgba(0,212,168,.1);border:1px solid rgba(0,212,168,.2);}
+.c-teal .calc-btn{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#020c1b;}
+.c-teal .calc-btn:hover{box-shadow:0 6px 20px rgba(0,212,168,.35);}
+.c-teal .result-box{background:rgba(0,212,168,.06);border:1px solid rgba(0,212,168,.18);}
+.c-teal .result-primary{color:var(--teal);}
+
+.c-indigo .calc-icon{background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);}
+.c-indigo .calc-btn{background:linear-gradient(135deg,var(--indigo),#4338ca);color:#fff;}
+.c-indigo .calc-btn:hover{box-shadow:0 6px 20px rgba(99,102,241,.4);}
+.c-indigo .result-box{background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.18);}
+.c-indigo .result-primary{color:#818cf8;}
+
+.c-gold .calc-icon{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);}
+.c-gold .calc-btn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#020c1b;}
+.c-gold .calc-btn:hover{box-shadow:0 6px 20px rgba(245,158,11,.4);}
+.c-gold .result-box{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.18);}
+.c-gold .result-primary{color:var(--gold);}
+
+.c-rose .calc-icon{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.2);}
+.c-rose .calc-btn{background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;}
+.c-rose .calc-btn:hover{box-shadow:0 6px 20px rgba(244,63,94,.4);}
+.c-rose .result-box{background:rgba(244,63,94,.06);border:1px solid rgba(244,63,94,.18);}
+.c-rose .result-primary{color:#fb7185;}
+
+.c-sky .calc-icon{background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2);}
+.c-sky .calc-btn{background:linear-gradient(135deg,#38bdf8,#0ea5e9);color:#020c1b;}
+.c-sky .calc-btn:hover{box-shadow:0 6px 20px rgba(56,189,248,.4);}
+.c-sky .result-box{background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.18);}
+.c-sky .result-primary{color:var(--sky);}
+
+.c-violet .calc-icon{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);}
+.c-violet .calc-btn{background:linear-gradient(135deg,#a855f7,#9333ea);color:#fff;}
+.c-violet .calc-btn:hover{box-shadow:0 6px 20px rgba(168,85,247,.4);}
+.c-violet .result-box{background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.18);}
+.c-violet .result-primary{color:#c084fc;}
+
+@media(max-width:700px){
+  .calc-grid{grid-template-columns:1fr;padding:24px 16px 60px;}
+  .input-row{grid-template-columns:1fr;}
+  .input-row.cols-3{grid-template-columns:1fr 1fr;}
+  .share-strip{padding:24px 20px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-i">
+    <a href="./index.html" class="back-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Portfolio
+    </a>
+    <span class="hdr-title">Supply Chain Calculators</span>
+    <span class="hdr-badge">6 Free Tools</span>
+  </div>
+</header>
+
+<div class="page-hero">
+  <p class="hero-eyebrow">Free Tools · No Sign-Up Required</p>
+  <h1 class="hero-h1">Supply Chain <span>Calculators</span></h1>
+  <p class="hero-sub">6 essential calculators used daily by demand planners and supply chain managers across GCC & MENA. Instant results, formula explanations, free forever.</p>
+  <div class="hero-pills">
+    <span class="pill active">Safety Stock</span>
+    <span class="pill active">EOQ</span>
+    <span class="pill active">Reorder Point</span>
+    <span class="pill active">MAPE / Forecast Accuracy</span>
+    <span class="pill active">Inventory Turnover</span>
+    <span class="pill active">Carrying Cost</span>
+  </div>
+</div>
+
+<div class="calc-grid">
+
+  <!-- ══ 1. SAFETY STOCK ══ -->
+  <div class="calc-card c-teal">
+    <div class="calc-head">
+      <div class="calc-head-left">
+        <div class="calc-icon">🛡️</div>
+        <div>
+          <div class="calc-name">Safety Stock Calculator</div>
+          <div class="calc-desc">Statistical buffer stock based on demand variability & lead time</div>
+        </div>
+      </div>
+      <span class="search-tag">🔍 Highly Searched</span>
+    </div>
+    <div class="calc-body">
+      <div class="input-row cols-3">
+        <div class="fg">
+          <label>Avg Daily Demand</label>
+          <input type="number" id="ss-avg" placeholder="e.g. 200" min="0"/>
+          <span class="hint">Units per day</span>
+        </div>
+        <div class="fg">
+          <label>Demand Std Dev (σ)</label>
+          <input type="number" id="ss-sigma-d" placeholder="e.g. 30" min="0"/>
+          <span class="hint">Daily demand variability</span>
+        </div>
+        <div class="fg">
+          <label>Avg Lead Time</label>
+          <input type="number" id="ss-lt" placeholder="e.g. 14" min="0"/>
+          <span class="hint">Days</span>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="fg">
+          <label>Lead Time Std Dev (σ)</label>
+          <input type="number" id="ss-sigma-lt" placeholder="e.g. 3" min="0"/>
+          <span class="hint">Lead time variability (days)</span>
+        </div>
+        <div class="fg">
+          <label>Service Level</label>
+          <select id="ss-sl">
+            <option value="1.28">90% — Basic</option>
+            <option value="1.65" selected>95% — Standard</option>
+            <option value="1.96">97.5% — High</option>
+            <option value="2.05">98% — Very High</option>
+            <option value="2.33">99% — Premium</option>
+            <option value="3.09">99.9% — Near-Perfect</option>
+          </select>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcSS()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Calculate Safety Stock
+      </button>
+      <div class="result-box" id="ss-result">
+        <div class="result-primary" id="ss-val">—</div>
+        <div class="result-label">Safety Stock Units</div>
+        <div class="result-grid">
+          <div class="result-mini"><div class="result-mini-val" id="ss-rop">—</div><div class="result-mini-lbl">Reorder Point</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="ss-dos">—</div><div class="result-mini-lbl">Days of Cover</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="ss-sl-out">—</div><div class="result-mini-lbl">Service Level</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="ss-zsc">—</div><div class="result-mini-lbl">Z-Score Used</div></div>
+        </div>
+      </div>
+      <div class="formula-toggle" onclick="toggleFormula('ss-f')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        How is this calculated?
+      </div>
+      <div class="formula-box" id="ss-f">
+        <p><strong>Formula (Greasley's combined variability model):</strong><br/>
+        <code>SS = Z × √(LT × σ_d² + D̄² × σ_lt²)</code><br/><br/>
+        Where: <code>Z</code> = service level z-score, <code>LT</code> = avg lead time (days), <code>σ_d</code> = daily demand std dev, <code>D̄</code> = avg daily demand, <code>σ_lt</code> = lead time std dev.<br/><br/>
+        <strong>Reorder Point:</strong> <code>ROP = (D̄ × LT) + SS</code><br/><br/>
+        <strong>GCC note:</strong> In the UAE/GCC market, always add a Ramadan surge buffer (typically +15–25%) on demand-sensitive FMCG SKUs during Ramadan planning cycles.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 2. EOQ ══ -->
+  <div class="calc-card c-indigo">
+    <div class="calc-head">
+      <div class="calc-head-left">
+        <div class="calc-icon">📦</div>
+        <div>
+          <div class="calc-name">EOQ — Economic Order Quantity</div>
+          <div class="calc-desc">Optimal order size to minimise total inventory holding + ordering cost</div>
+        </div>
+      </div>
+      <span class="search-tag">🔍 Highly Searched</span>
+    </div>
+    <div class="calc-body">
+      <div class="input-row cols-3">
+        <div class="fg">
+          <label>Annual Demand (D)</label>
+          <input type="number" id="eoq-d" placeholder="e.g. 12000" min="0"/>
+          <span class="hint">Units per year</span>
+        </div>
+        <div class="fg">
+          <label>Ordering Cost (S)</label>
+          <input type="number" id="eoq-s" placeholder="e.g. 150" min="0"/>
+          <span class="hint">Cost per order (AED/USD)</span>
+        </div>
+        <div class="fg">
+          <label>Holding Cost (H)</label>
+          <input type="number" id="eoq-h" placeholder="e.g. 8" min="0"/>
+          <span class="hint">Cost per unit per year</span>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="fg">
+          <label>Unit Cost (optional)</label>
+          <input type="number" id="eoq-uc" placeholder="e.g. 40" min="0"/>
+          <span class="hint">For holding cost % check</span>
+        </div>
+        <div class="fg">
+          <label>Holding Cost Rate (%)</label>
+          <input type="number" id="eoq-hpct" placeholder="e.g. 20" min="0" max="100"/>
+          <span class="hint">% of unit cost if H unknown</span>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcEOQ()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Calculate EOQ
+      </button>
+      <div class="result-box" id="eoq-result">
+        <div class="result-primary" id="eoq-val">—</div>
+        <div class="result-label">Optimal Order Quantity (units)</div>
+        <div class="result-grid">
+          <div class="result-mini"><div class="result-mini-val" id="eoq-orders">—</div><div class="result-mini-lbl">Orders per Year</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="eoq-cycle">—</div><div class="result-mini-lbl">Order Cycle (days)</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="eoq-tc">—</div><div class="result-mini-lbl">Total Annual Cost</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="eoq-avg">—</div><div class="result-mini-lbl">Avg Inventory (units)</div></div>
+        </div>
+      </div>
+      <div class="formula-toggle" onclick="toggleFormula('eoq-f')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        How is this calculated?
+      </div>
+      <div class="formula-box" id="eoq-f">
+        <p><strong>Wilson EOQ Formula:</strong><br/>
+        <code>EOQ = √(2 × D × S / H)</code><br/><br/>
+        Where: <code>D</code> = annual demand (units), <code>S</code> = ordering cost per order, <code>H</code> = annual holding cost per unit.<br/><br/>
+        <strong>Total Annual Cost:</strong> <code>TC = (D/Q)×S + (Q/2)×H</code><br/><br/>
+        <strong>GCC context:</strong> In Dubai/GCC distribution, high warehouse rental costs (AED 35–80/sqm/month in JAFZA/DIP) mean holding costs are typically 25–35% of unit cost — higher than the global benchmark of 20–25%. Use this when estimating H from unit cost.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 3. REORDER POINT ══ -->
+  <div class="calc-card c-gold">
+    <div class="calc-head">
+      <div class="calc-head-left">
+        <div class="calc-icon">🔔</div>
+        <div>
+          <div class="calc-name">Reorder Point Calculator</div>
+          <div class="calc-desc">When to trigger a replenishment order to avoid stockout</div>
+        </div>
+      </div>
+      <span class="search-tag">🔍 Highly Searched</span>
+    </div>
+    <div class="calc-body">
+      <div class="input-row cols-3">
+        <div class="fg">
+          <label>Average Daily Demand</label>
+          <input type="number" id="rop-d" placeholder="e.g. 150" min="0"/>
+          <span class="hint">Units / day</span>
+        </div>
+        <div class="fg">
+          <label>Lead Time</label>
+          <input type="number" id="rop-lt" placeholder="e.g. 21" min="0"/>
+          <span class="hint">Days from PO to receipt</span>
+        </div>
+        <div class="fg">
+          <label>Safety Stock</label>
+          <input type="number" id="rop-ss" placeholder="e.g. 500" min="0"/>
+          <span class="hint">Units (use calc above)</span>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="fg">
+          <label>Max Daily Demand</label>
+          <input type="number" id="rop-dmax" placeholder="e.g. 220" min="0"/>
+          <span class="hint">Peak demand (for max ROP)</span>
+        </div>
+        <div class="fg">
+          <label>Max Lead Time (days)</label>
+          <input type="number" id="rop-ltmax" placeholder="e.g. 28" min="0"/>
+          <span class="hint">Worst-case lead time</span>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcROP()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Calculate Reorder Point
+      </button>
+      <div class="result-box" id="rop-result">
+        <div class="result-primary" id="rop-val">—</div>
+        <div class="result-label">Reorder Point (units)</div>
+        <div class="result-grid">
+          <div class="result-mini"><div class="result-mini-val" id="rop-max">—</div><div class="result-mini-lbl">Max ROP (worst-case)</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="rop-cover">—</div><div class="result-mini-lbl">Days Cover at ROP</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="rop-demand-lt">—</div><div class="result-mini-lbl">Demand During LT</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="rop-ss-out">—</div><div class="result-mini-lbl">Safety Stock Used</div></div>
+        </div>
+      </div>
+      <div class="formula-toggle" onclick="toggleFormula('rop-f')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        How is this calculated?
+      </div>
+      <div class="formula-box" id="rop-f">
+        <p><strong>Standard Reorder Point:</strong><br/>
+        <code>ROP = (Avg Daily Demand × Lead Time) + Safety Stock</code><br/><br/>
+        <strong>Maximum Reorder Point (conservative):</strong><br/>
+        <code>Max ROP = (Max Daily Demand × Max Lead Time) − (Avg Daily Demand × Avg Lead Time)</code><br/><br/>
+        <strong>When to use Max ROP:</strong> Use the conservative ROP for A-class high-value SKUs or for suppliers with historically unreliable lead times (e.g., cross-border suppliers via Jebel Ali during Red Sea disruption periods).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 4. MAPE / FORECAST ACCURACY ══ -->
+  <div class="calc-card c-rose">
+    <div class="calc-head">
+      <div class="calc-head-left">
+        <div class="calc-icon">🎯</div>
+        <div>
+          <div class="calc-name">MAPE — Forecast Accuracy Calculator</div>
+          <div class="calc-desc">Mean Absolute Percentage Error for up to 12 periods</div>
+        </div>
+      </div>
+      <span class="search-tag">🔍 Highly Searched</span>
+    </div>
+    <div class="calc-body">
+      <p style="font-size:.75rem;color:var(--t2);margin-bottom:12px;">Enter actual vs forecast values (up to 12 periods). Leave unused rows blank.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:6px;margin-bottom:6px;">
+        <span style="font-size:.65rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;">Actual</span>
+        <span style="font-size:.65rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;">Forecast</span>
+        <span style="font-size:.65rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;">APE%</span>
+      </div>
+      <div id="mape-rows" style="display:flex;flex-direction:column;gap:5px;max-height:260px;overflow-y:auto;padding-right:2px;">
+      </div>
+      <button class="calc-btn" onclick="calcMAPE()" style="margin-top:14px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Calculate MAPE &amp; Accuracy
+      </button>
+      <div class="result-box" id="mape-result">
+        <div class="result-primary" id="mape-acc">—</div>
+        <div class="result-label">Forecast Accuracy (1 – MAPE)</div>
+        <div class="result-grid">
+          <div class="result-mini"><div class="result-mini-val" id="mape-val">—</div><div class="result-mini-lbl">MAPE</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="mape-bias">—</div><div class="result-mini-lbl">Forecast Bias</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="mape-mae">—</div><div class="result-mini-lbl">MAE</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="mape-grade">—</div><div class="result-mini-lbl">Accuracy Grade</div></div>
+        </div>
+      </div>
+      <div class="formula-toggle" onclick="toggleFormula('mape-f')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        How is this calculated?
+      </div>
+      <div class="formula-box" id="mape-f">
+        <p><strong>MAPE:</strong> <code>MAPE = (1/n) × Σ |Actual − Forecast| / Actual × 100%</code><br/>
+        <strong>Forecast Accuracy:</strong> <code>FA = 100% − MAPE</code><br/>
+        <strong>Bias:</strong> <code>Bias = (1/n) × Σ (Forecast − Actual) / Actual × 100%</code><br/>
+        Positive bias = over-forecasting. Negative = under-forecasting.<br/><br/>
+        <strong>Benchmarks (GCC FMCG):</strong> World class ≥95% | Good ≥90% | Acceptable ≥80% | Needs improvement &lt;80%.<br/>
+        <strong>Limitation:</strong> MAPE is undefined when Actual = 0. Use sMAPE or WAPE for intermittent demand SKUs.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 5. INVENTORY TURNOVER ══ -->
+  <div class="calc-card c-sky">
+    <div class="calc-head">
+      <div class="calc-head-left">
+        <div class="calc-icon">🔄</div>
+        <div>
+          <div class="calc-name">Inventory Turnover Calculator</div>
+          <div class="calc-desc">How many times inventory is sold and replaced in a period</div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-body">
+      <div class="input-row">
+        <div class="fg">
+          <label>Cost of Goods Sold (COGS)</label>
+          <input type="number" id="ito-cogs" placeholder="e.g. 4800000" min="0"/>
+          <span class="hint">Annual COGS (AED / your currency)</span>
+        </div>
+        <div class="fg">
+          <label>Average Inventory Value</label>
+          <input type="number" id="ito-inv" placeholder="e.g. 600000" min="0"/>
+          <span class="hint">(Opening + Closing) ÷ 2</span>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="fg">
+          <label>Period (days)</label>
+          <input type="number" id="ito-days" placeholder="365" min="1" value="365"/>
+          <span class="hint">365 for annual, 90 for quarterly</span>
+        </div>
+        <div class="fg">
+          <label>Industry Type</label>
+          <select id="ito-ind">
+            <option value="fmcg">FMCG / Consumer Goods</option>
+            <option value="auto">Automotive / Spare Parts</option>
+            <option value="elec">Electronics</option>
+            <option value="fashion">Fashion / Apparel</option>
+            <option value="pharma">Pharma / Healthcare</option>
+            <option value="industrial">Industrial / B2B</option>
+          </select>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcITO()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Calculate Turnover
+      </button>
+      <div class="result-box" id="ito-result">
+        <div class="result-primary" id="ito-val">—</div>
+        <div class="result-label">Inventory Turns per Year</div>
+        <div class="result-grid">
+          <div class="result-mini"><div class="result-mini-val" id="ito-dos">—</div><div class="result-mini-lbl">Days of Inventory (DOI)</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="ito-bench">—</div><div class="result-mini-lbl">GCC Benchmark</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="ito-wc">—</div><div class="result-mini-lbl">World Class</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="ito-perf">—</div><div class="result-mini-lbl">vs GCC Benchmark</div></div>
+        </div>
+      </div>
+      <div class="formula-toggle" onclick="toggleFormula('ito-f')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        How is this calculated?
+      </div>
+      <div class="formula-box" id="ito-f">
+        <p><strong>Inventory Turnover:</strong> <code>IT = COGS / Avg Inventory Value</code><br/>
+        <strong>Days of Inventory:</strong> <code>DOI = Period Days / IT</code><br/><br/>
+        <strong>GCC benchmarks by sector (Gartner 2024):</strong><br/>
+        FMCG: 7–10× | Automotive: 5–8× | Electronics: 6–10× | Fashion: 4–6× | Pharma: 5–8× | Industrial: 4–6×<br/><br/>
+        <strong>Tip:</strong> Low turnover can signal overstocking or slow-moving SKUs. High turnover may mean lean operations but can increase stockout risk — use alongside fill rate and safety stock metrics.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 6. CARRYING COST ══ -->
+  <div class="calc-card c-violet">
+    <div class="calc-head">
+      <div class="calc-head-left">
+        <div class="calc-icon">💰</div>
+        <div>
+          <div class="calc-name">Inventory Carrying Cost Calculator</div>
+          <div class="calc-desc">True annual cost of holding inventory including capital, storage & risk</div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-body">
+      <div class="input-row">
+        <div class="fg">
+          <label>Average Inventory Value</label>
+          <input type="number" id="cc-inv" placeholder="e.g. 2500000" min="0"/>
+          <span class="hint">AED or your currency</span>
+        </div>
+        <div class="fg">
+          <label>Capital / Opportunity Cost (%)</label>
+          <input type="number" id="cc-cap" placeholder="e.g. 8" min="0" max="100"/>
+          <span class="hint">WACC or bank rate (UAE: ~4–6%)</span>
+        </div>
+      </div>
+      <div class="input-row cols-3">
+        <div class="fg">
+          <label>Storage Cost (%)</label>
+          <input type="number" id="cc-stor" placeholder="e.g. 5" min="0"/>
+          <span class="hint">Warehouse % of inv value</span>
+        </div>
+        <div class="fg">
+          <label>Obsolescence / Risk (%)</label>
+          <input type="number" id="cc-obs" placeholder="e.g. 4" min="0"/>
+          <span class="hint">Write-off + shrinkage %</span>
+        </div>
+        <div class="fg">
+          <label>Insurance / Tax (%)</label>
+          <input type="number" id="cc-ins" placeholder="e.g. 1" min="0"/>
+          <span class="hint">Typically 0.5–2%</span>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcCC()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Calculate Carrying Cost
+      </button>
+      <div class="result-box" id="cc-result">
+        <div class="result-primary" id="cc-pct">—</div>
+        <div class="result-label">Total Carrying Cost Rate</div>
+        <div class="result-grid">
+          <div class="result-mini"><div class="result-mini-val" id="cc-ann">—</div><div class="result-mini-lbl">Annual Cost (currency)</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="cc-monthly">—</div><div class="result-mini-lbl">Monthly Cost</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="cc-per-unit-lbl" style="font-size:.7rem;color:var(--t2)">Per AED 1M inventory</div><div class="result-mini-lbl">Annual Carrying Cost</div></div>
+          <div class="result-mini"><div class="result-mini-val" id="cc-bench">—</div><div class="result-mini-lbl">vs GCC Avg (20–28%)</div></div>
+        </div>
+      </div>
+      <div class="formula-toggle" onclick="toggleFormula('cc-f')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        How is this calculated?
+      </div>
+      <div class="formula-box" id="cc-f">
+        <p><strong>Total Carrying Cost Rate:</strong><br/>
+        <code>CCR = Capital % + Storage % + Obsolescence % + Insurance %</code><br/>
+        <strong>Annual Carrying Cost:</strong> <code>ACC = Avg Inventory Value × CCR</code><br/><br/>
+        <strong>GCC / UAE context:</strong><br/>
+        Capital cost: UAE 5-year rate ~4–6% (2024). JAFZA/DIP warehouse storage: 5–9% of inventory value. Obsolescence for FMCG: 3–7%. Total GCC range: typically <strong>18–32%</strong>.<br/><br/>
+        A 1% reduction in carrying cost rate on AED 10M inventory = <strong>AED 100,000 per year</strong> — use this to justify safety stock optimisation projects.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /calc-grid -->
+
+<!-- ── SHARE CTA ── -->
+<div style="max-width:1100px;margin:0 auto;padding:0 24px;">
+  <div class="share-strip">
+    <div class="share-text">
+      <h3>Found these useful? Share with your team.</h3>
+      <p>These calculators are free to use and share. If they helped you, a share on LinkedIn takes 30 seconds and helps other supply chain professionals in GCC & MENA find them.</p>
+    </div>
+    <div class="share-btns">
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fvinayak682.github.io%2Fvinayakbhadani.github.io%2Fsupply-chain-calculators.html" target="_blank" rel="noopener" class="share-btn share-li">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        Share on LinkedIn
+      </a>
+      <a href="./index.html" class="share-btn share-port">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        View Full Portfolio
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Built by <a href="./index.html">Vinayak Bhadani</a> — Demand Planning Analyst, Dubai UAE ·
+  All formulas sourced from APICS CPIM Body of Knowledge, Gartner Supply Chain Research, and McKinsey Global Supply Chain Survey 2024. Free to use, share, and bookmark.
+</footer>
+
+<script>
+// ── UTILITY ──────────────────────────────────────────────────
+function fmt(n, dec){
+  if(n===null||n===undefined||isNaN(n)) return '—';
+  return n.toLocaleString('en-AE',{maximumFractionDigits:dec===undefined?1:dec,minimumFractionDigits:dec===undefined?0:dec});
+}
+function fmtPct(n,dec){return fmt(n,dec===undefined?1:dec)+'%';}
+function fmtCurr(n){
+  if(n>=1000000) return 'AED '+fmt(n/1000000,2)+'M';
+  if(n>=1000) return 'AED '+fmt(n/1000,1)+'K';
+  return 'AED '+fmt(n,0);
+}
+function toggleFormula(id){
+  var el=document.getElementById(id);
+  el.classList.toggle('show');
+}
+function showResult(id){document.getElementById(id).classList.add('show');}
+
+// ── INIT MAPE ROWS ───────────────────────────────────────────
+function buildMAPERows(){
+  var c=document.getElementById('mape-rows');
+  for(var i=0;i<12;i++){
+    var row=document.createElement('div');
+    row.style.cssText='display:grid;grid-template-columns:1fr 1fr 60px;gap:6px;align-items:center;';
+    row.innerHTML='<input type="number" class="mape-act" placeholder="Actual '+(i+1)+'" min="0" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#f1f7ff;font-size:.8rem;padding:7px 10px;border-radius:7px;outline:none;font-family:inherit;"/>'
+      +'<input type="number" class="mape-fct" placeholder="Forecast '+(i+1)+'" min="0" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#f1f7ff;font-size:.8rem;padding:7px 10px;border-radius:7px;outline:none;font-family:inherit;"/>'
+      +'<span class="mape-ape" style="font-size:.75rem;font-weight:700;color:#4d6b8a;text-align:right;">—</span>';
+    c.appendChild(row);
+  }
+}
+
+// ── 1. SAFETY STOCK ──────────────────────────────────────────
+function calcSS(){
+  var d=parseFloat(document.getElementById('ss-avg').value)||0;
+  var sd=parseFloat(document.getElementById('ss-sigma-d').value)||0;
+  var lt=parseFloat(document.getElementById('ss-lt').value)||0;
+  var slt=parseFloat(document.getElementById('ss-sigma-lt').value)||0;
+  var z=parseFloat(document.getElementById('ss-sl').value)||1.65;
+  var sl=document.getElementById('ss-sl');
+  var slLabel = sl.options[sl.selectedIndex].text.split('—')[0].trim();
+  if(!d||!lt){alert('Please enter Avg Daily Demand and Lead Time.');return;}
+  var ss = z * Math.sqrt(lt * sd*sd + d*d * slt*slt);
+  var rop = d*lt + ss;
+  var dos = d>0 ? ss/d : 0;
+  document.getElementById('ss-val').textContent = fmt(ss,0)+' units';
+  document.getElementById('ss-rop').textContent = fmt(rop,0)+' units';
+  document.getElementById('ss-dos').textContent = fmt(dos,1)+' days';
+  document.getElementById('ss-sl-out').textContent = slLabel;
+  document.getElementById('ss-zsc').textContent = 'Z = '+z;
+  showResult('ss-result');
+}
+
+// ── 2. EOQ ───────────────────────────────────────────────────
+function calcEOQ(){
+  var D=parseFloat(document.getElementById('eoq-d').value)||0;
+  var S=parseFloat(document.getElementById('eoq-s').value)||0;
+  var H=parseFloat(document.getElementById('eoq-h').value)||0;
+  var uc=parseFloat(document.getElementById('eoq-uc').value)||0;
+  var hpct=parseFloat(document.getElementById('eoq-hpct').value)||0;
+  if(!D||!S){alert('Please enter Annual Demand and Ordering Cost.');return;}
+  if(!H && uc && hpct) H = uc * hpct/100;
+  if(!H){alert('Please enter Holding Cost (H) or Unit Cost + Holding Cost Rate.');return;}
+  var eoq=Math.sqrt(2*D*S/H);
+  var orders=D/eoq;
+  var cycle=365/orders;
+  var tc=(D/eoq)*S+(eoq/2)*H;
+  var avg=eoq/2;
+  document.getElementById('eoq-val').textContent=fmt(eoq,0)+' units';
+  document.getElementById('eoq-orders').textContent=fmt(orders,1)+' / yr';
+  document.getElementById('eoq-cycle').textContent=fmt(cycle,0)+' days';
+  document.getElementById('eoq-tc').textContent=fmtCurr(tc)+'/yr';
+  document.getElementById('eoq-avg').textContent=fmt(avg,0);
+  showResult('eoq-result');
+}
+
+// ── 3. REORDER POINT ─────────────────────────────────────────
+function calcROP(){
+  var d=parseFloat(document.getElementById('rop-d').value)||0;
+  var lt=parseFloat(document.getElementById('rop-lt').value)||0;
+  var ss=parseFloat(document.getElementById('rop-ss').value)||0;
+  var dmax=parseFloat(document.getElementById('rop-dmax').value)||0;
+  var ltmax=parseFloat(document.getElementById('rop-ltmax').value)||0;
+  if(!d||!lt){alert('Please enter Avg Daily Demand and Lead Time.');return;}
+  var rop=d*lt+ss;
+  var maxROP=(dmax&&ltmax)?(dmax*ltmax-(d*lt)):null;
+  var cover=d>0?rop/d:0;
+  document.getElementById('rop-val').textContent=fmt(rop,0)+' units';
+  document.getElementById('rop-max').textContent=maxROP!==null?fmt(maxROP,0)+' units':'Enter max values';
+  document.getElementById('rop-cover').textContent=fmt(cover,1)+' days';
+  document.getElementById('rop-demand-lt').textContent=fmt(d*lt,0)+' units';
+  document.getElementById('rop-ss-out').textContent=fmt(ss,0)+' units';
+  showResult('rop-result');
+}
+
+// ── 4. MAPE ──────────────────────────────────────────────────
+function calcMAPE(){
+  var acts=document.querySelectorAll('.mape-act');
+  var fcts=document.querySelectorAll('.mape-fct');
+  var apes=document.querySelectorAll('.mape-ape');
+  var apeVals=[],biasVals=[],maeVals=[];
+  for(var i=0;i<acts.length;i++){
+    var a=parseFloat(acts[i].value);
+    var f=parseFloat(fcts[i].value);
+    if(!isNaN(a)&&!isNaN(f)&&a>0){
+      var ape=Math.abs(a-f)/a*100;
+      var bias=(f-a)/a*100;
+      apes[i].textContent=fmtPct(ape,1);
+      apes[i].style.color=ape>20?'#fb7185':ape>10?'#f59e0b':'#00d4a8';
+      apeVals.push(ape);
+      biasVals.push(bias);
+      maeVals.push(Math.abs(a-f));
+    } else {
+      apes[i].textContent='—';
+      apes[i].style.color='#4d6b8a';
+    }
+  }
+  if(!apeVals.length){alert('Please enter at least one Actual / Forecast pair.');return;}
+  var mape=apeVals.reduce(function(s,v){return s+v;},0)/apeVals.length;
+  var bias=biasVals.reduce(function(s,v){return s+v;},0)/biasVals.length;
+  var mae=maeVals.reduce(function(s,v){return s+v;},0)/maeVals.length;
+  var acc=100-mape;
+  var grade=acc>=95?'World Class':acc>=90?'Good':acc>=80?'Acceptable':'Needs Work';
+  document.getElementById('mape-acc').textContent=fmtPct(acc,1);
+  document.getElementById('mape-val').textContent=fmtPct(mape,1);
+  document.getElementById('mape-bias').textContent=(bias>=0?'+':'')+fmtPct(bias,1);
+  document.getElementById('mape-mae').textContent=fmt(mae,1)+' units';
+  document.getElementById('mape-grade').textContent=grade;
+  showResult('mape-result');
+}
+
+// ── 5. INVENTORY TURNOVER ────────────────────────────────────
+var ITO_BENCH={fmcg:[7,10,12],auto:[5,8,10],elec:[6,10,14],fashion:[4,6,8],pharma:[5,8,10],industrial:[4,6,8]};
+function calcITO(){
+  var cogs=parseFloat(document.getElementById('ito-cogs').value)||0;
+  var inv=parseFloat(document.getElementById('ito-inv').value)||0;
+  var days=parseFloat(document.getElementById('ito-days').value)||365;
+  var ind=document.getElementById('ito-ind').value;
+  if(!cogs||!inv){alert('Please enter COGS and Average Inventory Value.');return;}
+  var it=cogs/inv;
+  var doi=days/it;
+  var b=ITO_BENCH[ind]||[5,8,12];
+  var benchLabel=b[0]+'–'+b[1]+'×';
+  var wcLabel=b[2]+'×';
+  var perf=it>=b[2]?'World Class':it>=b[1]?'Above Avg':it>=b[0]?'At Benchmark':'Below Avg';
+  document.getElementById('ito-val').textContent=fmt(it,1)+'×';
+  document.getElementById('ito-dos').textContent=fmt(doi,0)+' days';
+  document.getElementById('ito-bench').textContent=benchLabel;
+  document.getElementById('ito-wc').textContent=wcLabel;
+  document.getElementById('ito-perf').textContent=perf;
+  showResult('ito-result');
+}
+
+// ── 6. CARRYING COST ─────────────────────────────────────────
+function calcCC(){
+  var inv=parseFloat(document.getElementById('cc-inv').value)||0;
+  var cap=parseFloat(document.getElementById('cc-cap').value)||0;
+  var stor=parseFloat(document.getElementById('cc-stor').value)||0;
+  var obs=parseFloat(document.getElementById('cc-obs').value)||0;
+  var ins=parseFloat(document.getElementById('cc-ins').value)||0;
+  if(!inv){alert('Please enter Average Inventory Value.');return;}
+  var ccr=cap+stor+obs+ins;
+  var acc=inv*ccr/100;
+  var monthly=acc/12;
+  var per1m=1000000*ccr/100;
+  var bench=ccr<20?'Below GCC avg':ccr<=28?'In GCC range (20–28%)':'Above GCC avg';
+  document.getElementById('cc-pct').textContent=fmtPct(ccr,1);
+  document.getElementById('cc-ann').textContent=fmtCurr(acc)+'/yr';
+  document.getElementById('cc-monthly').textContent=fmtCurr(monthly)+'/mo';
+  document.getElementById('cc-per-unit-lbl').textContent=fmtCurr(per1m)+'/yr';
+  document.getElementById('cc-bench').textContent=bench;
+  showResult('cc-result');
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function(){
+  buildMAPERows();
+  // Focus styling on inputs
+  document.querySelectorAll('input,select').forEach(function(el){
+    el.addEventListener('focus',function(){this.style.borderColor='rgba(0,212,168,.45)';});
+    el.addEventListener('blur',function(){this.style.borderColor='rgba(255,255,255,.1)';});
+  });
+  // Enter key triggers calc
+  document.querySelectorAll('.calc-card').forEach(function(card){
+    card.querySelectorAll('input').forEach(function(inp){
+      inp.addEventListener('keydown',function(e){
+        if(e.key==='Enter'){
+          var btn=card.querySelector('.calc-btn');
+          if(btn) btn.click();
+        }
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>
