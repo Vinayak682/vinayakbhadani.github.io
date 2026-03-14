@@ -1476,80 +1476,343 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
 
 <!-- TESTIMONIALS -->
 <section id="testimonials" aria-label="Recommendations">
+  <!-- ═══════════════════════════════════════════════════════════
+       Circular Testimonials — adapted from Northstrix / 21st.dev
+       https://21st.dev/community/components/Northstrix/circular-testimonials/default
+       Vanilla HTML/CSS/JS — portfolio colours applied
+       ═══════════════════════════════════════════════════════════ -->
   <div class="wrap">
-    <p class="sec-label">Recommendations</p>
+    <p class="sec-label">RECOMMENDATIONS</p>
     <h2 class="sec-title">What <span>Colleagues Say</span></h2>
     <p class="sec-sub">Verified professional recommendations from academic mentors and industry leaders who have observed this work first-hand.</p>
-    <div class="testi-grid">
 
-      <article class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"I had the privilege of mentoring Vinayak Bhadani in my International Business Research Project course at SP Jain. He consistently demonstrated exceptional analytical ability, intellectual curiosity, and a commitment to excellence. Vinayak is a highly capable professional who I wholeheartedly recommend."</p>
-        <div class="testi-footer">
-          <div class="testi-avatar">
-            <img src="images/testimonial-dorrin.jpg"
-                 alt="Dorrin Goyal"
-                 width="54" height="54"
-                 onerror="this.style.display='none';document.getElementById('av-dg').style.display='flex'"/>
-            <div id="av-dg" class="testi-avatar-initials" style="display:none;position:absolute;inset:0;">DG</div>
-          </div>
-          <div class="testi-info">
-            <div class="testi-name">Dorrin Goyal</div>
-            <div class="testi-role">Academic Manager</div>
-            <div class="testi-org">SP Jain School of Global Management</div>
-            <div class="testi-verify">✅ Academic Mentor · LinkedIn Recommendation</div>
-          </div>
+    <!-- Circular Testimonials -->
+    <div class="ct-outer">
+      <div class="ct-grid">
+
+        <!-- IMAGE CAROUSEL -->
+        <div class="ct-images" id="ctImages">
+          <img class="ct-img" id="ctImg0"
+            src="https://vinayak682.github.io/vinayakbhadani.github.io/images/testimonial-dorrin.jpg"
+            alt="Dorrin Goyal" />
+          <img class="ct-img" id="ctImg1"
+            src="https://vinayak682.github.io/vinayakbhadani.github.io/images/testimonial-rajiv.jpg"
+            alt="Rajiv Aserkar" />
+          <img class="ct-img" id="ctImg2"
+            src="https://vinayak682.github.io/vinayakbhadani.github.io/images/testimonial-sami.jpg"
+            alt="Sami Anthony Abu-Hanna" />
         </div>
-      </article>
 
-      <article class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"It is a pleasure to write this recommendation for Vinayak Bhadani, who was my student at SP Jain School of Global Management. His analytical rigour, strategic thinking, and dedication to supply chain excellence set him apart. Vinayak has a bright future in demand planning and logistics leadership."</p>
-        <div class="testi-footer">
-          <div class="testi-avatar">
-            <img src="images/testimonial-rajiv.jpg"
-                 alt="Rajiv Aserkar"
-                 width="54" height="54"
-                 onerror="this.style.display='none';document.getElementById('av-ra').style.display='flex'"/>
-            <div id="av-ra" class="testi-avatar-initials" style="display:none;position:absolute;inset:0;">RA</div>
+        <!-- TEXT CONTENT -->
+        <div class="ct-content">
+          <div class="ct-text-wrap" id="ctTextWrap">
+            <h3 class="ct-name" id="ctName"></h3>
+            <p class="ct-desig" id="ctDesig"></p>
+            <p class="ct-quote" id="ctQuote"></p>
           </div>
-          <div class="testi-info">
-            <div class="testi-name">Rajiv Aserkar</div>
-            <div class="testi-role">Head of Supply Chain Management</div>
-            <div class="testi-org">SP Jain School of Global Management</div>
-            <div class="testi-verify">✅ Head of Department · LinkedIn Recommendation</div>
+
+          <!-- NAVIGATION ARROWS -->
+          <div class="ct-arrows">
+            <button class="ct-arrow" id="ctPrev" aria-label="Previous testimonial">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="ct-arrow" id="ctNext" aria-label="Next testimonial">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
           </div>
+
+          <!-- DOT INDICATORS -->
+          <div class="ct-dots" id="ctDots"></div>
         </div>
-      </article>
 
-      <article class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"I am pleased to recommend Vinayak Bhadani, who served as a Supply Chain Analyst at ANDS for 15 months. His contributions to demand forecasting, inventory optimisation, and 3PL coordination were outstanding. He transformed our supply chain operations with measurable, lasting impact."</p>
-        <div class="testi-footer">
-          <div class="testi-avatar">
-            <img src="images/testimonial-sami.jpg"
-                 alt="Sami Anthony Abu-Hanna"
-                 width="54" height="54"
-                 onerror="this.style.display='none';document.getElementById('av-sa').style.display='flex'"/>
-            <div id="av-sa" class="testi-avatar-initials" style="display:none;position:absolute;inset:0;">SA</div>
-          </div>
-          <div class="testi-info">
-            <div class="testi-name">Sami Anthony Abu-Hanna</div>
-            <div class="testi-role">Head of Operations/Supply Chain · MBA, PMP®, CFM®</div>
-            <div class="testi-org">ANDS</div>
-            <div class="testi-verify">✅ Direct Manager · LinkedIn Recommendation</div>
-          </div>
-        </div>
-      </article>
+      </div>
+    </div><!-- /ct-outer -->
 
-    </div>
-    <div class="testi-link">
-      <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank" rel="noopener" class="btn btn-ghost">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    <!-- LinkedIn CTA -->
+    <div style="text-align:center;margin-top:60px;">
+      <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank" rel="noopener"
+         class="btn-outline-teal ct-linkedin-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
         View All Recommendations on LinkedIn
       </a>
     </div>
-  </div>
+
+  </div><!-- /wrap -->
+
+  <!-- Circular Testimonials: Styles -->
+  <style>
+    .ct-outer {
+      width: 100%;
+      padding: 20px 0 10px;
+    }
+    .ct-grid {
+      display: grid;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    @media (min-width: 768px) {
+      .ct-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+      }
+    }
+    .ct-images {
+      position: relative;
+      width: 100%;
+      height: 22rem;
+      perspective: 1000px;
+    }
+    .ct-img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 1.5rem;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.55);
+      transition: all 0.75s cubic-bezier(.4,2,.3,1);
+      border: 1.5px solid rgba(255,255,255,.1);
+    }
+    .ct-content {
+      display: flex;
+      flex-direction: column;
+    }
+    .ct-text-wrap {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.28s ease, transform 0.28s ease;
+    }
+    .ct-text-wrap.ct-fade {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    .ct-name {
+      font-size: clamp(1.25rem, 3vw, 1.65rem);
+      font-weight: 700;
+      color: var(--t1);
+      margin: 0 0 4px;
+      line-height: 1.2;
+    }
+    .ct-desig {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--teal);
+      margin: 0 0 1.25rem;
+      letter-spacing: 0.02em;
+    }
+    .ct-quote {
+      font-size: clamp(0.87rem, 2vw, 0.98rem);
+      line-height: 1.85;
+      color: var(--t2);
+      margin: 0 0 1.5rem;
+      font-style: italic;
+    }
+    .ct-arrows {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+    .ct-arrow {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 50%;
+      border: 1px solid var(--brd2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: var(--bg3);
+      color: var(--t1);
+      transition: background 0.28s ease, transform 0.2s ease, box-shadow 0.28s, color 0.28s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .ct-arrow:hover {
+      background: var(--teal);
+      color: var(--bg0);
+      transform: scale(1.08);
+      box-shadow: 0 4px 24px rgba(0,212,168,0.35);
+      border-color: var(--teal);
+    }
+    .ct-arrow:active { transform: scale(0.96); }
+    .ct-dots {
+      display: flex;
+      gap: 8px;
+      margin-top: 1.1rem;
+    }
+    .ct-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brd2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+    .ct-dot.ct-dot-active {
+      background: var(--teal);
+      width: 24px;
+      border-radius: 4px;
+      box-shadow: 0 0 8px rgba(0,212,168,0.5);
+    }
+    .btn-outline-teal {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border: 1.5px solid var(--teal);
+      border-radius: 50px;
+      color: var(--teal);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.28s ease;
+    }
+    .btn-outline-teal:hover {
+      background: rgba(0,212,168,0.1);
+      box-shadow: 0 0 24px rgba(0,212,168,0.2);
+      color: var(--teal);
+    }
+  </style>
+
+  <!-- Circular Testimonials: Script -->
+  <script>
+  (function() {
+    var testimonials = [
+      {
+        name: "Dorrin Goyal",
+        designation: "Academic Manager · SP Jain School of Global Management",
+        quote: "“I had the privilege of mentoring Vinayak Bhadani in my International Business Research Project course at SP Jain. He consistently demonstrated exceptional analytical ability, intellectual curiosity, and a commitment to excellence. Vinayak is a highly capable professional who I wholeheartedly recommend.”"
+      },
+      {
+        name: "Rajiv Aserkar",
+        designation: "Head of Supply Chain Management · SP Jain School of Global Management",
+        quote: "“It is a pleasure to write this recommendation for Vinayak Bhadani, who was my student at SP Jain. His analytical rigour, strategic thinking, and dedication to supply chain excellence set him apart. Vinayak has a bright future in demand planning and logistics leadership.”"
+      },
+      {
+        name: "Sami Anthony Abu-Hanna",
+        designation: "Head of Operations/Supply Chain · MBA, PMP®, CFM® · ANDS Dubai",
+        quote: "“I am pleased to recommend Vinayak Bhadani, who served as a Supply Chain Analyst at ANDS for 15 months. His contributions to demand forecasting, inventory optimisation, and 3PL coordination were outstanding. He transformed our supply chain operations with measurable, lasting impact.”"
+      }
+    ];
+
+    var active = 0;
+    var total = testimonials.length;
+    var autoplayTimer = null;
+
+    var imgs     = document.querySelectorAll('.ct-img');
+    var nameEl   = document.getElementById('ctName');
+    var desigEl  = document.getElementById('ctDesig');
+    var quoteEl  = document.getElementById('ctQuote');
+    var textWrap = document.getElementById('ctTextWrap');
+    var dotsEl   = document.getElementById('ctDots');
+    var prevBtn  = document.getElementById('ctPrev');
+    var nextBtn  = document.getElementById('ctNext');
+
+    for (var i = 0; i < total; i++) {
+      (function(idx) {
+        var dot = document.createElement('button');
+        dot.className = 'ct-dot' + (idx === 0 ? ' ct-dot-active' : '');
+        dot.setAttribute('aria-label', 'Go to testimonial ' + (idx + 1));
+        dot.addEventListener('click', function() { goTo(idx); });
+        dotsEl.appendChild(dot);
+      })(i);
+    }
+
+    function calcGap(w) {
+      var minW = 700, maxW = 1456, minG = 48, maxG = 78;
+      if (w <= minW) return minG;
+      if (w >= maxW) return maxG;
+      return minG + (maxG - minG) * ((w - minW) / (maxW - minW));
+    }
+
+    function positionImages() {
+      var container = document.getElementById('ctImages');
+      var w = container ? container.offsetWidth : 400;
+      var gap = calcGap(w);
+      var maxStickUp = gap * 0.78;
+      imgs.forEach(function(img, i) {
+        var isActive = i === active;
+        var isLeft   = (active - 1 + total) % total === i;
+        var isRight  = (active + 1) % total === i;
+        if (isActive) {
+          img.style.zIndex        = '3';
+          img.style.opacity       = '1';
+          img.style.transform     = 'translateX(0px) translateY(0px) scale(1) rotateY(0deg)';
+          img.style.pointerEvents = 'auto';
+          img.style.borderColor   = 'rgba(0,212,168,0.4)';
+        } else if (isLeft) {
+          img.style.zIndex        = '2';
+          img.style.opacity       = '0.72';
+          img.style.transform     = 'translateX(-' + gap + 'px) translateY(-' + maxStickUp + 'px) scale(0.85) rotateY(15deg)';
+          img.style.pointerEvents = 'auto';
+          img.style.borderColor   = 'rgba(255,255,255,.1)';
+        } else if (isRight) {
+          img.style.zIndex        = '2';
+          img.style.opacity       = '0.72';
+          img.style.transform     = 'translateX(' + gap + 'px) translateY(-' + maxStickUp + 'px) scale(0.85) rotateY(-15deg)';
+          img.style.pointerEvents = 'auto';
+          img.style.borderColor   = 'rgba(255,255,255,.1)';
+        } else {
+          img.style.zIndex        = '1';
+          img.style.opacity       = '0';
+          img.style.transform     = 'translateX(0px) translateY(0px) scale(0.7)';
+          img.style.pointerEvents = 'none';
+        }
+      });
+    }
+
+    function updateText() {
+      textWrap.classList.add('ct-fade');
+      setTimeout(function() {
+        var t = testimonials[active];
+        nameEl.textContent  = t.name;
+        desigEl.textContent = t.designation;
+        quoteEl.textContent = t.quote;
+        textWrap.classList.remove('ct-fade');
+      }, 260);
+    }
+
+    function updateDots() {
+      document.querySelectorAll('.ct-dot').forEach(function(dot, i) {
+        dot.classList.toggle('ct-dot-active', i === active);
+      });
+    }
+
+    function goTo(index) {
+      active = (index + total) % total;
+      positionImages();
+      updateText();
+      updateDots();
+      resetAutoplay();
+    }
+
+    prevBtn.addEventListener('click', function() { goTo(active - 1); });
+    nextBtn.addEventListener('click', function() { goTo(active + 1); });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft')  goTo(active - 1);
+      if (e.key === 'ArrowRight') goTo(active + 1);
+    });
+
+    function startAutoplay() {
+      autoplayTimer = setInterval(function() { goTo(active + 1); }, 5000);
+    }
+    function resetAutoplay() {
+      clearInterval(autoplayTimer);
+      startAutoplay();
+    }
+
+    window.addEventListener('resize', positionImages);
+
+    var t0 = testimonials[0];
+    nameEl.textContent  = t0.name;
+    desigEl.textContent = t0.designation;
+    quoteEl.textContent = t0.quote;
+    positionImages();
+    startAutoplay();
+  })();
+  </script>
+
 </section>
 
 <!-- FAQ -->
