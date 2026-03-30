@@ -4,7 +4,7 @@ Personal portfolio website showcasing my professional profile, education, and ac
 
 ## 🌐 Live Site
 
-Visit the portfolio at: [https://vinayak682.github.io/vinayakbhadani.github.io/](https://vinayak682.github.io/vinayakbhadani.github.io/)
+Visit the portfolio at: [https://vinayak682.github.io/](https://vinayak682.github.io/)
 
 ## 📋 Contents
 
