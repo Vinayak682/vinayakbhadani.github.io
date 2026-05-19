@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 132" fill="none">
+  <defs>
+    <linearGradient id="gld" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8C96A"/>
+      <stop offset="100%" stop-color="#B8860B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer faint halo -->
+  <circle cx="55" cy="48" r="47" stroke="#C9A84C" stroke-width="0.5" opacity="0.25"/>
+
+  <!-- Main outer ring -->
+  <circle cx="55" cy="48" r="43" stroke="#B8860B" stroke-width="1.2" fill="rgba(184,134,11,0.04)"/>
+
+  <!-- 12 ornamental dots on outer ring (r=43) alternating sizes -->
+  <circle cx="55" cy="5" r="2.1" fill="#C9A84C"/>
+  <circle cx="76.5" cy="10.8" r="1.7" fill="#B8860B" opacity="0.82"/>
+  <circle cx="92.2" cy="26.5" r="2.1" fill="#C9A84C"/>
+  <circle cx="98" cy="48" r="1.7" fill="#B8860B" opacity="0.82"/>
+  <circle cx="92.2" cy="69.5" r="2.1" fill="#C9A84C"/>
+  <circle cx="76.5" cy="85.2" r="1.7" fill="#B8860B" opacity="0.82"/>
+  <circle cx="55" cy="91" r="2.1" fill="#C9A84C"/>
+  <circle cx="33.5" cy="85.2" r="1.7" fill="#B8860B" opacity="0.82"/>
+  <circle cx="17.8" cy="69.5" r="2.1" fill="#C9A84C"/>
+  <circle cx="12" cy="48" r="1.7" fill="#B8860B" opacity="0.82"/>
+  <circle cx="17.8" cy="26.5" r="2.1" fill="#C9A84C"/>
+  <circle cx="33.5" cy="10.8" r="1.7" fill="#B8860B" opacity="0.82"/>
+
+  <!-- Secondary inner ring connector -->
+  <circle cx="55" cy="48" r="40" stroke="#C9A84C" stroke-width="0.4" opacity="0.4"/>
+
+  <!-- Arabesque petal layer — 6 ellipses at 30° steps -->
+  <g transform="translate(55,48)">
+    <ellipse rx="22" ry="8" fill="rgba(184,134,11,0.12)" stroke="#C9A84C" stroke-width="0.55" transform="rotate(0)"/>
+    <ellipse rx="22" ry="8" fill="rgba(184,134,11,0.12)" stroke="#C9A84C" stroke-width="0.55" transform="rotate(30)"/>
+    <ellipse rx="22" ry="8" fill="rgba(184,134,11,0.12)" stroke="#C9A84C" stroke-width="0.55" transform="rotate(60)"/>
+    <ellipse rx="22" ry="8" fill="rgba(184,134,11,0.12)" stroke="#C9A84C" stroke-width="0.55" transform="rotate(90)"/>
+    <ellipse rx="22" ry="8" fill="rgba(184,134,11,0.12)" stroke="#C9A84C" stroke-width="0.55" transform="rotate(120)"/>
+    <ellipse rx="22" ry="8" fill="rgba(184,134,11,0.12)" stroke="#C9A84C" stroke-width="0.55" transform="rotate(150)"/>
+  </g>
+
+  <!-- Inner medallion ring -->
+  <circle cx="55" cy="48" r="26" stroke="#B8860B" stroke-width="1" fill="rgba(184,134,11,0.07)"/>
+
+  <!-- Inner petal layer — 4 ellipses at 45° steps -->
+  <g transform="translate(55,48)">
+    <ellipse rx="13" ry="5" fill="rgba(184,134,11,0.28)" stroke="#C9A84C" stroke-width="0.45" transform="rotate(0)"/>
+    <ellipse rx="13" ry="5" fill="rgba(184,134,11,0.28)" stroke="#C9A84C" stroke-width="0.45" transform="rotate(45)"/>
+    <ellipse rx="13" ry="5" fill="rgba(184,134,11,0.28)" stroke="#C9A84C" stroke-width="0.45" transform="rotate(90)"/>
+    <ellipse rx="13" ry="5" fill="rgba(184,134,11,0.28)" stroke="#C9A84C" stroke-width="0.45" transform="rotate(135)"/>
+  </g>
+
+  <!-- Center seal ring + fill -->
+  <circle cx="55" cy="48" r="10" stroke="#B8860B" stroke-width="1.2" fill="rgba(184,134,11,0.2)"/>
+  <circle cx="55" cy="48" r="5" fill="#C9A84C" opacity="0.78"/>
+
+  <!-- Arabic text: فخـر الإمارات -->
+  <text x="55" y="107"
+    font-family="Amiri, Scheherazade, Arial, sans-serif"
+    font-size="9.5" fill="#C9A84C"
+    text-anchor="middle" letter-spacing="0.4" font-weight="600">فخـر الإمارات</text>
+
+  <!-- Decorative hairline -->
+  <line x1="18" y1="112" x2="92" y2="112" stroke="#C9A84C" stroke-width="0.55" opacity="0.55"/>
+
+  <!-- English wordmark -->
+  <text x="55" y="125"
+    font-family="Cormorant Garamond, Palatino Linotype, Georgia, serif"
+    font-size="7.8" fill="#C9A84C"
+    text-anchor="middle" letter-spacing="2.8" font-weight="700">EMIRATES PRIDE</text>
+</svg>
