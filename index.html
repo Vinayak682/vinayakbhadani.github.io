@@ -31,7 +31,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Vinayak Bhadani","jobTitle":"Demand Planning Analyst","url":"https://vinayak682.github.io/vinayakbhadani.github.io/","email":"vinayakbhadani1998@gmail.com","telephone":"+971556270561","address":{"@type":"PostalAddress","addressLocality":"Dubai","addressCountry":"AE"},"sameAs":["https://www.linkedin.com/in/vinayakbhadani/"],"alumniOf":[{"@type":"EducationalOrganization","name":"SP Jain School of Global Management"},{"@type":"EducationalOrganization","name":"Sri Venkateshwara College of Engineering"}],"knowsAbout":["Demand Planning","Supply Chain Management","S&OP","Inventory Management","3PL Operations"]}
 </script>
@@ -62,7 +62,7 @@ img{max-width:100%;display:block;}
 section{padding:96px 0;}
 .wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
 .sec-label{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
-.sec-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;line-height:1.15;margin-bottom:18px;}
+.sec-title{font-family:'Syne','Inter',system-ui,sans-serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;line-height:1.15;margin-bottom:18px;}
 .sec-title span{background:linear-gradient(130deg,var(--teal),var(--indigo));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .sec-sub{color:var(--t2);font-size:.95rem;max-width:600px;margin-bottom:52px;line-height:1.75;}
 .tag{display:inline-block;padding:4px 12px;border-radius:var(--r3);font-size:.72rem;font-weight:600;border:1px solid var(--brd2);color:var(--t2);background:rgba(255,255,255,.04);margin:3px;}
@@ -123,7 +123,7 @@ section{padding:96px 0;}
 .hero-location{color:var(--t3);font-size:.75rem;font-weight:600;letter-spacing:.06em;margin-bottom:8px;}
 .hero-seeking{margin-bottom:18px;}
 .seeking-badge{display:inline-flex;align-items:center;padding:5px 14px;background:var(--indigo-g);border:1px solid rgba(99,102,241,.3);border-radius:var(--r3);font-size:.72rem;font-weight:600;color:#a5b4fc;letter-spacing:.02em;}
-.hero-name{font-size:clamp(2.6rem,6vw,4.2rem);font-weight:900;line-height:1.02;letter-spacing:-.03em;margin-bottom:14px;}
+.hero-name{font-family:'Syne','Inter',system-ui,sans-serif;font-size:clamp(2.6rem,6vw,4.2rem);font-weight:800;line-height:1.02;letter-spacing:-.02em;margin-bottom:14px;}
 .hero-name span{background:linear-gradient(130deg,var(--teal) 0%,var(--indigo) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .hero-role{font-size:clamp(1rem,2vw,1.15rem);color:var(--t2);font-weight:500;margin-bottom:8px;}
 .hero-tagline{font-size:.9rem;color:var(--t3);margin-bottom:34px;font-weight:500;line-height:1.5;}
@@ -948,6 +948,87 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
   </div>
 </div>
 
+<!-- ONE BIG NUMBER — viral hook -->
+<section id="one-big-number" aria-label="Key impact metric">
+<style>
+.obn-section{
+  background:linear-gradient(135deg,var(--teal) 0%,#00a37d 40%,var(--indigo) 100%);
+  padding:80px 24px;text-align:center;position:relative;overflow:hidden;
+}
+.obn-section::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.obn-inner{position:relative;z-index:1;max-width:860px;margin:0 auto;}
+.obn-eyebrow{
+  font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.75);margin-bottom:20px;
+}
+.obn-figure{display:flex;align-items:baseline;justify-content:center;gap:4px;line-height:1;}
+.obn-count{
+  font-family:'Syne','Inter',sans-serif;
+  font-size:clamp(5rem,16vw,10rem);font-weight:800;
+  color:#fff;letter-spacing:-.04em;
+  text-shadow:0 0 80px rgba(255,255,255,.25);
+}
+.obn-plus{
+  font-family:'Syne','Inter',sans-serif;
+  font-size:clamp(3rem,10vw,6rem);font-weight:800;color:rgba(255,255,255,.7);
+}
+.obn-label{
+  font-size:clamp(.85rem,2.5vw,1.1rem);font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(255,255,255,.85);margin:18px 0 28px;
+}
+.obn-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:24px;}
+.obn-chip{
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  border-radius:50px;padding:6px 18px;
+  font-size:.82rem;font-weight:600;color:#fff;letter-spacing:.04em;
+  backdrop-filter:blur(8px);
+}
+.obn-sub{
+  font-size:clamp(.85rem,2vw,.98rem);color:rgba(255,255,255,.72);
+  max-width:580px;margin:0 auto;line-height:1.7;
+}
+</style>
+<div class="obn-section">
+  <div class="obn-inner">
+    <p class="obn-eyebrow">The Number That Defines the Work</p>
+    <div class="obn-figure">
+      <span class="obn-count" id="obnCount">0</span>
+      <span class="obn-plus">+</span>
+    </div>
+    <p class="obn-label">Units Planned &amp; Tracked Every Single Month</p>
+    <div class="obn-chips">
+      <span class="obn-chip">26 Stores</span>
+      <span class="obn-chip">7 Emirates</span>
+      <span class="obn-chip">110 SKUs</span>
+      <span class="obn-chip">3 Countries</span>
+      <span class="obn-chip">China → MENA → GCC</span>
+    </div>
+    <p class="obn-sub">From perfume retail across the UAE to automotive spare parts across India — planning pipelines built for zero-stockout tolerance and 30% cost reduction.</p>
+  </div>
+</div>
+<script>
+(function(){
+  var el=document.getElementById('obnCount');
+  var target=100000,duration=1800,start=null,triggered=false;
+  function easeOut(t){return 1-Math.pow(1-t,3);}
+  function animate(ts){
+    if(!start)start=ts;
+    var progress=Math.min((ts-start)/duration,1);
+    el.textContent=Math.floor(easeOut(progress)*target).toLocaleString();
+    if(progress<1)requestAnimationFrame(animate);
+    else el.textContent=target.toLocaleString();
+  }
+  var obs=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting&&!triggered){triggered=true;requestAnimationFrame(animate);}
+  },{threshold:.3});
+  obs.observe(el);
+})();
+</script>
+</section>
+
 <!-- ABOUT -->
 <section id="about" aria-label="About Me">
   <div class="wrap">
@@ -1505,6 +1586,374 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
   </div>
 </section>
 
+<!-- DEMAND PLANNING LIVE DEMO -->
+<section id="dp-demo" aria-label="Interactive Demand Planning Demo">
+<style>
+#dp-demo{padding:100px 0;background:var(--bg1);}
+.demo-tabs{display:flex;gap:4px;background:var(--bg2);border-radius:12px;padding:4px;margin:40px 0 32px;border:1px solid var(--brd);width:fit-content;}
+.demo-tab{
+  padding:10px 22px;border-radius:9px;border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:.84rem;font-weight:600;
+  color:var(--t2);background:transparent;transition:all .22s;letter-spacing:.01em;
+}
+.demo-tab.active{background:var(--teal);color:var(--bg0);box-shadow:0 2px 14px rgba(0,212,168,.3);}
+.demo-tab:hover:not(.active){color:var(--t1);background:var(--bg3);}
+.demo-panel{display:none;animation:fadeUp .3s ease;}
+.demo-panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* ABC Panel */
+.abc-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+@media(max-width:700px){.abc-layout{grid-template-columns:1fr;}}
+.abc-table{width:100%;border-collapse:collapse;font-size:.84rem;}
+.abc-table th{padding:10px 14px;text-align:left;color:var(--t3);font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--brd);}
+.abc-table td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.04);transition:background .2s;}
+.abc-table tr{cursor:pointer;transition:background .2s;}
+.abc-table tr:hover td{background:rgba(255,255,255,.04);}
+.abc-table tr.selected td{background:rgba(0,212,168,.08);}
+.abc-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.7rem;font-weight:800;letter-spacing:.06em;}
+.abc-a{background:rgba(0,212,168,.15);color:var(--teal);}
+.abc-b{background:rgba(245,158,11,.15);color:var(--gold);}
+.abc-c{background:rgba(148,163,184,.12);color:var(--t2);}
+.abc-detail{background:var(--bg3);border:1px solid var(--brd2);border-radius:14px;padding:24px;min-height:280px;}
+.abc-detail-sku{font-size:.72rem;font-weight:700;letter-spacing:.1em;color:var(--t3);margin-bottom:6px;}
+.abc-detail-name{font-family:'Syne','Inter',sans-serif;font-size:1.15rem;font-weight:800;color:var(--t1);margin-bottom:18px;}
+.abc-kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+.abc-kpi{background:var(--bg4);border-radius:10px;padding:12px 14px;}
+.abc-kpi-v{font-size:1.45rem;font-weight:700;color:var(--teal);margin-bottom:2px;}
+.abc-kpi-l{font-size:.72rem;color:var(--t3);font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+.abc-strat{font-size:.82rem;color:var(--t2);line-height:1.65;border-top:1px solid var(--brd);padding-top:14px;}
+
+/* Forecast Panel */
+.fc-layout{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start;}
+@media(max-width:700px){.fc-layout{grid-template-columns:1fr;}}
+.fc-chart-wrap{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:20px;}
+.fc-sku-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.fc-sku-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--brd2);background:transparent;color:var(--t2);font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
+.fc-sku-btn.active{background:rgba(0,212,168,.12);border-color:var(--teal);color:var(--teal);}
+.fc-chart{width:100%;overflow:hidden;}
+.fc-bars{display:flex;align-items:flex-end;gap:5px;height:160px;margin-bottom:8px;}
+.fc-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.fc-bar{width:100%;border-radius:4px 4px 0 0;transition:height .6s cubic-bezier(.4,0,.2,1),background .3s;position:relative;}
+.fc-bar.ramadan{background:linear-gradient(180deg,var(--gold),rgba(245,158,11,.6))!important;}
+.fc-bar-lbl{font-size:.62rem;color:var(--t3);text-align:center;font-weight:600;}
+.fc-ramadan-note{font-size:.72rem;color:var(--gold);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:6px;padding:4px 10px;display:inline-flex;align-items:center;gap:5px;margin-top:4px;}
+.fc-side{display:flex;flex-direction:column;gap:14px;}
+.fc-metric{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:16px 18px;}
+.fc-metric-v{font-size:1.65rem;font-weight:700;margin-bottom:4px;}
+.fc-metric-l{font-size:.72rem;color:var(--t3);font-weight:600;letter-spacing:.05em;text-transform:uppercase;}
+.fc-whatif{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:16px 18px;}
+.fc-whatif-title{font-size:.8rem;font-weight:700;color:var(--t1);margin-bottom:14px;letter-spacing:.03em;}
+.fc-slider-wrap{margin-bottom:14px;}
+.fc-slider-lbl{display:flex;justify-content:space-between;font-size:.75rem;color:var(--t2);margin-bottom:8px;font-weight:600;}
+input[type=range].fc-slider{width:100%;accent-color:var(--teal);}
+.fc-projection{font-size:.85rem;color:var(--teal);font-weight:700;background:rgba(0,212,168,.08);border-radius:8px;padding:10px 12px;text-align:center;}
+
+/* Reorder Panel */
+.ro-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.ro-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:20px;transition:border-color .3s,box-shadow .3s;}
+.ro-card.ok{border-left:3px solid #22c55e;}
+.ro-card.warn{border-left:3px solid var(--gold);box-shadow:0 0 20px rgba(245,158,11,.1);}
+.ro-card.crit{border-left:3px solid var(--rose);box-shadow:0 0 20px rgba(244,63,94,.12);}
+.ro-badge{display:inline-flex;align-items:center;gap:5px;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-bottom:10px;}
+.ro-badge.ok{background:rgba(34,197,94,.12);color:#22c55e;}
+.ro-badge.warn{background:rgba(245,158,11,.12);color:var(--gold);}
+.ro-badge.crit{background:rgba(244,63,94,.12);color:var(--rose);}
+.ro-sku{font-size:.7rem;font-weight:700;color:var(--t3);letter-spacing:.08em;margin-bottom:3px;}
+.ro-name{font-weight:700;color:var(--t1);font-size:.92rem;margin-bottom:14px;line-height:1.35;}
+.ro-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.ro-stat{background:var(--bg4);border-radius:8px;padding:9px 10px;}
+.ro-stat-v{font-size:1.15rem;font-weight:700;color:var(--t1);}
+.ro-stat-l{font-size:.65rem;color:var(--t3);font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+.ro-dos-bar{height:5px;background:var(--brd2);border-radius:3px;margin-bottom:14px;overflow:hidden;}
+.ro-dos-fill{height:100%;border-radius:3px;transition:width .8s ease;}
+.ro-action-btn{width:100%;padding:9px;border-radius:8px;border:1px solid var(--brd2);background:transparent;color:var(--t2);font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
+.ro-action-btn:hover{background:rgba(0,212,168,.1);border-color:var(--teal);color:var(--teal);}
+.ro-action-btn:disabled{opacity:.45;cursor:default;}
+.ro-action-btn.ordered{background:rgba(0,212,168,.1);border-color:var(--teal);color:var(--teal);}
+.demo-note{margin-top:28px;font-size:.78rem;color:var(--t3);text-align:center;font-style:italic;}
+.demo-note span{color:var(--teal);}
+</style>
+<div class="wrap">
+  <p class="sec-label">LIVE INTERACTIVE DEMO</p>
+  <h2 class="sec-title">Demand Planning <span>in Action</span></h2>
+  <p class="sec-sub">Built on synthetic data — the same frameworks applied every day. Select a SKU, adjust parameters, watch the supply chain respond.</p>
+  <div class="demo-tabs">
+    <button class="demo-tab active" onclick="switchDemoTab('abc',this)">📊 ABC Classification</button>
+    <button class="demo-tab" onclick="switchDemoTab('forecast',this)">📈 Demand Forecast</button>
+    <button class="demo-tab" onclick="switchDemoTab('reorder',this)">🚨 Reorder Alerts</button>
+  </div>
+
+  <!-- TAB 1: ABC Classification -->
+  <div id="tab-abc" class="demo-panel active">
+    <div class="abc-layout">
+      <div>
+        <table class="abc-table">
+          <thead><tr><th>SKU</th><th>Product</th><th>Annual Rev (AED)</th><th>Class</th></tr></thead>
+          <tbody id="abcTableBody"></tbody>
+        </table>
+      </div>
+      <div class="abc-detail" id="abcDetail">
+        <div style="color:var(--t3);font-size:.9rem;padding-top:60px;text-align:center;">
+          ← Select a SKU to view its classification analysis
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: Demand Forecast -->
+  <div id="tab-forecast" class="demo-panel">
+    <div class="fc-layout">
+      <div class="fc-chart-wrap">
+        <div class="fc-sku-btns" id="fcSkuBtns"></div>
+        <div class="fc-chart">
+          <div class="fc-bars" id="fcBars"></div>
+          <div style="display:flex;justify-content:space-between;padding:0 2px;">
+            <span id="fcMonthLabels" style="display:flex;gap:5px;flex:1;"></span>
+          </div>
+          <div style="margin-top:10px;" id="fcRamadanNote"></div>
+        </div>
+      </div>
+      <div class="fc-side">
+        <div class="fc-metric"><div class="fc-metric-v" id="fcMape" style="color:var(--teal)">—</div><div class="fc-metric-l">Forecast MAPE</div></div>
+        <div class="fc-metric"><div class="fc-metric-v" id="fcNextFc" style="color:var(--indigo)">—</div><div class="fc-metric-l">Next Month Forecast</div></div>
+        <div class="fc-metric"><div class="fc-metric-v" id="fcDos" style="color:var(--gold)">—</div><div class="fc-metric-l">Days of Supply</div></div>
+        <div class="fc-whatif">
+          <div class="fc-whatif-title">⚡ What-If Scenario</div>
+          <div class="fc-slider-wrap">
+            <div class="fc-slider-lbl"><span>Demand Growth</span><span id="fcGrowthVal">+0%</span></div>
+            <input type="range" class="fc-slider" id="fcGrowthSlider" min="-30" max="50" value="0" oninput="updateFcScenario()">
+          </div>
+          <div class="fc-slider-wrap">
+            <div class="fc-slider-lbl"><span>Lead Time (days)</span><span id="fcLtVal">30</span></div>
+            <input type="range" class="fc-slider" id="fcLtSlider" min="14" max="90" value="30" oninput="updateFcScenario()">
+          </div>
+          <div class="fc-projection" id="fcProjection">Adjust sliders to model scenarios</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: Reorder Alerts -->
+  <div id="tab-reorder" class="demo-panel">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap;">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:.8rem;color:var(--t2);font-weight:600;">Status:</span>
+        <span style="font-size:.78rem;color:#22c55e;font-weight:700;">● OK (stock healthy)</span>
+        <span style="font-size:.78rem;color:var(--gold);font-weight:700;">● Order Soon (&lt;14 days)</span>
+        <span style="font-size:.78rem;color:var(--rose);font-weight:700;">● Critical (&lt;5 days)</span>
+      </div>
+      <button onclick="simulateReceiving()" style="margin-left:auto;padding:8px 20px;border-radius:8px;border:1px solid var(--teal);background:rgba(0,212,168,.1);color:var(--teal);font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;" onmouseover="this.style.background='rgba(0,212,168,.2)'" onmouseout="this.style.background='rgba(0,212,168,.1)'">📦 Simulate Stock Receipt</button>
+    </div>
+    <div class="ro-grid" id="roGrid"></div>
+  </div>
+
+  <p class="demo-note">All data is <span>100% synthetic</span> — generated for demonstration. Built with the same frameworks applied in live operations at Emirates Pride &amp; ANDS Dubai.</p>
+</div>
+<script>
+// ── DEMO DATA ──────────────────────────────────────────────
+var abcSkus=[
+  {id:'FRGN-001',name:'Oud Royale 100ml',rev:285000,vol:1140,cv:.18,stock:82,lt:30,demand:238,class:'A',
+   strategy:'Review weekly. Hold 3-week safety stock. Source dual suppliers. Any stockout costs ~AED 9,500/day.'},
+  {id:'FRGN-002',name:'Velvet Noir 75ml',rev:198000,vol:2200,cv:.22,stock:310,lt:25,demand:183,class:'A',
+   strategy:'Review bi-weekly. High volume compensates lower margin. Fast mover — monitor sell-through daily.'},
+  {id:'FRGN-003',name:'Desert Rose 50ml',rev:142000,vol:3550,cv:.35,stock:540,lt:21,demand:296,class:'B',
+   strategy:'Monthly review cycle. Consider VMI with supplier given high variability. Buffer stock +20%.'},
+  {id:'FRGN-004',name:'White Musk 30ml',rev:96000,vol:4800,cv:.28,stock:720,lt:18,demand:400,class:'B',
+   strategy:'Bi-monthly review. Stable demand — standard reorder point works. Low unit cost means overstocking risk minimal.'},
+  {id:'FRGN-005',name:'Amber Intense 100ml',rev:54000,vol:360,cv:.44,stock:28,lt:45,demand:30,class:'B',
+   strategy:'Quarterly review. High lead time requires early ordering. CV >0.4 indicates seasonal or event-driven demand.'},
+  {id:'FRGN-006',name:'Citrus Splash 50ml',rev:28000,vol:1400,cv:.52,stock:210,lt:14,demand:117,class:'C',
+   strategy:'Quarterly review. Low revenue contribution. Consider SKU rationalisation if trend continues declining.'},
+  {id:'FRGN-007',name:'Cedar Breeze 75ml',rev:18500,vol:925,cv:.61,stock:140,lt:21,demand:77,class:'C',
+   strategy:'Bi-annual review. Very high CV — demand is sporadic. Keep minimal buffer; risk of obsolescence.'},
+  {id:'FRGN-008',name:'Jasmine Mist 30ml',rev:9200,vol:920,cv:.73,stock:188,lt:14,demand:77,class:'C',
+   strategy:'Annual review. Strong candidate for discontinuation. Low revenue, high variability.'},
+];
+var fcSkus=[
+  {id:'FRGN-001',name:'Oud Royale',data:[185,192,310,285,208,196,182,190,198,194,204,248],stock:82,lt:30,actuals:[195,198,295,278,212,200]},
+  {id:'FRGN-003',name:'Desert Rose',data:[248,262,385,355,285,268,252,261,272,266,278,335],stock:540,lt:21,actuals:[260,255,370,340,280,272]},
+  {id:'FRGN-005',name:'Amber Intense',data:[22,24,48,42,28,25,22,24,26,24,27,35],stock:28,lt:45,actuals:[25,22,52,38,30,24]},
+];
+var selectedAbc=null,selectedFc=0,growthPct=0,ltDays=30;
+var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// ── ABC TABLE ──────────────────────────────────────────────
+(function(){
+  var total=abcSkus.reduce(function(s,k){return s+k.rev;},0);
+  var cum=0;
+  var body=document.getElementById('abcTableBody');
+  abcSkus.forEach(function(s,i){
+    cum+=s.rev;
+    var pct=(s.rev/total*100).toFixed(1);
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td style="font-size:.7rem;font-weight:700;color:var(--t3);letter-spacing:.06em">'+s.id+'</td>'+
+      '<td style="font-weight:600;color:var(--t1)">'+s.name+'</td>'+
+      '<td style="font-weight:700;color:var(--teal)">'+s.rev.toLocaleString()+'</td>'+
+      '<td><span class="abc-badge abc-'+s.class.toLowerCase()+'">'+s.class+'</span></td>';
+    tr.onclick=function(){selectAbc(i);};
+    body.appendChild(tr);
+  });
+})();
+
+function selectAbc(i){
+  selectedAbc=i;
+  var s=abcSkus[i];
+  document.querySelectorAll('.abc-table tr').forEach(function(r,ri){r.classList.toggle('selected',ri===i);});
+  var dos=Math.round(s.stock/s.demand*30);
+  document.getElementById('abcDetail').innerHTML=
+    '<div class="abc-detail-sku">'+s.id+'</div>'+
+    '<div class="abc-detail-name">'+s.name+'</div>'+
+    '<div class="abc-kpis">'+
+      '<div class="abc-kpi"><div class="abc-kpi-v">AED '+s.rev.toLocaleString()+'</div><div class="abc-kpi-l">Annual Revenue</div></div>'+
+      '<div class="abc-kpi"><div class="abc-kpi-v abc-'+s.class.toLowerCase()+'" style="-webkit-text-fill-color:inherit"><span class="abc-badge abc-'+s.class.toLowerCase()+'">Class '+s.class+'</span></div><div class="abc-kpi-l">ABC Class</div></div>'+
+      '<div class="abc-kpi"><div class="abc-kpi-v" style="color:var(--gold)">'+(s.cv*100).toFixed(0)+'%</div><div class="abc-kpi-l">Demand CoV</div></div>'+
+      '<div class="abc-kpi"><div class="abc-kpi-v" style="color:var(--sky)">'+dos+' days</div><div class="abc-kpi-l">Days of Supply</div></div>'+
+    '</div>'+
+    '<div class="abc-strat"><strong style="color:var(--t1)">Planning Strategy:</strong> '+s.strategy+'</div>';
+}
+selectAbc(0);
+
+// ── FORECAST CHART ─────────────────────────────────────────
+var fcBtns=document.getElementById('fcSkuBtns');
+fcSkus.forEach(function(s,i){
+  var b=document.createElement('button');
+  b.className='fc-sku-btn'+(i===0?' active':'');
+  b.textContent=s.name;
+  b.onclick=function(){selectedFc=i;renderFcChart();document.querySelectorAll('.fc-sku-btn').forEach(function(bb){bb.classList.remove('active');});b.classList.add('active');};
+  fcBtns.appendChild(b);
+});
+
+function renderFcChart(){
+  var s=fcSkus[selectedFc];
+  var data=s.data.map(function(v){return Math.round(v*(1+growthPct/100));});
+  var maxV=Math.max.apply(null,data);
+  var bars=document.getElementById('fcBars');
+  bars.innerHTML='';
+  data.forEach(function(v,i){
+    var pct=v/maxV*100;
+    var isRamadan=(i===2||i===3);
+    var wrap=document.createElement('div');
+    wrap.className='fc-bar-wrap';
+    var bar=document.createElement('div');
+    bar.className='fc-bar'+(isRamadan?' ramadan':'');
+    bar.style.height=pct+'%';
+    bar.style.background=isRamadan?'':'linear-gradient(180deg,var(--teal),rgba(0,212,168,.5))';
+    bar.title=months[i]+': '+v.toLocaleString()+' units';
+    wrap.appendChild(bar);
+    bars.appendChild(wrap);
+  });
+  // Month labels
+  var labelsEl=document.getElementById('fcMonthLabels');
+  labelsEl.innerHTML='';
+  months.forEach(function(m){
+    var s=document.createElement('span');
+    s.style.flex='1';s.style.textAlign='center';s.style.fontSize='.6rem';s.style.color='var(--t3)';s.style.fontWeight='600';
+    s.textContent=m.substring(0,1);
+    labelsEl.appendChild(s);
+  });
+  // Ramadan note
+  document.getElementById('fcRamadanNote').innerHTML='<span class="fc-ramadan-note">☪️ Ramadan uplift detected: Mar–Apr peak (+'+Math.round((data[2]/data[0]-1)*100)+'%)</span>';
+  // Metrics
+  var avg=Math.round(data.reduce(function(a,b){return a+b;})/12);
+  var mape=(6+Math.random()*3).toFixed(1);
+  var nextFc=Math.round(data[11]*(1+growthPct/200));
+  var dos=Math.round(s.stock/(avg/30));
+  document.getElementById('fcMape').textContent=mape+'%';
+  document.getElementById('fcNextFc').textContent=nextFc.toLocaleString()+' units';
+  document.getElementById('fcDos').textContent=dos+' days';
+  updateFcProjection(nextFc,dos);
+}
+
+function updateFcScenario(){
+  growthPct=parseInt(document.getElementById('fcGrowthSlider').value);
+  ltDays=parseInt(document.getElementById('fcLtSlider').value);
+  document.getElementById('fcGrowthVal').textContent=(growthPct>=0?'+':'')+growthPct+'%';
+  document.getElementById('fcLtVal').textContent=ltDays;
+  renderFcChart();
+}
+
+function updateFcProjection(fc,dos){
+  var risk=dos<ltDays?'⚠️ Stockout risk — order now':dos<ltDays*1.5?'⚡ Order within '+Math.round(dos-ltDays/2)+' days':'✅ Stock adequate for lead time';
+  document.getElementById('fcProjection').textContent='Next month: '+fc.toLocaleString()+' units · '+risk;
+}
+renderFcChart();
+
+// ── REORDER BOARD ──────────────────────────────────────────
+var roData=[
+  {id:'FRGN-001',name:'Oud Royale 100ml',stock:82,demand:238,lt:30,minStock:50},
+  {id:'FRGN-002',name:'Velvet Noir 75ml',stock:310,demand:183,lt:25,minStock:80},
+  {id:'FRGN-005',name:'Amber Intense 100ml',stock:28,demand:30,lt:45,minStock:20},
+  {id:'FRGN-006',name:'Citrus Splash 50ml',stock:12,demand:117,lt:14,minStock:40},
+  {id:'FRGN-007',name:'Cedar Breeze 75ml',stock:140,demand:77,lt:21,minStock:30},
+  {id:'FRGN-008',name:'Jasmine Mist 30ml',stock:188,demand:77,lt:14,minStock:35},
+];
+var roOrdered={};
+
+function getRoStatus(s){
+  var dos=s.stock/(s.demand/30);
+  if(dos<=5)return'crit';
+  if(dos<=14)return'warn';
+  return'ok';
+}
+function getRoLabel(status){
+  if(status==='crit')return'🔴 Critical';
+  if(status==='warn')return'🟡 Order Soon';
+  return'🟢 Stock OK';
+}
+function renderRoGrid(){
+  var grid=document.getElementById('roGrid');
+  grid.innerHTML='';
+  roData.forEach(function(s,i){
+    var dos=Math.round(s.stock/(s.demand/30));
+    var status=getRoStatus(s);
+    var maxDos=60;
+    var dosWidth=Math.min(dos/maxDos*100,100);
+    var barColor=status==='crit'?'var(--rose)':status==='warn'?'var(--gold)':'#22c55e';
+    var ordered=roOrdered[i];
+    var card=document.createElement('div');
+    card.className='ro-card '+status;
+    card.innerHTML=
+      '<span class="ro-badge '+status+'">'+getRoLabel(status)+'</span>'+
+      '<div class="ro-sku">'+s.id+'</div>'+
+      '<div class="ro-name">'+s.name+'</div>'+
+      '<div class="ro-stats">'+
+        '<div class="ro-stat"><div class="ro-stat-v">'+s.stock+'</div><div class="ro-stat-l">In Stock</div></div>'+
+        '<div class="ro-stat"><div class="ro-stat-v">'+dos+'</div><div class="ro-stat-l">Days Supply</div></div>'+
+        '<div class="ro-stat"><div class="ro-stat-v">'+Math.round(s.demand/30)+'</div><div class="ro-stat-l">Daily Rate</div></div>'+
+        '<div class="ro-stat"><div class="ro-stat-v">'+s.lt+'d</div><div class="ro-stat-l">Lead Time</div></div>'+
+      '</div>'+
+      '<div class="ro-dos-bar"><div class="ro-dos-fill" style="width:'+dosWidth+'%;background:'+barColor+'"></div></div>'+
+      '<button class="ro-action-btn'+(ordered?' ordered':'')+(status==='ok'?' disabled':'')+'" '+(status==='ok'?'disabled':'')+' onclick="placeOrder('+i+')">'+
+        (ordered?'✅ Order Placed':'Place Reorder')+
+      '</button>';
+    grid.appendChild(card);
+  });
+}
+function placeOrder(i){
+  roOrdered[i]=true;
+  renderRoGrid();
+}
+function simulateReceiving(){
+  roData.forEach(function(s){
+    var reorder=Math.round(s.demand*1.5);
+    s.stock+=reorder;
+  });
+  roOrdered={};
+  renderRoGrid();
+}
+renderRoGrid();
+
+// ── TAB SWITCHER ───────────────────────────────────────────
+function switchDemoTab(tab,btn){
+  document.querySelectorAll('.demo-panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.demo-tab').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+tab).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</section>
+
 <!-- TESTIMONIALS -->
 <section id="testimonials" aria-label="Recommendations">
   <!-- ═══════════════════════════════════════════════════════════
@@ -1917,6 +2366,88 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
   </div>
 </section>
 
+
+<!-- SUPPLY CHAIN FIELD NOTES — light contrast section -->
+<section id="insights" aria-label="Supply chain insights">
+<style>
+#insights{background:#f0f4f8;padding:96px 0;color:#0d1f38;}
+#insights .sec-label{color:#5a7a9e;letter-spacing:.18em;font-size:.72rem;font-weight:700;text-transform:uppercase;margin-bottom:10px;}
+#insights .sec-title{color:#0d1f38;}
+#insights .sec-title span{background:linear-gradient(130deg,#00a37d,#4f46e5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+#insights .sec-sub{color:#4a6580;}
+.ins-header{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:48px;}
+.ins-all-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 22px;border-radius:50px;
+  border:1.5px solid #00a37d;color:#00a37d;
+  font-size:.82rem;font-weight:700;text-decoration:none;
+  transition:all .22s;white-space:nowrap;flex-shrink:0;
+}
+.ins-all-btn:hover{background:#00a37d;color:#fff;box-shadow:0 4px 20px rgba(0,163,125,.25);}
+.ins-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.ins-card{
+  background:#fff;border-radius:16px;padding:28px;
+  border:1px solid #e2eaf4;
+  transition:transform .22s,box-shadow .22s,border-color .22s;
+  display:flex;flex-direction:column;cursor:default;
+}
+.ins-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,31,56,.1);border-color:#00a37d;}
+.ins-tag{
+  display:inline-block;padding:3px 11px;border-radius:20px;
+  font-size:.67rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:14px;
+  background:rgba(0,163,125,.1);color:#00835f;border:1px solid rgba(0,163,125,.2);
+}
+.ins-title{font-family:'Syne','Inter',sans-serif;font-size:1.02rem;font-weight:800;color:#0d1f38;margin-bottom:12px;line-height:1.35;}
+.ins-body{font-size:.84rem;color:#4a6580;line-height:1.72;flex:1;margin-bottom:16px;}
+.ins-read{font-size:.72rem;font-weight:700;color:#8fa3b8;letter-spacing:.04em;}
+.ins-read::before{content:'⏱ ';}
+</style>
+<div class="wrap">
+  <div class="ins-header">
+    <div>
+      <p class="sec-label">Thought Leadership</p>
+      <h2 class="sec-title">Field Notes from <span>the Front Line</span></h2>
+      <p class="sec-sub" style="margin-bottom:0">Real supply chain thinking — written for practitioners, not textbooks.</p>
+    </div>
+    <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank" rel="noopener" class="ins-all-btn">
+      Follow on LinkedIn →
+    </a>
+  </div>
+  <div class="ins-grid">
+    <article class="ins-card">
+      <span class="ins-tag">GCC Planning</span>
+      <h3 class="ins-title">The GCC Demand Planner's Dirty Secret</h3>
+      <p class="ins-body">Most GCC forecasts are just "last year +10%". That works until Ramadan shifts three weeks and your inventory lands in the wrong month. Here's the model that actually accounts for it.</p>
+      <span class="ins-read">3 min read</span>
+    </article>
+    <article class="ins-card">
+      <span class="ins-tag">Metrics</span>
+      <h3 class="ins-title">Why Your MAPE Is Lying to You</h3>
+      <p class="ins-body">A 15% MAPE sounds reasonable — until all the error sits on your top-20 revenue SKUs. The metric that actually matters for service level is weighted accuracy at item-location level.</p>
+      <span class="ins-read">4 min read</span>
+    </article>
+    <article class="ins-card">
+      <span class="ins-tag">Cost Impact</span>
+      <h3 class="ins-title">The AED 800K Air Freight Bill One Forecast Could Have Prevented</h3>
+      <p class="ins-body">A 5% accuracy improvement at a mid-size FMCG distributor eliminates AED 800K–1.2M in emergency air freight per year. Here's the model to make that case to your CFO.</p>
+      <span class="ins-read">5 min read</span>
+    </article>
+    <article class="ins-card">
+      <span class="ins-tag">Resilience</span>
+      <h3 class="ins-title">Red Sea + Hormuz: Why UAE Supply Chains Need Multi-Route DNA</h3>
+      <p class="ins-body">The chains that held through the 2024 Red Sea disruption had multi-route flexibility built in advance. Those that collapsed had optimised entirely for cost — and had no backup when it mattered.</p>
+      <span class="ins-read">6 min read</span>
+    </article>
+    <article class="ins-card">
+      <span class="ins-tag">S&amp;OP</span>
+      <h3 class="ins-title">S&amp;OP Is Not a Meeting. It's an Operating System.</h3>
+      <p class="ins-body">S&OP collapses when it becomes a reporting ritual. The version that works has a 4-week decision cycle, a defined output per stage, and Finance genuinely at the table — not just invited.</p>
+      <span class="ins-read">4 min read</span>
+    </article>
+  </div>
+</div>
+</section>
 
 <!-- INSTAGRAM CHANNEL -->
 <section id="instagram" aria-label="Content Channel" style="background:var(--bg0);padding:80px 0;">
