@@ -1506,20 +1506,22 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
 </section>
 
 <!-- DEMAND PLANNING LIVE DEMO -->
-<section id="dp-demo" aria-label="Interactive Demand Planning Demo">
+<section id="dp-demo" aria-label="Interactive Demand Planning Simulator">
 <style>
 #dp-demo{padding:100px 0;background:var(--bg1);}
-.demo-tabs{display:flex;gap:4px;background:var(--bg2);border-radius:12px;padding:4px;margin:40px 0 32px;border:1px solid var(--brd);width:fit-content;}
-.demo-tab{
-  padding:10px 22px;border-radius:9px;border:none;cursor:pointer;
-  font-family:'Inter',sans-serif;font-size:.84rem;font-weight:600;
-  color:var(--t2);background:transparent;transition:all .22s;letter-spacing:.01em;
-}
+.demo-tabs{display:flex;gap:4px;background:var(--bg2);border-radius:12px;padding:4px;margin:40px 0 32px;border:1px solid var(--brd);flex-wrap:wrap;}
+.demo-tab{padding:9px 18px;border-radius:9px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;color:var(--t2);background:transparent;transition:all .22s;letter-spacing:.01em;white-space:nowrap;}
 .demo-tab.active{background:var(--teal);color:var(--bg0);box-shadow:0 2px 14px rgba(0,212,168,.3);}
 .demo-tab:hover:not(.active){color:var(--t1);background:var(--bg3);}
 .demo-panel{display:none;animation:fadeUp .3s ease;}
 .demo-panel.active{display:block;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* Problem callout box */
+.prob-box{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.22);border-left:3px solid var(--indigo);border-radius:12px;padding:16px 20px;margin-bottom:28px;display:flex;gap:14px;align-items:flex-start;}
+.prob-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px;}
+.prob-title{font-size:.78rem;font-weight:800;color:var(--indigo);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;}
+.prob-text{font-size:.84rem;color:var(--t2);line-height:1.65;}
 
 /* ABC Panel */
 .abc-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
@@ -1550,23 +1552,22 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
 .fc-sku-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
 .fc-sku-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--brd2);background:transparent;color:var(--t2);font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
 .fc-sku-btn.active{background:rgba(0,212,168,.12);border-color:var(--teal);color:var(--teal);}
-.fc-chart{width:100%;overflow:hidden;}
 .fc-bars{display:flex;align-items:flex-end;gap:5px;height:160px;margin-bottom:8px;}
-.fc-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.fc-bar{width:100%;border-radius:4px 4px 0 0;transition:height .6s cubic-bezier(.4,0,.2,1),background .3s;position:relative;}
-.fc-bar.ramadan{background:linear-gradient(180deg,var(--gold),rgba(245,158,11,.6))!important;}
-.fc-bar-lbl{font-size:.62rem;color:var(--t3);text-align:center;font-weight:600;}
-.fc-ramadan-note{font-size:.72rem;color:var(--gold);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:6px;padding:4px 10px;display:inline-flex;align-items:center;gap:5px;margin-top:4px;}
+.fc-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;}
+.fc-bar{width:100%;border-radius:4px 4px 0 0;transition:height .6s cubic-bezier(.4,0,.2,1),background .3s;}
+.fc-bar.ramadan{background:linear-gradient(180deg,var(--gold),rgba(245,158,11,.5))!important;}
+.fc-bar-lbl{font-size:.62rem;color:var(--t3);text-align:center;font-weight:600;margin-top:3px;}
+.fc-ramadan-note{font-size:.72rem;color:var(--gold);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:6px;padding:5px 10px;display:inline-flex;align-items:center;gap:5px;margin-top:8px;}
 .fc-side{display:flex;flex-direction:column;gap:14px;}
 .fc-metric{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:16px 18px;}
 .fc-metric-v{font-size:1.65rem;font-weight:700;margin-bottom:4px;}
 .fc-metric-l{font-size:.72rem;color:var(--t3);font-weight:600;letter-spacing:.05em;text-transform:uppercase;}
 .fc-whatif{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:16px 18px;}
-.fc-whatif-title{font-size:.8rem;font-weight:700;color:var(--t1);margin-bottom:14px;letter-spacing:.03em;}
+.fc-whatif-title{font-size:.8rem;font-weight:700;color:var(--t1);margin-bottom:14px;}
 .fc-slider-wrap{margin-bottom:14px;}
 .fc-slider-lbl{display:flex;justify-content:space-between;font-size:.75rem;color:var(--t2);margin-bottom:8px;font-weight:600;}
 input[type=range].fc-slider{width:100%;accent-color:var(--teal);}
-.fc-projection{font-size:.85rem;color:var(--teal);font-weight:700;background:rgba(0,212,168,.08);border-radius:8px;padding:10px 12px;text-align:center;}
+.fc-projection{font-size:.82rem;color:var(--teal);font-weight:700;background:rgba(0,212,168,.08);border-radius:8px;padding:10px 12px;text-align:center;line-height:1.5;}
 
 /* Reorder Panel */
 .ro-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
@@ -1587,24 +1588,82 @@ input[type=range].fc-slider{width:100%;accent-color:var(--teal);}
 .ro-dos-bar{height:5px;background:var(--brd2);border-radius:3px;margin-bottom:14px;overflow:hidden;}
 .ro-dos-fill{height:100%;border-radius:3px;transition:width .8s ease;}
 .ro-action-btn{width:100%;padding:9px;border-radius:8px;border:1px solid var(--brd2);background:transparent;color:var(--t2);font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
-.ro-action-btn:hover{background:rgba(0,212,168,.1);border-color:var(--teal);color:var(--teal);}
-.ro-action-btn:disabled{opacity:.45;cursor:default;}
+.ro-action-btn:hover:not(:disabled){background:rgba(0,212,168,.1);border-color:var(--teal);color:var(--teal);}
+.ro-action-btn:disabled{opacity:.4;cursor:default;}
 .ro-action-btn.ordered{background:rgba(0,212,168,.1);border-color:var(--teal);color:var(--teal);}
-.demo-note{margin-top:28px;font-size:.78rem;color:var(--t3);text-align:center;font-style:italic;}
+
+/* Safety Stock Panel */
+.ss-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
+@media(max-width:700px){.ss-layout{grid-template-columns:1fr;}}
+.ss-controls{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:24px;}
+.ss-ctrl-title{font-size:.78rem;font-weight:800;color:var(--t1);letter-spacing:.05em;text-transform:uppercase;margin-bottom:20px;}
+.ss-slider-group{margin-bottom:20px;}
+.ss-slider-lbl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.ss-slider-name{font-size:.82rem;font-weight:600;color:var(--t1);}
+.ss-slider-val{font-size:1rem;font-weight:800;color:var(--teal);}
+.ss-slider-hint{font-size:.72rem;color:var(--t3);margin-top:4px;}
+input[type=range].ss-slider{width:100%;accent-color:var(--teal);}
+.ss-results{display:flex;flex-direction:column;gap:14px;}
+.ss-result-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:22px;}
+.ss-result-title{font-size:.72rem;font-weight:800;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+.ss-result-val{font-size:2.2rem;font-weight:800;margin-bottom:4px;}
+.ss-result-sub{font-size:.78rem;color:var(--t2);line-height:1.6;}
+.ss-formula{background:var(--bg4);border-radius:8px;padding:10px 14px;font-size:.78rem;color:var(--t3);font-family:monospace;margin-top:10px;line-height:1.7;}
+.ss-curve{width:100%;height:120px;}
+.ss-tradeoff{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:22px;margin-top:0;}
+.ss-tradeoff-title{font-size:.78rem;font-weight:800;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;}
+
+/* Disruption Panel */
+.dis-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
+@media(max-width:700px){.dis-layout{grid-template-columns:1fr;}}
+.dis-chart-wrap{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:20px;}
+.dis-chart-title{font-size:.78rem;font-weight:800;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px;}
+.dis-svg-wrap{width:100%;overflow:hidden;margin-bottom:12px;}
+.dis-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.72rem;font-weight:600;}
+.dis-legend-item{display:flex;align-items:center;gap:5px;color:var(--t2);}
+.dis-legend-dot{width:10px;height:3px;border-radius:2px;}
+.dis-controls{display:flex;flex-direction:column;gap:14px;}
+.dis-scenario-title{font-size:.78rem;font-weight:800;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;}
+.dis-scenario-btn{width:100%;padding:14px 16px;border-radius:10px;border:1px solid var(--brd2);background:var(--bg3);color:var(--t1);text-align:left;cursor:pointer;font-family:'Inter',sans-serif;transition:all .22s;}
+.dis-scenario-btn:hover{border-color:var(--teal);background:rgba(0,212,168,.06);}
+.dis-scenario-btn.active{border-color:var(--teal);background:rgba(0,212,168,.1);}
+.dis-scenario-btn .dis-s-name{font-size:.84rem;font-weight:700;margin-bottom:3px;}
+.dis-scenario-btn .dis-s-cost{font-size:.76rem;color:var(--t3);}
+.dis-scenario-btn .dis-s-tag{float:right;font-size:.66rem;font-weight:800;padding:2px 8px;border-radius:10px;}
+.dis-outcome{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px 18px;margin-top:0;}
+.dis-outcome-title{font-size:.72rem;font-weight:800;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;}
+.dis-outcome-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.82rem;}
+.dis-outcome-row:last-child{border-bottom:none;}
+.dis-outcome-label{color:var(--t2);}
+.dis-outcome-val{font-weight:700;}
+
+/* Shared */
+.demo-note{margin-top:32px;font-size:.78rem;color:var(--t3);text-align:center;font-style:italic;}
 .demo-note span{color:var(--teal);}
+.sim-btn{padding:9px 20px;border-radius:8px;border:1px solid var(--brd2);background:transparent;color:var(--t2);font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
+.sim-btn:hover{background:rgba(0,212,168,.1);border-color:var(--teal);color:var(--teal);}
 </style>
+
 <div class="wrap">
-  <p class="sec-label">LIVE INTERACTIVE DEMO</p>
-  <h2 class="sec-title">Demand Planning <span>in Action</span></h2>
-  <p class="sec-sub">Built on synthetic data — the same frameworks applied every day. Select a SKU, adjust parameters, watch the supply chain respond.</p>
+  <p class="sec-label">LIVE INTERACTIVE SIMULATOR</p>
+  <h2 class="sec-title">Demand Planning <span>Problem Solver</span></h2>
+  <p class="sec-sub">Five real problems every demand planner faces — each with a live simulation. Synthetic data only. Built on the same frameworks applied daily at Emirates Pride &amp; ANDS Dubai.</p>
+
   <div class="demo-tabs">
-    <button class="demo-tab active" onclick="switchDemoTab('abc',this)">📊 ABC Classification</button>
+    <button class="demo-tab active"  onclick="switchDemoTab('abc',this)">📊 ABC Priority</button>
     <button class="demo-tab" onclick="switchDemoTab('forecast',this)">📈 Demand Forecast</button>
     <button class="demo-tab" onclick="switchDemoTab('reorder',this)">🚨 Reorder Alerts</button>
+    <button class="demo-tab" onclick="switchDemoTab('safety',this)">🛡️ Safety Stock</button>
+    <button class="demo-tab" onclick="switchDemoTab('disruption',this)">⚡ Disruption Sim</button>
   </div>
 
-  <!-- TAB 1: ABC Classification -->
+  <!-- ══ TAB 1: ABC ══ -->
   <div id="tab-abc" class="demo-panel active">
+    <div class="prob-box">
+      <div class="prob-icon">🎯</div>
+      <div><div class="prob-title">The Problem</div>
+      <div class="prob-text">You have 110 SKUs but only time and budget to manage 20 of them closely. Which ones deserve weekly attention, and which can run on autopilot? Most teams treat all SKUs equally — and lose money on both ends: stockouts on the wrong products and overstock on the wrong ones.</div></div>
+    </div>
     <div class="abc-layout">
       <div>
         <table class="abc-table">
@@ -1613,25 +1672,24 @@ input[type=range].fc-slider{width:100%;accent-color:var(--teal);}
         </table>
       </div>
       <div class="abc-detail" id="abcDetail">
-        <div style="color:var(--t3);font-size:.9rem;padding-top:60px;text-align:center;">
-          ← Select a SKU to view its classification analysis
-        </div>
+        <div style="color:var(--t3);font-size:.9rem;padding-top:60px;text-align:center;">← Select any SKU to see its classification analysis</div>
       </div>
     </div>
   </div>
 
-  <!-- TAB 2: Demand Forecast -->
+  <!-- ══ TAB 2: FORECAST ══ -->
   <div id="tab-forecast" class="demo-panel">
+    <div class="prob-box">
+      <div class="prob-icon">📅</div>
+      <div><div class="prob-title">The Problem</div>
+      <div class="prob-text">Ramadan can spike perfume demand by 40–60% — but it shifts by 10–15 days every year. A naive "same month as last year" forecast misses the peak, creating emergency air freight and lost sales. Use the what-if sliders to see how growth rate and lead time change your supply position.</div></div>
+    </div>
     <div class="fc-layout">
       <div class="fc-chart-wrap">
         <div class="fc-sku-btns" id="fcSkuBtns"></div>
-        <div class="fc-chart">
-          <div class="fc-bars" id="fcBars"></div>
-          <div style="display:flex;justify-content:space-between;padding:0 2px;">
-            <span id="fcMonthLabels" style="display:flex;gap:5px;flex:1;"></span>
-          </div>
-          <div style="margin-top:10px;" id="fcRamadanNote"></div>
-        </div>
+        <div class="fc-bars" id="fcBars"></div>
+        <div style="display:flex;gap:5px;" id="fcMonthLabels"></div>
+        <div id="fcRamadanNote" style="margin-top:10px;"></div>
       </div>
       <div class="fc-side">
         <div class="fc-metric"><div class="fc-metric-v" id="fcMape" style="color:var(--teal)">—</div><div class="fc-metric-l">Forecast MAPE</div></div>
@@ -1653,58 +1711,200 @@ input[type=range].fc-slider{width:100%;accent-color:var(--teal);}
     </div>
   </div>
 
-  <!-- TAB 3: Reorder Alerts -->
+  <!-- ══ TAB 3: REORDER ══ -->
   <div id="tab-reorder" class="demo-panel">
-    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap;">
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <span style="font-size:.8rem;color:var(--t2);font-weight:600;">Status:</span>
-        <span style="font-size:.78rem;color:#22c55e;font-weight:700;">● OK (stock healthy)</span>
-        <span style="font-size:.78rem;color:var(--gold);font-weight:700;">● Order Soon (&lt;14 days)</span>
-        <span style="font-size:.78rem;color:var(--rose);font-weight:700;">● Critical (&lt;5 days)</span>
-      </div>
-      <button onclick="simulateReceiving()" style="margin-left:auto;padding:8px 20px;border-radius:8px;border:1px solid var(--teal);background:rgba(0,212,168,.1);color:var(--teal);font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;" onmouseover="this.style.background='rgba(0,212,168,.2)'" onmouseout="this.style.background='rgba(0,212,168,.1)'">📦 Simulate Stock Receipt</button>
+    <div class="prob-box">
+      <div class="prob-icon">📦</div>
+      <div><div class="prob-title">The Problem</div>
+      <div class="prob-text">Every morning, a demand planner needs to know: which SKUs need a purchase order placed today? Without a live signal board, this check takes hours across spreadsheets. This dashboard auto-calculates days of supply and flags the SKUs that are at risk — so you act before the stockout, not after.</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+      <span style="font-size:.8rem;color:var(--t2);font-weight:600;">Status legend:</span>
+      <span style="font-size:.78rem;color:#22c55e;font-weight:700;">● OK</span>
+      <span style="font-size:.78rem;color:var(--gold);font-weight:700;">● Order Soon (&lt;14 days)</span>
+      <span style="font-size:.78rem;color:var(--rose);font-weight:700;">● Critical (&lt;5 days)</span>
+      <button class="sim-btn" style="margin-left:auto;" onclick="simulateReceiving()">📦 Simulate Stock Receipt</button>
     </div>
     <div class="ro-grid" id="roGrid"></div>
   </div>
 
-  <p class="demo-note">All data is <span>100% synthetic</span> — generated for demonstration. Built with the same frameworks applied in live operations at Emirates Pride &amp; ANDS Dubai.</p>
+  <!-- ══ TAB 4: SAFETY STOCK ══ -->
+  <div id="tab-safety" class="demo-panel">
+    <div class="prob-box">
+      <div class="prob-icon">🛡️</div>
+      <div><div class="prob-title">The Problem</div>
+      <div class="prob-text">Hold too little safety stock and you get stockouts. Hold too much and you tie up working capital. The answer isn't a gut-feel buffer — it's a statistical calculation based on demand variability, lead time variability, and your service level target. Adjust the inputs below and see how safety stock and inventory cost change in real time.</div></div>
+    </div>
+    <div class="ss-layout">
+      <div class="ss-controls">
+        <div class="ss-ctrl-title">📐 Input Parameters</div>
+        <div class="ss-slider-group">
+          <div class="ss-slider-lbl"><span class="ss-slider-name">Avg Daily Demand (units)</span><span class="ss-slider-val" id="ssDemandVal">100</span></div>
+          <input type="range" class="ss-slider" id="ssDemand" min="20" max="500" value="100" oninput="calcSS()">
+          <div class="ss-slider-hint">How many units sell per day on average</div>
+        </div>
+        <div class="ss-slider-group">
+          <div class="ss-slider-lbl"><span class="ss-slider-name">Demand Variability (σ)</span><span class="ss-slider-val" id="ssSigmaDVal">25</span></div>
+          <input type="range" class="ss-slider" id="ssSigmaD" min="5" max="150" value="25" oninput="calcSS()">
+          <div class="ss-slider-hint">Standard deviation of daily demand — higher = more volatile</div>
+        </div>
+        <div class="ss-slider-group">
+          <div class="ss-slider-lbl"><span class="ss-slider-name">Lead Time (days)</span><span class="ss-slider-val" id="ssLtVal">30</span></div>
+          <input type="range" class="ss-slider" id="ssLt" min="7" max="90" value="30" oninput="calcSS()">
+          <div class="ss-slider-hint">Supplier delivery time from order to receipt</div>
+        </div>
+        <div class="ss-slider-group">
+          <div class="ss-slider-lbl"><span class="ss-slider-name">Lead Time Variability (σ days)</span><span class="ss-slider-val" id="ssSigmaLtVal">5</span></div>
+          <input type="range" class="ss-slider" id="ssSigmaLt" min="0" max="20" value="5" oninput="calcSS()">
+          <div class="ss-slider-hint">How inconsistent your supplier's delivery timing is</div>
+        </div>
+        <div class="ss-slider-group">
+          <div class="ss-slider-lbl"><span class="ss-slider-name">Service Level Target</span><span class="ss-slider-val" id="ssSLVal">95%</span></div>
+          <input type="range" class="ss-slider" id="ssSL" min="0" max="4" value="2" step="1" oninput="calcSS()">
+          <div class="ss-slider-hint">85% → 90% → 95% → 98% → 99.5%</div>
+        </div>
+      </div>
+      <div class="ss-results">
+        <div class="ss-result-card">
+          <div class="ss-result-title">Safety Stock Required</div>
+          <div class="ss-result-val" id="ssResultSS" style="color:var(--teal);">— units</div>
+          <div class="ss-result-sub" id="ssResultSSsub"></div>
+          <div class="ss-formula">SS = Z × √(LT × σd² + d² × σLT²)</div>
+        </div>
+        <div class="ss-result-card">
+          <div class="ss-result-title">Reorder Point</div>
+          <div class="ss-result-val" id="ssResultROP" style="color:var(--indigo);">— units</div>
+          <div class="ss-result-sub" id="ssResultROPsub"></div>
+          <div class="ss-formula">ROP = (d × LT) + Safety Stock</div>
+        </div>
+        <div class="ss-result-card">
+          <div class="ss-result-title">Inventory Cost Impact</div>
+          <div class="ss-result-val" id="ssResultCost" style="color:var(--gold);">—</div>
+          <div class="ss-result-sub" id="ssResultCostsub"></div>
+        </div>
+        <div class="ss-tradeoff">
+          <div class="ss-tradeoff-title">Service Level vs Safety Stock Trade-off</div>
+          <svg class="ss-curve" id="ssCurveSvg" viewBox="0 0 280 100"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TAB 5: DISRUPTION ══ -->
+  <div id="tab-disruption" class="demo-panel">
+    <div class="prob-box">
+      <div class="prob-icon">⚡</div>
+      <div><div class="prob-title">The Problem</div>
+      <div class="prob-text">Your supplier just called — they're 3 weeks late. Your current stock runs out in 18 days. You have three options: pay for emergency air freight, find an alternative supplier, or ration stock across stores. Each decision has a different cost and customer impact. This simulator shows the outcome of each in real time.</div></div>
+    </div>
+    <div class="dis-layout">
+      <div class="dis-chart-wrap">
+        <div class="dis-chart-title">Stock Level Timeline — 60 Days</div>
+        <div class="dis-svg-wrap">
+          <svg id="disSvg" viewBox="0 0 480 160" style="width:100%;display:block;"></svg>
+        </div>
+        <div class="dis-legend">
+          <div class="dis-legend-item"><div class="dis-legend-dot" style="background:var(--teal)"></div>Projected Stock</div>
+          <div class="dis-legend-item"><div class="dis-legend-dot" style="background:var(--rose)"></div>Stockout Zone</div>
+          <div class="dis-legend-item"><div class="dis-legend-dot" style="background:var(--gold);width:2px;height:12px;border-radius:1px;"></div>Supplier Delay</div>
+        </div>
+        <div style="margin-top:16px;background:var(--bg4);border-radius:10px;padding:12px 16px;">
+          <div style="font-size:.72rem;font-weight:800;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;">Scenario Controls</div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <span style="font-size:.78rem;color:var(--t2);font-weight:600;">Supplier delay:</span>
+            <input type="range" id="disDelaySlider" min="0" max="30" value="21" style="accent-color:var(--gold);flex:1;min-width:120px;" oninput="updateDisChart()">
+            <span id="disDelayVal" style="font-size:.84rem;font-weight:800;color:var(--gold);min-width:50px;">21 days</span>
+          </div>
+        </div>
+      </div>
+      <div class="dis-controls">
+        <div>
+          <div class="dis-scenario-title">Choose Your Response</div>
+          <div style="display:flex;flex-direction:column;gap:8px;" id="disScenarioBtns">
+            <button class="dis-scenario-btn" onclick="selectDisScenario(0,this)">
+              <span class="dis-s-tag" style="background:rgba(244,63,94,.15);color:var(--rose);">Expensive</span>
+              <div class="dis-s-name">✈️ Emergency Air Freight</div>
+              <div class="dis-s-cost">Fly stock from supplier — immediate fix, high cost</div>
+            </button>
+            <button class="dis-scenario-btn" onclick="selectDisScenario(1,this)">
+              <span class="dis-s-tag" style="background:rgba(245,158,11,.15);color:var(--gold);">Moderate</span>
+              <div class="dis-s-name">🔄 Alternative Supplier</div>
+              <div class="dis-s-cost">Switch to backup source — 10-day lead time, 15% cost premium</div>
+            </button>
+            <button class="dis-scenario-btn" onclick="selectDisScenario(2,this)">
+              <span class="dis-s-tag" style="background:rgba(0,212,168,.15);color:var(--teal);">Cheapest</span>
+              <div class="dis-s-name">📊 Ration Across Stores</div>
+              <div class="dis-s-cost">Spread existing stock — no extra cost, partial service</div>
+            </button>
+            <button class="dis-scenario-btn" onclick="selectDisScenario(3,this)">
+              <span class="dis-s-tag" style="background:rgba(99,102,241,.15);color:var(--indigo);">Strategic</span>
+              <div class="dis-s-name">📢 Demand Shaping</div>
+              <div class="dis-s-cost">Promote substitute SKUs, shift demand while waiting</div>
+            </button>
+          </div>
+        </div>
+        <div class="dis-outcome" id="disOutcome">
+          <div class="dis-outcome-title">Select a response to see impact</div>
+          <div style="color:var(--t3);font-size:.82rem;">Choose one of the four options above to model the financial and operational outcome.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="demo-note">All data is <span>100% synthetic</span> — built for demonstration. Same frameworks applied live at Emirates Pride (26 stores, 110 SKUs) &amp; ANDS Dubai (China–MENA–GCC).</p>
 </div>
+
 <script>
-// ── DEMO DATA ──────────────────────────────────────────────
-var abcSkus=[
-  {id:'FRGN-001',name:'Oud Royale 100ml',rev:285000,vol:1140,cv:.18,stock:82,lt:30,demand:238,class:'A',
-   strategy:'Review weekly. Hold 3-week safety stock. Source dual suppliers. Any stockout costs ~AED 9,500/day.'},
-  {id:'FRGN-002',name:'Velvet Noir 75ml',rev:198000,vol:2200,cv:.22,stock:310,lt:25,demand:183,class:'A',
-   strategy:'Review bi-weekly. High volume compensates lower margin. Fast mover — monitor sell-through daily.'},
-  {id:'FRGN-003',name:'Desert Rose 50ml',rev:142000,vol:3550,cv:.35,stock:540,lt:21,demand:296,class:'B',
-   strategy:'Monthly review cycle. Consider VMI with supplier given high variability. Buffer stock +20%.'},
-  {id:'FRGN-004',name:'White Musk 30ml',rev:96000,vol:4800,cv:.28,stock:720,lt:18,demand:400,class:'B',
-   strategy:'Bi-monthly review. Stable demand — standard reorder point works. Low unit cost means overstocking risk minimal.'},
-  {id:'FRGN-005',name:'Amber Intense 100ml',rev:54000,vol:360,cv:.44,stock:28,lt:45,demand:30,class:'B',
-   strategy:'Quarterly review. High lead time requires early ordering. CV >0.4 indicates seasonal or event-driven demand.'},
-  {id:'FRGN-006',name:'Citrus Splash 50ml',rev:28000,vol:1400,cv:.52,stock:210,lt:14,demand:117,class:'C',
-   strategy:'Quarterly review. Low revenue contribution. Consider SKU rationalisation if trend continues declining.'},
-  {id:'FRGN-007',name:'Cedar Breeze 75ml',rev:18500,vol:925,cv:.61,stock:140,lt:21,demand:77,class:'C',
-   strategy:'Bi-annual review. Very high CV — demand is sporadic. Keep minimal buffer; risk of obsolescence.'},
-  {id:'FRGN-008',name:'Jasmine Mist 30ml',rev:9200,vol:920,cv:.73,stock:188,lt:14,demand:77,class:'C',
-   strategy:'Annual review. Strong candidate for discontinuation. Low revenue, high variability.'},
-];
-var fcSkus=[
-  {id:'FRGN-001',name:'Oud Royale',data:[185,192,310,285,208,196,182,190,198,194,204,248],stock:82,lt:30,actuals:[195,198,295,278,212,200]},
-  {id:'FRGN-003',name:'Desert Rose',data:[248,262,385,355,285,268,252,261,272,266,278,335],stock:540,lt:21,actuals:[260,255,370,340,280,272]},
-  {id:'FRGN-005',name:'Amber Intense',data:[22,24,48,42,28,25,22,24,26,24,27,35],stock:28,lt:45,actuals:[25,22,52,38,30,24]},
-];
-var selectedAbc=null,selectedFc=0,growthPct=0,ltDays=30;
+// ══════════════════════════════════════════
+// SHARED DATA
+// ══════════════════════════════════════════
 var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-// ── ABC TABLE ──────────────────────────────────────────────
+var abcSkus=[
+  {id:'FRGN-001',name:'Oud Royale 100ml',rev:285000,vol:1140,cv:.18,stock:82,lt:30,demand:238,class:'A',strategy:'Review weekly. Hold 3-week safety stock. Source dual suppliers. Any stockout costs ~AED 9,500/day in lost margin.'},
+  {id:'FRGN-002',name:'Velvet Noir 75ml',rev:198000,vol:2200,cv:.22,stock:310,lt:25,demand:183,class:'A',strategy:'Review bi-weekly. High volume compensates lower margin. Fast mover — monitor sell-through daily.'},
+  {id:'FRGN-003',name:'Desert Rose 50ml',rev:142000,vol:3550,cv:.35,stock:540,lt:21,demand:296,class:'B',strategy:'Monthly review. High variability (CoV 35%) — consider VMI with supplier. Buffer +20% above formula.'},
+  {id:'FRGN-004',name:'White Musk 30ml',rev:96000,vol:4800,cv:.28,stock:720,lt:18,demand:400,class:'B',strategy:'Bi-monthly review. Stable demand profile — standard ROP works. Low unit cost means overstock risk is low.'},
+  {id:'FRGN-005',name:'Amber Intense 100ml',rev:54000,vol:360,cv:.44,stock:28,lt:45,demand:30,class:'B',strategy:'Quarterly review. Long lead time (45d) + high CoV = significant safety stock needed. Order early.'},
+  {id:'FRGN-006',name:'Citrus Splash 50ml',rev:28000,vol:1400,cv:.52,stock:210,lt:14,demand:117,class:'C',strategy:'Quarterly review. Low revenue contribution. Consider SKU rationalisation if trend continues declining.'},
+  {id:'FRGN-007',name:'Cedar Breeze 75ml',rev:18500,vol:925,cv:.61,stock:140,lt:21,demand:77,class:'C',strategy:'Bi-annual review. Very high CoV — sporadic demand. Minimal buffer; high obsolescence risk.'},
+  {id:'FRGN-008',name:'Jasmine Mist 30ml',rev:9200,vol:920,cv:.73,stock:188,lt:14,demand:77,class:'C',strategy:'Annual review. Prime candidate for discontinuation. Low revenue, unpredictable demand pattern.'},
+];
+
+var fcSkus=[
+  {id:'FRGN-001',name:'Oud Royale',data:[185,192,310,285,208,196,182,190,198,194,204,248],stock:82,lt:30},
+  {id:'FRGN-003',name:'Desert Rose',data:[248,262,385,355,285,268,252,261,272,266,278,335],stock:540,lt:21},
+  {id:'FRGN-005',name:'Amber Intense',data:[22,24,48,42,28,25,22,24,26,24,27,35],stock:28,lt:45},
+];
+
+var roData=[
+  {id:'FRGN-001',name:'Oud Royale 100ml',stock:82,demand:238,lt:30,minStock:50},
+  {id:'FRGN-002',name:'Velvet Noir 75ml',stock:310,demand:183,lt:25,minStock:80},
+  {id:'FRGN-005',name:'Amber Intense 100ml',stock:28,demand:30,lt:45,minStock:20},
+  {id:'FRGN-006',name:'Citrus Splash 50ml',stock:12,demand:117,lt:14,minStock:40},
+  {id:'FRGN-007',name:'Cedar Breeze 75ml',stock:140,demand:77,lt:21,minStock:30},
+  {id:'FRGN-008',name:'Jasmine Mist 30ml',stock:188,demand:77,lt:14,minStock:35},
+];
+var roOrdered={};
+
+// ══════════════════════════════════════════
+// TAB SWITCHER
+// ══════════════════════════════════════════
+function switchDemoTab(tab,btn){
+  document.querySelectorAll('.demo-panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.demo-tab').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+tab).classList.add('active');
+  btn.classList.add('active');
+  if(tab==='safety')calcSS();
+  if(tab==='disruption')updateDisChart();
+}
+
+// ══════════════════════════════════════════
+// TAB 1: ABC
+// ══════════════════════════════════════════
 (function(){
-  var total=abcSkus.reduce(function(s,k){return s+k.rev;},0);
-  var cum=0;
   var body=document.getElementById('abcTableBody');
   abcSkus.forEach(function(s,i){
-    cum+=s.rev;
-    var pct=(s.rev/total*100).toFixed(1);
     var tr=document.createElement('tr');
     tr.innerHTML='<td style="font-size:.7rem;font-weight:700;color:var(--t3);letter-spacing:.06em">'+s.id+'</td>'+
       '<td style="font-weight:600;color:var(--t1)">'+s.name+'</td>'+
@@ -1713,35 +1913,45 @@ var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','D
     tr.onclick=function(){selectAbc(i);};
     body.appendChild(tr);
   });
+  selectAbc(0);
 })();
 
 function selectAbc(i){
-  selectedAbc=i;
   var s=abcSkus[i];
-  document.querySelectorAll('.abc-table tr').forEach(function(r,ri){r.classList.toggle('selected',ri===i);});
+  document.querySelectorAll('.abc-table tbody tr').forEach(function(r,ri){r.classList.toggle('selected',ri===i);});
   var dos=Math.round(s.stock/s.demand*30);
   document.getElementById('abcDetail').innerHTML=
     '<div class="abc-detail-sku">'+s.id+'</div>'+
     '<div class="abc-detail-name">'+s.name+'</div>'+
     '<div class="abc-kpis">'+
       '<div class="abc-kpi"><div class="abc-kpi-v">AED '+s.rev.toLocaleString()+'</div><div class="abc-kpi-l">Annual Revenue</div></div>'+
-      '<div class="abc-kpi"><div class="abc-kpi-v abc-'+s.class.toLowerCase()+'" style="-webkit-text-fill-color:inherit"><span class="abc-badge abc-'+s.class.toLowerCase()+'">Class '+s.class+'</span></div><div class="abc-kpi-l">ABC Class</div></div>'+
+      '<div class="abc-kpi"><div style="margin-top:4px"><span class="abc-badge abc-'+s.class.toLowerCase()+'">Class '+s.class+'</span></div><div class="abc-kpi-l" style="margin-top:6px">ABC Class</div></div>'+
       '<div class="abc-kpi"><div class="abc-kpi-v" style="color:var(--gold)">'+(s.cv*100).toFixed(0)+'%</div><div class="abc-kpi-l">Demand CoV</div></div>'+
-      '<div class="abc-kpi"><div class="abc-kpi-v" style="color:var(--sky)">'+dos+' days</div><div class="abc-kpi-l">Days of Supply</div></div>'+
+      '<div class="abc-kpi"><div class="abc-kpi-v" style="color:var(--sky)">'+dos+'d</div><div class="abc-kpi-l">Days of Supply</div></div>'+
     '</div>'+
     '<div class="abc-strat"><strong style="color:var(--t1)">Planning Strategy:</strong> '+s.strategy+'</div>';
 }
-selectAbc(0);
 
-// ── FORECAST CHART ─────────────────────────────────────────
-var fcBtns=document.getElementById('fcSkuBtns');
-fcSkus.forEach(function(s,i){
-  var b=document.createElement('button');
-  b.className='fc-sku-btn'+(i===0?' active':'');
-  b.textContent=s.name;
-  b.onclick=function(){selectedFc=i;renderFcChart();document.querySelectorAll('.fc-sku-btn').forEach(function(bb){bb.classList.remove('active');});b.classList.add('active');};
-  fcBtns.appendChild(b);
-});
+// ══════════════════════════════════════════
+// TAB 2: FORECAST
+// ══════════════════════════════════════════
+var selectedFc=0,growthPct=0,ltDays=30;
+(function(){
+  var btns=document.getElementById('fcSkuBtns');
+  fcSkus.forEach(function(s,i){
+    var b=document.createElement('button');
+    b.className='fc-sku-btn'+(i===0?' active':'');
+    b.textContent=s.name;
+    b.onclick=function(){
+      selectedFc=i;
+      document.querySelectorAll('.fc-sku-btn').forEach(function(bb){bb.classList.remove('active');});
+      b.classList.add('active');
+      renderFcChart();
+    };
+    btns.appendChild(b);
+  });
+  renderFcChart();
+})();
 
 function renderFcChart(){
   var s=fcSkus[selectedFc];
@@ -1754,26 +1964,21 @@ function renderFcChart(){
     var isRamadan=(i===2||i===3);
     var wrap=document.createElement('div');
     wrap.className='fc-bar-wrap';
+    wrap.style.flex='1';
     var bar=document.createElement('div');
     bar.className='fc-bar'+(isRamadan?' ramadan':'');
     bar.style.height=pct+'%';
-    bar.style.background=isRamadan?'':'linear-gradient(180deg,var(--teal),rgba(0,212,168,.5))';
+    bar.style.background=isRamadan?'':'linear-gradient(180deg,var(--teal),rgba(0,212,168,.45))';
     bar.title=months[i]+': '+v.toLocaleString()+' units';
+    var lbl=document.createElement('div');
+    lbl.className='fc-bar-lbl';
+    lbl.textContent=months[i].substring(0,1);
     wrap.appendChild(bar);
+    wrap.appendChild(lbl);
     bars.appendChild(wrap);
   });
-  // Month labels
   var labelsEl=document.getElementById('fcMonthLabels');
   labelsEl.innerHTML='';
-  months.forEach(function(m){
-    var s=document.createElement('span');
-    s.style.flex='1';s.style.textAlign='center';s.style.fontSize='.6rem';s.style.color='var(--t3)';s.style.fontWeight='600';
-    s.textContent=m.substring(0,1);
-    labelsEl.appendChild(s);
-  });
-  // Ramadan note
-  document.getElementById('fcRamadanNote').innerHTML='<span class="fc-ramadan-note">☪️ Ramadan uplift detected: Mar–Apr peak (+'+Math.round((data[2]/data[0]-1)*100)+'%)</span>';
-  // Metrics
   var avg=Math.round(data.reduce(function(a,b){return a+b;})/12);
   var mape=(6+Math.random()*3).toFixed(1);
   var nextFc=Math.round(data[11]*(1+growthPct/200));
@@ -1781,7 +1986,9 @@ function renderFcChart(){
   document.getElementById('fcMape').textContent=mape+'%';
   document.getElementById('fcNextFc').textContent=nextFc.toLocaleString()+' units';
   document.getElementById('fcDos').textContent=dos+' days';
-  updateFcProjection(nextFc,dos);
+  document.getElementById('fcRamadanNote').innerHTML='<span class="fc-ramadan-note">☪️ Ramadan uplift: Mar–Apr peak (+'+Math.round((data[2]/data[0]-1)*100)+'% above Jan baseline)</span>';
+  var risk=dos<ltDays?'⚠️ Stockout risk — order now':dos<ltDays*1.5?'⚡ Order within '+(dos-Math.round(ltDays/2))+' days':'✅ Stock adequate through lead time';
+  document.getElementById('fcProjection').textContent='Next month: '+nextFc.toLocaleString()+' units · '+risk;
 }
 
 function updateFcScenario(){
@@ -1792,84 +1999,208 @@ function updateFcScenario(){
   renderFcChart();
 }
 
-function updateFcProjection(fc,dos){
-  var risk=dos<ltDays?'⚠️ Stockout risk — order now':dos<ltDays*1.5?'⚡ Order within '+Math.round(dos-ltDays/2)+' days':'✅ Stock adequate for lead time';
-  document.getElementById('fcProjection').textContent='Next month: '+fc.toLocaleString()+' units · '+risk;
-}
-renderFcChart();
+// ══════════════════════════════════════════
+// TAB 3: REORDER
+// ══════════════════════════════════════════
+function getRoStatus(s){var dos=s.stock/(s.demand/30);return dos<=5?'crit':dos<=14?'warn':'ok';}
+function getRoLabel(st){return st==='crit'?'🔴 Critical':st==='warn'?'🟡 Order Soon':'🟢 Stock OK';}
 
-// ── REORDER BOARD ──────────────────────────────────────────
-var roData=[
-  {id:'FRGN-001',name:'Oud Royale 100ml',stock:82,demand:238,lt:30,minStock:50},
-  {id:'FRGN-002',name:'Velvet Noir 75ml',stock:310,demand:183,lt:25,minStock:80},
-  {id:'FRGN-005',name:'Amber Intense 100ml',stock:28,demand:30,lt:45,minStock:20},
-  {id:'FRGN-006',name:'Citrus Splash 50ml',stock:12,demand:117,lt:14,minStock:40},
-  {id:'FRGN-007',name:'Cedar Breeze 75ml',stock:140,demand:77,lt:21,minStock:30},
-  {id:'FRGN-008',name:'Jasmine Mist 30ml',stock:188,demand:77,lt:14,minStock:35},
-];
-var roOrdered={};
-
-function getRoStatus(s){
-  var dos=s.stock/(s.demand/30);
-  if(dos<=5)return'crit';
-  if(dos<=14)return'warn';
-  return'ok';
-}
-function getRoLabel(status){
-  if(status==='crit')return'🔴 Critical';
-  if(status==='warn')return'🟡 Order Soon';
-  return'🟢 Stock OK';
-}
 function renderRoGrid(){
   var grid=document.getElementById('roGrid');
   grid.innerHTML='';
   roData.forEach(function(s,i){
     var dos=Math.round(s.stock/(s.demand/30));
     var status=getRoStatus(s);
-    var maxDos=60;
-    var dosWidth=Math.min(dos/maxDos*100,100);
     var barColor=status==='crit'?'var(--rose)':status==='warn'?'var(--gold)':'#22c55e';
     var ordered=roOrdered[i];
     var card=document.createElement('div');
     card.className='ro-card '+status;
     card.innerHTML=
       '<span class="ro-badge '+status+'">'+getRoLabel(status)+'</span>'+
-      '<div class="ro-sku">'+s.id+'</div>'+
-      '<div class="ro-name">'+s.name+'</div>'+
+      '<div class="ro-sku">'+s.id+'</div><div class="ro-name">'+s.name+'</div>'+
       '<div class="ro-stats">'+
         '<div class="ro-stat"><div class="ro-stat-v">'+s.stock+'</div><div class="ro-stat-l">In Stock</div></div>'+
         '<div class="ro-stat"><div class="ro-stat-v">'+dos+'</div><div class="ro-stat-l">Days Supply</div></div>'+
         '<div class="ro-stat"><div class="ro-stat-v">'+Math.round(s.demand/30)+'</div><div class="ro-stat-l">Daily Rate</div></div>'+
         '<div class="ro-stat"><div class="ro-stat-v">'+s.lt+'d</div><div class="ro-stat-l">Lead Time</div></div>'+
       '</div>'+
-      '<div class="ro-dos-bar"><div class="ro-dos-fill" style="width:'+dosWidth+'%;background:'+barColor+'"></div></div>'+
-      '<button class="ro-action-btn'+(ordered?' ordered':'')+(status==='ok'?' disabled':'')+'" '+(status==='ok'?'disabled':'')+' onclick="placeOrder('+i+')">'+
-        (ordered?'✅ Order Placed':'Place Reorder')+
+      '<div class="ro-dos-bar"><div class="ro-dos-fill" style="width:'+Math.min(dos/60*100,100)+'%;background:'+barColor+'"></div></div>'+
+      '<button class="ro-action-btn'+(ordered?' ordered':'')+'" '+(status==='ok'&&!ordered?'disabled':'')+' onclick="placeOrder('+i+')">'+
+        (ordered?'✅ Order Placed':status==='ok'?'No Action Needed':'Place Reorder')+
       '</button>';
     grid.appendChild(card);
   });
 }
-function placeOrder(i){
-  roOrdered[i]=true;
-  renderRoGrid();
-}
-function simulateReceiving(){
-  roData.forEach(function(s){
-    var reorder=Math.round(s.demand*1.5);
-    s.stock+=reorder;
-  });
-  roOrdered={};
-  renderRoGrid();
-}
+function placeOrder(i){roOrdered[i]=true;renderRoGrid();}
+function simulateReceiving(){roData.forEach(function(s){s.stock+=Math.round(s.demand*1.5);});roOrdered={};renderRoGrid();}
 renderRoGrid();
 
-// ── TAB SWITCHER ───────────────────────────────────────────
-function switchDemoTab(tab,btn){
-  document.querySelectorAll('.demo-panel').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('.demo-tab').forEach(function(b){b.classList.remove('active');});
-  document.getElementById('tab-'+tab).classList.add('active');
-  btn.classList.add('active');
+// ══════════════════════════════════════════
+// TAB 4: SAFETY STOCK
+// ══════════════════════════════════════════
+var slLevels=[{pct:85,z:1.04},{pct:90,z:1.28},{pct:95,z:1.645},{pct:98,z:2.054},{pct:99.5,z:2.576}];
+
+function calcSS(){
+  var d=+document.getElementById('ssDemand').value;
+  var sigD=+document.getElementById('ssSigmaD').value;
+  var lt=+document.getElementById('ssLt').value;
+  var sigLt=+document.getElementById('ssSigmaLt').value;
+  var slIdx=+document.getElementById('ssSL').value;
+  var sl=slLevels[slIdx];
+  document.getElementById('ssDemandVal').textContent=d;
+  document.getElementById('ssSigmaDVal').textContent=sigD;
+  document.getElementById('ssLtVal').textContent=lt;
+  document.getElementById('ssSigmaLtVal').textContent=sigLt;
+  document.getElementById('ssSLVal').textContent=sl.pct+'%';
+  var ss=Math.round(sl.z*Math.sqrt(lt*sigD*sigD+d*d*sigLt*sigLt));
+  var rop=Math.round(d*lt+ss);
+  var costPerUnit=45;
+  var holdingPct=0.25;
+  var annualCost=Math.round(ss*costPerUnit*holdingPct);
+  document.getElementById('ssResultSS').textContent=ss.toLocaleString()+' units';
+  document.getElementById('ssResultSSsub').textContent='At '+sl.pct+'% service level with Z='+sl.z+'. Covers '+(sl.pct)+'% of demand+lead time variability scenarios.';
+  document.getElementById('ssResultROP').textContent=rop.toLocaleString()+' units';
+  document.getElementById('ssResultROPsub').textContent='Place a new order when stock hits this level. Covers '+lt+' days of average demand plus safety buffer.';
+  document.getElementById('ssResultCost').textContent='AED '+annualCost.toLocaleString()+'/yr';
+  document.getElementById('ssResultCostsub').textContent='Annual holding cost of safety stock at 25% carrying cost rate. Unit cost assumed AED '+costPerUnit+'.';
+  drawSSCurve(d,sigD,lt,sigLt,slIdx);
 }
+
+function drawSSCurve(d,sigD,lt,sigLt,activeSl){
+  var svg=document.getElementById('ssCurveSvg');
+  svg.innerHTML='';
+  var W=280,H=100,pad=24;
+  var pts=slLevels.map(function(sl,i){
+    var ss=sl.z*Math.sqrt(lt*sigD*sigD+d*d*sigLt*sigLt);
+    return{x:pad+(W-pad*2)*(i/4),y:H-pad-(H-pad*2)*(ss/(slLevels[4].z*Math.sqrt(lt*sigD*sigD+d*d*sigLt*sigLt))),ss:Math.round(ss),sl:sl.pct};
+  });
+  var path='M'+pts.map(function(p){return p.x+','+p.y;}).join(' L');
+  var area=document.createElementNS('http://www.w3.org/2000/svg','path');
+  area.setAttribute('d',path+' L'+pts[4].x+','+(H-pad)+' L'+pts[0].x+','+(H-pad)+' Z');
+  area.setAttribute('fill','rgba(0,212,168,.08)');svg.appendChild(area);
+  var line=document.createElementNS('http://www.w3.org/2000/svg','path');
+  line.setAttribute('d',path);line.setAttribute('fill','none');line.setAttribute('stroke','var(--teal)');line.setAttribute('stroke-width','2');svg.appendChild(line);
+  pts.forEach(function(p,i){
+    var c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',p.x);c.setAttribute('cy',p.y);c.setAttribute('r',i===activeSl?6:3.5);
+    c.setAttribute('fill',i===activeSl?'var(--teal)':'rgba(0,212,168,.5)');
+    c.setAttribute('stroke',i===activeSl?'var(--bg0)':'none');c.setAttribute('stroke-width','2');
+    svg.appendChild(c);
+    var lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+    lbl.setAttribute('x',p.x);lbl.setAttribute('y',H-6);lbl.setAttribute('text-anchor','middle');
+    lbl.setAttribute('font-size','8');lbl.setAttribute('fill','rgba(148,163,184,.8)');
+    lbl.textContent=p.sl+'%';svg.appendChild(lbl);
+  });
+}
+
+// ══════════════════════════════════════════
+// TAB 5: DISRUPTION
+// ══════════════════════════════════════════
+var disScenario=-1;
+var disScenarios=[
+  {name:'Air Freight',extraCost:18500,leadTime:5,stockRecovery:1.0,serviceLevel:98,tag:'⚠️ Immediate fix',color:'var(--rose)',
+   rows:[['Extra freight cost','AED 18,500'],['Time to resolve','5 days'],['Service level maintained','98%'],['Stock gap avoided','Yes'],['Recommended when','Stock <3 days remaining']]},
+  {name:'Alt. Supplier',extraCost:4200,leadTime:10,stockRecovery:0.85,serviceLevel:88,tag:'⚡ 10-day fix',color:'var(--gold)',
+   rows:[['Cost premium (15%)','AED 4,200'],['Time to resolve','10 days'],['Service level maintained','88%'],['Quality risk','Medium'],['Recommended when','Stock 5–12 days remaining']]},
+  {name:'Stock Rationing',extraCost:0,leadTime:21,stockRecovery:0.5,serviceLevel:65,tag:'✅ No cost',color:'var(--teal)',
+   rows:[['Extra cost','AED 0'],['Time to resolve','21 days (wait for original)'],['Service level maintained','65%'],['Customer impact','High — partial fulfilment'],['Recommended when','Stock >14 days; low-priority SKU']]},
+  {name:'Demand Shaping',extraCost:1200,leadTime:14,stockRecovery:0.7,serviceLevel:80,tag:'🎯 Strategic',color:'var(--indigo)',
+   rows:[['Promotion cost','AED 1,200'],['Time to resolve','14 days'],['Service level (substitute)','80%'],['Brand impact','Low — transparent comms'],['Recommended when','Strong substitute SKU available']]},
+];
+
+function updateDisChart(){
+  var delay=+document.getElementById('disDelaySlider').value;
+  document.getElementById('disDelayVal').textContent=delay+' days';
+  drawDisChart(delay,disScenario);
+}
+
+function selectDisScenario(i,btn){
+  disScenario=i;
+  document.querySelectorAll('.dis-scenario-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  var sc=disScenarios[i];
+  var rows=sc.rows.map(function(r){
+    return '<div class="dis-outcome-row"><span class="dis-outcome-label">'+r[0]+'</span><span class="dis-outcome-val" style="color:'+sc.color+'">'+r[1]+'</span></div>';
+  }).join('');
+  document.getElementById('disOutcome').innerHTML='<div class="dis-outcome-title">'+sc.name+' — Outcome</div>'+rows;
+  updateDisChart();
+}
+
+function drawDisChart(delay,scenarioIdx){
+  var svg=document.getElementById('disSvg');
+  svg.innerHTML='';
+  var W=480,H=160,padX=36,padY=16,days=60;
+  var initialStock=420,dailyDemand=14,originalArrival=30;
+  var arrivalDay=originalArrival+delay;
+  // Build stock array
+  var sc=scenarioIdx>=0?disScenarios[scenarioIdx]:null;
+  var stock=[];
+  var cur=initialStock;
+  for(var day=0;day<=days;day++){
+    stock.push(Math.max(cur,0));
+    var received=0;
+    if(sc){
+      var resolveDay=originalArrival+Math.min(delay,sc.leadTime);
+      if(day===resolveDay) received=Math.round(dailyDemand*21*sc.stockRecovery);
+    } else {
+      if(day===arrivalDay) received=Math.round(dailyDemand*21);
+    }
+    cur=cur-dailyDemand+received;
+  }
+  var maxS=initialStock;
+  function sx(d){return padX+(W-padX*2)*(d/days);}
+  function sy(s){return padY+(H-padY*2)*(1-s/maxS);}
+  // Stockout fill
+  var stockoutPath='M'+sx(0)+','+sy(0);
+  for(var i=0;i<=days;i++) stockoutPath+=' L'+sx(i)+','+sy(stock[i]);
+  stockoutPath+=' L'+sx(days)+','+H+' L'+sx(0)+','+H+' Z';
+  var stockoutFill=document.createElementNS('http://www.w3.org/2000/svg','path');
+  stockoutFill.setAttribute('d',stockoutPath);
+  stockoutFill.setAttribute('fill','rgba(244,63,94,.06)');
+  svg.appendChild(stockoutFill);
+  // Zero line
+  var zeroLine=document.createElementNS('http://www.w3.org/2000/svg','line');
+  zeroLine.setAttribute('x1',padX);zeroLine.setAttribute('y1',sy(0));
+  zeroLine.setAttribute('x2',W-padX);zeroLine.setAttribute('y2',sy(0));
+  zeroLine.setAttribute('stroke','rgba(244,63,94,.3)');zeroLine.setAttribute('stroke-width','1');zeroLine.setAttribute('stroke-dasharray','4,3');
+  svg.appendChild(zeroLine);
+  // Delay marker
+  if(delay>0){
+    var delayX=sx(arrivalDay);
+    var delayLine=document.createElementNS('http://www.w3.org/2000/svg','line');
+    delayLine.setAttribute('x1',delayX);delayLine.setAttribute('y1',padY);
+    delayLine.setAttribute('x2',delayX);delayLine.setAttribute('y2',H-padY);
+    delayLine.setAttribute('stroke','var(--gold)');delayLine.setAttribute('stroke-width','1.5');delayLine.setAttribute('stroke-dasharray','5,3');
+    svg.appendChild(delayLine);
+    var dLbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+    dLbl.setAttribute('x',delayX+3);dLbl.setAttribute('y',padY+10);
+    dLbl.setAttribute('font-size','8');dLbl.setAttribute('fill','rgba(245,158,11,.9)');
+    dLbl.textContent='Supplier delayed';svg.appendChild(dLbl);
+  }
+  // Stock line
+  var stockPath='M'+sx(0)+','+sy(stock[0]);
+  for(var j=1;j<=days;j++) stockPath+=' L'+sx(j)+','+sy(stock[j]);
+  var stockLine=document.createElementNS('http://www.w3.org/2000/svg','path');
+  stockLine.setAttribute('d',stockPath);stockLine.setAttribute('fill','none');
+  stockLine.setAttribute('stroke',sc?sc.color:'var(--teal)');stockLine.setAttribute('stroke-width','2.5');
+  svg.appendChild(stockLine);
+  // Axis labels
+  [0,15,30,45,60].forEach(function(d){
+    var t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',sx(d));t.setAttribute('y',H-2);t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-size','8');t.setAttribute('fill','rgba(148,163,184,.7)');
+    t.textContent='Day '+d;svg.appendChild(t);
+  });
+  [0,100,200,300,400].forEach(function(s){
+    var t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',padX-3);t.setAttribute('y',sy(s)+3);t.setAttribute('text-anchor','end');
+    t.setAttribute('font-size','7');t.setAttribute('fill','rgba(148,163,184,.6)');
+    t.textContent=s;svg.appendChild(t);
+  });
+}
+
+updateDisChart();
+calcSS();
 </script>
 </section>
 
