@@ -449,6 +449,91 @@ section{padding:96px 0;}
 .pj-note-txt{font-size:.82rem;color:var(--t2);line-height:1.5;}
 .pj-note-txt strong{color:var(--t1);}
 
+/* ═══════════════════════════════════════════════
+   FLAGSHIP AI PLATFORMS — Special Showcase
+   ═══════════════════════════════════════════════ */
+.flagship-wrap{margin-bottom:56px;}
+.flagship-label{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,rgba(245,158,11,.1),rgba(99,102,241,.08));border:1px solid rgba(245,158,11,.3);border-radius:20px;padding:6px 18px;font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#f59e0b;margin-bottom:22px;}
+.flagship-label::before{content:'';width:7px;height:7px;background:#f59e0b;border-radius:50%;animation:flagPulse 1.8s ease-in-out infinite;}
+@keyframes flagPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.6);opacity:1}50%{box-shadow:0 0 0 8px rgba(245,158,11,0);opacity:.8}}
+.flagship-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:0;}
+/* Base flagship card */
+.fcard{position:relative;border-radius:22px;overflow:hidden;display:flex;flex-direction:column;background:rgba(8,20,40,.7);backdrop-filter:blur(16px);transition:transform .4s cubic-bezier(.25,.8,.25,1),box-shadow .4s;}
+.fcard:hover{transform:translateY(-8px);}
+/* Animated gradient border via pseudo */
+.fcard::before{content:'';position:absolute;inset:-1.5px;border-radius:23px;z-index:0;background-size:300% 300%;animation:borderCycle 5s linear infinite;}
+/* Card inner */
+.fcard-inner{position:relative;z-index:1;background:rgba(5,16,35,.92);border-radius:21px;height:100%;display:flex;flex-direction:column;}
+/* Canvas particle background */
+.fcard-canvas{position:absolute;inset:0;border-radius:21px;opacity:.45;pointer-events:none;}
+/* Top scanline */
+.fcard-scan{position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px;opacity:.7;animation:scanMove 3.5s ease-in-out infinite;}
+@keyframes scanMove{0%,100%{transform:translateY(0);opacity:.7}50%{transform:translateY(260px);opacity:.3}}
+/* Content */
+.fcard-body{padding:32px 32px 28px;display:flex;flex-direction:column;flex:1;position:relative;z-index:2;}
+.fcard-status{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.fcard-live-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;animation:liveGlow 2s ease-in-out infinite;}
+@keyframes liveGlow{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
+.fcard-badge{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 11px;border-radius:12px;border:1px solid;}
+.fcard-platform{font-size:.6rem;font-weight:600;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;}
+.fcard-icon{font-size:2.6rem;margin-bottom:14px;display:block;filter:drop-shadow(0 4px 16px rgba(0,0,0,.4));animation:iconBob 4s ease-in-out infinite;}
+@keyframes iconBob{0%,100%{transform:translateY(0) rotate(0deg)}30%{transform:translateY(-5px) rotate(-2deg)}70%{transform:translateY(-3px) rotate(1deg)}}
+.fcard-title{font-size:1.55rem;font-weight:900;line-height:1.18;letter-spacing:-.025em;margin-bottom:8px;}
+.fcard-hook{font-size:.85rem;font-weight:600;font-style:italic;opacity:.85;margin-bottom:14px;}
+.fcard-desc{font-size:.85rem;color:var(--t2);line-height:1.72;flex:1;margin-bottom:20px;}
+/* Sub-products strip (for AI Supply Chain) */
+.fcard-subs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.fcard-sub{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:10px;border:1px solid;font-size:.72rem;font-weight:700;}
+/* Metric row */
+.fcard-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-radius:12px;border:1px solid rgba(255,255,255,.07);overflow:hidden;margin-bottom:18px;background:rgba(255,255,255,.02);}
+.fcard-metric{padding:14px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.06);}
+.fcard-metric:last-child{border-right:none;}
+.fcard-metric-val{font-size:1.3rem;font-weight:900;line-height:1;margin-bottom:3px;}
+.fcard-metric-lbl{font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;}
+/* Tags */
+.fcard-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:22px;}
+.fcard-tag{font-size:.65rem;padding:3px 9px;border-radius:9px;background:rgba(255,255,255,.05);color:var(--t2);border:1px solid rgba(255,255,255,.07);font-weight:600;}
+/* CTA */
+.fcard-cta{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:12px;font-size:.88rem;font-weight:700;text-decoration:none;border:1px solid;transition:all .25s;align-self:flex-start;position:relative;overflow:hidden;}
+.fcard-cta::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transform:skewX(-20deg);}
+.fcard-cta:hover::after{animation:shimmerSwipe .6s ease forwards;}
+.fcard-cta:hover{transform:translateY(-2px);}
+.fcard-cta svg{width:15px;height:15px;fill:currentColor;transition:transform .25s;}
+.fcard-cta:hover svg{transform:translate(3px,-3px);}
+/* SVG mockup area */
+.fcard-viz{padding:0 24px 28px;position:relative;z-index:2;}
+/* Orbiting particles */
+.fcard-orb{position:absolute;border-radius:50%;pointer-events:none;}
+.fcard-orb-1{width:120px;height:120px;top:-30px;right:-30px;border:1px solid;opacity:.12;animation:orbSpin 12s linear infinite;}
+.fcard-orb-2{width:200px;height:200px;top:-80px;right:-80px;border:1px solid;opacity:.06;animation:orbSpin 20s linear infinite reverse;}
+.fcard-orb-3{width:60px;height:60px;bottom:40px;left:-20px;border:1px solid;opacity:.1;animation:orbSpin 8s linear infinite;}
+@keyframes orbSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+/* AlphaOS color theme — gold/amber */
+.fcard-alphaos::before{background:linear-gradient(135deg,#f59e0b,#fb923c,#f59e0b,#fbbf24,#f59e0b);}
+.fcard-alphaos:hover{box-shadow:0 32px 80px rgba(245,158,11,.18),0 0 0 1px rgba(245,158,11,.3);}
+.fcard-alphaos .fcard-scan{background:linear-gradient(90deg,transparent,#f59e0b,transparent);}
+.fcard-alphaos .fcard-live-dot{background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,.6);}
+.fcard-alphaos .fcard-hook{color:#fbbf24;}
+.fcard-alphaos .fcard-title{background:linear-gradient(130deg,#f59e0b,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.fcard-alphaos .fcard-orb-1,.fcard-alphaos .fcard-orb-2,.fcard-alphaos .fcard-orb-3{border-color:#f59e0b;}
+/* AI Supply Chain color theme — teal/rose dual */
+.fcard-aisc::before{background:linear-gradient(135deg,var(--teal),#f43f5e,var(--indigo),var(--teal),#f43f5e);}
+.fcard-aisc:hover{box-shadow:0 32px 80px rgba(0,212,168,.14),0 0 0 1px rgba(0,212,168,.25);}
+.fcard-aisc .fcard-scan{background:linear-gradient(90deg,transparent,var(--teal),transparent);}
+.fcard-aisc .fcard-live-dot{background:var(--teal);box-shadow:0 0 8px rgba(0,212,168,.6);}
+.fcard-aisc .fcard-hook{color:var(--teal);}
+.fcard-aisc .fcard-title{background:linear-gradient(130deg,var(--teal),var(--indigo));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.fcard-aisc .fcard-orb-1,.fcard-aisc .fcard-orb-2,.fcard-aisc .fcard-orb-3{border-color:var(--teal);}
+@keyframes borderCycle{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+/* Floating ticker inside cards */
+.fcard-ticker{overflow:hidden;border-top:1px solid rgba(255,255,255,.06);padding:8px 24px;display:flex;gap:0;background:rgba(0,0,0,.2);position:relative;z-index:2;}
+.fcard-ticker-inner{display:flex;gap:32px;animation:tickerRoll 12s linear infinite;white-space:nowrap;}
+.fcard-ticker-item{font-size:.65rem;font-weight:700;letter-spacing:.08em;display:flex;align-items:center;gap:5px;}
+@keyframes tickerRoll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* Responsive */
+@media(max-width:900px){.flagship-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.fcard-metrics{grid-template-columns:repeat(2,1fr);}.fcard-body{padding:24px 20px 20px;}.fcard-title{font-size:1.3rem;}}
+
 /* Responsive */
 @media(max-width:1020px){
   .pf-hero{grid-template-columns:1fr;}
@@ -1433,6 +1518,231 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
     <h2 class="sec-title"><span>Live Projects</span></h2>
     <p class="sec-sub">Every project below is something you can open, interact with, and explore — built to demonstrate the skills that supply chain leadership roles demand. Not a supply chain expert? Each card explains exactly what was built and why it matters, in plain language.</p>
 
+    <!-- ══════════════════════════════════════════════════
+         FLAGSHIP AI PLATFORMS — Top Showcase
+         ══════════════════════════════════════════════════ -->
+    <div class="flagship-wrap" id="flagshipWrap">
+      <div class="flagship-label">Flagship AI Products</div>
+
+      <div class="flagship-grid">
+
+        <!-- ── AlphaOS ─────────────────────────────────── -->
+        <div class="fcard fcard-alphaos" id="fcAlphaOS">
+          <!-- Orbiting rings -->
+          <div class="fcard-orb fcard-orb-1"></div>
+          <div class="fcard-orb fcard-orb-2"></div>
+          <div class="fcard-orb fcard-orb-3"></div>
+          <div class="fcard-inner">
+            <canvas class="fcard-canvas" id="canvasAlpha"></canvas>
+            <div class="fcard-scan"></div>
+            <div class="fcard-body">
+              <div class="fcard-status">
+                <span class="fcard-live-dot"></span>
+                <span class="fcard-badge" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4);color:#f59e0b">Live Platform</span>
+                <span class="fcard-platform">Multi-Market · Algorithmic Trading</span>
+              </div>
+              <span class="fcard-icon">📈</span>
+              <h3 class="fcard-title">AlphaOS</h3>
+              <p class="fcard-hook">"10-strategy algorithmic engine spanning US, India, UAE &amp; Crypto markets"</p>
+              <p class="fcard-desc">An institutional-grade AI trading platform with a 10-strategy library covering mean reversion, momentum, and trend-following signals. Real-time market intelligence across four asset classes — US equities, Indian NSE/BSE, UAE DFM/ADX, and cryptocurrency. Powered by Polygon.io live data and Supabase for strategy tracking and performance analytics.</p>
+              <div class="fcard-metrics">
+                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#f59e0b" data-target="10" data-suffix="">0</div><div class="fcard-metric-lbl">Strategies</div></div>
+                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#fb923c" data-target="4" data-suffix=" Markets">0</div><div class="fcard-metric-lbl">Asset Classes</div></div>
+                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#fbbf24" data-target="100" data-suffix="%" data-prefix="">0</div><div class="fcard-metric-lbl">Live Data</div></div>
+              </div>
+              <div class="fcard-tags">
+                <span class="fcard-tag">React</span><span class="fcard-tag">Polygon.io</span><span class="fcard-tag">Supabase</span><span class="fcard-tag">Algorithmic</span><span class="fcard-tag">US · India · UAE · Crypto</span><span class="fcard-tag">Institutional Intelligence</span>
+              </div>
+              <a href="https://vinayak682.github.io/alphaos/" target="_blank" class="fcard-cta" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.45);color:#f59e0b">
+                Open AlphaOS
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+              </a>
+            </div>
+            <!-- Animated candlestick SVG mockup -->
+            <div class="fcard-viz">
+              <svg viewBox="0 0 380 120" width="100%" height="100" style="filter:drop-shadow(0 2px 12px rgba(245,158,11,.12))">
+                <!-- Grid lines -->
+                <line x1="0" y1="30" x2="380" y2="30" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                <line x1="0" y1="60" x2="380" y2="60" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                <line x1="0" y1="90" x2="380" y2="90" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                <!-- Candle 1 red -->
+                <line x1="24" y1="18" x2="24" y2="95" stroke="#f43f5e" stroke-width="1.5"/>
+                <rect x="18" y="42" width="12" height="28" rx="2" fill="#f43f5e" opacity=".9"/>
+                <!-- Candle 2 green -->
+                <line x1="52" y1="22" x2="52" y2="82" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="46" y="30" width="12" height="34" rx="2" fill="#22c55e" opacity=".9"/>
+                <!-- Candle 3 red -->
+                <line x1="80" y1="28" x2="80" y2="88" stroke="#f43f5e" stroke-width="1.5"/>
+                <rect x="74" y="48" width="12" height="22" rx="2" fill="#f43f5e" opacity=".9"/>
+                <!-- Candle 4 green -->
+                <line x1="108" y1="20" x2="108" y2="76" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="102" y="28" width="12" height="30" rx="2" fill="#22c55e" opacity=".9"/>
+                <!-- Candle 5 green -->
+                <line x1="136" y1="14" x2="136" y2="68" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="130" y="22" width="12" height="28" rx="2" fill="#22c55e" opacity=".9"/>
+                <!-- Candle 6 red -->
+                <line x1="164" y1="24" x2="164" y2="80" stroke="#f43f5e" stroke-width="1.5"/>
+                <rect x="158" y="40" width="12" height="26" rx="2" fill="#f43f5e" opacity=".9"/>
+                <!-- Candle 7 green large -->
+                <line x1="192" y1="10" x2="192" y2="72" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="186" y="18" width="12" height="36" rx="2" fill="#22c55e" opacity=".9"/>
+                <!-- Candle 8 green -->
+                <line x1="220" y1="8" x2="220" y2="60" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="214" y="14" width="12" height="28" rx="2" fill="#22c55e" opacity=".9"/>
+                <!-- Candle 9 red -->
+                <line x1="248" y1="16" x2="248" y2="70" stroke="#f43f5e" stroke-width="1.5"/>
+                <rect x="242" y="32" width="12" height="20" rx="2" fill="#f43f5e" opacity=".9"/>
+                <!-- Candle 10 green big -->
+                <line x1="276" y1="6" x2="276" y2="58" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="270" y="12" width="12" height="30" rx="2" fill="#22c55e" opacity=".9"/>
+                <!-- Candle 11 green -->
+                <line x1="304" y1="4" x2="304" y2="52" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="298" y="10" width="12" height="24" rx="2" fill="#22c55e" opacity=".9"/>
+                <!-- Candle 12 green latest -->
+                <line x1="332" y1="2" x2="332" y2="48" stroke="#f59e0b" stroke-width="1.5"/>
+                <rect x="326" y="8" width="12" height="22" rx="2" fill="#f59e0b" opacity=".95"/>
+                <!-- Price line -->
+                <polyline points="24,56 52,44 80,59 108,43 136,36 164,53 192,36 220,28 248,42 276,26 304,21 332,18" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2,2" opacity=".6"/>
+                <!-- Trailing glow on last candle -->
+                <circle cx="332" cy="8" r="4" fill="#f59e0b" opacity=".8"><animate attributeName="r" values="4;7;4" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;.3;.8" dur="1.5s" repeatCount="indefinite"/></circle>
+                <!-- Market labels -->
+                <text x="4" y="115" fill="rgba(245,158,11,.5)" font-size="8" font-family="system-ui" font-weight="700">US</text>
+                <text x="104" y="115" fill="rgba(245,158,11,.5)" font-size="8" font-family="system-ui" font-weight="700">India NSE</text>
+                <text x="210" y="115" fill="rgba(245,158,11,.5)" font-size="8" font-family="system-ui" font-weight="700">UAE DFM</text>
+                <text x="318" y="115" fill="rgba(245,158,11,.5)" font-size="8" font-family="system-ui" font-weight="700">Crypto</text>
+                <line x1="96" y1="108" x2="96" y2="98" stroke="rgba(245,158,11,.2)" stroke-width="1"/>
+                <line x1="204" y1="108" x2="204" y2="98" stroke="rgba(245,158,11,.2)" stroke-width="1"/>
+                <line x1="312" y1="108" x2="312" y2="98" stroke="rgba(245,158,11,.2)" stroke-width="1"/>
+              </svg>
+            </div>
+            <!-- Live ticker -->
+            <div class="fcard-ticker">
+              <div class="fcard-ticker-inner">
+                <span class="fcard-ticker-item" style="color:#22c55e">▲ AAPL +2.3%</span>
+                <span class="fcard-ticker-item" style="color:#22c55e">▲ RELIANCE +1.8%</span>
+                <span class="fcard-ticker-item" style="color:#f43f5e">▼ BTC −0.9%</span>
+                <span class="fcard-ticker-item" style="color:#22c55e">▲ EMAAR +3.1%</span>
+                <span class="fcard-ticker-item" style="color:#f59e0b">◆ NIFTY 22,450</span>
+                <span class="fcard-ticker-item" style="color:#22c55e">▲ ETH +4.2%</span>
+                <span class="fcard-ticker-item" style="color:#22c55e">▲ ADNOC +1.5%</span>
+                <!-- duplicate for seamless loop -->
+                <span class="fcard-ticker-item" style="color:#22c55e">▲ AAPL +2.3%</span>
+                <span class="fcard-ticker-item" style="color:#22c55e">▲ RELIANCE +1.8%</span>
+                <span class="fcard-ticker-item" style="color:#f43f5e">▼ BTC −0.9%</span>
+                <span class="fcard-ticker-item" style="color:#22c55e">▲ EMAAR +3.1%</span>
+                <span class="fcard-ticker-item" style="color:#f59e0b">◆ NIFTY 22,450</span>
+                <span class="fcard-ticker-item" style="color:#22c55e">▲ ETH +4.2%</span>
+                <span class="fcard-ticker-item" style="color:#22c55e">▲ ADNOC +1.5%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── AI Supply Chain Platform ─────────────────── -->
+        <div class="fcard fcard-aisc" id="fcAISC">
+          <div class="fcard-orb fcard-orb-1"></div>
+          <div class="fcard-orb fcard-orb-2"></div>
+          <div class="fcard-orb fcard-orb-3"></div>
+          <div class="fcard-inner">
+            <canvas class="fcard-canvas" id="canvasAISC"></canvas>
+            <div class="fcard-scan"></div>
+            <div class="fcard-body">
+              <div class="fcard-status">
+                <span class="fcard-live-dot"></span>
+                <span class="fcard-badge" style="background:rgba(0,212,168,.1);border-color:rgba(0,212,168,.4);color:#00d4a8">In Build · Live Demo</span>
+                <span class="fcard-platform">UAE/GCC + US · Enterprise SaaS</span>
+              </div>
+              <span class="fcard-icon">🧠</span>
+              <h3 class="fcard-title">AI Supply Chain Platform</h3>
+              <p class="fcard-hook">"Real-time OTIF compliance copilot + exception intelligence brain — built for operations teams"</p>
+              <!-- Sub-products -->
+              <div class="fcard-subs">
+                <div class="fcard-sub" style="background:rgba(0,212,168,.08);border-color:rgba(0,212,168,.3);color:#00d4a8">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                  Compliance Shield
+                </div>
+                <div class="fcard-sub" style="background:rgba(99,102,241,.08);border-color:rgba(99,102,241,.3);color:#818cf8">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"/></svg>
+                  Neural Command
+                </div>
+              </div>
+              <p class="fcard-desc">Two flagship modules on a single platform. Compliance Shield tracks OTIF delivery in real-time with AI root-cause analysis across 36K+ supply chain events. Neural Command is an exception brain that surfaces which disruptions need human attention — ranked by revenue impact — before they escalate.</p>
+              <div class="fcard-metrics">
+                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#00d4a8" data-target="21" data-suffix="">0</div><div class="fcard-metric-lbl">DB Tables</div></div>
+                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#818cf8" data-target="36" data-suffix="K+">0</div><div class="fcard-metric-lbl">Data Rows</div></div>
+                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#34d399" data-target="2" data-suffix=" Modules">0</div><div class="fcard-metric-lbl">AI Engines</div></div>
+              </div>
+              <div class="fcard-tags">
+                <span class="fcard-tag">Claude API</span><span class="fcard-tag">Supabase</span><span class="fcard-tag">React</span><span class="fcard-tag">OTIF Compliance</span><span class="fcard-tag">Exception Brain</span><span class="fcard-tag">UAE/GCC · US</span>
+              </div>
+              <a href="https://vinayak682.github.io/ai-supply-chain-platform/" target="_blank" class="fcard-cta" style="background:rgba(0,212,168,.1);border-color:rgba(0,212,168,.4);color:#00d4a8">
+                Open Platform Demo
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+              </a>
+            </div>
+            <!-- Neural network SVG -->
+            <div class="fcard-viz">
+              <svg viewBox="0 0 380 110" width="100%" height="95" style="filter:drop-shadow(0 2px 12px rgba(0,212,168,.1))">
+                <!-- Neural connections -->
+                <line x1="40" y1="30" x2="130" y2="20" stroke="rgba(0,212,168,.2)" stroke-width="1"/><line x1="40" y1="30" x2="130" y2="55" stroke="rgba(0,212,168,.2)" stroke-width="1"/><line x1="40" y1="30" x2="130" y2="88" stroke="rgba(0,212,168,.15)" stroke-width="1"/>
+                <line x1="40" y1="80" x2="130" y2="20" stroke="rgba(99,102,241,.2)" stroke-width="1"/><line x1="40" y1="80" x2="130" y2="55" stroke="rgba(99,102,241,.2)" stroke-width="1"/><line x1="40" y1="80" x2="130" y2="88" stroke="rgba(99,102,241,.15)" stroke-width="1"/>
+                <line x1="130" y1="20" x2="220" y2="35" stroke="rgba(0,212,168,.25)" stroke-width="1.2"/><line x1="130" y1="55" x2="220" y2="35" stroke="rgba(0,212,168,.25)" stroke-width="1.2"/><line x1="130" y1="88" x2="220" y2="35" stroke="rgba(0,212,168,.2)" stroke-width="1.2"/>
+                <line x1="130" y1="20" x2="220" y2="75" stroke="rgba(99,102,241,.2)" stroke-width="1"/><line x1="130" y1="55" x2="220" y2="75" stroke="rgba(99,102,241,.25)" stroke-width="1.2"/><line x1="130" y1="88" x2="220" y2="75" stroke="rgba(99,102,241,.2)" stroke-width="1"/>
+                <line x1="220" y1="35" x2="310" y2="55" stroke="rgba(0,212,168,.35)" stroke-width="1.5"/><line x1="220" y1="75" x2="310" y2="55" stroke="rgba(99,102,241,.35)" stroke-width="1.5"/>
+                <!-- Output line to label -->
+                <line x1="310" y1="55" x2="360" y2="55" stroke="rgba(0,212,168,.5)" stroke-width="2"/>
+                <!-- Layer 1 nodes -->
+                <circle cx="40" cy="30" r="8" fill="rgba(99,102,241,.15)" stroke="#6366f1" stroke-width="1.5"/>
+                <circle cx="40" cy="80" r="8" fill="rgba(99,102,241,.15)" stroke="#6366f1" stroke-width="1.5"/>
+                <!-- Layer 2 nodes -->
+                <circle cx="130" cy="20" r="7" fill="rgba(0,212,168,.1)" stroke="#00d4a8" stroke-width="1.5"/>
+                <circle cx="130" cy="55" r="7" fill="rgba(0,212,168,.15)" stroke="#00d4a8" stroke-width="1.5"/>
+                <circle cx="130" cy="88" r="7" fill="rgba(0,212,168,.1)" stroke="#00d4a8" stroke-width="1.5"/>
+                <!-- Layer 3 nodes -->
+                <circle cx="220" cy="35" r="9" fill="rgba(0,212,168,.15)" stroke="#00d4a8" stroke-width="2"/>
+                <circle cx="220" cy="75" r="9" fill="rgba(99,102,241,.15)" stroke="#6366f1" stroke-width="2"/>
+                <!-- Output node animated -->
+                <circle cx="310" cy="55" r="11" fill="rgba(0,212,168,.12)" stroke="#00d4a8" stroke-width="2"><animate attributeName="stroke-opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/></circle>
+                <circle cx="310" cy="55" r="18" fill="none" stroke="#00d4a8" stroke-width="1" opacity=".2"><animate attributeName="r" values="11;22;11" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".4;0;.4" dur="2s" repeatCount="indefinite"/></circle>
+                <!-- OTIF gauge mini -->
+                <path d="M 348 90 A 20 20 0 0 1 372 90" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="4" stroke-linecap="round"/>
+                <path d="M 348 90 A 20 20 0 0 1 371 83" fill="none" stroke="#00d4a8" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+                <text x="360" y="85" fill="#00d4a8" font-size="9" font-weight="bold" font-family="system-ui" text-anchor="middle">96%</text>
+                <text x="360" y="100" fill="rgba(136,146,176,.5)" font-size="6" font-family="system-ui" text-anchor="middle">OTIF</text>
+                <!-- Labels -->
+                <text x="28" y="12" fill="rgba(99,102,241,.6)" font-size="7" font-family="system-ui">Input</text>
+                <text x="118" y="10" fill="rgba(0,212,168,.6)" font-size="7" font-family="system-ui">Features</text>
+                <text x="206" y="22" fill="rgba(0,212,168,.6)" font-size="7" font-family="system-ui">Hidden</text>
+                <text x="296" y="42" fill="rgba(0,212,168,.6)" font-size="7" font-family="system-ui">Output</text>
+                <!-- Exception alert badge -->
+                <rect x="6" y="95" width="90" height="14" rx="4" fill="rgba(244,63,94,.08)" stroke="rgba(244,63,94,.25)" stroke-width="1"/>
+                <text x="51" y="105" fill="#f43f5e" font-size="7" font-weight="700" font-family="system-ui" text-anchor="middle">3 Exceptions Flagged</text>
+              </svg>
+            </div>
+            <!-- Live ticker -->
+            <div class="fcard-ticker">
+              <div class="fcard-ticker-inner">
+                <span class="fcard-ticker-item" style="color:#00d4a8">✓ OTIF 96.1%</span>
+                <span class="fcard-ticker-item" style="color:#f43f5e">⚠ PO-4821 Delayed 2d</span>
+                <span class="fcard-ticker-item" style="color:#818cf8">⬆ Ramadan Surge +47%</span>
+                <span class="fcard-ticker-item" style="color:#00d4a8">✓ 36K Events Indexed</span>
+                <span class="fcard-ticker-item" style="color:#f59e0b">◆ Compliance Score 94/100</span>
+                <span class="fcard-ticker-item" style="color:#00d4a8">✓ Neural Command Active</span>
+                <!-- duplicate -->
+                <span class="fcard-ticker-item" style="color:#00d4a8">✓ OTIF 96.1%</span>
+                <span class="fcard-ticker-item" style="color:#f43f5e">⚠ PO-4821 Delayed 2d</span>
+                <span class="fcard-ticker-item" style="color:#818cf8">⬆ Ramadan Surge +47%</span>
+                <span class="fcard-ticker-item" style="color:#00d4a8">✓ 36K Events Indexed</span>
+                <span class="fcard-ticker-item" style="color:#f59e0b">◆ Compliance Score 94/100</span>
+                <span class="fcard-ticker-item" style="color:#00d4a8">✓ Neural Command Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /flagship-grid -->
+    </div><!-- /flagship-wrap -->
+
     <!-- ── FEATURED HERO CARD ─────────────────────────── -->
     <article class="pf-hero" id="pfHero" aria-label="Featured Project">
       <div class="pf-hero-left">
@@ -1504,7 +1814,7 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
 
     <!-- ── ACHIEVEMENT STATS ──────────────────────────── -->
     <div class="pj-stats" id="pjStats">
-      <div class="pj-stat" style="--stat-color:#00d4a8"><div class="pj-stat-val" data-target="13" data-suffix="">0</div><div class="pj-stat-lbl">Live Portfolio Projects</div></div>
+      <div class="pj-stat" style="--stat-color:#00d4a8"><div class="pj-stat-val" data-target="15" data-suffix="">0</div><div class="pj-stat-lbl">Live Portfolio Projects</div></div>
       <div class="pj-stat" style="--stat-color:#22c55e"><div class="pj-stat-val" data-target="96.1" data-suffix="%" data-dec="1">0</div><div class="pj-stat-lbl">OTIF Rate Achieved</div></div>
       <div class="pj-stat" style="--stat-color:#818cf8"><div class="pj-stat-val" data-prefix="+" data-target="30" data-suffix="%">0</div><div class="pj-stat-lbl">Forecast Accuracy Gain</div></div>
       <div class="pj-stat" style="--stat-color:#f59e0b"><div class="pj-stat-val" data-target="24" data-suffix=" KPIs">0</div><div class="pj-stat-lbl">Scorecard KPIs Tracked</div></div>
@@ -1513,7 +1823,7 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
 
     <!-- ── FILTER TABS ─────────────────────────────────── -->
     <div class="pj-filter">
-      <button class="pj-ftab active" onclick="filterPJ('all',this)">All 13 Projects</button>
+      <button class="pj-ftab active" onclick="filterPJ('all',this)">All 15 Projects</button>
       <button class="pj-ftab" onclick="filterPJ('saas',this)">🚀 AI SaaS</button>
       <button class="pj-ftab" onclick="filterPJ('analytics',this)">📊 Analytics &amp; Data</button>
       <button class="pj-ftab" onclick="filterPJ('risk',this)">⚠️ Risk &amp; Geopolitics</button>
@@ -3767,7 +4077,129 @@ function filterPJ(cat, btn) {
     });
   });
 })();
+
+// ══════════════════════════════════════════════
+// FLAGSHIP CARDS — Particle Canvas + Counters
+// ══════════════════════════════════════════════
+(function(){
+  // ── Particle canvas factory ──────────────────
+  function initParticleCanvas(canvasId, color){
+    var canvas = document.getElementById(canvasId);
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var parent = canvas.parentElement;
+    var W, H, particles = [];
+
+    function resize(){
+      W = canvas.width = parent.offsetWidth;
+      H = canvas.height = parent.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    var COUNT = 38;
+    for(var i=0;i<COUNT;i++){
+      particles.push({
+        x: Math.random()*W, y: Math.random()*H,
+        vx: (Math.random()-.5)*.35, vy: (Math.random()-.5)*.35,
+        r: Math.random()*1.8+.6,
+        a: Math.random()*.5+.15
+      });
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      // Draw connections
+      for(var i=0;i<particles.length;i++){
+        for(var j=i+1;j<particles.length;j++){
+          var dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+          var dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<120){
+            ctx.beginPath();
+            ctx.strokeStyle='rgba('+color+','+(1-dist/120)*.12+')';
+            ctx.lineWidth=.8;
+            ctx.moveTo(particles[i].x,particles[i].y);
+            ctx.lineTo(particles[j].x,particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      // Draw dots
+      for(var k=0;k<particles.length;k++){
+        var p=particles[k];
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle='rgba('+color+','+p.a+')';
+        ctx.fill();
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>W) p.vx*=-1;
+        if(p.y<0||p.y>H) p.vy*=-1;
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  initParticleCanvas('canvasAlpha','245,158,11');
+  initParticleCanvas('canvasAISC','0,212,168');
+
+  // ── Flagship metric counter animation ────────
+  function animFlagshipCounters(entries, observer){
+    entries.forEach(function(entry){
+      if(!entry.isIntersecting) return;
+      entry.target.querySelectorAll('.fcard-metric-val[data-target]').forEach(function(el){
+        if(el.dataset.counted) return;
+        el.dataset.counted = '1';
+        var target = parseFloat(el.dataset.target)||0;
+        var dec = parseInt(el.dataset.dec||0);
+        var suffix = el.dataset.suffix||'';
+        var prefix = el.dataset.prefix||'';
+        var duration = 1200;
+        var start = null;
+        function step(ts){
+          if(!start) start=ts;
+          var pct = Math.min((ts-start)/duration,1);
+          var ease = 1-Math.pow(1-pct,3);
+          var val = target*ease;
+          el.textContent = prefix+(dec?val.toFixed(dec):Math.round(val))+suffix;
+          if(pct<1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+      observer.unobserve(entry.target);
+    });
+  }
+
+  if('IntersectionObserver' in window){
+    var flagObs = new IntersectionObserver(animFlagshipCounters,{threshold:.3});
+    document.querySelectorAll('.fcard').forEach(function(c){flagObs.observe(c);});
+  } else {
+    document.querySelectorAll('.fcard-metric-val[data-target]').forEach(function(el){
+      el.textContent=(el.dataset.prefix||'')+el.dataset.target+(el.dataset.suffix||'');
+    });
+  }
+
+  // ── Entrance animation via IntersectionObserver ──
+  if('IntersectionObserver' in window){
+    var flagEntrObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.style.animation='flagCardIn .7s cubic-bezier(.25,.8,.25,1) both';
+          flagEntrObs.unobserve(e.target);
+        }
+      });
+    },{threshold:.1});
+    document.querySelectorAll('.fcard').forEach(function(c,i){
+      c.style.opacity='0';
+      c.style.animationDelay=(i*.15)+'s';
+      flagEntrObs.observe(c);
+    });
+  }
+})();
 </script>
+<style>
+@keyframes flagCardIn{from{opacity:0;transform:translateY(36px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+</style>
 
 <!-- ══ WHATSAPP FLOATING BUTTON ══ -->
 <style>
