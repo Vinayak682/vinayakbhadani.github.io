@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Multi-Echelon Inventory Optimizer | Vinayak Bhadani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg0:#020c1b;--bg1:#051629;--bg2:#081e36;--bg3:#0d2544;--bg4:#122c50;
+  --teal:#00d4a8;--teal2:#00b890;--teal-g:rgba(0,212,168,.12);--teal-g2:rgba(0,212,168,.06);
+  --indigo:#6366f1;--indigo-g:rgba(99,102,241,.12);
+  --gold:#f59e0b;--gold-g:rgba(245,158,11,.12);
+  --rose:#f43f5e;--rose-g:rgba(244,63,94,.10);
+  --sky:#38bdf8;--sky-g:rgba(56,189,248,.10);
+  --t1:#f1f7ff;--t2:#94a3b8;--t3:#4d6b8a;
+  --brd:rgba(255,255,255,.07);--brd2:rgba(255,255,255,.14);
+  --r:14px;--r2:10px;--r3:50px;
+  --sh:0 8px 48px rgba(0,0,0,.5);
+  --tr:.28s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg0);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+h1,h2,h3{font-family:'Outfit',sans-serif;font-weight:800;}
+.container{max-width:1100px;margin:0 auto;padding:40px 24px;}
+.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:700;font-size:.9rem;text-decoration:none;margin-bottom:24px;transition:all var(--tr);}
+.back-link:hover{transform:translateX(-4px);color:var(--teal2);}
+header{margin-bottom:36px;}
+.title{font-size:2.4rem;line-height:1.15;margin-bottom:12px;background:linear-gradient(130deg,var(--teal),var(--indigo));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.subtitle{color:var(--t2);font-size:1rem;max-width:700px;}
+
+.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;margin-bottom:32px;}
+@media(max-width:900px){.grid{grid-template-columns:1fr;}}
+
+.card{background:linear-gradient(145deg,rgba(13,37,68,.95),rgba(8,30,54,.95));border:1px solid var(--brd);border-radius:var(--r);padding:24px;box-shadow:var(--sh);}
+.card-title{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+
+/* Map Visualizer */
+.network-map{background:rgba(0,0,0,.2);border:1px solid var(--brd);border-radius:12px;padding:12px;margin-bottom:20px;position:relative;}
+.map-svg{width:100%;height:320px;display:block;}
+
+/* Optimization Toggle */
+.strategy-toggle{display:flex;background:var(--bg2);border:1px solid var(--brd);border-radius:12px;padding:4px;margin-bottom:24px;}
+.toggle-btn{flex:1;padding:12px;border:none;border-radius:10px;font-family:inherit;font-size:.85rem;font-weight:700;color:var(--t2);background:transparent;cursor:pointer;transition:all var(--tr);text-align:center;}
+.toggle-btn.active{background:var(--teal);color:var(--bg0);box-shadow:0 4px 14px rgba(0,212,168,.35);}
+
+/* Sliders */
+.slider-group{margin-bottom:18px;}
+.slider-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.slider-label{font-size:.8rem;font-weight:600;color:var(--t2);}
+.slider-val{font-size:.9rem;font-weight:800;color:var(--teal);}
+.range-slider{width:100%;-webkit-appearance:none;background:var(--bg3);height:5px;border-radius:3px;outline:none;}
+.range-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:var(--teal);cursor:pointer;box-shadow:0 0 8px rgba(0,212,168,.4);}
+
+/* Metrics Display */
+.metric-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.metric-card{background:rgba(0,0,0,.25);border:1px solid var(--brd);border-radius:12px;padding:16px;text-align:center;}
+.metric-val{font-size:1.6rem;font-weight:900;line-height:1;margin-bottom:4px;}
+.metric-lbl{font-size:.65rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;}
+
+.savings-card{background:var(--teal-g);border:1px solid rgba(0,212,168,.25);border-radius:12px;padding:16px;text-align:center;box-shadow:0 0 16px rgba(0,212,168,.05);}
+.savings-title{font-size:.68rem;font-weight:800;color:var(--teal);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
+.savings-val{font-size:2rem;font-weight:900;color:#fff;line-height:1;text-shadow:0 0 12px rgba(0,212,168,.45);}
+
+.formula-card{background:var(--bg4);border-left:3px solid var(--indigo);border-radius:8px;padding:12px 16px;font-size:.78rem;color:var(--t2);line-height:1.5;margin-top:20px;}
+.formula-card code{color:var(--indigo);font-weight:700;}
+
+@keyframes nodePing {
+  0% { r: 6; opacity: 1; }
+  100% { r: 16; opacity: 0; }
+}
+.pulse-circle { animation: nodePing 2s ease-out infinite; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a href="./index.html" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back to Portfolio
+  </a>
+
+  <header>
+    <h1 class="title">Multi-Echelon Inventory Optimizer (MEIO)</h1>
+    <p class="subtitle">An advanced supply chain network visualizer demonstrating Jebel Ali (JAFZA) central echelon buffering. Toggle network strategies to observe how multi-echelon math optimizes safety stocks across retail outlets in Riyadh and Muscat.</p>
+  </header>
+
+  <!-- Strategy Selector Toggle -->
+  <div class="strategy-toggle">
+    <button class="toggle-btn active" id="btnDecentral" onclick="setStrategy(false)">❌ Decentralized Safety Stock (Traditional)</button>
+    <button class="toggle-btn" id="btnEchelon" onclick="setStrategy(true)">🏆 Multi-Echelon Stock Optimization (MEIO)</button>
+  </div>
+
+  <div class="grid">
+    <!-- Left Column: Network Map -->
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div class="card">
+        <div class="card-title">🌐 GCC Supply Chain Distribution Nodes</div>
+        <div class="network-map">
+          <svg class="map-svg" viewBox="0 0 500 300">
+            <!-- Connection Lines -->
+            <path id="pathChina" d="M 60 70 L 250 130" stroke="var(--t3)" stroke-width="2.5" stroke-dasharray="6,4" fill="none"/>
+            <path id="pathMuscat" d="M 250 130 L 160 230" stroke="var(--t3)" stroke-width="2.5" fill="none"/>
+            <path id="pathRiyadh" d="M 250 130 L 340 230" stroke="var(--t3)" stroke-width="2.5" fill="none"/>
+            <path id="pathDubai" d="M 250 130 L 250 230" stroke="var(--teal)" stroke-dasharray="2,2" stroke-width="1.5" fill="none"/>
+
+            <!-- Node China -->
+            <circle cx="60" cy="70" r="10" fill="var(--indigo)" stroke="#fff" stroke-width="1.5"/>
+            <text x="60" y="50" fill="var(--t1)" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle">China Supplier</text>
+            <text x="60" y="88" fill="var(--t3)" font-size="8" font-family="sans-serif" text-anchor="middle">Lead: 30d</text>
+
+            <!-- Node JAFZA Dubai Hub -->
+            <circle cx="250" cy="130" r="14" fill="var(--teal)" stroke="#fff" stroke-width="2" id="nodeJafza"/>
+            <circle cx="250" cy="130" r="14" fill="none" stroke="var(--teal)" stroke-width="2" class="pulse-circle"/>
+            <text x="316" y="130" fill="var(--t1)" font-size="10" font-family="sans-serif" font-weight="bold" text-anchor="middle">JAFZA Dubai Hub</text>
+            <text x="316" y="145" fill="var(--teal)" font-size="8.5" font-family="sans-serif" font-weight="bold" id="jafzaStockNode" text-anchor="middle">Buffer: 450u</text>
+
+            <!-- Retail Node Muscat -->
+            <circle cx="160" cy="230" r="10" fill="var(--sky)" stroke="#fff" stroke-width="1.5"/>
+            <text x="160" y="255" fill="var(--t1)" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle">Oman - Muscat</text>
+            <text x="160" y="270" fill="var(--sky)" font-size="8.5" font-family="sans-serif" font-weight="bold" id="muscatStockNode" text-anchor="middle">Stock: 120u</text>
+
+            <!-- Retail Node Riyadh -->
+            <circle cx="340" cy="230" r="10" fill="var(--sky)" stroke="#fff" stroke-width="1.5"/>
+            <text x="340" y="255" fill="var(--t1)" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle">KSA - Riyadh</text>
+            <text x="340" y="270" fill="var(--sky)" font-size="8.5" font-family="sans-serif" font-weight="bold" id="riyadhStockNode" text-anchor="middle">Stock: 180u</text>
+          </svg>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-title">📖 S&amp;OP Context: Multi-Echelon vs Decentralized</div>
+        <p style="font-size:.82rem;color:var(--t2);margin-bottom:12px;line-height:1.65;">
+          Under the traditional **Decentralized** model, each regional store operates as an isolated silo. Muscat and Riyadh calculate their safety buffers independently based on their local demand variance. Because they cannot rely on immediate delivery, they must hold massive stock buffers, leading to high capital lockup.
+        </p>
+        <p style="font-size:.82rem;color:var(--t2);line-height:1.65;">
+          The **Multi-Echelon (MEIO)** strategy models the network as a single mathematical entity. We hold the primary safety buffer at the **JAFZA Jebel Ali Hub** (where transit variability is pooled and lower) and feed the store nodes dynamically using rapid regional cross-docking. This dramatically offsets the total network safety stock, generating significant capital savings.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Column: Settings & Live Metrics -->
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div class="card">
+        <div class="card-title">⚙️ Network Variables</div>
+        
+        <!-- Slider 1: Service level -->
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Service Level Target (OTIF)</span>
+            <span class="slider-val" id="slVal">95%</span>
+          </div>
+          <input type="range" class="range-slider" id="slSlider" min="0" max="3" value="1" oninput="calculateNetwork()">
+          <div class="slider-desc">The guaranteed target store shelf-availability rate. (90% $\rightarrow$ 95% $\rightarrow$ 98% $\rightarrow$ 99.5%)</div>
+        </div>
+
+        <!-- Slider 2: Oman Lead Time -->
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Dubai to Oman Transit Time</span>
+            <span class="slider-val" id="omanLtVal">3 days</span>
+          </div>
+          <input type="range" class="range-slider" id="omanLtSlider" min="1" max="10" value="3" oninput="calculateNetwork()">
+          <div class="slider-desc">Replenishment transit time from JAFZA Hub to Muscat Store.</div>
+        </div>
+
+        <!-- Slider 3: Riyadh Lead Time -->
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Dubai to KSA Transit Time</span>
+            <span class="slider-val" id="ksaLtVal">4 days</span>
+          </div>
+          <input type="range" class="range-slider" id="ksaLtSlider" min="1" max="10" value="4" oninput="calculateNetwork()">
+          <div class="slider-desc">Replenishment transit time from JAFZA Hub to Riyadh Store.</div>
+        </div>
+      </div>
+
+      <!-- Live metrics -->
+      <div class="card">
+        <div class="card-title">🎯 Real-Time Network Outcomes</div>
+        
+        <div class="metric-row">
+          <div class="metric-card">
+            <div class="metric-val" id="netStock" style="color:var(--sky);">840u</div>
+            <div class="metric-lbl">Total Net Buffer</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val" id="netCapital" style="color:var(--indigo);">AED 37,800</div>
+            <div class="metric-lbl">Working Capital</div>
+          </div>
+        </div>
+
+        <!-- Glowing savings badge -->
+        <div class="savings-card" id="savingsCard">
+          <div class="savings-title">Estimated Annual Capital Savings</div>
+          <div class="savings-val" id="savingsVal">AED 0</div>
+          <p style="font-size:.7rem;color:var(--t2);margin-top:6px;line-height:1.4;">Based on JAFZA central pooling calculations and a standard 25% annual carrying cost rate.</p>
+        </div>
+
+        <div class="formula-card">
+          📐 **Square Root Law of Inventory**:
+          <code>SS_pooled = ∑(SS_local) × √(N_pooled) / N</code> which mathematically validates centralizing stocks under high transit variability.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var isEchelon = false;
+
+// Standard Z levels matching targets: 90% (z:1.28), 95% (1.645), 98% (2.05), 99.5% (2.58)
+var zLevels = [1.28, 1.645, 2.05, 2.58];
+var slLabels = ["90%", "95%", "98%", "99.5%"];
+
+function setStrategy(echelon) {
+  isEchelon = echelon;
+  document.getElementById('btnDecentral').classList.toggle('active', !isEchelon);
+  document.getElementById('btnEchelon').classList.toggle('active', isEchelon);
+  
+  // Visual connection lines color modulation
+  var pathMuscat = document.getElementById('pathMuscat');
+  var pathRiyadh = document.getElementById('pathRiyadh');
+  var pathChina = document.getElementById('pathChina');
+  
+  if(isEchelon) {
+    pathMuscat.setAttribute('stroke', 'var(--teal)');
+    pathRiyadh.setAttribute('stroke', 'var(--teal)');
+    pathChina.setAttribute('stroke', 'var(--teal)');
+    pathChina.setAttribute('stroke-dasharray', 'none');
+  } else {
+    pathMuscat.setAttribute('stroke', 'var(--t3)');
+    pathRiyadh.setAttribute('stroke', 'var(--t3)');
+    pathChina.setAttribute('stroke', 'var(--t3)');
+    pathChina.setAttribute('stroke-dasharray', '6,4');
+  }
+  
+  calculateNetwork();
+}
+
+function calculateNetwork() {
+  var slIdx = parseInt(document.getElementById('slSlider').value);
+  var z = zLevels[slIdx];
+  document.getElementById('slVal').textContent = slLabels[slIdx];
+  
+  var oLt = parseInt(document.getElementById('omanLtSlider').value);
+  document.getElementById('omanLtVal').textContent = oLt + " days";
+  
+  var kLt = parseInt(document.getElementById('ksaLtSlider').value);
+  document.getElementById('ksaLtVal').textContent = kLt + " days";
+  
+  // Base daily demand and standard deviation variables
+  var demandOman = 15; var sigOman = 4.5;
+  var demandKsa = 25; var sigKsa = 6.2;
+  var unitCost = 45; // average cost of inventory Oud Royale
+  
+  var ssOman, ssKsa, ssJafza;
+  
+  if(!isEchelon) {
+    // Traditional Decentralized: stores calculate safety stock independently using lead times from China (30 days)
+    ssOman = Math.round(z * Math.sqrt(30 * sigOman * sigOman));
+    ssKsa = Math.round(z * Math.sqrt(30 * sigKsa * sigKsa));
+    ssJafza = 0;
+    
+    // UI Node update
+    document.getElementById('jafzaStockNode').textContent = "Buffer: 0u (Unused)";
+    document.getElementById('jafzaStockNode').style.color = "var(--t3)";
+  } else {
+    // Multi-Echelon: Stores have short transit lead times from Dubai Central hub
+    ssOman = Math.round(z * Math.sqrt(oLt * sigOman * sigOman));
+    ssKsa = Math.round(z * Math.sqrt(kLt * sigKsa * sigKsa));
+    
+    // Central JAFZA Jebel Ali hub pools demand and holds primary buffer (China lead time)
+    // Applying central square-root variance reduction
+    ssJafza = Math.round(z * Math.sqrt(30 * (sigOman * sigOman + sigKsa * sigKsa)) * 0.72);
+    
+    // UI Node update
+    document.getElementById('jafzaStockNode').textContent = "Buffer: " + ssJafza + "u";
+    document.getElementById('jafzaStockNode').style.color = "var(--teal)";
+  }
+  
+  document.getElementById('muscatStockNode').textContent = "Stock: " + ssOman + "u";
+  document.getElementById('riyadhStockNode').textContent = "Stock: " + ssKsa + "u";
+  
+  var totalNetworkStock = ssOman + ssKsa + ssJafza;
+  var totalCapital = totalNetworkStock * unitCost;
+  
+  document.getElementById('netStock').textContent = totalNetworkStock + " units";
+  document.getElementById('netCapital').textContent = "AED " + totalCapital.toLocaleString();
+  
+  // Cost Savings calculation
+  // Let's compute what decentralized capital *would* be to show savings dynamically
+  var decentralStock = Math.round(z * Math.sqrt(30 * sigOman * sigOman)) + Math.round(z * Math.sqrt(30 * sigKsa * sigKsa));
+  var decentralCapital = decentralStock * unitCost;
+  
+  var capitalDifference = decentralCapital - totalCapital;
+  var annualSavings = Math.max(Math.round(capitalDifference * 0.25), 0); // 25% carrying rate
+  
+  var savingsCard = document.getElementById('savingsCard');
+  if(isEchelon && annualSavings > 0) {
+    document.getElementById('savingsVal').textContent = "AED " + annualSavings.toLocaleString() + "/yr";
+    savingsCard.style.opacity = "1";
+    savingsCard.style.background = "var(--teal-g)";
+    savingsCard.style.borderColor = "rgba(0, 212, 168, 0.25)";
+  } else {
+    document.getElementById('savingsVal').textContent = "AED 0";
+    savingsCard.style.background = "rgba(0,0,0,.15)";
+    savingsCard.style.borderColor = "var(--brd)";
+  }
+}
+
+window.onload = function() {
+  calculateNetwork();
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Supply Chain Copilot Agent | Vinayak Bhadani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg0:#020c1b;--bg1:#051629;--bg2:#081e36;--bg3:#0d2544;--bg4:#122c50;
+  --teal:#00d4a8;--teal2:#00b890;--teal-g:rgba(0,212,168,.12);--teal-g2:rgba(0,212,168,.06);
+  --indigo:#6366f1;--indigo-g:rgba(99,102,241,.12);
+  --gold:#f59e0b;--gold-g:rgba(245,158,11,.12);
+  --rose:#f43f5e;--rose-g:rgba(244,63,94,.10);
+  --sky:#38bdf8;--sky-g:rgba(56,189,248,.10);
+  --t1:#f1f7ff;--t2:#94a3b8;--t3:#4d6b8a;
+  --brd:rgba(255,255,255,.07);--brd2:rgba(255,255,255,.14);
+  --r:14px;--r2:10px;--r3:50px;
+  --sh:0 8px 48px rgba(0,0,0,.5);
+  --tr:.28s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg0);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+h1,h2,h3{font-family:'Outfit',sans-serif;font-weight:800;}
+.container{max-width:1100px;margin:0 auto;padding:40px 24px;}
+.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:700;font-size:.9rem;text-decoration:none;margin-bottom:24px;transition:all var(--tr);}
+.back-link:hover{transform:translateX(-4px);color:var(--teal2);}
+header{margin-bottom:36px;}
+.title{font-size:2.4rem;line-height:1.15;margin-bottom:12px;background:linear-gradient(130deg,var(--teal),var(--indigo));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.subtitle{color:var(--t2);font-size:1rem;max-width:700px;}
+
+.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;margin-bottom:32px;}
+@media(max-width:900px){.grid{grid-template-columns:1fr;}}
+
+.card{background:linear-gradient(145deg,rgba(13,37,68,.95),rgba(8,30,54,.95));border:1px solid var(--brd);border-radius:var(--r);padding:24px;box-shadow:var(--sh);display:flex;flex-direction:column;}
+.card-title{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+
+/* Chat layout */
+.chat-window{border:1px solid var(--brd);border-radius:12px;background:rgba(0,0,0,.25);height:380px;display:flex;flex-direction:column;overflow:hidden;margin-bottom:16px;}
+.chat-body{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;}
+.chat-msg{max-width:85%;padding:12px 16px;border-radius:12px;font-size:.85rem;line-height:1.5;animation:fadeIn .3s ease;}
+.chat-msg.bot{background:var(--bg3);border:1px solid var(--brd);align-self:flex-start;color:var(--t1);}
+.chat-msg.user{background:linear-gradient(135deg,var(--teal),var(--teal2));color:var(--bg0);align-self:flex-end;font-weight:600;}
+
+/* Input footer */
+.chat-footer{display:flex;gap:8px;padding:8px 12px;background:rgba(0,0,0,.4);border-top:1px solid var(--brd);}
+.chat-input{flex:1;background:rgba(0,0,0,.25);border:1px solid var(--brd2);border-radius:24px;padding:10px 18px;color:#fff;font-family:inherit;font-size:.85rem;outline:none;}
+.chat-input:focus{border-color:var(--teal);}
+.chat-send-btn{width:36px;height:36px;border-radius:50%;background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr);color:var(--bg0);}
+.chat-send-btn:hover{background:var(--teal2);transform:scale(1.08);}
+
+/* Prompt chips */
+.prompt-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.chip{background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:20px;padding:6px 14px;font-size:.73rem;font-weight:600;color:var(--t2);cursor:pointer;transition:all var(--tr);}
+.chip:hover{background:var(--teal-g);border-color:var(--teal);color:var(--teal);}
+
+/* Reasoning Agent console */
+.agent-console{background:#020710;border:1px solid var(--brd2);border-radius:10px;font-family:monospace;padding:16px;min-height:200px;font-size:.78rem;color:#a8c4e4;box-shadow:inset 0 4px 20px rgba(0,0,0,0.6);flex:1;}
+.agent-line{margin-bottom:8px;line-height:1.4;}
+.agent-thought{color:var(--indigo);font-weight:700;}
+.agent-action{color:var(--gold);font-weight:700;}
+.agent-observation{color:var(--teal);font-weight:700;}
+
+/* Invoice output doc */
+.invoice-box{background:#fff;color:#333;border-radius:8px;padding:16px;margin-top:10px;font-family:inherit;box-shadow:0 12px 32px rgba(0,0,0,0.25);border:1px solid #ddd;font-size:.78rem;}
+.inv-header{display:flex;justify-content:space-between;border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:12px;}
+.inv-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #eee;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a href="./index.html" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back to Portfolio
+  </a>
+
+  <header>
+    <h1 class="title">AI Supply Chain Copilot (LLM Agent)</h1>
+    <p class="subtitle">An advanced prototype of a Large Language Model supply chain copilot. The agent operates under the **ReAct (Reasoning + Acting) Agent Framework**, dynamically querying local databases, running safety stock algorithms, and drafting printable S&amp;OP purchase orders.</p>
+  </header>
+
+  <div class="grid">
+    <!-- Left Column: Interactive Chat Interface -->
+    <div class="card">
+      <div class="card-title">💬 AI Supply Chain Analyst Chat</div>
+      
+      <!-- Chat box -->
+      <div class="chat-window">
+        <div class="chat-body" id="chatBody">
+          <div class="chat-msg bot">
+            Hello! I am your AI Supply Chain Copilot. I have real-time read access to your GCC Inventory logs, vendor transits, and demand projections. Click one of the pre-set prompts below or ask me a custom question!
+          </div>
+        </div>
+        
+        <!-- Input footer -->
+        <div class="chat-footer">
+          <input type="text" class="chat-input" id="chatInput" placeholder="Ask about safety stocks, transits, or PO drafts..." onkeydown="if(event.key==='Enter')sendUserMessage()">
+          <button class="chat-send-btn" onclick="sendUserMessage()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick prompts -->
+      <div class="prompt-chips">
+        <div class="chip" onclick="triggerPreset(0)">⚠️ Muscat Stockout Risk Check</div>
+        <div class="chip" onclick="triggerPreset(1)">📑 Draft PO for Oud Royale 100ml</div>
+        <div class="chip" onclick="triggerPreset(2)">📦 S&amp;OP Riyadh Status Overview</div>
+      </div>
+    </div>
+
+    <!-- Right Column: Agent Reasoning Loop Console -->
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div class="card" style="display:flex;flex-direction:column;flex:1;">
+        <div class="card-title">🧠 Agent LLM Thought &amp; Action Console (ReAct)</div>
+        <div class="agent-console" id="agentConsole">
+          <div class="agent-line"><span class="agent-thought">[Thought]</span> Agent online. Awaiting system query...</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔬 Technical Architecture</div>
+        <p style="font-size:.8rem;color:var(--t2);line-height:1.65;margin-bottom:10px;">
+          This copilot operates under the **ReAct (Reasoning + Acting)** framework. Instead of simply generating text, the agent executes reasoning steps to fetch parameters and invoke specialized tools.
+        </p>
+        <p style="font-size:.8rem;color:var(--t2);line-height:1.65;margin-bottom:10px;">
+          <strong>DB Query Tool</strong>: Queries an in-memory SQL database holding GCC store records, stock counts, and daily replenishment rates.
+        </p>
+        <p style="font-size:.8rem;color:var(--t2);line-height:1.65;">
+          <strong>PO Generator</strong>: An automated document compilation tool that calculates exact order sizes using safety stock models and builds structural invoices.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var presets = [
+  "Check Muscat store for stockout risks.",
+  "Draft an S&OP Purchase Order for Oud Royale 100ml.",
+  "Give me an overview of Riyadh inventory status."
+];
+
+function triggerPreset(idx) {
+  var input = document.getElementById('chatInput');
+  input.value = presets[idx];
+  sendUserMessage();
+}
+
+function sendUserMessage() {
+  var input = document.getElementById('chatInput');
+  var query = input.value.trim();
+  if(!query) return;
+  
+  // Append User message
+  appendMessage(query, 'user');
+  input.value = '';
+  
+  // Trigger Agent Reasoning Loop
+  processQuery(query);
+}
+
+function appendMessage(text, sender, isHtml = false) {
+  var body = document.getElementById('chatBody');
+  var msg = document.createElement('div');
+  msg.className = 'chat-msg ' + sender;
+  if(isHtml) {
+    msg.innerHTML = text;
+  } else {
+    msg.textContent = text;
+  }
+  body.appendChild(msg);
+  body.scrollTop = body.scrollHeight;
+}
+
+function writeConsole(text, type='thought') {
+  var console = document.getElementById('agentConsole');
+  var line = document.createElement('div');
+  line.className = 'agent-line';
+  
+  var lbl = "";
+  if(type === 'thought') lbl = '<span class="agent-thought">[Thought]</span> ';
+  if(type === 'action') lbl = '<span class="agent-action">[Action]</span> ';
+  if(type === 'observation') lbl = '<span class="agent-observation">[Observation]</span> ';
+  
+  line.innerHTML = lbl + text;
+  console.appendChild(line);
+  console.scrollTop = console.scrollHeight;
+}
+
+function clearConsole() {
+  document.getElementById('agentConsole').innerHTML = '';
+}
+
+function processQuery(query) {
+  clearConsole();
+  writeConsole("Query received: '" + query + "'");
+  
+  var lower = query.toLowerCase();
+  
+  if(lower.includes("muscat") || lower.includes("oman")) {
+    runMuscatWorkflow();
+  } else if (lower.includes("po") || lower.includes("purchase order") || lower.includes("oud royale")) {
+    runPoWorkflow();
+  } else if (lower.includes("riyadh") || lower.includes("ksa") || lower.includes("status")) {
+    runRiyadhWorkflow();
+  } else {
+    runFallbackWorkflow(query);
+  }
+}
+
+function runMuscatWorkflow() {
+  setTimeout(() => {
+    writeConsole("Analyzing query intent: regional stock health check request.");
+    writeConsole("I need to query the Muscat Store Inventory Database.", "action");
+    
+    setTimeout(() => {
+      writeConsole("Query executed: SELECT * FROM `store_stock` WHERE `store_id` = 'Muscat_Flagship'", "observation");
+      writeConsole("Located 1 high-risk SKU: ID FRGN-003 (Desert Rose 50ml). Current Stock: 4 units. Daily Demand: 2 units.");
+      writeConsole("I must invoke the ROP (Reorder Point) calculator to determine safe buffer.", "action");
+      
+      setTimeout(() => {
+        writeConsole("ROP calculated: 46 units (incorporating 3-day transit lead time + 14 units safety buffer).", "observation");
+        writeConsole("Synthesizing final response bubble.");
+        
+        setTimeout(() => {
+          var response = "⚠️ **Stockout Risk Flagged in Muscat Store**<br/><br/>" +
+                         "I queried the Muscat database and located one critical alert:<br/>" +
+                         "• **SKU**: Desert Rose 50ml (FRGN-003)<br/>" +
+                         "• **Current Stock**: 4 units (Days of supply: **2.0 days**)<br/>" +
+                         "• **Dubai Transit Lead Time**: 3 days<br/><br/>" +
+                         "**Recommendation**: Order is **Critical**. I recommend placing an immediate stock replenishment transfer of **42 units** from the JAFZA Jebel Ali Hub to Muscat Flagship to meet safety requirements.";
+          appendMessage(response, 'bot', true);
+        }, 600);
+      }, 800);
+    }, 800);
+  }, 400);
+}
+
+function runPoWorkflow() {
+  setTimeout(() => {
+    writeConsole("Analyzing query intent: document compilation (S&OP Purchase Order).");
+    writeConsole("I need to fetch lead time and supplier price parameters for Oud Royale 100ml.", "action");
+    
+    setTimeout(() => {
+      writeConsole("Query executed: SELECT `unit_cost`, `lead_time`, `supplier` FROM `vendors` WHERE `sku` = 'FRGN-001'", "observation");
+      writeConsole("Located parameters: Unit Cost: AED 45 | Lead Time: 30 days | Supplier: Royal Oud Essence Ltd, Shenzhen.");
+      writeConsole("I need to calculate exact replenishment volume using EOQ model.", "action");
+      
+      setTimeout(() => {
+        writeConsole("Calculated EOQ Order Volume: **150 units** (optimal balance between carrying and ordering costs).", "observation");
+        writeConsole("Invoking PDF/Invoice Builder API to draft formal Purchase Order document.", "action");
+        
+        setTimeout(() => {
+          writeConsole("Document compiled. Sealed with secure integrity SHA-256 hash.", "observation");
+          
+          var response = "📝 **S&OP Replenishment Purchase Order Drafted**<br/><br/>" +
+                         "I compiled the vendor transaction logs and EOQ formulas. Here is the formal PO draft ready for executive sign-off:";
+          appendMessage(response, 'bot', true);
+          
+          // Generate printable invoice document directly inside chat
+          var invoice = 
+            '<div class="invoice-box">' +
+              '<div class="inv-header">' +
+                '<div>' +
+                  '<strong style="font-size:10px;text-transform:uppercase;">Purchase Order</strong><br/>' +
+                  '<span style="font-size:7px;color:#777;">Ref: PO-2026-083419</span>' +
+                '</div>' +
+                '<div style="text-align:right;">' +
+                  '<strong style="font-size:8px;">ANDS Dubai Central Hub</strong><br/>' +
+                  '<span style="font-size:7px;color:#777;">Jebel Ali JAFZA, UAE</span>' +
+                '</div>' +
+              '</div>' +
+              '<div class="inv-row"><span><strong>Supplier:</strong> Royal Oud Essence Ltd (Shenzhen)</span><span><strong>Date:</strong> 2026-05-23</span></div>' +
+              '<div class="inv-row"><span><strong>SKU Description:</strong> Oud Royale 100ml (FRGN-001)</span><span><strong>Qty:</strong> 150 units</span></div>' +
+              '<div class="inv-row"><span><strong>Supplier Unit Cost:</strong> AED 45.00</span><span><strong>Lead Time:</strong> 30 days</span></div>' +
+              '<div class="inv-row" style="border-top:1.5px solid #333;margin-top:5px;font-weight:bold;"><span>Total PO Value:</span><span>AED 6,750.00</span></div>' +
+              '<div style="font-size:6px;color:#888;margin-top:10px;text-align:center;">Secure SHA-256 Hash: `3a4b9c1d...e84d72` · Generated by AI Copilot</div>' +
+            '</div>';
+            
+          appendMessage(invoice, 'bot', true);
+        }, 700);
+      }, 800);
+    }, 800);
+  }, 400);
+}
+
+function runRiyadhWorkflow() {
+  setTimeout(() => {
+    writeConsole("Analyzing query intent: network status assessment (Riyadh store).");
+    writeConsole("I need to query Riyadh flagship stock levels and lead time status.", "action");
+    
+    setTimeout(() => {
+      writeConsole("Query executed: SELECT * FROM `store_stock` WHERE `store_id` = 'Riyadh_Store'", "observation");
+      writeConsole("Located parameters: Total SKU count: 3 | Active transit pipeline: 1 order incoming in 2 days (40 units).");
+      writeConsole("I need to compute the forecasted days of supply including active transit.", "action");
+      
+      setTimeout(() => {
+        writeConsole("Computed Days of Supply: 16.4 days. Status is stable.", "observation");
+        writeConsole("Synthesizing final status response.");
+        
+        setTimeout(() => {
+          var response = "🇸🇦 **S&OP Status: Riyadh Flagship Store**<br/><br/>" +
+                         "Riyadh operations are currently **Stable** (Green status). Here is the dashboard summary:<br/><br/>" +
+                         "• **Total Inventory**: 180 units in-store<br/>" +
+                         "• **Average Daily Sales**: 12 units/day<br/>" +
+                         "• **Pipeline Transit**: 40 units (on-board carrier; ETA **2 days**)<br/>" +
+                         "• **Current Days of Supply**: **16.4 days** (above safe ROP threshold of 10 days)<br/><br/>" +
+                         "No immediate purchasing action required. Central Hub replenishment cycle will trigger in 4 days.";
+          appendMessage(response, 'bot', true);
+        }, 600);
+      }, 800);
+    }, 800);
+  }, 400);
+}
+
+function runFallbackWorkflow(query) {
+  setTimeout(() => {
+    writeConsole("Analyzing query intent: generic conversation / informational.");
+    writeConsole("Executing search across supply chain knowledgebase...", "action");
+    
+    setTimeout(() => {
+      writeConsole("Knowledgebase parsed. Found references to S&OP and Excel calculators.", "observation");
+      writeConsole("Synthesizing fallback conversational response.");
+      
+      setTimeout(() => {
+        var response = "I parsed your query: *'" + query + "'*.<br/><br/>" +
+                       "For this interactive simulation prototype, I am optimized to execute **3 key supply chain workflows**:<br/>" +
+                       "1. **Muscat Stockout Checks** (triggers Z-score & buffer checks)<br/>" +
+                       "2. **Drafting S&OP Purchase Orders** (calculates EOQ and creates document drafts)<br/>" +
+                       "3. **Riyadh Store Status Overviews** (aggregates stock, transit, and days of supply)<br/><br/>" +
+                       "Click one of the prompt chips below to see my ReAct reasoning engine in action!";
+        appendMessage(response, 'bot', true);
+      }, 600);
+    }, 800);
+  }, 400);
+}
+</script>
+</body>
+</html>

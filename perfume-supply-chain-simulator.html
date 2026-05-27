@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Global Perfume Supply Chain Simulator | Vinayak Bhadani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{
+  --bg0:#020c1b;--bg1:#051629;--bg2:#081e36;--bg3:#0d2544;--bg4:#122c50;
+  --teal:#00d4a8;--teal2:#00b890;--teal-g:rgba(0,212,168,.12);
+  --indigo:#6366f1;--indigo-g:rgba(99,102,241,.12);
+  --gold:#f59e0b;--gold-g:rgba(245,158,11,.12);
+  --rose:#f43f5e;--rose-g:rgba(244,63,94,.12);
+  --sky:#38bdf8;--sky-g:rgba(56,189,248,.10);
+  --t1:#f1f7ff;--t2:#94a3b8;--t3:#4d6b8a;
+  --brd:rgba(255,255,255,.07);--brd2:rgba(255,255,255,.14);
+  --r:14px;--r2:10px;--shadow:0 8px 48px rgba(0,0,0,.5);
+  --tr:.28s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg0);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+h1,h2,h3,h4{font-family:'Outfit',sans-serif;font-weight:800;}
+.container{max-width:1150px;margin:0 auto;padding:40px 24px;}
+.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:700;font-size:.9rem;text-decoration:none;margin-bottom:24px;transition:all var(--tr);}
+.back-link:hover{transform:translateX(-4px);color:var(--teal2);}
+header{margin-bottom:32px;}
+.title{font-size:2.3rem;line-height:1.15;margin-bottom:12px;background:linear-gradient(130deg,var(--teal),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.subtitle{color:var(--t2);font-size:1rem;max-width:750px;}
+
+.grid{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;margin-bottom:32px;}
+@media(max-width:960px){.grid{grid-template-columns:1fr;}}
+
+.card{background:linear-gradient(145deg,rgba(13,37,68,.95),rgba(8,30,54,.95));border:1px solid var(--brd);border-radius:var(--r);padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+.card-title{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+
+/* Map Visualizer */
+.network-map{background:rgba(0,0,0,.25);border:1px solid var(--brd);border-radius:12px;padding:12px;position:relative;margin-bottom:20px;}
+.map-svg{width:100%;height:260px;display:block;}
+
+/* Controls & Options */
+.sourcing-options{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.source-btn{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:12px 10px;color:var(--t2);cursor:pointer;transition:all var(--tr);text-align:center;display:flex;flex-direction:column;gap:4px;}
+.source-btn:hover{background:var(--bg3);border-color:rgba(255,255,255,.15);color:var(--t1);}
+.source-btn.active{background:rgba(0,212,168,.1);border-color:var(--teal);color:var(--teal);}
+.source-btn-title{font-size:.8rem;font-weight:800;text-transform:uppercase;}
+.source-btn-sub{font-size:.65rem;color:var(--t3);}
+
+.slider-group{margin-bottom:18px;}
+.slider-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.slider-label{font-size:.8rem;font-weight:600;color:var(--t2);}
+.slider-val{font-size:.9rem;font-weight:800;color:var(--gold);}
+.range-slider{width:100%;-webkit-appearance:none;background:var(--bg3);height:5px;border-radius:3px;outline:none;}
+.range-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 8px rgba(245,158,11,.4);}
+
+/* Real-Time Dashboard Metrics */
+.live-status-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+@media(max-width:480px){.live-status-bar{grid-template-columns:1fr 1fr;}}
+.status-card{background:rgba(0,0,0,.25);border:1px solid var(--brd);border-radius:12px;padding:14px;text-align:center;}
+.status-val{font-size:1.4rem;font-weight:900;line-height:1;margin-bottom:4px;}
+.status-lbl{font-size:.62rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;}
+
+/* Dynamic Warning Banner */
+.disruption-banner{background:var(--rose-g);border:1px solid rgba(244,63,94,.25);border-radius:12px;padding:14px 18px;margin-bottom:20px;display:none;align-items:start;gap:12px;animation:slideIn .35s ease;}
+.disruption-icon{font-size:1.3rem;line-height:1;margin-top:2px;}
+.disruption-body{flex:1;}
+.disruption-title{font-size:.8rem;font-weight:800;color:var(--rose);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;}
+.disruption-desc{font-size:.78rem;color:var(--t2);line-height:1.45;}
+
+/* Charts Box */
+.chart-box{background:rgba(0,0,0,.25);border:1px solid var(--brd);border-radius:12px;padding:16px;margin-bottom:20px;height:240px;position:relative;}
+
+/* Log Console */
+.log-console{background:#01070e;border:1px solid var(--brd);border-radius:12px;padding:14px 18px;font-family:monospace;font-size:.75rem;color:var(--t2);height:180px;overflow-y:auto;scroll-behavior:smooth;}
+.log-line{margin-bottom:6px;line-height:1.45;}
+.log-line.day{color:var(--teal);font-weight:bold;border-bottom:1px solid rgba(255,255,255,.05);padding-bottom:2px;margin-top:10px;}
+.log-line.order{color:var(--gold);}
+.log-line.prod{color:var(--sky);}
+.log-line.event{color:var(--rose);font-weight:bold;}
+
+/* Action Controls */
+.sim-controls{display:flex;gap:12px;margin-top:20px;}
+.sim-btn{flex:1;padding:14px;border:none;border-radius:10px;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;transition:all var(--tr);display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-run{background:var(--teal);color:var(--bg0);box-shadow:0 4px 14px rgba(0,212,168,.3);}
+.btn-run:hover{background:var(--teal2);transform:translateY(-1px);}
+.btn-reset{background:var(--bg2);border:1px solid var(--brd);color:var(--t2);}
+.btn-reset:hover{background:var(--bg3);color:var(--t1);}
+
+/* Final P&L Report Overlay */
+.report-overlay{position:absolute;inset:0;background:rgba(2,12,27,.98);z-index:10;display:none;align-items:center;justify-content:center;padding:24px;animation:fadeIn .4s ease;}
+.report-card{width:100%;max-width:440px;background:var(--bg1);border:1px solid var(--brd2);border-radius:var(--r);padding:24px;box-shadow:var(--shadow);text-align:center;}
+.report-header{margin-bottom:18px;}
+.report-title{font-size:1.4rem;color:var(--teal);margin-bottom:4px;}
+.report-rank{font-size:.8rem;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;background:rgba(245,158,11,.1);padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:16px;}
+.pl-table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:.82rem;}
+.pl-row{border-bottom:1px solid rgba(255,255,255,.05);}
+.pl-row.total{border-top:1.5px solid var(--brd2);font-weight:bold;border-bottom:none;}
+.pl-lbl{text-align:left;padding:8px 0;color:var(--t2);}
+.pl-val{text-align:right;padding:8px 0;font-weight:700;}
+
+@keyframes slideIn { from{opacity:0;transform:translateY(-10px);} to{opacity:1;transform:translateY(0);} }
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+@keyframes nodePing { 0%{r:6;opacity:1;} 100%{r:16;opacity:0;} }
+.pulse-circle { animation: nodePing 2s ease-out infinite; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a href="./index.html" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back to Portfolio
+  </a>
+
+  <header>
+    <h1 class="title">End-to-End Perfume Supply Chain Simulator</h1>
+    <p class="subtitle">An advanced executive operational simulator modeling a luxury Oud perfume supply chain. Procure premium packaging from China suppliers, clear port customs at JAFZA, schedule factory production runs in the UAE, and distribute to premium GCC retail outlets. Balance logistics costs and stockout penalties dynamically.</p>
+  </header>
+
+  <div class="grid">
+    <!-- Left Column: Sourcing Map & Controls -->
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div class="card">
+        <div class="card-title">🌐 Global Supply Chain Sourcing &amp; Flow Network</div>
+        <div class="network-map">
+          <svg class="map-svg" viewBox="0 0 500 240">
+            <!-- Connection Paths -->
+            <path id="pathChinaJafza" d="M 60 70 L 250 80" stroke="var(--t3)" stroke-width="2" stroke-dasharray="6,4" fill="none"/>
+            <path id="pathJafzaFactory" d="M 250 80 L 180 170" stroke="var(--t3)" stroke-width="2" fill="none"/>
+            <path id="pathFactoryMall" d="M 180 170 L 320 170" stroke="var(--t3)" stroke-width="2" fill="none"/>
+
+            <!-- Node 1: China Supplier (Guangzhou) -->
+            <circle cx="60" cy="70" r="10" fill="var(--indigo)" stroke="#fff" stroke-width="1.5"/>
+            <text x="60" y="50" fill="var(--t1)" font-size="9.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">Guangzhou Supplier</text>
+            <text x="60" y="94" fill="var(--t3)" font-size="8" font-family="sans-serif" text-anchor="middle" id="transitModeLabel">Mode: Ocean</text>
+
+            <!-- Node 2: JAFZA Central Warehouse -->
+            <circle cx="250" cy="80" r="12" fill="var(--teal)" stroke="#fff" stroke-width="1.5" id="nodeJafza"/>
+            <circle cx="250" cy="80" r="12" fill="none" stroke="var(--teal)" stroke-width="2" class="pulse-circle"/>
+            <text x="250" y="56" fill="var(--t1)" font-size="9.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">JAFZA Dubai Hub</text>
+            <text x="250" y="104" fill="var(--teal)" font-size="8.5" font-family="sans-serif" font-weight="bold" id="jafzaPackagingStockLabel" text-anchor="middle">Packaging: 300u</text>
+
+            <!-- Node 3: UAE Manufacturing Plant (Al Quoz) -->
+            <circle cx="180" cy="170" r="10" fill="var(--sky)" stroke="#fff" stroke-width="1.5"/>
+            <text x="180" y="196" fill="var(--t1)" font-size="9.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">Sharjah Factory</text>
+            <text x="180" y="210" fill="var(--sky)" font-size="8" font-family="sans-serif" text-anchor="middle" id="factoryStatusLabel">State: Idle</text>
+
+            <!-- Node 4: GCC Retail Store (Dubai Mall / Riyadh) -->
+            <circle cx="320" cy="170" r="10" fill="var(--gold)" stroke="#fff" stroke-width="1.5"/>
+            <text x="320" y="196" fill="var(--t1)" font-size="9.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">GCC Retail Outlets</text>
+            <text x="320" y="210" fill="var(--gold)" font-size="8.5" font-family="sans-serif" font-weight="bold" id="finishedGoodsStockLabel" text-anchor="middle">Finished Stock: 200u</text>
+
+            <!-- Animated Cargo Pulses -->
+            <circle id="pulseInbound" cx="60" cy="70" r="5" fill="var(--gold)" style="display:none;"/>
+            <circle id="pulseProd" cx="180" cy="170" r="5" fill="var(--sky)" style="display:none;"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚙️ 1. Inbound Sourcing Parameters (China Supplier ➡️ JAFZA Hub)</div>
+        
+        <label class="slider-label" style="display:block;margin-bottom:6px;">Select Shipping Mode from Guangzhou:</label>
+        <div class="sourcing-options">
+          <button class="source-btn active" id="shipOcean" onclick="setShippingMode('ocean')">
+            <span class="source-btn-title">🚢 Ocean Freight</span>
+            <span class="source-btn-sub">Cost: AED 2,500</span>
+            <span class="source-btn-sub">Lead Time: 20 Days</span>
+          </button>
+          <button class="source-btn" id="shipSeaAir" onclick="setShippingMode('seaair')">
+            <span class="source-btn-title">✈️ Sea-Air</span>
+            <span class="source-btn-sub">Cost: AED 6,500</span>
+            <span class="source-btn-sub">Lead Time: 10 Days</span>
+          </button>
+          <button class="source-btn" id="shipAir" onclick="setShippingMode('air')">
+            <span class="source-btn-title">🚀 Air Freight</span>
+            <span class="source-btn-sub">Cost: AED 15,000</span>
+            <span class="source-btn-sub">Lead Time: 3 Days</span>
+          </button>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Packaging Reorder Point (ROP)</span>
+            <span class="slider-val" id="ropVal">150 units</span>
+          </div>
+          <input type="range" class="range-slider" id="ropSlider" min="50" max="400" value="150" oninput="updateParameters()">
+          <div style="font-size:.68rem;color:var(--t3);margin-top:4px;">Automatically triggers a packaging replen order from China when JAFZA stock falls below this level.</div>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Reorder Quantity (EOQ)</span>
+            <span class="slider-val" id="eoqVal">300 units</span>
+          </div>
+          <input type="range" class="range-slider" id="eoqSlider" min="100" max="600" value="300" oninput="updateParameters()">
+          <div style="font-size:.68rem;color:var(--t3);margin-top:4px;">The batch replenishment size ordered from China to optimize unit shipping holding balances.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🏭 2. Blending &amp; Production Parameters (UAE Sharjah Factory)</div>
+        
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Production Batch Size (Finished Perfumes)</span>
+            <span class="slider-val" id="batchVal">200 units</span>
+          </div>
+          <input type="range" class="range-slider" id="batchSlider" min="100" max="400" value="200" oninput="updateParameters()">
+          <div style="font-size:.68rem;color:var(--t3);margin-top:4px;">Blending, mixing perfume oil, and filling custom glass bottles is done in batches. Setup cost: AED 1,200 per batch. Blending time: 2 days.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Dashboard & Real-Time Performance -->
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <!-- Simulation Status Board -->
+      <div class="card" id="simWorkspace">
+        <!-- P&L Financial Report Overlay (Revealed at Day 30) -->
+        <div class="report-overlay" id="reportOverlay">
+          <div class="report-card">
+            <div class="report-header">
+              <h2 class="report-title">🏁 Executive P&amp;L Report</h2>
+              <span class="report-rank" id="reportRank">Master S&amp;OP Director</span>
+            </div>
+            <table class="pl-table">
+              <tr class="pl-row"><td class="pl-lbl">On-Time In-Full (OTIF) Rate</td><td class="pl-val" id="plOtif" style="color:var(--teal);">98%</td></tr>
+              <tr class="pl-row"><td class="pl-lbl">Oud Perfumes Sold (AED 120 /ea)</td><td class="pl-val" id="plQty">540 units</td></tr>
+              <tr class="pl-row"><td class="pl-lbl">Gross Revenue</td><td class="pl-val" id="plRevenue" style="color:var(--teal);">AED 64,800</td></tr>
+              <tr class="pl-row"><td class="pl-lbl">China Sourcing &amp; Freight Cost</td><td class="pl-val" id="plFreight" style="color:var(--rose);">−AED 6,500</td></tr>
+              <tr class="pl-row"><td class="pl-lbl">Batch Manufacturing Blending Setup</td><td class="pl-val" id="plProduction" style="color:var(--rose);">−AED 3,600</td></tr>
+              <tr class="pl-row"><td class="pl-lbl">Inventory Warehouse Carrying Cost</td><td class="pl-val" id="plHolding" style="color:var(--rose);">−AED 4,800</td></tr>
+              <tr class="pl-row"><td class="pl-lbl">GCC Retail Stockout Penalty</td><td class="pl-val" id="plStockout" style="color:var(--rose);">−AED 1,200</td></tr>
+              <tr class="pl-row total"><td class="pl-lbl">Net Operations Profit</td><td class="pl-val" id="plProfit" style="color:var(--gold);">AED 48,700</td></tr>
+            </table>
+            <button class="sim-btn btn-run" onclick="closeReport()">View Dashboard Graphs</button>
+          </div>
+        </div>
+
+        <div class="card-title" style="margin-bottom:12px;">📈 Day-by-Day Operations Console</div>
+        
+        <!-- Status Bar -->
+        <div class="live-status-bar">
+          <div class="status-card">
+            <div class="status-val" id="lblDay">0 / 30</div>
+            <div class="status-lbl">Day Ticker</div>
+          </div>
+          <div class="status-card">
+            <div class="status-val" id="lblFinishedGoods" style="color:var(--gold);">200</div>
+            <div class="status-lbl">Finished Stock</div>
+          </div>
+          <div class="status-card">
+            <div class="status-val" id="lblJafzaPackaging" style="color:var(--teal);">300</div>
+            <div class="status-lbl">JAFZA Glass</div>
+          </div>
+          <div class="status-card">
+            <div class="status-val" id="lblOtif" style="color:var(--teal);">100%</div>
+            <div class="status-lbl">OTIF Level</div>
+          </div>
+        </div>
+
+        <!-- Dynamic Disruption Alert Box -->
+        <div class="disruption-banner" id="disruptionBanner">
+          <div class="disruption-icon">⚠️</div>
+          <div class="disruption-body">
+            <div class="disruption-title" id="disruptionTitle">Jebel Ali Port Clearance Hold</div>
+            <div class="disruption-desc" id="disruptionDesc">Customs random check holds inbound container for 3 additional days. Sourcing delay!</div>
+          </div>
+        </div>
+
+        <!-- Live Graphs -->
+        <div class="chart-box">
+          <canvas id="inventoryChart"></canvas>
+        </div>
+
+        <!-- Log Console -->
+        <div class="log-console" id="logConsole">
+          <div class="log-line text">[System] Ready to begin operations. Configure ROP, EOQ, Batch Size and click "Start 30-Day Simulation".</div>
+        </div>
+
+        <!-- Sim Buttons -->
+        <div class="sim-controls">
+          <button class="sim-btn btn-run" id="btnPlay" onclick="togglePlay()">🚀 Start 30-Day Operation Cycle</button>
+          <button class="sim-btn btn-reset" onclick="resetSimulation()">🔄 Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Base Simulation Config & Constants
+var simulationDays = 30;
+var currentDay = 0;
+var finishedGoods = 200;
+var jafzaPackaging = 300;
+var rop = 150;
+var eoq = 300;
+var batchSize = 200;
+
+var shippingMode = 'ocean'; // ocean, seaair, air
+var leadTimes = { ocean: 20, seaair: 10, air: 3 };
+var shippingCosts = { ocean: 2500, seaair: 6500, air: 15000 };
+
+// In-transit arrays
+var inboundShipments = []; // elements: { daysLeft, qty, cost }
+var activeBatches = []; // elements: { daysLeft, qty }
+
+// Performance Metrics
+var totalDemands = 0;
+var fulfilledDemands = 0;
+var totalRevenue = 0;
+var totalFreightCost = 0;
+var totalProductionCost = 0;
+var totalHoldingCost = 0;
+var totalStockoutPenalties = 0;
+
+var finishedGoodsHistory = [];
+var jafzaPackagingHistory = [];
+var daysHistory = [];
+var ropHistory = [];
+
+// Simulation State
+var timerId = null;
+var isPlaying = false;
+var chartInstance = null;
+
+function updateParameters() {
+  rop = parseInt(document.getElementById('ropSlider').value);
+  document.getElementById('ropVal').textContent = rop + " units";
+
+  eoq = parseInt(document.getElementById('eoqSlider').value);
+  document.getElementById('eoqVal').textContent = eoq + " units";
+
+  batchSize = parseInt(document.getElementById('batchSlider').value);
+  document.getElementById('batchVal').textContent = batchSize + " units";
+  
+  if (chartInstance) {
+    var length = chartInstance.data.labels.length;
+    chartInstance.data.datasets[2].data = Array(length || 1).fill(rop);
+    chartInstance.update('none');
+  }
+}
+
+function setShippingMode(mode) {
+  shippingMode = mode;
+  document.querySelectorAll('.source-btn').forEach(function(btn) {
+    btn.classList.remove('active');
+  });
+  if(mode === 'ocean') {
+    document.getElementById('shipOcean').classList.add('active');
+    document.getElementById('transitModeLabel').textContent = "Mode: Ocean (20d)";
+    document.getElementById('pathChinaJafza').setAttribute('stroke-dasharray', '6,4');
+  } else if(mode === 'seaair') {
+    document.getElementById('shipSeaAir').classList.add('active');
+    document.getElementById('transitModeLabel').textContent = "Mode: Sea-Air (10d)";
+    document.getElementById('pathChinaJafza').setAttribute('stroke-dasharray', '4,2');
+  } else if(mode === 'air') {
+    document.getElementById('shipAir').classList.add('active');
+    document.getElementById('transitModeLabel').textContent = "Mode: Air (3d)";
+    document.getElementById('pathChinaJafza').setAttribute('stroke-dasharray', 'none');
+  }
+}
+
+// Chart Initializer
+function initChart() {
+  var ctx = document.getElementById('inventoryChart').getContext('2d');
+  
+  finishedGoodsHistory = [finishedGoods];
+  jafzaPackagingHistory = [jafzaPackaging];
+  daysHistory = ['Day 0'];
+  ropHistory = [rop];
+
+  if (chartInstance) chartInstance.destroy();
+
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: daysHistory,
+      datasets: [
+        {
+          label: 'Finished Oud Perfumes',
+          data: finishedGoodsHistory,
+          borderColor: '#f59e0b',
+          backgroundColor: 'rgba(245,158,11,0.06)',
+          fill: true,
+          tension: 0.25,
+          borderWidth: 2.5
+        },
+        {
+          label: 'JAFZA Packaging Glass',
+          data: jafzaPackagingHistory,
+          borderColor: '#00d4a8',
+          backgroundColor: 'rgba(0,212,168,0.06)',
+          fill: true,
+          tension: 0.25,
+          borderWidth: 2
+        },
+        {
+          label: 'ROP Trigger Limit',
+          data: ropHistory,
+          borderColor: 'rgba(99,102,241,0.4)',
+          borderDash: [5, 5],
+          fill: false,
+          tension: 0,
+          borderWidth: 1.5,
+          pointStyle: 'none',
+          pointRadius: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#94a3b8', font: { size: 9 } } },
+        y: { min: 0, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#94a3b8', font: { size: 9 } } }
+      },
+      plugins: {
+        legend: { labels: { color: '#ccd6f6', font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+function updateChart() {
+  if (!chartInstance) return;
+  chartInstance.data.labels = daysHistory;
+  chartInstance.data.datasets[0].data = finishedGoodsHistory;
+  chartInstance.data.datasets[1].data = jafzaPackagingHistory;
+  
+  // keep ROP array populated with current setting
+  var length = daysHistory.length;
+  chartInstance.data.datasets[2].data = Array(length).fill(rop);
+
+  chartInstance.update();
+}
+
+function writeLog(text, type) {
+  var consoleEl = document.getElementById('logConsole');
+  var div = document.createElement('div');
+  div.className = 'log-line ' + (type || '');
+  div.innerHTML = text;
+  consoleEl.appendChild(div);
+  consoleEl.scrollTop = consoleEl.scrollHeight;
+}
+
+// Interactive Pulses control
+function triggerPulse(type, durationMs) {
+  var pulse;
+  var path;
+  if(type === 'inbound') {
+    pulse = document.getElementById('pulseInbound');
+    path = document.getElementById('pathChinaJafza');
+  } else {
+    pulse = document.getElementById('pulseProd');
+    path = document.getElementById('pathJafzaFactory');
+  }
+
+  if(!pulse || !path) return;
+  
+  pulse.style.display = 'block';
+  var pathLength = path.getTotalLength();
+  var start = null;
+
+  function step(timestamp) {
+    if (!start) start = timestamp;
+    var progress = timestamp - start;
+    var percentage = Math.min(progress / durationMs, 1);
+    
+    var point = path.getPointAtLength(percentage * pathLength);
+    pulse.setAttribute('cx', point.x);
+    pulse.setAttribute('cy', point.y);
+
+    if (percentage < 1) {
+      requestAnimationFrame(step);
+    } else {
+      pulse.style.display = 'none';
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+function togglePlay() {
+  if (isPlaying) {
+    pause();
+  } else {
+    play();
+  }
+}
+
+function play() {
+  if(currentDay >= simulationDays) {
+    resetSimulation();
+  }
+  isPlaying = true;
+  document.getElementById('btnPlay').textContent = '⏸ Pause Simulation';
+  document.getElementById('btnPlay').style.background = 'var(--gold)';
+  document.getElementById('btnPlay').style.boxShadow = '0 4px 14px rgba(245,158,11,0.2)';
+  
+  // Disable input adjustments during active running
+  setInputsEnabled(false);
+
+  timerId = setInterval(tick, 900);
+}
+
+function pause() {
+  isPlaying = false;
+  document.getElementById('btnPlay').textContent = '🚀 Resume Simulation';
+  document.getElementById('btnPlay').style.background = 'var(--teal)';
+  document.getElementById('btnPlay').style.boxShadow = '0 4px 14px rgba(0,212,168,0.3)';
+  clearInterval(timerId);
+  setInputsEnabled(true);
+}
+
+function setInputsEnabled(enabled) {
+  document.getElementById('ropSlider').disabled = !enabled;
+  document.getElementById('eoqSlider').disabled = !enabled;
+  document.getElementById('batchSlider').disabled = !enabled;
+  document.querySelectorAll('.source-btn').forEach(function(btn) {
+    btn.disabled = !enabled;
+  });
+}
+
+function resetSimulation() {
+  pause();
+  currentDay = 0;
+  finishedGoods = 200;
+  jafzaPackaging = 300;
+  inboundShipments = [];
+  activeBatches = [];
+
+  totalDemands = 0;
+  fulfilledDemands = 0;
+  totalRevenue = 0;
+  totalFreightCost = 0;
+  totalProductionCost = 0;
+  totalHoldingCost = 0;
+  totalStockoutPenalties = 0;
+
+  // Clear UI elements
+  document.getElementById('lblDay').textContent = '0 / 30';
+  document.getElementById('lblFinishedGoods').textContent = finishedGoods;
+  document.getElementById('lblJafzaPackaging').textContent = jafzaPackaging;
+  document.getElementById('lblOtif').textContent = '100%';
+  document.getElementById('finishedGoodsStockLabel').textContent = 'Finished Stock: ' + finishedGoods + 'u';
+  document.getElementById('jafzaPackagingStockLabel').textContent = 'Packaging: ' + jafzaPackaging + 'u';
+  document.getElementById('factoryStatusLabel').textContent = 'State: Idle';
+  document.getElementById('factoryStatusLabel').style.color = 'var(--t3)';
+
+  var banner = document.getElementById('disruptionBanner');
+  banner.style.display = 'none';
+
+  var consoleEl = document.getElementById('logConsole');
+  consoleEl.innerHTML = '<div class="log-line">[System] Simulation reset. Adjust sliders and click "Start".</div>';
+
+  setInputsEnabled(true);
+  initChart();
+}
+
+function tick() {
+  currentDay++;
+  
+  if (currentDay > simulationDays) {
+    finishSimulation();
+    return;
+  }
+
+  document.getElementById('lblDay').textContent = currentDay + ' / 30';
+  writeLog('🗓️ Day ' + currentDay, 'day');
+
+  // ── 1. CUSTOMS & DISRUPTIONS CHECK ──
+  var activeDisruption = checkDisruption(currentDay);
+
+  // ── 2. IN-TRANSIT & INBOUND SHIPMENTS MANAGEMENT ──
+  processInboundSourcing();
+
+  // ── 3. MANUFACTURING BATCH PRODUCTION ──
+  processFactoryProduction();
+
+  // ── 4. RETAIL GCC MARKET STORE DEMAND ──
+  processStoreDemand(activeDisruption);
+
+  // ── 5. AUTOMATIC PACKAGING replenishment (ROP check) ──
+  triggerReplenishmentCheck();
+
+  // ── 6. CARRYING COST CALCULATION ──
+  calculateDailyHoldingCosts();
+
+  // Update UI indicators
+  document.getElementById('lblFinishedGoods').textContent = finishedGoods;
+  document.getElementById('lblJafzaPackaging').textContent = jafzaPackaging;
+  document.getElementById('finishedGoodsStockLabel').textContent = 'Finished Stock: ' + finishedGoods + 'u';
+  document.getElementById('jafzaPackagingStockLabel').textContent = 'Packaging: ' + jafzaPackaging + 'u';
+  
+  var otifPercentage = totalDemands > 0 ? Math.round((fulfilledDemands / totalDemands) * 100) : 100;
+  document.getElementById('lblOtif').textContent = otifPercentage + '%';
+
+  // Push to history charts
+  daysHistory.push('Day ' + currentDay);
+  finishedGoodsHistory.push(finishedGoods);
+  jafzaPackagingHistory.push(jafzaPackaging);
+  
+  updateChart();
+}
+
+// checkDisruption: Dynamic random disruption events
+function checkDisruption(day) {
+  var banner = document.getElementById('disruptionBanner');
+  var title = document.getElementById('disruptionTitle');
+  var desc = document.getElementById('disruptionDesc');
+
+  banner.style.display = 'none';
+
+  if (day === 10) {
+    banner.style.display = 'flex';
+    title.textContent = 'Guangzhou Port Storm';
+    desc.textContent = 'Severe weather delays all in-transit ocean containers from China by 3 days.';
+    writeLog('⚠️ DISRUPTION: Guangzhou Port Storm! In-transit cargo delayed +3 days.', 'event');
+    
+    // Add latency to all inbound ocean shipments
+    inboundShipments.forEach(function(shipment) {
+      shipment.daysLeft += 3;
+    });
+    return 'storm';
+  }
+  
+  if (day === 18) {
+    banner.style.display = 'flex';
+    title.textContent = 'Ramadan Shopping Fest';
+    desc.textContent = 'Premium GCC retail stores see a massive +150% demand surge for Oud perfumes!';
+    writeLog('🔥 PROMOTION: Ramadan Shopping Surge! Retail demand increases heavily.', 'event');
+    return 'ramadan';
+  }
+  
+  if (day === 24) {
+    banner.style.display = 'flex';
+    title.textContent = 'Jebel Ali Customs Random Inspection';
+    desc.textContent = 'Strict compliance audit delays JAFZA warehouse incoming items by 2 days.';
+    writeLog('⚠️ INSPECTION: Jebel Ali customs hold! Incoming items delayed by 2 days.', 'event');
+    
+    inboundShipments.forEach(function(shipment) {
+      shipment.daysLeft += 2;
+    });
+    return 'customs';
+  }
+
+  return null;
+}
+
+function processInboundSourcing() {
+  var deliveredQty = 0;
+  
+  inboundShipments.forEach(function(shipment) {
+    shipment.daysLeft--;
+    if(shipment.daysLeft <= 0) {
+      deliveredQty += shipment.qty;
+      writeLog('📦 INBOUND: Sourcing shipment arrived! JAFZA stock +' + shipment.qty + ' glass bottles.', 'order');
+    }
+  });
+
+  inboundShipments = inboundShipments.filter(function(shipment) {
+    return shipment.daysLeft > 0;
+  });
+
+  if (deliveredQty > 0) {
+    jafzaPackaging += deliveredQty;
+  }
+}
+
+function processFactoryProduction() {
+  var factoryLabel = document.getElementById('factoryStatusLabel');
+  
+  var completedProdQty = 0;
+  activeBatches.forEach(function(batch) {
+    batch.daysLeft--;
+    if(batch.daysLeft <= 0) {
+      completedProdQty += batch.qty;
+      writeLog('🏭 FACTORY: Production batch complete! Sharjah warehouse +' + batch.qty + ' Oud Perfumes.', 'prod');
+    }
+  });
+
+  activeBatches = activeBatches.filter(function(batch) {
+    return batch.daysLeft > 0;
+  });
+
+  if (completedProdQty > 0) {
+    finishedGoods += completedProdQty;
+  }
+
+  // Update status UI
+  if (activeBatches.length > 0) {
+    factoryLabel.textContent = 'State: Blending... (' + activeBatches[0].daysLeft + 'd)';
+    factoryLabel.style.color = 'var(--sky)';
+  } else {
+    factoryLabel.textContent = 'State: Idle';
+    factoryLabel.style.color = 'var(--t3)';
+  }
+
+  // Auto-schedule factory production if packaging exists and finished goods fall below 150 units
+  if (finishedGoods < 150 && activeBatches.length === 0) {
+    if (jafzaPackaging >= batchSize) {
+      jafzaPackaging -= batchSize;
+      activeBatches.push({ daysLeft: 2, qty: batchSize });
+      totalProductionCost += 1200; // Batch blending setup cost
+      
+      triggerPulse('prod', 800);
+      writeLog('🏭 FACTORY: Started blending batch of ' + batchSize + ' bottles. Setup cost: AED 1,200.', 'prod');
+    } else {
+      writeLog('🚨 PROD STOCKOUT: Cannot start production batch. Insufficient glass bottles in JAFZA.', 'event');
+    }
+  }
+}
+
+function processStoreDemand(disruption) {
+  // Base daily demand: 18 units, Ramadan doubles it to 45
+  var baseDemand = 18;
+  if(disruption === 'ramadan') baseDemand = 45;
+  
+  // Random noise (-4 to +5)
+  var dailyDemand = baseDemand + Math.floor(Math.random() * 10 - 4);
+  totalDemands += dailyDemand;
+
+  if (finishedGoods >= dailyDemand) {
+    finishedGoods -= dailyDemand;
+    fulfilledDemands += dailyDemand;
+    var rev = dailyDemand * 120; // AED 120 per bottle Oud Perfume
+    totalRevenue += rev;
+    writeLog('🛒 SALES: Sold ' + dailyDemand + ' perfumes across stores. Revenue: +AED ' + rev.toLocaleString() + '.', 'text');
+  } else {
+    // Partial fulfillment
+    var sold = finishedGoods;
+    finishedGoods = 0;
+    fulfilledDemands += sold;
+    
+    var rev = sold * 120;
+    totalRevenue += rev;
+
+    var missed = dailyDemand - sold;
+    var penalty = missed * 40; // AED 40 lost sales/brand penalty
+    totalStockoutPenalties += penalty;
+
+    writeLog('🚨 GCC STOCKOUT: Short by ' + missed + ' perfumes. Sold: ' + sold + '. Penalty: −AED ' + penalty.toLocaleString() + '.', 'event');
+  }
+}
+
+function triggerReplenishmentCheck() {
+  // Check if JAFZA inventory is below ROP and there are no active inbound shipments
+  if (jafzaPackaging <= rop && inboundShipments.length === 0) {
+    var lead = leadTimes[shippingMode];
+    var cost = shippingCosts[shippingMode];
+    
+    inboundShipments.push({ daysLeft: lead, qty: eoq, cost: cost });
+    totalFreightCost += cost;
+
+    triggerPulse('inbound', 800);
+    writeLog('📦 ORDER PLACED: JAFZA Glass below ROP (' + rop + '). Auto-ordered ' + eoq + ' units via ' + shippingMode.toUpperCase() + '. Freight cost: AED ' + cost.toLocaleString() + '.', 'order');
+  }
+}
+
+function calculateDailyHoldingCosts() {
+  // AED 1.50 per unit of finished stock per day; AED 0.50 per unit of raw packaging per day
+  var holding = (finishedGoods * 1.50) + (jafzaPackaging * 0.50);
+  totalHoldingCost += holding;
+}
+
+function finishSimulation() {
+  pause();
+  writeLog('🏁 30-Day Operation Cycle Completed successfully.', 'day');
+
+  // Open final report
+  var otifPercentage = totalDemands > 0 ? Math.round((fulfilledDemands / totalDemands) * 100) : 100;
+  var netProfit = totalRevenue - (totalFreightCost + totalProductionCost + totalHoldingCost + totalStockoutPenalties);
+
+  document.getElementById('plOtif').textContent = otifPercentage + '%';
+  document.getElementById('plQty').textContent = fulfilledDemands + ' units';
+  document.getElementById('plRevenue').textContent = 'AED ' + totalRevenue.toLocaleString();
+  document.getElementById('plFreight').textContent = '−AED ' + totalFreightCost.toLocaleString();
+  document.getElementById('plProduction').textContent = '−AED ' + totalProductionCost.toLocaleString();
+  document.getElementById('plHolding').textContent = '−AED ' + Math.round(totalHoldingCost).toLocaleString();
+  document.getElementById('plStockout').textContent = '−AED ' + totalStockoutPenalties.toLocaleString();
+  document.getElementById('plProfit').textContent = 'AED ' + Math.round(netProfit).toLocaleString();
+
+  var rankEl = document.getElementById('reportRank');
+  if (netProfit > 50000 && otifPercentage >= 95) {
+    rankEl.textContent = '🏆 Master S&OP Director';
+    rankEl.style.background = 'rgba(0, 212, 168, 0.15)';
+    rankEl.style.color = 'var(--teal)';
+  } else if (netProfit >= 25000 && otifPercentage >= 88) {
+    rankEl.textContent = '📦 Logistics Operations Lead';
+    rankEl.style.background = 'rgba(245, 158, 11, 0.15)';
+    rankEl.style.color = 'var(--gold)';
+  } else {
+    rankEl.textContent = '🚨 Stockout Rookie';
+    rankEl.style.background = 'rgba(244, 63, 94, 0.15)';
+    rankEl.style.color = 'var(--rose)';
+  }
+
+  document.getElementById('reportOverlay').style.display = 'flex';
+}
+
+function closeReport() {
+  document.getElementById('reportOverlay').style.display = 'none';
+}
+
+window.onload = function() {
+  updateParameters();
+  resetSimulation();
+};
+</script>
+
+</body>
+</html>
