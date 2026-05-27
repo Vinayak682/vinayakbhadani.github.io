@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Fuso Demand Dashboard — Multi-Model Forecasting | Vinayak Bhadani</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Fuso Demand Dashboard — Multi-Model Forecasting"/>
+<meta property="og:description" content="Demand planning dashboard for a UAE commercial vehicle distributor. ARIMA, Holt-Winters and ML ensemble forecasting with interactive Power BI-style analytics. Replaced manual Excel S&OP tracking."/>
+<meta property="og:url" content="https://vinayak682.github.io/vinayakbhadani.github.io/fuso-demand-dashboard.html"/>
+<meta property="og:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=630&fit=crop&auto=format&q=80"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=630&fit=crop&auto=format&q=80"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{
+  --bg0:#020c1b;--bg1:#051629;--bg2:#081e36;--bg3:#0d2544;--bg4:#122c50;
+  --amber:#f59e0b;--amber2:#d97706;--amber-g:rgba(245,158,11,.12);
+  --teal:#00d4a8;--teal-g:rgba(0,212,168,.10);
+  --indigo:#6366f1;--indigo-g:rgba(99,102,241,.10);
+  --t1:#f1f7ff;--t2:#94a3b8;--t3:#4d6b8a;
+  --brd:rgba(255,255,255,.07);--brd2:rgba(255,255,255,.14);
+  --r:14px;--r2:10px;--r3:50px;
+  --sh:0 8px 48px rgba(0,0,0,.5);
+  --tr:.28s cubic-bezier(.4,0,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg0);color:var(--t1);font-family:'Inter',sans-serif;line-height:1.6;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:rgba(2,12,27,.8);border-bottom:1px solid var(--brd);padding:16px 0}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.1rem;color:var(--amber)}
+.nav-links{display:flex;gap:24px;font-size:.875rem;color:var(--t2)}
+.nav-links a:hover{color:var(--t1)}
+.nav-back{display:flex;align-items:center;gap:6px;font-size:.875rem;color:var(--t2);transition:color var(--tr)}
+.nav-back:hover{color:var(--amber)}
+.nav-back svg{width:16px;height:16px}
+
+/* HERO */
+.hero{padding:72px 0 56px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--amber-g);border:1px solid rgba(245,158,11,.25);border-radius:var(--r3);padding:6px 16px;font-size:.8rem;font-weight:600;color:var(--amber);margin-bottom:24px;letter-spacing:.04em;text-transform:uppercase}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:900;line-height:1.1;margin-bottom:20px}
+.hero h1 span{background:linear-gradient(135deg,var(--amber),#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.1rem;color:var(--t2);max-width:640px;margin:0 auto 32px}
+.hero-meta{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid var(--brd2);border-radius:var(--r3);padding:6px 14px;font-size:.8rem;color:var(--t2)}
+
+/* STATS ROW */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:48px 0}
+.stat{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);padding:24px 20px;text-align:center;transition:border-color var(--tr)}
+.stat:hover{border-color:var(--brd2)}
+.stat-num{font-family:'Outfit',sans-serif;font-size:2rem;font-weight:900;color:var(--amber);display:block}
+.stat-label{font-size:.8rem;color:var(--t2);margin-top:4px}
+
+/* CHART SECTION */
+.section{margin:48px 0}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.section-icon{width:36px;height:36px;border-radius:10px;background:var(--amber-g);border:1px solid rgba(245,158,11,.2);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.section-title{font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:800}
+.section-sub{font-size:.85rem;color:var(--t2);margin-top:2px}
+.card{background:var(--bg1);border:1px solid var(--brd);border-radius:var(--r);padding:28px;margin-bottom:20px}
+.chart-wrap{position:relative;height:300px}
+
+/* MODEL TABLE */
+.model-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.model-card{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r2);padding:20px;transition:all var(--tr)}
+.model-card:hover{border-color:rgba(245,158,11,.3);transform:translateY(-2px)}
+.model-name{font-weight:700;font-size:.95rem;color:var(--t1);margin-bottom:6px}
+.model-mape{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:900;color:var(--amber);margin-bottom:4px}
+.model-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600}
+.badge-best{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+.badge-good{background:rgba(99,102,241,.15);color:#818cf8;border:1px solid rgba(99,102,241,.2)}
+.badge-base{background:rgba(148,163,184,.1);color:#94a3b8;border:1px solid rgba(148,163,184,.15)}
+
+/* SKU TABLE */
+table{width:100%;border-collapse:collapse;font-size:.875rem}
+th{text-align:left;padding:10px 14px;color:var(--t3);font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid var(--brd)}
+td{padding:12px 14px;border-bottom:1px solid var(--brd);color:var(--t2)}
+td:first-child{color:var(--t1);font-weight:500}
+tr:last-child td{border-bottom:none}
+.trend-up{color:#34d399}
+.trend-dn{color:#f87171}
+.acc-bar{display:flex;align-items:center;gap:8px}
+.acc-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px}
+.acc-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--amber),#fb923c)}
+
+/* TECH STACK */
+.tech-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.tech-pill{background:rgba(255,255,255,.04);border:1px solid var(--brd2);border-radius:var(--r3);padding:6px 14px;font-size:.8rem;color:var(--t2)}
+
+/* BACK LINK */
+.back-section{text-align:center;padding:48px 0 72px}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--amber),#fb923c);color:#020c1b;font-weight:700;font-size:.9rem;padding:12px 28px;border-radius:var(--r3);transition:opacity var(--tr)}
+.btn-primary:hover{opacity:.9}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--brd2);color:var(--t2);font-size:.9rem;padding:12px 28px;border-radius:var(--r3);margin-left:12px;transition:all var(--tr)}
+.btn-ghost:hover{border-color:var(--amber);color:var(--amber)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="https://vinayak682.github.io/vinayakbhadani.github.io/" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to Portfolio
+    </a>
+    <span class="nav-logo">Vinayak Bhadani</span>
+    <div class="nav-links">
+      <a href="https://linkedin.com/in/vinayakbhadani">LinkedIn</a>
+      <a href="https://vinayak682.github.io/vinayakbhadani.github.io/">Portfolio</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-badge"><span class="dot"></span>Real Client Project · UAE</div>
+      <h1>Fuso Demand <span>Dashboard</span></h1>
+      <p class="hero-sub">Multi-model demand forecasting for a UAE commercial vehicle distributor — replacing manual Excel S&OP with live, decision-ready analytics.</p>
+      <div class="hero-meta">
+        <span class="hero-tag">📊 ARIMA + Holt-Winters + XGBoost</span>
+        <span class="hero-tag">🇦🇪 UAE Automotive Market</span>
+        <span class="hero-tag">🐍 Python · Power BI</span>
+        <span class="hero-tag">📉 18% MAPE reduction</span>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat"><span class="stat-num">18%</span><span class="stat-label">MAPE Reduction</span></div>
+      <div class="stat"><span class="stat-num">3</span><span class="stat-label">Forecast Models Compared</span></div>
+      <div class="stat"><span class="stat-num">24mo</span><span class="stat-label">Historical Data Window</span></div>
+      <div class="stat"><span class="stat-num">6mo</span><span class="stat-label">Forward Horizon</span></div>
+      <div class="stat"><span class="stat-num">12</span><span class="stat-label">SKU Categories</span></div>
+    </div>
+
+    <!-- FORECAST CHART -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon">📈</div>
+        <div>
+          <div class="section-title">Demand Forecast vs Actual</div>
+          <div class="section-sub">6-month rolling forecast with confidence intervals — ensemble model output</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chart-wrap">
+          <canvas id="forecastChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODEL COMPARISON -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon">🤖</div>
+        <div>
+          <div class="section-title">Model Performance Comparison</div>
+          <div class="section-sub">Automatic model selection picks the best performer per SKU category</div>
+        </div>
+      </div>
+      <div class="model-grid">
+        <div class="model-card">
+          <div class="model-name">XGBoost Ensemble</div>
+          <div class="model-mape">11.2%</div>
+          <span class="model-badge badge-best">✓ Best Overall</span>
+          <p style="font-size:.8rem;color:var(--t3);margin-top:10px">Handles non-linear seasonality and UAE market shocks</p>
+        </div>
+        <div class="model-card">
+          <div class="model-name">Holt-Winters ETS</div>
+          <div class="model-mape">13.7%</div>
+          <span class="model-badge badge-good">Good for Seasonal</span>
+          <p style="font-size:.8rem;color:var(--t3);margin-top:10px">Strong on Ramadan & National Day cyclical patterns</p>
+        </div>
+        <div class="model-card">
+          <div class="model-name">ARIMA (Auto)</div>
+          <div class="model-mape">15.4%</div>
+          <span class="model-badge badge-good">Good for Stable</span>
+          <p style="font-size:.8rem;color:var(--t3);margin-top:10px">Reliable baseline for stable commercial vehicle lines</p>
+        </div>
+        <div class="model-card">
+          <div class="model-name">Naïve Baseline</div>
+          <div class="model-mape">29.3%</div>
+          <span class="model-badge badge-base">Previous Method</span>
+          <p style="font-size:.8rem;color:var(--t3);margin-top:10px">Manual Excel estimates before dashboard deployment</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKU TABLE -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon">📦</div>
+        <div>
+          <div class="section-title">SKU-Level Forecast Summary</div>
+          <div class="section-sub">Top vehicle categories — Q3 forecast vs prior quarter actual</div>
+        </div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table>
+          <thead>
+            <tr>
+              <th>SKU Category</th>
+              <th>Q2 Actual</th>
+              <th>Q3 Forecast</th>
+              <th>Change</th>
+              <th>Accuracy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Canter Light Truck</td>
+              <td>847</td>
+              <td>920</td>
+              <td><span class="trend-up">+8.6%</span></td>
+              <td><div class="acc-bar"><div class="acc-track"><div class="acc-fill" style="width:89%"></div></div>89%</div></td>
+            </tr>
+            <tr>
+              <td>Fighter Medium Duty</td>
+              <td>312</td>
+              <td>298</td>
+              <td><span class="trend-dn">-4.5%</span></td>
+              <td><div class="acc-bar"><div class="acc-track"><div class="acc-fill" style="width:87%"></div></div>87%</div></td>
+            </tr>
+            <tr>
+              <td>Heavy Truck (FV)</td>
+              <td>156</td>
+              <td>178</td>
+              <td><span class="trend-up">+14.1%</span></td>
+              <td><div class="acc-bar"><div class="acc-track"><div class="acc-fill" style="width:84%"></div></div>84%</div></td>
+            </tr>
+            <tr>
+              <td>Rosa Mini-Bus</td>
+              <td>89</td>
+              <td>104</td>
+              <td><span class="trend-up">+16.9%</span></td>
+              <td><div class="acc-bar"><div class="acc-track"><div class="acc-fill" style="width:91%"></div></div>91%</div></td>
+            </tr>
+            <tr>
+              <td>Parts & Accessories</td>
+              <td>2,341</td>
+              <td>2,510</td>
+              <td><span class="trend-up">+7.2%</span></td>
+              <td><div class="acc-bar"><div class="acc-track"><div class="acc-fill" style="width:93%"></div></div>93%</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon">🛠</div>
+        <div>
+          <div class="section-title">Tech Stack</div>
+          <div class="section-sub">Tools and technologies used to build and deploy this dashboard</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="tech-row">
+          <span class="tech-pill">Python (pandas, statsmodels, scikit-learn)</span>
+          <span class="tech-pill">Power BI</span>
+          <span class="tech-pill">ARIMA / Auto-ARIMA</span>
+          <span class="tech-pill">Holt-Winters ETS</span>
+          <span class="tech-pill">XGBoost</span>
+          <span class="tech-pill">SQL Server</span>
+          <span class="tech-pill">Excel (XLOOKUP, Power Query)</span>
+          <span class="tech-pill">UAE Automotive Market Data</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BACK -->
+    <div class="back-section">
+      <a href="https://vinayak682.github.io/vinayakbhadani.github.io/" class="btn-primary">← Back to Portfolio</a>
+      <a href="https://linkedin.com/in/vinayakbhadani" class="btn-ghost" target="_blank">Connect on LinkedIn</a>
+    </div>
+
+  </div>
+</main>
+
+<script>
+// Forecast chart
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const actual = [820,795,867,910,843,790,null,null,null,null,null,null];
+const forecast = [null,null,null,null,null,790,850,920,875,940,908,960];
+const upper = [null,null,null,null,null,790,910,985,945,1010,978,1035];
+const lower = [null,null,null,null,null,790,790,855,805,870,838,885];
+
+const ctx = document.getElementById('forecastChart').getContext('2d');
+new Chart(ctx, {
+  type:'line',
+  data:{
+    labels:months,
+    datasets:[
+      {label:'Actual Demand',data:actual,borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,.1)',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#f59e0b',tension:0.4,fill:false},
+      {label:'Forecast',data:forecast,borderColor:'#6366f1',backgroundColor:'rgba(99,102,241,.08)',borderWidth:2.5,borderDash:[6,3],pointRadius:4,pointBackgroundColor:'#6366f1',tension:0.4,fill:false},
+      {label:'Upper Bound',data:upper,borderColor:'rgba(99,102,241,.25)',borderWidth:1,pointRadius:0,tension:0.4,fill:'+1'},
+      {label:'Lower Bound',data:lower,borderColor:'rgba(99,102,241,.25)',borderWidth:1,pointRadius:0,tension:0.4,fill:false}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#94a3b8',font:{size:12},usePointStyle:true}},tooltip:{backgroundColor:'rgba(5,22,41,.95)',borderColor:'rgba(255,255,255,.1)',borderWidth:1,titleColor:'#f1f7ff',bodyColor:'#94a3b8'}},
+    scales:{
+      x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4d6b8a',font:{size:11}}},
+      y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4d6b8a',font:{size:11}},title:{display:true,text:'Units Sold',color:'#4d6b8a',font:{size:11}}}
+    }
+  }
+});
+</script>
+</body>
+</html>
