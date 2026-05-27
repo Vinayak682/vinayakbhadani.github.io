@@ -272,9 +272,22 @@ section{padding:96px 0;}
 /* TICKER */
 .ticker-wrap{background:var(--bg1);border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);padding:13px 0;overflow:hidden;}
 .ticker{display:flex;animation:tick 36s linear infinite;width:max-content;}
-.ticker-item{padding:0 36px;font-size:.73rem;font-weight:700;color:var(--t2);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;display:flex;align-items:center;gap:8px;}
+.ticker-item{padding:0 36px;font-size:.78rem;font-weight:700;color:var(--t2);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;display:flex;align-items:center;gap:8px;}
 .ticker-item span{color:var(--teal);}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SOCIAL PROOF LINE */
+.hero-proof{display:flex;align-items:center;gap:8px;margin-bottom:22px;}
+.hero-proof-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;animation:pulse 2s infinite;}
+.hero-proof-text{font-size:.76rem;color:var(--t3);font-weight:500;line-height:1.5;}
+
+/* REDUCED MOTION */
+@media(prefers-reduced-motion:reduce){
+  .ticker{animation-play-state:paused;}
+  .profile-frame{animation:none;}
+  .hero-badge::before,.profile-nametag-dot,.btn-watch-dot,.pj-eyebrow::before,.flagship-label::before{animation:none;}
+  .fcard-icon,.fcard-scan{animation:none;}
+}
 
 /* ABOUT */
 #about{background:var(--bg1);}
@@ -857,15 +870,7 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
       <div class="nav-mobile-ctas">
         <a id="nav-cv-btn-mob" href="Vinayak_Bhadani_CV.pdf" download class="btn btn-download nav-cta">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          CV
-        </a>
-        <a href="https://www.instagram.com/nextgensupplychain.ai" target="_blank" rel="noopener" class="btn nav-cta nav-ig-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg>
-          IG
-        </a>
-        <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank" rel="noopener" class="btn nav-cta nav-li-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          in
+          Download CV
         </a>
       </div>
     </div>
@@ -873,15 +878,7 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
     <div class="nav-cta-wrap">
       <a id="nav-cv-btn" href="Vinayak_Bhadani_CV.pdf" download class="btn btn-download nav-cta" aria-label="Download CV">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        CV
-      </a>
-      <a href="https://www.instagram.com/nextgensupplychain.ai" target="_blank" rel="noopener" class="btn nav-cta nav-ig-btn" aria-label="Instagram">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg>
-        Instagram
-      </a>
-      <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank" rel="noopener" class="btn nav-cta nav-li-btn" aria-label="LinkedIn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        LinkedIn
+        Download CV
       </a>
     </div>
     <!-- REMOVED: redundant Contact CTA button (Contact is in nav links) -->
@@ -953,21 +950,10 @@ footer{background:var(--bg0);border-top:1px solid var(--brd);padding:36px 0;}
               Watch Presentation
             </button>
           </div>
-          <!-- Row 2: Secondary actions -->
-          <div class="hero-ctas-row">
-            <a href="#projects" class="btn btn-ghost">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-              View Projects
-            </a>
-            <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank" rel="noopener" class="btn btn-ghost" style="border-color:rgba(255,255,255,.2);color:var(--t2);">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-              LinkedIn
-            </a>
-            <a href="#contact" class="btn btn-ghost" style="border-color:rgba(0,212,168,.3);color:var(--teal);">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              Get in Touch
-            </a>
-          </div>
+        </div>
+        <div class="hero-proof">
+          <span class="hero-proof-dot"></span>
+          <span class="hero-proof-text">Trusted by ANDS Dubai &amp; Emirates Pride &nbsp;·&nbsp; 100K+ units/month &nbsp;·&nbsp; China–MENA–GCC</span>
         </div>
         <div class="hero-contact">
           <!-- TODO: After domain setup, change to vinayak@vinayakbhadani.com via Cloudflare Email Routing -->
@@ -4204,7 +4190,7 @@ function filterPJ(cat, btn) {
 <!-- ══ WHATSAPP FLOATING BUTTON ══ -->
 <style>
 .wa-float{
-  position:fixed;bottom:28px;right:28px;z-index:999;
+  position:fixed;bottom:88px;right:28px;z-index:999;
   width:56px;height:56px;border-radius:50%;
   background:linear-gradient(135deg,#25d366,#128c7e);
   display:flex;align-items:center;justify-content:center;
