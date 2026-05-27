@@ -25,12 +25,12 @@
   --fg:   #E6E6E6;
   --fg2:  #8A8A8A;
   --fg3:  #444444;
-  --red:  #FF2020;
-  --rdbg: rgba(255,32,32,0.08);
-  --rdbd: rgba(255,32,32,0.28);
-  --grn:  #3DFF6E;
-  --amb:  #FFB800;
-  --sky:  #38BDF8;
+  --red:  #DC2626;
+  --rdbg: rgba(220,38,38,0.07);
+  --rdbd: rgba(220,38,38,0.22);
+  --grn:  #22C55E;
+  --amb:  #D97706;
+  --sky:  #3B82F6;
   --brd:  rgba(230,230,230,0.08);
   --brd2: rgba(230,230,230,0.16);
   --mono: 'JetBrains Mono','Courier New',monospace;
@@ -51,10 +51,10 @@ body{
 }
 
 /* KEYFRAMES */
-@keyframes pulse-grn{0%{box-shadow:0 0 0 0 rgba(61,255,110,.6)}70%{box-shadow:0 0 0 7px rgba(61,255,110,0)}100%{box-shadow:0 0 0 0 rgba(61,255,110,0)}}
-@keyframes pulse-red{0%{box-shadow:0 0 0 0 rgba(255,32,32,.5)}70%{box-shadow:0 0 0 9px rgba(255,32,32,0)}100%{box-shadow:0 0 0 0 rgba(255,32,32,0)}}
-@keyframes glow-red{0%,100%{text-shadow:0 0 6px rgba(255,32,32,.35)}50%{text-shadow:0 0 20px rgba(255,32,32,.85),0 0 40px rgba(255,32,32,.25)}}
-@keyframes glow-grn{0%,100%{text-shadow:0 0 5px rgba(61,255,110,.3)}50%{text-shadow:0 0 16px rgba(61,255,110,.7)}}
+@keyframes pulse-grn{0%{box-shadow:0 0 0 0 rgba(34,197,94,.3)}70%{box-shadow:0 0 0 5px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+@keyframes pulse-red{0%{box-shadow:0 0 0 0 rgba(220,38,38,.3)}70%{box-shadow:0 0 0 6px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+@keyframes glow-red{0%,100%{text-shadow:0 0 5px rgba(220,38,38,.2)}50%{text-shadow:0 0 12px rgba(220,38,38,.5),0 0 22px rgba(220,38,38,.12)}}
+@keyframes glow-grn{0%,100%{text-shadow:0 0 4px rgba(34,197,94,.2)}50%{text-shadow:0 0 10px rgba(34,197,94,.45)}}
 @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 @keyframes dep-pulse{0%,100%{opacity:.4}50%{opacity:1;color:var(--red)}}
 @keyframes fade-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
@@ -79,7 +79,7 @@ body{
 .hdr-right{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0;}
 .status-pill{
   display:flex;align-items:center;gap:7px;
-  background:rgba(61,255,110,.07);border:1px solid rgba(61,255,110,.22);
+  background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.18);
   padding:5px 13px;font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--grn);
 }
 .hdr-filters{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;}
@@ -98,7 +98,7 @@ body{
   color:var(--red);font-family:var(--mono);font-size:9px;font-weight:700;
   letter-spacing:.08em;cursor:pointer;transition:all .2s;margin-bottom:1px;
 }
-.reset-btn:hover{background:rgba(255,32,32,.15);}
+.reset-btn:hover{background:rgba(220,38,38,.13);}
 
 /* ═══ TICKER ═══ */
 .ticker-wrap{
@@ -179,11 +179,11 @@ body{
 .cdp-conf{padding:12px 22px;display:flex;align-items:center;gap:18px;}
 .cdp-conf-lbl{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);flex-shrink:0;}
 .cdp-conf-track{flex:1;height:6px;background:var(--bg3);}
-.cdp-conf-bar{height:100%;background:linear-gradient(90deg,rgba(61,255,110,.35),var(--grn));transition:width .6s;}
+.cdp-conf-bar{height:100%;background:linear-gradient(90deg,rgba(34,197,94,.25),var(--grn));transition:width .6s;}
 .cdp-conf-pct{font-size:10px;font-weight:700;color:var(--grn);width:36px;text-align:right;flex-shrink:0;}
 .cdp-risk-pill{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border:1px solid;}
-.risk-LOW{color:var(--grn);border-color:rgba(61,255,110,.4);background:rgba(61,255,110,.06);}
-.risk-MEDIUM{color:var(--amb);border-color:rgba(255,184,0,.4);background:rgba(255,184,0,.06);}
+.risk-LOW{color:var(--grn);border-color:rgba(34,197,94,.28);background:rgba(34,197,94,.05);}
+.risk-MEDIUM{color:var(--amb);border-color:rgba(217,119,6,.28);background:rgba(217,119,6,.05);}
 .risk-HIGH{color:var(--red);border-color:var(--rdbd);background:var(--rdbg);animation:pulse-red 2s infinite;}
 
 /* ═══ DEPENDENCY CHAIN ═══ */
@@ -278,10 +278,10 @@ body{
   display:inline-block;padding:2px 7px;font-size:7px;font-weight:700;
   letter-spacing:.06em;border:1px solid;
 }
-.tbl-badge.A{color:var(--grn);border-color:rgba(61,255,110,.3);background:rgba(61,255,110,.05);}
-.tbl-badge.B{color:var(--amb);border-color:rgba(255,184,0,.3);background:rgba(255,184,0,.05);}
+.tbl-badge.A{color:var(--grn);border-color:rgba(34,197,94,.25);background:rgba(34,197,94,.05);}
+.tbl-badge.B{color:var(--amb);border-color:rgba(217,119,6,.25);background:rgba(217,119,6,.05);}
 .tbl-badge.C{color:var(--fg3);border-color:var(--brd);}
-.tbl-badge.X{color:var(--sky);border-color:rgba(56,189,248,.3);background:rgba(56,189,248,.05);}
+.tbl-badge.X{color:var(--sky);border-color:rgba(59,130,246,.25);background:rgba(59,130,246,.05);}
 .tbl-badge.Y{color:var(--fg2);border-color:var(--brd2);}
 .tbl-badge.Z{color:var(--red);border-color:var(--rdbd);background:var(--rdbg);}
 
@@ -410,31 +410,31 @@ body{
     <div class="kpi c-grn">
       <div class="kpi-icon">🎯</div>
       <div class="kpi-lbl">OTIF RATE</div>
-      <div class="kpi-val" id="kv-otif" style="color:var(--grn);">0%</div>
+      <div class="kpi-val" id="kv-otif" style="color:var(--fg);">0%</div>
       <div class="kpi-chg pos" id="kc-otif">▲ +23.8pp from 72.3%</div>
     </div>
     <div class="kpi c-amb">
       <div class="kpi-icon">📊</div>
       <div class="kpi-lbl">FORECAST ACCURACY</div>
-      <div class="kpi-val" id="kv-fa" style="color:var(--amb);">0%</div>
+      <div class="kpi-val" id="kv-fa" style="color:var(--fg);">0%</div>
       <div class="kpi-chg pos" id="kc-fa">▲ +34.0% improvement</div>
     </div>
     <div class="kpi c-sky">
       <div class="kpi-icon">🔄</div>
       <div class="kpi-lbl">INVENTORY TURNS</div>
-      <div class="kpi-val" id="kv-turns" style="color:var(--sky);">0×</div>
+      <div class="kpi-val" id="kv-turns" style="color:var(--fg);">0×</div>
       <div class="kpi-chg pos" id="kc-turns">▲ +1.8× from baseline</div>
     </div>
     <div class="kpi c-red">
       <div class="kpi-icon">✂️</div>
       <div class="kpi-lbl">AIR FREIGHT COST</div>
-      <div class="kpi-val" id="kv-cost" style="color:var(--red);">0%</div>
+      <div class="kpi-val" id="kv-cost" style="color:var(--fg);">0%</div>
       <div class="kpi-chg pos" id="kc-cost">▲ AED 2.1M saved YoY</div>
     </div>
     <div class="kpi c-wht">
       <div class="kpi-icon">📉</div>
       <div class="kpi-lbl">AGED STOCK %</div>
-      <div class="kpi-val" id="kv-aged" style="color:var(--fg2);">0%</div>
+      <div class="kpi-val" id="kv-aged" style="color:var(--fg);">0%</div>
       <div class="kpi-chg pos" id="kc-aged">▼ −18.2pp reduction</div>
     </div>
   </div>
@@ -569,7 +569,7 @@ body{
     <div class="cc-canvas" style="height:240px;"><canvas id="c-waterfall"></canvas></div>
     <div class="wf-legend">
       <div class="wf-item"><div class="wf-dot" style="background:rgba(99,102,241,.8);"></div>Baseline Cost</div>
-      <div class="wf-item"><div class="wf-dot" style="background:rgba(61,255,110,.7);"></div>Reduction Driver</div>
+      <div class="wf-item"><div class="wf-dot" style="background:rgba(34,197,94,.6);"></div>Reduction Driver</div>
       <div class="wf-item"><div class="wf-dot" style="background:var(--amb);"></div>Final Result</div>
     </div>
   </div>
@@ -716,11 +716,11 @@ const SKU_DATA = [
 ];
 
 /* ── COLOUR HELPERS ── */
-const C_TEAL  = '#00d4a8';
-const C_GRN   = '#3DFF6E';
-const C_RED   = '#FF2020';
-const C_AMB   = '#FFB800';
-const C_SKY   = '#38BDF8';
+const C_TEAL  = '#0D9488';
+const C_GRN   = '#22C55E';
+const C_RED   = '#DC2626';
+const C_AMB   = '#D97706';
+const C_SKY   = '#3B82F6';
 const C_INDG  = '#6366f1';
 const C_GREY  = 'rgba(232,232,232,0.55)';
 
@@ -729,7 +729,7 @@ function fMon(idxs){ return idxs.map(i=>MONTHS[i]); }
 
 const tOpt = {
   backgroundColor:'#141414', titleColor:'#E6E6E6', bodyColor:'#8A8A8A',
-  borderColor:'rgba(255,32,32,0.25)', borderWidth:1, padding:11,
+  borderColor:'rgba(220,38,38,0.2)', borderWidth:1, padding:11,
   titleFont:{family:"'JetBrains Mono',monospace",size:9},
   bodyFont:{family:"'JetBrains Mono',monospace",size:9}
 };
@@ -806,9 +806,9 @@ function buildOtifFa(idxs) {
     data:{
       labels:fMon(idxs),
       datasets:[
-        {label:'OTIF %',data:fArr(OTIF,idxs),borderColor:C_GRN,backgroundColor:'rgba(61,255,110,0.06)',
+        {label:'OTIF %',data:fArr(OTIF,idxs),borderColor:C_GRN,backgroundColor:'rgba(34,197,94,0.05)',
          borderWidth:2.5,fill:true,tension:.35,pointRadius:2,pointHoverRadius:5},
-        {label:'Forecast Accuracy %',data:fArr(FA,idxs),borderColor:C_AMB,backgroundColor:'rgba(255,184,0,0.05)',
+        {label:'Forecast Accuracy %',data:fArr(FA,idxs),borderColor:C_AMB,backgroundColor:'rgba(217,119,6,0.04)',
          borderWidth:2.5,fill:true,tension:.35,pointRadius:2,pointHoverRadius:5,borderDash:[5,3]},
       ]
     },
@@ -833,8 +833,8 @@ function buildUnits(idxs) {
       datasets:[{
         label:'Units Shipped (000s)',
         data:d,
-        backgroundColor:d.map((_,i)=>i===d.length-1?'rgba(255,32,32,0.7)':'rgba(255,32,32,0.2)'),
-        borderColor:d.map((_,i)=>i===d.length-1?C_RED:'rgba(255,32,32,0.4)'),
+        backgroundColor:d.map((_,i)=>i===d.length-1?'rgba(220,38,38,0.65)':'rgba(220,38,38,0.18)'),
+        borderColor:d.map((_,i)=>i===d.length-1?C_RED:'rgba(220,38,38,0.35)'),
         borderWidth:1,borderRadius:0,
       }]
     },
@@ -856,8 +856,8 @@ function buildFreight(idxs) {
     data:{
       labels:fMon(idxs),
       datasets:[
-        {label:'Air Freight %',data:d,borderColor:C_RED,backgroundColor:'rgba(255,32,32,0.07)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2},
-        {label:'Target 10%',data:Array(d.length).fill(10),borderColor:'rgba(255,184,0,0.4)',borderWidth:1,borderDash:[6,4],pointRadius:0,fill:false}
+        {label:'Air Freight %',data:d,borderColor:C_RED,backgroundColor:'rgba(220,38,38,0.06)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2},
+        {label:'Target 10%',data:Array(d.length).fill(10),borderColor:'rgba(217,119,6,0.32)',borderWidth:1,borderDash:[6,4],pointRadius:0,fill:false}
       ]
     },
     options:{
@@ -878,9 +878,9 @@ function buildDsi(idxs) {
     data:{
       labels:fMon(idxs),
       datasets:[
-        {label:'DSI (days)',data:d,borderColor:C_SKY,backgroundColor:'rgba(56,189,248,0.07)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2},
-        {label:'Upper Target 45d',data:Array(d.length).fill(45),borderColor:'rgba(255,184,0,0.45)',borderWidth:1,borderDash:[5,4],pointRadius:0,fill:false},
-        {label:'Lower Target 35d',data:Array(d.length).fill(35),borderColor:'rgba(255,184,0,0.25)',borderWidth:1,borderDash:[5,4],pointRadius:0,fill:false},
+        {label:'DSI (days)',data:d,borderColor:C_SKY,backgroundColor:'rgba(59,130,246,0.06)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2},
+        {label:'Upper Target 45d',data:Array(d.length).fill(45),borderColor:'rgba(217,119,6,0.32)',borderWidth:1,borderDash:[5,4],pointRadius:0,fill:false},
+        {label:'Lower Target 35d',data:Array(d.length).fill(35),borderColor:'rgba(217,119,6,0.18)',borderWidth:1,borderDash:[5,4],pointRadius:0,fill:false},
       ]
     },
     options:{
@@ -901,8 +901,8 @@ function buildAged(idxs) {
     data:{
       labels:fMon(idxs),
       datasets:[
-        {label:'Aged Stock %',data:d,borderColor:C_AMB,backgroundColor:'rgba(255,184,0,0.07)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2},
-        {label:'Target 5%',data:Array(d.length).fill(5),borderColor:'rgba(61,255,110,0.3)',borderWidth:1,borderDash:[5,4],pointRadius:0,fill:false}
+        {label:'Aged Stock %',data:d,borderColor:C_AMB,backgroundColor:'rgba(217,119,6,0.06)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2},
+        {label:'Target 5%',data:Array(d.length).fill(5),borderColor:'rgba(34,197,94,0.22)',borderWidth:1,borderDash:[5,4],pointRadius:0,fill:false}
       ]
     },
     options:{
@@ -923,7 +923,7 @@ function buildLane() {
       labels:LANE_LBL,
       datasets:[{
         data:LANE_DATA,
-        backgroundColor:['rgba(255,32,32,0.75)','rgba(255,184,0,0.7)','rgba(56,189,248,0.7)','rgba(61,255,110,0.65)','rgba(99,102,241,0.7)','rgba(232,232,232,0.3)'],
+        backgroundColor:['rgba(220,38,38,0.65)','rgba(217,119,6,0.6)','rgba(59,130,246,0.6)','rgba(34,197,94,0.55)','rgba(99,102,241,0.55)','rgba(232,232,232,0.25)'],
         borderColor:'#080808',borderWidth:2
       }]
     },
@@ -945,7 +945,7 @@ function buildRegion() {
       datasets:[{
         label:'OTIF % Jun 2024',
         data:REG_OTIF,
-        backgroundColor:REG_OTIF.map(v=>v>=95?'rgba(61,255,110,0.65)':v>=90?'rgba(255,184,0,0.6)':'rgba(255,32,32,0.55)'),
+        backgroundColor:REG_OTIF.map(v=>v>=95?'rgba(34,197,94,0.55)':v>=90?'rgba(217,119,6,0.5)':'rgba(220,38,38,0.45)'),
         borderColor:REG_OTIF.map(v=>v>=95?C_GRN:v>=90?C_AMB:C_RED),
         borderWidth:1,borderRadius:0,
       }]
@@ -970,7 +970,7 @@ function buildWaterfall() {
     null
   ];
   const barVals  = [WF_BASE, ...WF_DRIVERS.map(v=>Math.abs(v)), WF_RESULT];
-  const barCols  = ['rgba(99,102,241,0.75)','rgba(61,255,110,0.7)','rgba(61,255,110,0.7)','rgba(61,255,110,0.7)','rgba(61,255,110,0.7)','rgba(61,255,110,0.7)','rgba(255,184,0,0.8)'];
+  const barCols  = ['rgba(99,102,241,0.6)','rgba(34,197,94,0.55)','rgba(34,197,94,0.55)','rgba(34,197,94,0.55)','rgba(34,197,94,0.55)','rgba(34,197,94,0.55)','rgba(217,119,6,0.7)'];
   const wfLabels = ['Baseline 2023','3PL Consolidation','Mode Shift','Route Optim.','Demand Smoothing','Other Savings','Result 2024'];
 
   destroyAndBuild('c-waterfall', {
