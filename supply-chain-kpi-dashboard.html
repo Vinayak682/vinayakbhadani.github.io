@@ -3,162 +3,336 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Supply Chain KPI Dashboard · Vinayak Bhadani · ANDS Dubai</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1" crossorigin="anonymous"></script>
+<title>SUPPLY CHAIN TACTICAL COMMAND // ANDS DUBAI | Vinayak Bhadani</title>
+<meta property="og:title" content="Supply Chain KPI Dashboard — ANDS Dubai 2023–2024"/>
+<meta property="og:description" content="18-month operational KPI dashboard: OTIF 72→96%, Forecast Accuracy 68→91%, Air Freight −30%, Aged Stock −18pp. Full stakeholder dependency mapping."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Archivo+Black&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
+/* ═══════════════════════════════════════════════════
+   SUPPLY CHAIN TACTICAL COMMAND
+   INDUSTRIAL BRUTALISM — TACTICAL TELEMETRY
+   ANDS DUBAI · JAN 2023 – JUN 2024
+   ═══════════════════════════════════════════════════ */
 :root{
-  --bg0:#020c1b;--bg1:#051629;--bg2:#081e36;--bg3:#0d2544;--bg4:#122c50;
-  --teal:#00d4a8;--teal2:#00b890;--teal-g:rgba(0,212,168,.12);--teal-glow:rgba(0,212,168,.08);
-  --gold:#f59e0b;--gold-g:rgba(245,158,11,.1);
-  --indigo:#6366f1;--indigo-g:rgba(99,102,241,.12);
-  --rose:#f43f5e;--sky:#38bdf8;
-  --t1:#f1f7ff;--t2:#94a3b8;--t3:#4d6b8a;
-  --brd:rgba(255,255,255,.07);--brd2:rgba(255,255,255,.13);
-  --pos:#22c55e;--neg:#f43f5e;--warn:#f59e0b;
+  --bg:   #080808;
+  --bg1:  #0E0E0E;
+  --bg2:  #141414;
+  --bg3:  #1A1A1A;
+  --bg4:  #222222;
+  --fg:   #E6E6E6;
+  --fg2:  #8A8A8A;
+  --fg3:  #444444;
+  --red:  #FF2020;
+  --rdbg: rgba(255,32,32,0.08);
+  --rdbd: rgba(255,32,32,0.28);
+  --grn:  #3DFF6E;
+  --amb:  #FFB800;
+  --sky:  #38BDF8;
+  --brd:  rgba(230,230,230,0.08);
+  --brd2: rgba(230,230,230,0.16);
+  --mono: 'JetBrains Mono','Courier New',monospace;
+  --disp: 'Archivo Black',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{font-size:15px;}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg0);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased;}
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
-/* ── HEADER ── */
-.dash-header{
-  background:linear-gradient(135deg,var(--bg2),var(--bg1));
-  border-bottom:1px solid var(--brd2);
-  padding:20px 28px;
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
-  position:sticky;top:0;z-index:99;backdrop-filter:blur(20px);
+/* CRT SCANLINES */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.05) 2px,rgba(0,0,0,0.05) 4px);
+  pointer-events:none;z-index:9998;
 }
-.header-left{}
-.header-title{font-size:1rem;font-weight:800;color:var(--t1);letter-spacing:-.01em;}
-.header-sub{font-size:.72rem;color:var(--teal);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-top:2px;}
-.header-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  background:var(--teal-g);border:1px solid rgba(0,212,168,.2);
-  border-radius:20px;padding:4px 12px;font-size:.7rem;font-weight:700;color:var(--teal);
-  margin-left:14px;letter-spacing:.04em;text-transform:uppercase;
+body{
+  font-family:var(--mono);background:var(--bg);color:var(--fg);
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+  font-size:12px;line-height:1.5;letter-spacing:0.02em;
 }
-.header-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;}
-@keyframes pulse{0%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.2);}100%{opacity:1;transform:scale(1);}}
 
-/* Filters */
-.filters{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-.filter-group{display:flex;flex-direction:column;gap:3px;}
-.filter-group label{font-size:.63rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);}
-.filter-group select{
-  padding:6px 10px;border-radius:8px;border:1px solid var(--brd2);
-  background:var(--bg3);color:var(--t1);font-size:.78rem;font-weight:500;
-  cursor:pointer;outline:none;min-width:130px;
+/* KEYFRAMES */
+@keyframes pulse-grn{0%{box-shadow:0 0 0 0 rgba(61,255,110,.6)}70%{box-shadow:0 0 0 7px rgba(61,255,110,0)}100%{box-shadow:0 0 0 0 rgba(61,255,110,0)}}
+@keyframes pulse-red{0%{box-shadow:0 0 0 0 rgba(255,32,32,.5)}70%{box-shadow:0 0 0 9px rgba(255,32,32,0)}100%{box-shadow:0 0 0 0 rgba(255,32,32,0)}}
+@keyframes glow-red{0%,100%{text-shadow:0 0 6px rgba(255,32,32,.35)}50%{text-shadow:0 0 20px rgba(255,32,32,.85),0 0 40px rgba(255,32,32,.25)}}
+@keyframes glow-grn{0%,100%{text-shadow:0 0 5px rgba(61,255,110,.3)}50%{text-shadow:0 0 16px rgba(61,255,110,.7)}}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes dep-pulse{0%,100%{opacity:.4}50%{opacity:1;color:var(--red)}}
+@keyframes fade-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes count-flash{0%{color:var(--red)}100%{color:inherit}}
+@keyframes scanline-move{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--grn);animation:pulse-grn 2s infinite;flex-shrink:0;display:inline-block;}
+
+/* ═══ HEADER ═══ */
+.hdr{
+  background:var(--bg1);border-bottom:2px solid var(--red);
+  padding:16px 28px 12px;position:sticky;top:0;z-index:100;
 }
-.filter-group select:focus{border-color:rgba(0,212,168,.4);}
-.filter-group select option{background:var(--bg3);color:var(--t1);}
+.hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:10px;}
+.hdr-lbl{font-size:8px;color:var(--fg3);text-transform:uppercase;letter-spacing:.14em;margin-bottom:5px;}
+.hdr-title{
+  font-family:var(--disp);font-size:clamp(1.3rem,2.5vw,2.1rem);
+  color:var(--fg);line-height:.95;letter-spacing:-.02em;text-transform:uppercase;
+}
+.hdr-title em{font-style:normal;color:var(--red);}
+.hdr-sub{font-size:9px;color:var(--fg3);letter-spacing:.07em;text-transform:uppercase;margin-top:6px;}
+.hdr-right{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0;}
+.status-pill{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(61,255,110,.07);border:1px solid rgba(61,255,110,.22);
+  padding:5px 13px;font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--grn);
+}
+.hdr-filters{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;}
+.fg-wrap{display:flex;flex-direction:column;gap:3px;}
+.fg-lbl{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);}
+.fg-wrap select{
+  padding:5px 10px;border:1px solid var(--brd2);background:var(--bg3);
+  color:var(--fg);font-family:var(--mono);font-size:9px;font-weight:500;
+  cursor:pointer;outline:none;min-width:130px;border-radius:0;
+  -webkit-appearance:none;
+}
+.fg-wrap select:focus{border-color:var(--rdbd);}
+.fg-wrap select option{background:var(--bg3);color:var(--fg);}
 .reset-btn{
-  padding:6px 14px;border-radius:8px;background:var(--teal-g);border:1px solid rgba(0,212,168,.25);
-  color:var(--teal);font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;margin-top:14px;
+  padding:5px 13px;border:1px solid var(--rdbd);background:var(--rdbg);
+  color:var(--red);font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:.08em;cursor:pointer;transition:all .2s;margin-bottom:1px;
 }
-.reset-btn:hover{background:rgba(0,212,168,.2);}
+.reset-btn:hover{background:rgba(255,32,32,.15);}
 
-/* ── MAIN LAYOUT ── */
-.dash-body{max-width:1400px;margin:0 auto;padding:24px 20px;}
-
-/* ── KPI CARDS ── */
-.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px;}
-.kpi-card{
-  background:var(--bg2);border:1px solid var(--brd);border-radius:12px;
-  padding:16px 18px;position:relative;overflow:hidden;transition:all .2s;
+/* ═══ TICKER ═══ */
+.ticker-wrap{
+  background:var(--bg1);border-bottom:1px solid var(--brd);
+  overflow:hidden;height:32px;display:flex;align-items:center;
 }
-.kpi-card:hover{border-color:var(--brd2);transform:translateY(-1px);box-shadow:0 8px 32px rgba(0,0,0,.3);}
-.kpi-card::before{
+.ticker-label{
+  flex-shrink:0;padding:0 14px;font-size:8px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--red);
+  border-right:1px solid var(--brd);background:var(--rdbg);height:100%;
+  display:flex;align-items:center;
+}
+.ticker-belt{display:flex;animation:ticker 32s linear infinite;white-space:nowrap;}
+.ticker-item{
+  padding:0 22px;font-size:9px;color:var(--fg2);letter-spacing:.07em;
+  border-right:1px solid var(--brd);display:flex;align-items:center;height:32px;gap:6px;
+}
+.ticker-item span{color:var(--fg);font-weight:700;}
+.ticker-item .up{color:var(--grn);}
+.ticker-item .dn{color:var(--red);}
+
+/* ═══ BODY ═══ */
+.body{max-width:1520px;margin:0 auto;padding:0;}
+
+/* ═══ KPI GRID ═══ */
+.section-lbl{
+  font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--red);padding:14px 24px 10px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid var(--brd);
+}
+.section-lbl::after{content:'';flex:1;height:1px;background:var(--brd);}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--brd);}
+.kpi{
+  padding:16px 18px;border-right:1px solid var(--brd);
+  position:relative;overflow:hidden;transition:background .2s;
+}
+.kpi:last-child{border-right:none;}
+.kpi:hover{background:var(--bg2);}
+.kpi::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--accent-color, var(--teal)),transparent);
+  background:var(--kpi-accent, var(--red));
 }
-.kpi-card.teal{--accent-color:var(--teal);}
-.kpi-card.gold{--accent-color:var(--gold);}
-.kpi-card.indigo{--accent-color:var(--indigo);}
-.kpi-card.rose{--accent-color:var(--rose);}
-.kpi-card.sky{--accent-color:var(--sky);}
-.kpi-card.green{--accent-color:var(--pos);}
-.kpi-label{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:8px;}
-.kpi-value{font-size:1.7rem;font-weight:900;color:var(--t1);line-height:1;margin-bottom:6px;}
-.kpi-change{font-size:.72rem;font-weight:600;display:flex;align-items:center;gap:4px;}
-.kpi-change.pos{color:var(--pos);}
-.kpi-change.neg{color:var(--neg);}
-.kpi-change.warn{color:var(--warn);}
-.kpi-icon{position:absolute;right:14px;top:14px;font-size:1.4rem;opacity:.5;}
-.kpi-spark{position:absolute;bottom:0;left:0;right:0;height:40px;opacity:.4;}
+.kpi.c-red{--kpi-accent:var(--red);}
+.kpi.c-grn{--kpi-accent:var(--grn);}
+.kpi.c-amb{--kpi-accent:var(--amb);}
+.kpi.c-sky{--kpi-accent:var(--sky);}
+.kpi.c-wht{--kpi-accent:rgba(200,200,200,0.6);}
+.kpi-lbl{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);margin-bottom:9px;}
+.kpi-val{font-family:var(--disp);font-size:1.75rem;line-height:1;margin-bottom:6px;transition:color .3s;}
+.kpi-chg{font-size:9px;font-weight:600;display:flex;align-items:center;gap:4px;}
+.kpi-chg.pos{color:var(--grn);}
+.kpi-chg.neg{color:var(--red);}
+.kpi-icon{position:absolute;right:14px;top:14px;font-size:1.3rem;opacity:.35;}
 
-/* ── CHART GRID ── */
-.chart-grid-2{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px;}
-.chart-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
-.chart-grid-equal{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
-.chart-card{
-  background:var(--bg2);border:1px solid var(--brd);border-radius:12px;padding:20px 22px;
+/* ═══ COMMAND DECISION PANEL ═══ */
+.cdp{
+  margin:0;border-bottom:1px solid var(--brd);
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+}
+.cdp-hdr{
+  padding:13px 24px;border-bottom:1px solid var(--brd);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.cdp-title{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);}
+.cdp-badge{
+  font-size:8px;font-weight:700;letter-spacing:.1em;padding:3px 10px;
+  border:1px solid var(--rdbd);color:var(--red);background:var(--rdbg);
+  animation:pulse-red 3s infinite;
+}
+.cdp-grid{display:grid;grid-template-columns:2fr 1fr 1fr;border-bottom:1px solid var(--brd);}
+.cdp-cell{padding:14px 22px;border-right:1px solid var(--brd);}
+.cdp-cell:last-child{border-right:none;}
+.cdp-item-lbl{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);margin-bottom:6px;}
+.cdp-item-lbl em{font-style:normal;color:var(--red);}
+.cdp-item-val{font-size:11px;font-weight:600;color:var(--fg);line-height:1.6;}
+.cdp-item-val strong{color:var(--red);}
+.cdp-conf{padding:12px 22px;display:flex;align-items:center;gap:18px;}
+.cdp-conf-lbl{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);flex-shrink:0;}
+.cdp-conf-track{flex:1;height:6px;background:var(--bg3);}
+.cdp-conf-bar{height:100%;background:linear-gradient(90deg,rgba(61,255,110,.35),var(--grn));transition:width .6s;}
+.cdp-conf-pct{font-size:10px;font-weight:700;color:var(--grn);width:36px;text-align:right;flex-shrink:0;}
+.cdp-risk-pill{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border:1px solid;}
+.risk-LOW{color:var(--grn);border-color:rgba(61,255,110,.4);background:rgba(61,255,110,.06);}
+.risk-MEDIUM{color:var(--amb);border-color:rgba(255,184,0,.4);background:rgba(255,184,0,.06);}
+.risk-HIGH{color:var(--red);border-color:var(--rdbd);background:var(--rdbg);animation:pulse-red 2s infinite;}
+
+/* ═══ DEPENDENCY CHAIN ═══ */
+.dep{border-bottom:1px solid var(--brd);overflow-x:auto;background:var(--bg);}
+.dep-lbl{
+  padding:10px 24px;font-size:9px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--fg3);border-bottom:1px solid var(--brd);
+}
+.dep-chain{display:flex;align-items:stretch;min-width:max-content;padding:0;}
+.dep-node{
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  padding:14px 18px;min-width:160px;border-right:1px solid var(--brd);
   position:relative;
 }
-.chart-card.span-2{grid-column:span 2;}
-.chart-title{font-size:.8rem;font-weight:700;color:var(--t1);margin-bottom:4px;}
-.chart-sub{font-size:.68rem;color:var(--t3);margin-bottom:16px;}
-.chart-canvas-wrap{position:relative;height:220px;}
-.chart-canvas-wrap.tall{height:280px;}
-
-/* ── TABLE ── */
-.table-card{background:var(--bg2);border:1px solid var(--brd);border-radius:12px;padding:20px 22px;margin-bottom:14px;}
-.table-title{font-size:.8rem;font-weight:700;color:var(--t1);margin-bottom:4px;}
-.table-sub{font-size:.68rem;color:var(--t3);margin-bottom:16px;}
-.data-table{width:100%;border-collapse:collapse;font-size:.76rem;}
-.data-table thead th{
-  padding:9px 12px;text-align:left;border-bottom:1px solid var(--brd2);
-  font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);
-  cursor:pointer;user-select:none;white-space:nowrap;
+.dep-node.origin{background:var(--rdbg);border-right:2px solid var(--red);}
+.dep-node.origin .dn-dept{color:var(--red);}
+.dn-ico{font-size:1.1rem;margin-bottom:5px;}
+.dn-dept{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);margin-bottom:4px;}
+.dn-val{font-family:var(--disp);font-size:1.2rem;color:var(--fg);line-height:1;margin-bottom:3px;}
+.dn-sub{font-size:8px;color:var(--fg3);letter-spacing:.05em;line-height:1.4;}
+.dep-arrow{
+  display:flex;align-items:center;justify-content:center;padding:0 8px;
+  font-size:14px;color:var(--red);flex-shrink:0;
+  animation:dep-pulse 2s infinite;
+  opacity:.7;
 }
-.data-table thead th:hover{color:var(--teal);}
-.data-table tbody tr{border-bottom:1px solid var(--brd);transition:background .15s;}
-.data-table tbody tr:hover{background:var(--bg3);}
-.data-table tbody td{padding:9px 12px;color:var(--t2);}
-.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.63rem;font-weight:700;letter-spacing:.04em;}
-.badge.a{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.25);}
-.badge.b{background:rgba(245,158,11,.15);color:var(--gold);border:1px solid rgba(245,158,11,.25);}
-.badge.c{background:rgba(99,102,241,.15);color:var(--indigo);border:1px solid rgba(99,102,241,.25);}
-.badge.x{background:rgba(0,212,168,.12);color:var(--teal);border:1px solid rgba(0,212,168,.2);}
-.badge.y{background:rgba(56,189,248,.12);color:var(--sky);border:1px solid rgba(56,189,248,.2);}
-.badge.z{background:rgba(244,63,94,.12);color:var(--rose);border:1px solid rgba(244,63,94,.2);}
 
-/* ── FOOTER ── */
-.dash-footer{
-  text-align:center;padding:20px;border-top:1px solid var(--brd);
-  font-size:.68rem;color:var(--t3);margin-top:4px;
-}
-.dash-footer a{color:var(--teal);}
+/* ═══ CHART GRID ═══ */
+.charts-body{padding:0;}
+.chart-grid-2{display:grid;grid-template-columns:2fr 1fr;border-bottom:1px solid var(--brd);}
+.chart-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--brd);}
+.chart-grid-2e{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--brd);}
+.cc{border-right:1px solid var(--brd);padding:18px 20px;}
+.cc:last-child{border-right:none;}
+.cc-title{font-size:9px;font-weight:700;color:var(--fg);margin-bottom:3px;letter-spacing:.05em;}
+.cc-sub{font-size:8px;color:var(--fg3);margin-bottom:14px;letter-spacing:.04em;}
+.cc-canvas{position:relative;height:220px;}
+.cc-canvas.tall{height:265px;}
+.cc-canvas.short{height:185px;}
 
-/* ── SECTION DIVIDER ── */
-.section-label{
-  font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--teal);margin:24px 0 12px;display:flex;align-items:center;gap:10px;
-}
-.section-label::after{content:'';flex:1;height:1px;background:var(--brd);}
-
-/* ── WATERFALL ANNOTATION ── */
+/* ═══ WATERFALL ═══ */
+.wf-card{border-bottom:1px solid var(--brd);padding:18px 20px;}
 .wf-legend{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap;}
-.wf-leg-item{display:flex;align-items:center;gap:5px;font-size:.68rem;color:var(--t2);}
-.wf-leg-dot{width:10px;height:10px;border-radius:2px;}
+.wf-item{display:flex;align-items:center;gap:5px;font-size:8px;color:var(--fg2);}
+.wf-dot{width:9px;height:9px;}
 
-@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.chart-grid-2{grid-template-columns:1fr;}.chart-grid-3{grid-template-columns:1fr 1fr;}}
-@media(max-width:700px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.chart-grid-3{grid-template-columns:1fr;}.chart-grid-equal{grid-template-columns:1fr;}}
+/* ═══ CHRONICLE ═══ */
+.chronicle{border-bottom:1px solid var(--brd);}
+.chr-grid{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--brd);}
+.chr-item{
+  padding:14px 16px;border-right:1px solid var(--brd);
+  position:relative;transition:background .2s;
+}
+.chr-item:last-child{border-right:none;}
+.chr-item:hover{background:var(--bg2);}
+.chr-item::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--chr-c, var(--fg3));
+}
+.chr-item.critical{--chr-c:var(--red);}
+.chr-item.improving{--chr-c:var(--amb);}
+.chr-item.target{--chr-c:var(--sky);}
+.chr-item.peak{--chr-c:var(--grn);}
+.chr-date{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);margin-bottom:5px;}
+.chr-status{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px;}
+.chr-status.critical{color:var(--red);}
+.chr-status.improving{color:var(--amb);}
+.chr-status.target{color:var(--sky);}
+.chr-status.peak{color:var(--grn);}
+.chr-stats{font-size:9px;color:var(--fg2);line-height:1.6;margin-bottom:7px;}
+.chr-stats strong{color:var(--fg);}
+.chr-action{font-size:9px;color:var(--fg3);line-height:1.5;padding-top:6px;border-top:1px solid var(--brd);}
+.chr-action::before{content:'>>> ';color:var(--red);font-weight:700;}
+
+/* ═══ SKU TABLE ═══ */
+.tbl-card{padding:18px 20px;border-bottom:1px solid var(--brd);}
+.tbl-title{font-size:9px;font-weight:700;color:var(--fg);margin-bottom:3px;letter-spacing:.05em;}
+.tbl-sub{font-size:8px;color:var(--fg3);margin-bottom:14px;}
+.tbl-scroll{overflow-x:auto;}
+.data-tbl{width:100%;border-collapse:collapse;font-size:10px;}
+.data-tbl thead tr{border-bottom:2px solid var(--red);}
+.data-tbl thead th{
+  padding:8px 11px;text-align:left;
+  font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--fg3);cursor:pointer;white-space:nowrap;background:var(--bg2);
+}
+.data-tbl thead th:hover{color:var(--red);}
+.data-tbl tbody tr{border-bottom:1px solid var(--brd);transition:background .15s;}
+.data-tbl tbody tr:hover{background:var(--bg2);}
+.data-tbl tbody td{padding:8px 11px;color:var(--fg2);}
+.tbl-badge{
+  display:inline-block;padding:2px 7px;font-size:7px;font-weight:700;
+  letter-spacing:.06em;border:1px solid;
+}
+.tbl-badge.A{color:var(--grn);border-color:rgba(61,255,110,.3);background:rgba(61,255,110,.05);}
+.tbl-badge.B{color:var(--amb);border-color:rgba(255,184,0,.3);background:rgba(255,184,0,.05);}
+.tbl-badge.C{color:var(--fg3);border-color:var(--brd);}
+.tbl-badge.X{color:var(--sky);border-color:rgba(56,189,248,.3);background:rgba(56,189,248,.05);}
+.tbl-badge.Y{color:var(--fg2);border-color:var(--brd2);}
+.tbl-badge.Z{color:var(--red);border-color:var(--rdbd);background:var(--rdbg);}
+
+/* ═══ FOOTER ═══ */
+.ftr{
+  padding:14px 24px;border-top:1px solid var(--brd);background:var(--bg1);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:9px;color:var(--fg3);letter-spacing:.07em;text-transform:uppercase;flex-wrap:wrap;gap:8px;
+}
+.ftr a{color:var(--fg2);text-decoration:none;transition:color .2s;}
+.ftr a:hover{color:var(--red);}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1200px){
+  .kpi-grid{grid-template-columns:repeat(3,1fr);}
+  .chart-grid-2{grid-template-columns:1fr;}
+  .chart-grid-3{grid-template-columns:1fr 1fr;}
+  .cdp-grid{grid-template-columns:1fr;}
+  .chr-grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:800px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .chart-grid-3{grid-template-columns:1fr;}
+  .chart-grid-2e{grid-template-columns:1fr;}
+  .chr-grid{grid-template-columns:1fr 1fr;}
+  .hdr-top{flex-direction:column;}
+  .hdr-filters{gap:7px;}
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="dash-header">
-  <div class="header-left">
-    <div class="header-title">Vinayak Bhadani · Supply Chain KPI Dashboard
-      <span class="header-badge">Live Portfolio</span>
+<!-- ═══ HEADER ═══ -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div>
+      <div class="hdr-lbl">[ OPERATIONS RECORD ] // ANDS DUBAI // CHINA-MENA-GCC // 18 MONTHS</div>
+      <div class="hdr-title disp">SUPPLY CHAIN<em>//</em>TACTICAL COMMAND</div>
+      <div class="hdr-sub">ANDS DUBAI · CHINA–MENA–GCC OPERATIONS · JAN 2023 – JUN 2024 · VINAYAK BHADANI</div>
     </div>
-    <div class="header-sub">ANDS Dubai · China–MENA–GCC Operations · Jan 2023 – Jun 2024</div>
+    <div class="hdr-right">
+      <div class="status-pill"><span class="sdot"></span>LIVE PORTFOLIO</div>
+      <div style="font-size:8px;color:var(--fg3);letter-spacing:.05em;text-align:right;">
+        RECORDS: 18 MONTHS · 20 SKUs · 6 REGIONS<br/>
+        TRADE LANES: CHINA → UAE → GCC
+      </div>
+    </div>
   </div>
-  <div class="filters">
-    <div class="filter-group">
-      <label>Region</label>
+  <div class="hdr-filters">
+    <div class="fg-wrap">
+      <span class="fg-lbl">REGION</span>
       <select id="f-region" onchange="applyFilters()">
         <option value="all">All Regions</option>
         <option value="China Supply">China Supply</option>
@@ -166,8 +340,8 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
         <option value="GCC Key Accounts">GCC Key Accounts</option>
       </select>
     </div>
-    <div class="filter-group">
-      <label>Category</label>
+    <div class="fg-wrap">
+      <span class="fg-lbl">CATEGORY</span>
       <select id="f-cat" onchange="applyFilters()">
         <option value="all">All Categories</option>
         <option value="Electronics">Electronics Accessories</option>
@@ -175,8 +349,8 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
         <option value="Lifestyle">Lifestyle Products</option>
       </select>
     </div>
-    <div class="filter-group">
-      <label>Period</label>
+    <div class="fg-wrap">
+      <span class="fg-lbl">PERIOD</span>
       <select id="f-period" onchange="applyFilters()">
         <option value="all">Full 18 Months</option>
         <option value="H1_2023">H1 2023 (Jan–Jun)</option>
@@ -184,133 +358,292 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
         <option value="H1_2024">H1 2024 (Jan–Jun)</option>
       </select>
     </div>
-    <button class="reset-btn" onclick="resetFilters()">↺ Reset</button>
+    <button class="reset-btn" onclick="resetFilters()">↺ RESET</button>
   </div>
 </div>
 
-<div class="dash-body">
+<!-- ═══ LIVE TICKER ═══ -->
+<div class="ticker-wrap">
+  <div class="ticker-label">// LIVE KPI //</div>
+  <div style="overflow:hidden;flex:1;height:100%;display:flex;align-items:center;">
+    <div class="ticker-belt" id="tickerBelt">
+      <span class="ticker-item">UNITS SHIPPED <span class="up">▲ 1.93M</span></span>
+      <span class="ticker-item">OTIF RATE <span class="up">▲ 96.1%</span></span>
+      <span class="ticker-item">FORECAST ACCURACY <span class="up">▲ 91.4%</span></span>
+      <span class="ticker-item">INVENTORY TURNS <span class="up">▲ 8.9×</span></span>
+      <span class="ticker-item">AIR FREIGHT COST <span class="dn">▼ −30%</span></span>
+      <span class="ticker-item">AGED STOCK <span class="dn">▼ 3.8%</span></span>
+      <span class="ticker-item">OTIF BASELINE <span>72.3% → 96.1%</span></span>
+      <span class="ticker-item">FA BASELINE <span>68.2% → 91.4%</span></span>
+      <span class="ticker-item">DSI OPTIMIZED <span>57 → 41 DAYS</span></span>
+      <span class="ticker-item">AED SAVED <span class="up">▲ 2.1M YoY</span></span>
+      <span class="ticker-item">SKUs MANAGED <span>20 ACTIVE · ABC/XYZ</span></span>
+      <span class="ticker-item">REGIONS <span>UAE · KSA · QATAR · KUWAIT · OMAN · BAHRAIN</span></span>
+      <!-- Duplicate for seamless loop -->
+      <span class="ticker-item">UNITS SHIPPED <span class="up">▲ 1.93M</span></span>
+      <span class="ticker-item">OTIF RATE <span class="up">▲ 96.1%</span></span>
+      <span class="ticker-item">FORECAST ACCURACY <span class="up">▲ 91.4%</span></span>
+      <span class="ticker-item">INVENTORY TURNS <span class="up">▲ 8.9×</span></span>
+      <span class="ticker-item">AIR FREIGHT COST <span class="dn">▼ −30%</span></span>
+      <span class="ticker-item">AGED STOCK <span class="dn">▼ 3.8%</span></span>
+      <span class="ticker-item">OTIF BASELINE <span>72.3% → 96.1%</span></span>
+      <span class="ticker-item">FA BASELINE <span>68.2% → 91.4%</span></span>
+      <span class="ticker-item">DSI OPTIMIZED <span>57 → 41 DAYS</span></span>
+      <span class="ticker-item">AED SAVED <span class="up">▲ 2.1M YoY</span></span>
+      <span class="ticker-item">SKUs MANAGED <span>20 ACTIVE · ABC/XYZ</span></span>
+      <span class="ticker-item">REGIONS <span>UAE · KSA · QATAR · KUWAIT · OMAN · BAHRAIN</span></span>
+    </div>
+  </div>
+</div>
 
-  <!-- KPI CARDS -->
-  <div class="section-label">Key Performance Indicators</div>
+<div class="body">
+
+  <!-- ═══ KPI CARDS ═══ -->
+  <div class="section-lbl">KEY PERFORMANCE INDICATORS</div>
   <div class="kpi-grid">
-    <div class="kpi-card teal">
+    <div class="kpi c-wht">
       <div class="kpi-icon">📦</div>
-      <div class="kpi-label">Units Shipped</div>
-      <div class="kpi-value" id="kpi-units">1.87M</div>
-      <div class="kpi-change pos" id="kpi-units-chg">▲ +12.4% vs prior period</div>
+      <div class="kpi-lbl">UNITS SHIPPED</div>
+      <div class="kpi-val" id="kv-units" style="color:var(--fg);">0</div>
+      <div class="kpi-chg pos" id="kc-units">▲ +12.4% vs prior period</div>
     </div>
-    <div class="kpi-card green">
+    <div class="kpi c-grn">
       <div class="kpi-icon">🎯</div>
-      <div class="kpi-label">OTIF Rate</div>
-      <div class="kpi-value" id="kpi-otif">94.8%</div>
-      <div class="kpi-change pos" id="kpi-otif-chg">▲ +25.3pp improvement</div>
+      <div class="kpi-lbl">OTIF RATE</div>
+      <div class="kpi-val" id="kv-otif" style="color:var(--grn);">0%</div>
+      <div class="kpi-chg pos" id="kc-otif">▲ +23.8pp from 72.3%</div>
     </div>
-    <div class="kpi-card gold">
+    <div class="kpi c-amb">
       <div class="kpi-icon">📊</div>
-      <div class="kpi-label">Forecast Accuracy</div>
-      <div class="kpi-value" id="kpi-fa">91.4%</div>
-      <div class="kpi-change pos" id="kpi-fa-chg">▲ +34.1% improvement</div>
+      <div class="kpi-lbl">FORECAST ACCURACY</div>
+      <div class="kpi-val" id="kv-fa" style="color:var(--amb);">0%</div>
+      <div class="kpi-chg pos" id="kc-fa">▲ +34.0% improvement</div>
     </div>
-    <div class="kpi-card sky">
+    <div class="kpi c-sky">
       <div class="kpi-icon">🔄</div>
-      <div class="kpi-label">Inventory Turns</div>
-      <div class="kpi-value" id="kpi-turns">6.2×</div>
-      <div class="kpi-change pos" id="kpi-turns-chg">▲ +1.8× from baseline</div>
+      <div class="kpi-lbl">INVENTORY TURNS</div>
+      <div class="kpi-val" id="kv-turns" style="color:var(--sky);">0×</div>
+      <div class="kpi-chg pos" id="kc-turns">▲ +1.8× from baseline</div>
     </div>
-    <div class="kpi-card rose">
+    <div class="kpi c-red">
       <div class="kpi-icon">✂️</div>
-      <div class="kpi-label">Air Freight Cost</div>
-      <div class="kpi-value" id="kpi-cost">−30%</div>
-      <div class="kpi-change pos" id="kpi-cost-chg">▲ AED 2.1M saved YoY</div>
+      <div class="kpi-lbl">AIR FREIGHT COST</div>
+      <div class="kpi-val" id="kv-cost" style="color:var(--red);">0%</div>
+      <div class="kpi-chg pos" id="kc-cost">▲ AED 2.1M saved YoY</div>
     </div>
-    <div class="kpi-card indigo">
+    <div class="kpi c-wht">
       <div class="kpi-icon">📉</div>
-      <div class="kpi-label">Aged Stock %</div>
-      <div class="kpi-value" id="kpi-aged">3.8%</div>
-      <div class="kpi-change pos" id="kpi-aged-chg">▼ −18.2pp reduction</div>
+      <div class="kpi-lbl">AGED STOCK %</div>
+      <div class="kpi-val" id="kv-aged" style="color:var(--fg2);">0%</div>
+      <div class="kpi-chg pos" id="kc-aged">▼ −18.2pp reduction</div>
     </div>
   </div>
 
-  <!-- TREND CHARTS ROW 1 -->
-  <div class="section-label">Operational Trends</div>
+  <!-- ═══ COMMAND DECISION PANEL ═══ -->
+  <div class="cdp">
+    <div class="cdp-hdr">
+      <div class="cdp-title">[ COMMAND DECISION ENGINE ] — JUN 2024 OPERATIONAL STATUS</div>
+      <div class="cdp-badge">● DECISIONS REQUIRED</div>
+    </div>
+    <div class="cdp-grid">
+      <div class="cdp-cell">
+        <div class="cdp-item-lbl"><em>PRIMARY</em> ACTION — HIGHEST URGENCY</div>
+        <div class="cdp-item-val"><strong>LOCK IN 3PL ANNUAL CONTRACT.</strong> Current −30% air freight reduction expires Q3 2024. Without formal renewal, exposure is +AED 840K/yr. Negotiate now while leverage is highest — OTIF at 96.1% proves operational reliability.</div>
+      </div>
+      <div class="cdp-cell">
+        <div class="cdp-item-lbl"><em>SECONDARY</em> ACTION — THIS MONTH</div>
+        <div class="cdp-item-val"><strong>LIQUIDATE C/Z SKUs.</strong> LS-006, EL-007, PC-006 carry AED 54K in inventory at 17–19% aged. Markdown now at −25% prevents AED 130K write-off in Q4. Initiate with Warehouse &amp; Sales.</div>
+      </div>
+      <div class="cdp-cell">
+        <div class="cdp-item-lbl"><em>TERTIARY</em> ACTION — NEXT S&amp;OP CYCLE</div>
+        <div class="cdp-item-val"><strong>EXPAND ML MODEL SCOPE.</strong> Electronics A/X SKUs show 93%+ forecast accuracy. Extend XGBoost model to Lifestyle category (currently 62–78% accuracy). Estimated gain: −6pp MAPE on 5 SKUs.</div>
+      </div>
+    </div>
+    <div class="cdp-conf">
+      <div class="cdp-conf-lbl">DECISION CONFIDENCE</div>
+      <div class="cdp-conf-track"><div class="cdp-conf-bar" id="cdp-conf-bar" style="width:0%;"></div></div>
+      <div class="cdp-conf-pct" id="cdp-conf-pct">0%</div>
+      <div style="margin-left:20px;" id="cdp-risk"><span class="cdp-risk-pill risk-LOW">LOW-MEDIUM RISK</span></div>
+      <div style="margin-left:auto;font-size:9px;color:var(--fg3);">BASED ON 18 MONTHS OF VALIDATED OPERATIONAL DATA</div>
+    </div>
+  </div>
+
+  <!-- ═══ DEPENDENCY CHAIN ═══ -->
+  <div class="dep">
+    <div class="dep-lbl">[ DEMAND PLAN DEPENDENCY MAP ] — YOUR FORECAST TRIGGERS ALL DOWNSTREAM FUNCTIONS</div>
+    <div class="dep-chain">
+      <div class="dep-node origin">
+        <div class="dn-ico">🎯</div>
+        <div class="dn-dept">YOUR FORECAST</div>
+        <div class="dn-val">1.93M</div>
+        <div class="dn-sub">UNITS · 18 MONTHS<br/>DEMAND PLANNER CALL</div>
+      </div>
+      <div class="dep-arrow">▶▶</div>
+      <div class="dep-node">
+        <div class="dn-ico">📢</div>
+        <div class="dn-dept">MARKETING</div>
+        <div class="dn-val" style="color:var(--amb);">AED 2.4M</div>
+        <div class="dn-sub">CAMPAIGNS ACTIVATED<br/>BUDGET LOCKED TO PLAN</div>
+      </div>
+      <div class="dep-arrow">▶▶</div>
+      <div class="dep-node">
+        <div class="dn-ico">💰</div>
+        <div class="dn-dept">SALES</div>
+        <div class="dn-val" style="color:var(--grn);">AED 17.1M</div>
+        <div class="dn-sub">REVENUE REALIZED<br/>96.1% OTIF DELIVERED</div>
+      </div>
+      <div class="dep-arrow">▶▶</div>
+      <div class="dep-node">
+        <div class="dn-ico">📦</div>
+        <div class="dn-dept">INVENTORY</div>
+        <div class="dn-val" style="color:var(--sky);">41 DAYS</div>
+        <div class="dn-sub">DSI MAINTAINED<br/>DOWN FROM 57 DAYS</div>
+      </div>
+      <div class="dep-arrow">▶▶</div>
+      <div class="dep-node">
+        <div class="dn-ico">🏭</div>
+        <div class="dn-dept">PROCUREMENT</div>
+        <div class="dn-val" style="color:var(--fg);">AED 5.04M</div>
+        <div class="dn-sub">POs RELEASED<br/>−AED 2.1M AIR FREIGHT</div>
+      </div>
+      <div class="dep-arrow">▶▶</div>
+      <div class="dep-node">
+        <div class="dn-ico">🏗️</div>
+        <div class="dn-dept">WAREHOUSE</div>
+        <div class="dn-val" style="color:var(--fg2);">3.8%</div>
+        <div class="dn-sub">AGED STOCK<br/>DOWN FROM 22% RISK</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TREND CHARTS ═══ -->
+  <div class="section-lbl">OPERATIONAL TRENDS</div>
   <div class="chart-grid-2">
-    <div class="chart-card">
-      <div class="chart-title">OTIF vs Forecast Accuracy — 18-Month Trend</div>
-      <div class="chart-sub">Both metrics tracked weekly; plotted as monthly averages. Baseline: Jan 2023.</div>
-      <div class="chart-canvas-wrap tall"><canvas id="c-otif-fa"></canvas></div>
+    <div class="cc">
+      <div class="cc-title">OTIF vs FORECAST ACCURACY — 18-MONTH TREND</div>
+      <div class="cc-sub">Weekly tracked · Plotted monthly. Baseline: Jan 2023. Target: OTIF ≥95%, FA ≥88%.</div>
+      <div class="cc-canvas tall"><canvas id="c-otif-fa"></canvas></div>
     </div>
-    <div class="chart-card">
-      <div class="chart-title">Monthly Units Shipped</div>
-      <div class="chart-sub">Total units across all trade lanes (China → MENA → GCC)</div>
-      <div class="chart-canvas-wrap tall"><canvas id="c-units"></canvas></div>
+    <div class="cc">
+      <div class="cc-title">MONTHLY UNITS SHIPPED</div>
+      <div class="cc-sub">Total units across China → MENA → GCC trade lanes.</div>
+      <div class="cc-canvas tall"><canvas id="c-units"></canvas></div>
     </div>
   </div>
 
-  <!-- COST & INVENTORY ROW -->
   <div class="chart-grid-3">
-    <div class="chart-card">
-      <div class="chart-title">Air Freight Cost % of Total Logistics</div>
-      <div class="chart-sub">Target: <10% via 3PL consolidation strategy</div>
-      <div class="chart-canvas-wrap"><canvas id="c-freight"></canvas></div>
+    <div class="cc">
+      <div class="cc-title">AIR FREIGHT % OF TOTAL LOGISTICS</div>
+      <div class="cc-sub">Target: &lt;10% via 3PL consolidation strategy.</div>
+      <div class="cc-canvas"><canvas id="c-freight"></canvas></div>
     </div>
-    <div class="chart-card">
-      <div class="chart-title">Days of Stock on Hand (DSI)</div>
-      <div class="chart-sub">Target band: 35–45 days. Excess = capital locked.</div>
-      <div class="chart-canvas-wrap"><canvas id="c-dsi"></canvas></div>
+    <div class="cc">
+      <div class="cc-title">DAYS OF STOCK ON HAND (DSI)</div>
+      <div class="cc-sub">Target band: 35–45 days. Excess = capital locked.</div>
+      <div class="cc-canvas"><canvas id="c-dsi"></canvas></div>
     </div>
-    <div class="chart-card">
-      <div class="chart-title">Aged Stock % (>90 Days)</div>
-      <div class="chart-sub">ABC analysis + markdown cadence reduced aged inventory</div>
-      <div class="chart-canvas-wrap"><canvas id="c-aged"></canvas></div>
-    </div>
-  </div>
-
-  <!-- TRADE LANE & CATEGORY -->
-  <div class="chart-grid-equal">
-    <div class="chart-card">
-      <div class="chart-title">Units by Trade Lane</div>
-      <div class="chart-sub">Share of total volume shipped per corridor</div>
-      <div class="chart-canvas-wrap"><canvas id="c-lane"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">OTIF Performance by Region</div>
-      <div class="chart-sub">Jun 2024 snapshot — all regions above 90%</div>
-      <div class="chart-canvas-wrap"><canvas id="c-region-otif"></canvas></div>
+    <div class="cc">
+      <div class="cc-title">AGED STOCK % (&gt;90 DAYS)</div>
+      <div class="cc-sub">ABC analysis + markdown cadence reduced aged inventory.</div>
+      <div class="cc-canvas"><canvas id="c-aged"></canvas></div>
     </div>
   </div>
 
-  <!-- COST WATERFALL -->
-  <div class="chart-card" style="margin-bottom:14px;">
-    <div class="chart-title">Air Freight Cost Reduction Waterfall (AED '000)</div>
-    <div class="chart-sub">Decomposition of 30% cost savings: vendor consolidation, mode shift, route optimisation, demand smoothing</div>
-    <div class="chart-canvas-wrap" style="height:250px;"><canvas id="c-waterfall"></canvas></div>
+  <div class="chart-grid-2e">
+    <div class="cc">
+      <div class="cc-title">UNITS BY TRADE LANE</div>
+      <div class="cc-sub">Share of total volume shipped per corridor.</div>
+      <div class="cc-canvas"><canvas id="c-lane"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-title">OTIF PERFORMANCE BY REGION — JUN 2024</div>
+      <div class="cc-sub">All regions above 90% target. UAE Hub leads at 96.1%.</div>
+      <div class="cc-canvas"><canvas id="c-region"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ═══ WATERFALL ═══ -->
+  <div class="wf-card">
+    <div class="cc-title">AIR FREIGHT COST REDUCTION WATERFALL — AED '000</div>
+    <div class="cc-sub">Decomposition of −30% YoY savings: vendor consolidation, mode shift, route optimisation, demand smoothing.</div>
+    <div class="cc-canvas" style="height:240px;"><canvas id="c-waterfall"></canvas></div>
     <div class="wf-legend">
-      <div class="wf-leg-item"><div class="wf-leg-dot" style="background:#6366f1"></div>Baseline</div>
-      <div class="wf-leg-item"><div class="wf-leg-dot" style="background:#22c55e"></div>Reduction Driver</div>
-      <div class="wf-leg-item"><div class="wf-leg-dot" style="background:#f59e0b"></div>Final Result</div>
+      <div class="wf-item"><div class="wf-dot" style="background:rgba(99,102,241,.8);"></div>Baseline Cost</div>
+      <div class="wf-item"><div class="wf-dot" style="background:rgba(61,255,110,.7);"></div>Reduction Driver</div>
+      <div class="wf-item"><div class="wf-dot" style="background:var(--amb);"></div>Final Result</div>
     </div>
   </div>
 
-  <!-- SKU TABLE -->
-  <div class="section-label">SKU Performance Detail</div>
-  <div class="table-card">
-    <div class="table-title">Top 20 SKUs — ABC/XYZ Classification &amp; Performance</div>
-    <div class="table-sub">Sorted by revenue contribution. Click column headers to sort. ABC = value class. XYZ = demand variability.</div>
-    <div style="overflow-x:auto;">
-      <table class="data-table" id="sku-table">
+  <!-- ═══ OPERATIONS CHRONICLE ═══ -->
+  <div class="chronicle">
+    <div class="section-lbl">OPERATIONS CHRONICLE — 18-MONTH TRANSFORMATION RECORD</div>
+    <div class="chr-grid">
+
+      <div class="chr-item critical">
+        <div class="chr-date">JAN 2023</div>
+        <div class="chr-status critical">■ BASELINE CRISIS</div>
+        <div class="chr-stats">OTIF: <strong>72.3%</strong> · FA: <strong>68.2%</strong><br/>Air Freight: <strong>14.8%</strong> of cost<br/>DSI: <strong>57 days</strong></div>
+        <div class="chr-action">Initiated 3PL audit. Established weekly S&OP cadence. Demand planning function onboarded. Air freight running 5pp above target.</div>
+      </div>
+
+      <div class="chr-item improving">
+        <div class="chr-date">APR 2023</div>
+        <div class="chr-status improving">■ INTERVENTION</div>
+        <div class="chr-stats">OTIF: <strong>76.1%</strong> · FA: <strong>72.8%</strong><br/>Air Freight: <strong>13.9%</strong><br/>DSI: <strong>55 days</strong></div>
+        <div class="chr-action">3PL consolidation program formally launched. Min-Max replenishment model for A-class SKUs. Safety stock parameters recalibrated.</div>
+      </div>
+
+      <div class="chr-item improving">
+        <div class="chr-date">JUL 2023</div>
+        <div class="chr-status improving">■ MOMENTUM</div>
+        <div class="chr-stats">OTIF: <strong>81.9%</strong> · FA: <strong>77.9%</strong><br/>Air Freight: <strong>12.8%</strong><br/>DSI: <strong>50 days</strong></div>
+        <div class="chr-action">Statistical forecasting model upgraded. ABC/XYZ classification rolled out across all 20 SKUs. Aged stock markdown cadence introduced.</div>
+      </div>
+
+      <div class="chr-item target">
+        <div class="chr-date">OCT 2023</div>
+        <div class="chr-status target">■ ML DEPLOYED</div>
+        <div class="chr-stats">OTIF: <strong>87.4%</strong> · FA: <strong>83.0%</strong><br/>Air Freight: <strong>11.5%</strong><br/>DSI: <strong>46 days</strong></div>
+        <div class="chr-action">XGBoost ML model deployed in S&OP cycle. Feature engineering with price elasticity + marketing spend + seasonal calendar. FA crosses 83%.</div>
+      </div>
+
+      <div class="chr-item target">
+        <div class="chr-date">DEC 2023</div>
+        <div class="chr-status target">■ INFLECTION</div>
+        <div class="chr-stats">OTIF: <strong>90.8%</strong> · FA: <strong>86.4%</strong><br/>Air Freight: <strong>10.7%</strong><br/>Aged Stock: <strong>4.6%</strong></div>
+        <div class="chr-action">OTIF crosses 90% threshold. All major metrics trending. Air freight below 11%. Full ML model suite validated across all A/B SKU classes.</div>
+      </div>
+
+      <div class="chr-item peak">
+        <div class="chr-date">JUN 2024</div>
+        <div class="chr-status peak">■ PEAK PERFORMANCE</div>
+        <div class="chr-stats">OTIF: <strong>96.1%</strong> · FA: <strong>91.4%</strong><br/>Air Freight: <strong>−30%</strong><br/>Aged Stock: <strong>3.8%</strong></div>
+        <div class="chr-action">All targets exceeded. AED 2.1M saved in logistics. 8.9× inventory turns. Zero stockouts on A/X SKUs. Full S&OP cadence established.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ SKU TABLE ═══ -->
+  <div class="section-lbl">SKU PERFORMANCE DETAIL</div>
+  <div class="tbl-card">
+    <div class="tbl-title">TOP 20 SKUs — ABC/XYZ CLASSIFICATION &amp; OPERATIONAL KPIs</div>
+    <div class="tbl-sub">Sorted by revenue contribution. Click headers to sort. ABC = value class. XYZ = demand variability. Z-class SKUs = liquidation candidates.</div>
+    <div class="tbl-scroll">
+      <table class="data-tbl" id="sku-table">
         <thead>
           <tr>
-            <th onclick="sortTable('sku')">SKU</th>
-            <th onclick="sortTable('category')">Category</th>
-            <th onclick="sortTable('abc')">ABC</th>
-            <th onclick="sortTable('xyz')">XYZ</th>
-            <th onclick="sortTable('units')">Units / Mo</th>
-            <th onclick="sortTable('revenue')">Rev (AED)</th>
-            <th onclick="sortTable('fa')">Forecast Acc%</th>
-            <th onclick="sortTable('otif')">OTIF%</th>
-            <th onclick="sortTable('dsi')">DSI (days)</th>
-            <th onclick="sortTable('aged')">Aged%</th>
-            <th onclick="sortTable('policy')">Reorder Policy</th>
+            <th onclick="sortTable('sku')">SKU ↕</th>
+            <th onclick="sortTable('category')">CATEGORY ↕</th>
+            <th onclick="sortTable('abc')">ABC ↕</th>
+            <th onclick="sortTable('xyz')">XYZ ↕</th>
+            <th onclick="sortTable('units')">UNITS/MO ↕</th>
+            <th onclick="sortTable('revenue')">REV (AED) ↕</th>
+            <th onclick="sortTable('fa')">FCST ACC% ↕</th>
+            <th onclick="sortTable('otif')">OTIF% ↕</th>
+            <th onclick="sortTable('dsi')">DSI ↕</th>
+            <th onclick="sortTable('aged')">AGED% ↕</th>
+            <th>REORDER POLICY</th>
           </tr>
         </thead>
         <tbody id="sku-tbody"></tbody>
@@ -318,54 +651,47 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     </div>
   </div>
 
-</div><!-- /dash-body -->
+</div><!-- /body -->
 
-<div class="dash-footer">
-  Built by <a href="https://vinayak682.github.io/vinayakbhadani.github.io/" target="_blank">Vinayak Bhadani</a> · Demand Planning Analyst · Dubai, UAE &nbsp;|&nbsp;
-  Data reflects ANDS Dubai operations Jan 2023 – Jun 2024 &nbsp;|&nbsp;
-  <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank">LinkedIn</a>
+<!-- ═══ FOOTER ═══ -->
+<div class="ftr">
+  <span>VINAYAK BHADANI · DEMAND PLANNING ANALYST · ANDS DUBAI · UAE</span>
+  <span>DATA: ANDS DUBAI OPERATIONS JAN 2023 – JUN 2024</span>
+  <span><a href="./index.html">PORTFOLIO</a> &nbsp;///&nbsp; <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank">LINKEDIN</a></span>
 </div>
 
 <script>
-/* ─────────────────────────────────────────────
-   DATA LAYER — 18 months of realistic KPI data
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   SUPPLY CHAIN TACTICAL COMMAND — DATA + LOGIC
+   ═══════════════════════════════════════════════════ */
+
+/* ── CHART DEFAULTS ── */
+Chart.defaults.font.family = "'JetBrains Mono', monospace";
+Chart.defaults.font.size   = 9;
+Chart.defaults.color       = '#444444';
+
 const MONTHS = ['Jan 23','Feb 23','Mar 23','Apr 23','May 23','Jun 23',
                 'Jul 23','Aug 23','Sep 23','Oct 23','Nov 23','Dec 23',
                 'Jan 24','Feb 24','Mar 24','Apr 24','May 24','Jun 24'];
 
-const PERIOD_MAP = {
-  H1_2023:[0,1,2,3,4,5], H2_2023:[6,7,8,9,10,11], H1_2024:[12,13,14,15,16,17]
-};
+const PERIOD_MAP = { H1_2023:[0,1,2,3,4,5], H2_2023:[6,7,8,9,10,11], H1_2024:[12,13,14,15,16,17] };
 
-// OTIF % monthly — from 72.3% → 96.1% (represents +25pp improvement)
-const OTIF_DATA = [72.3,73.8,75.2,76.1,78.4,80.2,81.9,83.5,85.7,87.4,89.1,90.8,92.3,93.1,94.5,95.2,95.8,96.1];
-// Forecast Accuracy % — from 68.2% → 91.4% (+34% improvement ≈ ~30%+ claim)
-const FA_DATA   = [68.2,69.5,71.0,72.8,74.5,76.2,77.9,79.5,81.2,83.0,84.7,86.4,87.8,89.0,90.1,90.8,91.2,91.4];
-// Monthly Units (000s) — avg ~104K with seasonal peaks
-const UNITS_DATA= [95.2,97.8,101.3,99.7,103.2,105.8,108.1,106.4,109.7,112.3,118.6,122.1,104.5,102.8,106.3,108.9,111.4,113.7];
-// Air Freight % of total logistics cost — 14.8% → 9.9% (-33%)
-const FREIGHT_DATA=[14.8,14.5,14.2,13.9,13.5,13.1,12.8,12.4,12.0,11.5,11.1,10.7,10.4,10.2,10.1,10.0,9.9,9.9];
-// DSI (Days of Stock on Hand) — from 57 → 41 days
-const DSI_DATA  =[57,58,56,55,53,52,50,49,48,46,45,44,43,42,41,41,40,41];
-// Aged Stock % — from 8.2% → 3.8%
-const AGED_DATA =[8.2,8.0,7.8,7.5,7.2,6.9,6.5,6.1,5.7,5.3,4.9,4.6,4.4,4.2,4.1,3.9,3.8,3.8];
+const OTIF   = [72.3,73.8,75.2,76.1,78.4,80.2,81.9,83.5,85.7,87.4,89.1,90.8,92.3,93.1,94.5,95.2,95.8,96.1];
+const FA     = [68.2,69.5,71.0,72.8,74.5,76.2,77.9,79.5,81.2,83.0,84.7,86.4,87.8,89.0,90.1,90.8,91.2,91.4];
+const UNITS  = [95.2,97.8,101.3,99.7,103.2,105.8,108.1,106.4,109.7,112.3,118.6,122.1,104.5,102.8,106.3,108.9,111.4,113.7];
+const FREIGHT= [14.8,14.5,14.2,13.9,13.5,13.1,12.8,12.4,12.0,11.5,11.1,10.7,10.4,10.2,10.1,10.0,9.9,9.9];
+const DSI    = [57,58,56,55,53,52,50,49,48,46,45,44,43,42,41,41,40,41];
+const AGED   = [8.2,8.0,7.8,7.5,7.2,6.9,6.5,6.1,5.7,5.3,4.9,4.6,4.4,4.2,4.1,3.9,3.8,3.8];
 
-// Trade lane volumes (%)
-const LANE_LABELS=['China → UAE','UAE → KSA','UAE → Qatar','UAE → Kuwait','UAE → Oman','UAE → Bahrain'];
-const LANE_DATA  =[38,24,14,10,8,6];
+const LANE_LBL  = ['China → UAE','UAE → KSA','UAE → Qatar','UAE → Kuwait','UAE → Oman','UAE → Bahrain'];
+const LANE_DATA = [38,24,14,10,8,6];
+const REG_LBL   = ['China Supply','UAE Hub','KSA Dist.','Qatar','Kuwait','Oman'];
+const REG_OTIF  = [93.2,96.1,95.4,94.8,93.7,92.9];
 
-// Regional OTIF (Jun 2024)
-const REGION_LABELS=['China Supply','UAE Hub','KSA Dist.','Qatar','Kuwait','Oman'];
-const REGION_OTIF  =[93.2,96.1,95.4,94.8,93.7,92.9];
-
-// Waterfall cost reduction (AED 000s)
-const WF_LABELS  =['Baseline\n2023','3PL\nConsolidation','Mode\nShift','Route\nOptimisation','Demand\nSmoothing','Other\nSavings','Result\n2024'];
 const WF_BASE    = 7200;
 const WF_DRIVERS = [-980,-760,-620,-340,-180];
 const WF_RESULT  = WF_BASE + WF_DRIVERS.reduce((a,b)=>a+b,0);
 
-// SKU data
 const SKU_DATA = [
   {sku:'EL-001',category:'Electronics',abc:'A',xyz:'X',units:4820,revenue:289200,fa:93.2,otif:97.1,dsi:32,aged:1.2,policy:'Min-Max / Weekly Review'},
   {sku:'EL-002',category:'Electronics',abc:'A',xyz:'X',units:3940,revenue:236400,fa:91.8,otif:96.3,dsi:35,aged:1.8,policy:'Min-Max / Weekly Review'},
@@ -389,379 +715,357 @@ const SKU_DATA = [
   {sku:'EL-008',category:'Electronics',abc:'C',xyz:'Z',units:480,revenue:12960,fa:51.8,otif:74.8,dsi:89,aged:19.1,policy:'Liquidation Review'},
 ];
 
-/* ─────────────────────────────────
-   CHART COLOR PALETTE
-   ───────────────────────────────── */
-const TEAL    = '#00d4a8';
-const GOLD    = '#f59e0b';
-const INDIGO  = '#6366f1';
-const ROSE    = '#f43f5e';
-const SKY     = '#38bdf8';
-const GREEN   = '#22c55e';
-const NAVY    = '#0d2544';
+/* ── COLOUR HELPERS ── */
+const C_TEAL  = '#00d4a8';
+const C_GRN   = '#3DFF6E';
+const C_RED   = '#FF2020';
+const C_AMB   = '#FFB800';
+const C_SKY   = '#38BDF8';
+const C_INDG  = '#6366f1';
+const C_GREY  = 'rgba(232,232,232,0.55)';
 
-/* ─────────────────────────────────
-   FILTER STATE
-   ───────────────────────────────── */
-let activeRegion='all', activeCat='all', activePeriod='all';
-let charts={};
+function fArr(arr, idxs){ return idxs.map(i=>arr[i]); }
+function fMon(idxs){ return idxs.map(i=>MONTHS[i]); }
 
-function getIndices(){
-  if(activePeriod==='all') return [...Array(18).keys()];
-  return PERIOD_MAP[activePeriod]||[...Array(18).keys()];
-}
-function filteredMonths(idxs){ return idxs.map(i=>MONTHS[i]); }
-function filteredArr(arr,idxs){ return idxs.map(i=>arr[i]); }
+const tOpt = {
+  backgroundColor:'#141414', titleColor:'#E6E6E6', bodyColor:'#8A8A8A',
+  borderColor:'rgba(255,32,32,0.25)', borderWidth:1, padding:11,
+  titleFont:{family:"'JetBrains Mono',monospace",size:9},
+  bodyFont:{family:"'JetBrains Mono',monospace",size:9}
+};
 
-function avg(arr){ return arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0; }
-
-/* ─────────────────────────────────
-   KPI CARDS
-   ───────────────────────────────── */
-function renderKPIs(idxs){
-  const units_arr=filteredArr(UNITS_DATA,idxs);
-  const otif_arr =filteredArr(OTIF_DATA,idxs);
-  const fa_arr   =filteredArr(FA_DATA,idxs);
-  const dst_arr  =filteredArr(DSI_DATA,idxs);
-  const freight_arr=filteredArr(FREIGHT_DATA,idxs);
-  const aged_arr =filteredArr(AGED_DATA,idxs);
-
-  const total_units = (units_arr.reduce((a,b)=>a+b,0)*1000).toLocaleString();
-  const last_otif   = otif_arr[otif_arr.length-1].toFixed(1);
-  const first_otif  = otif_arr[0].toFixed(1);
-  const last_fa     = fa_arr[fa_arr.length-1].toFixed(1);
-  const first_fa    = fa_arr[0].toFixed(1);
-  const last_turns  = (365/dst_arr[dst_arr.length-1]).toFixed(1);
-  const last_freight= freight_arr[freight_arr.length-1].toFixed(1);
-  const last_aged   = aged_arr[aged_arr.length-1].toFixed(1);
-
-  document.getElementById('kpi-units').textContent = total_units.length>8 ?
-    (units_arr.reduce((a,b)=>a+b,0)/1000).toFixed(2)+'M' :
-    (units_arr.reduce((a,b)=>a+b,0)).toFixed(0)+'K';
-  document.getElementById('kpi-units').textContent = (units_arr.reduce((a,b)=>a+b,0)/1000).toFixed(2)+'M';
-
-  document.getElementById('kpi-otif').textContent  = last_otif+'%';
-  document.getElementById('kpi-otif-chg').textContent = '▲ +'+(last_otif-first_otif).toFixed(1)+'pp from '+first_otif+'%';
-
-  document.getElementById('kpi-fa').textContent    = last_fa+'%';
-  document.getElementById('kpi-fa-chg').textContent = '▲ +'+(((last_fa-first_fa)/first_fa)*100).toFixed(1)+'% improvement';
-
-  document.getElementById('kpi-turns').textContent = last_turns+'×';
-  document.getElementById('kpi-aged').textContent  = last_aged+'%';
+/* ── COUNT-UP ── */
+function countUp(el, target, fmt, dur=1800) {
+  const t0 = performance.now();
+  function tick(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 4);
+    el.textContent = fmt(target * e);
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 }
 
-/* ─────────────────────────────────
-   CHART BUILDERS
-   ───────────────────────────────── */
-function buildOtifFaChart(idxs){
-  const ctx=document.getElementById('c-otif-fa').getContext('2d');
-  if(charts.otifFa) charts.otifFa.destroy();
-  charts.otifFa=new Chart(ctx,{
+/* ── KPI RENDER ── */
+function renderKPIs(idxs) {
+  const unitsArr  = fArr(UNITS, idxs);
+  const otifArr   = fArr(OTIF, idxs);
+  const faArr     = fArr(FA, idxs);
+  const dsiArr    = fArr(DSI, idxs);
+  const freightArr= fArr(FREIGHT, idxs);
+  const agedArr   = fArr(AGED, idxs);
+
+  const totalUnitsM = (unitsArr.reduce((a,b)=>a+b,0)/1000).toFixed(2);
+  const lastOtif    = otifArr[otifArr.length-1];
+  const firstOtif   = otifArr[0];
+  const lastFa      = faArr[faArr.length-1];
+  const firstFa     = faArr[0];
+  const lastDsi     = dsiArr[dsiArr.length-1];
+  const lastFreight = freightArr[freightArr.length-1];
+  const firstFreight= freightArr[0];
+  const lastAged    = agedArr[agedArr.length-1];
+  const firstAged   = agedArr[0];
+
+  countUp(document.getElementById('kv-units'), parseFloat(totalUnitsM), v => v.toFixed(2)+'M');
+  countUp(document.getElementById('kv-otif'),  lastOtif, v => v.toFixed(1)+'%');
+  countUp(document.getElementById('kv-fa'),    lastFa,   v => v.toFixed(1)+'%');
+  countUp(document.getElementById('kv-turns'), 365/lastDsi, v => v.toFixed(1)+'×');
+  countUp(document.getElementById('kv-cost'),  Math.round((1-lastFreight/firstFreight)*100), v => '−'+Math.round(v)+'%');
+  countUp(document.getElementById('kv-aged'),  lastAged, v => v.toFixed(1)+'%', 2000);
+
+  document.getElementById('kc-otif').textContent  = '▲ +'+(lastOtif-firstOtif).toFixed(1)+'pp from '+firstOtif+'%';
+  document.getElementById('kc-fa').textContent    = '▲ +'+(((lastFa-firstFa)/firstFa)*100).toFixed(1)+'% improvement';
+  document.getElementById('kc-turns').textContent = '▲ +'+(365/lastDsi-(365/dsiArr[0])).toFixed(1)+'× from baseline';
+  document.getElementById('kc-aged').textContent  = '▼ −'+(firstAged-lastAged).toFixed(1)+'pp reduction';
+
+  /* Decision confidence count-up */
+  const confEl = document.getElementById('cdp-conf-pct');
+  const barEl  = document.getElementById('cdp-conf-bar');
+  setTimeout(() => {
+    countUp(confEl, 92, v => Math.round(v)+'%', 2200);
+    let p=0;
+    const interval = setInterval(()=>{
+      p = Math.min(p + 1, 92);
+      barEl.style.width = p + '%';
+      if(p>=92) clearInterval(interval);
+    }, 24);
+  }, 400);
+}
+
+/* ── CHARTS ── */
+let charts = {};
+
+function destroyAndBuild(id, config) {
+  if (charts[id]) charts[id].destroy();
+  charts[id] = new Chart(document.getElementById(id).getContext('2d'), config);
+}
+
+function buildOtifFa(idxs) {
+  destroyAndBuild('c-otif-fa', {
     type:'line',
     data:{
-      labels:filteredMonths(idxs),
+      labels:fMon(idxs),
       datasets:[
-        {label:'OTIF %',data:filteredArr(OTIF_DATA,idxs),borderColor:GREEN,backgroundColor:'rgba(34,197,94,.08)',borderWidth:2.5,fill:true,tension:.35,pointRadius:2.5,pointHoverRadius:5},
-        {label:'Forecast Accuracy %',data:filteredArr(FA_DATA,idxs),borderColor:GOLD,backgroundColor:'rgba(245,158,11,.06)',borderWidth:2.5,fill:true,tension:.35,pointRadius:2.5,pointHoverRadius:5,borderDash:[4,3]},
+        {label:'OTIF %',data:fArr(OTIF,idxs),borderColor:C_GRN,backgroundColor:'rgba(61,255,110,0.06)',
+         borderWidth:2.5,fill:true,tension:.35,pointRadius:2,pointHoverRadius:5},
+        {label:'Forecast Accuracy %',data:fArr(FA,idxs),borderColor:C_AMB,backgroundColor:'rgba(255,184,0,0.05)',
+         borderWidth:2.5,fill:true,tension:.35,pointRadius:2,pointHoverRadius:5,borderDash:[5,3]},
       ]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
       interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{labels:{color:TEAL,font:{size:11},usePointStyle:true,padding:16}},
-        tooltip:{backgroundColor:'#0d2544',titleColor:'#f1f7ff',bodyColor:'#94a3b8',borderColor:'rgba(255,255,255,.1)',borderWidth:1,
-          callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`}
-        }
-      },
+      plugins:{legend:{labels:{color:'#8A8A8A',font:{size:9},usePointStyle:true,padding:14}},tooltip:{...tOpt,callbacks:{label:c=>`  ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},
       scales:{
-        x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4d6b8a',font:{size:10}}},
-        y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4d6b8a',font:{size:10},callback:v=>v+'%'},min:55,max:100,
-          title:{display:true,text:'% Performance',color:'#4d6b8a',font:{size:10}}}
+        x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#444444',font:{size:8}}},
+        y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#444444',callback:v=>v+'%'},min:55,max:100}
       }
     }
   });
 }
 
-function buildUnitsChart(idxs){
-  const ctx=document.getElementById('c-units').getContext('2d');
-  if(charts.units) charts.units.destroy();
-  const d=filteredArr(UNITS_DATA,idxs);
-  charts.units=new Chart(ctx,{
+function buildUnits(idxs) {
+  const d = fArr(UNITS, idxs);
+  destroyAndBuild('c-units', {
     type:'bar',
     data:{
-      labels:filteredMonths(idxs),
+      labels:fMon(idxs),
       datasets:[{
         label:'Units Shipped (000s)',
         data:d,
-        backgroundColor:d.map((v,i)=>i===d.length-1?TEAL+'CC':'rgba(0,212,168,.25)'),
-        borderColor:d.map((v,i)=>i===d.length-1?TEAL:'rgba(0,212,168,.5)'),
-        borderWidth:1,borderRadius:4,
+        backgroundColor:d.map((_,i)=>i===d.length-1?'rgba(255,32,32,0.7)':'rgba(255,32,32,0.2)'),
+        borderColor:d.map((_,i)=>i===d.length-1?C_RED:'rgba(255,32,32,0.4)'),
+        borderWidth:1,borderRadius:0,
       }]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{backgroundColor:'#0d2544',titleColor:'#f1f7ff',bodyColor:'#94a3b8',callbacks:{label:c=>`${(c.parsed.y*1000).toLocaleString()} units`}}},
+      plugins:{legend:{display:false},tooltip:{...tOpt,callbacks:{label:c=>`  Units: ${(c.parsed.y*1000).toLocaleString()}`}}},
       scales:{
-        x:{grid:{display:false},ticks:{color:'#4d6b8a',font:{size:10}}},
-        y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4d6b8a',font:{size:10},callback:v=>v+'K'},title:{display:true,text:"Units (000s)",color:'#4d6b8a',font:{size:10}}}
+        x:{grid:{display:false},ticks:{color:'#444444',font:{size:8}}},
+        y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#444444',callback:v=>v+'K'}}
       }
     }
   });
 }
 
-function buildFreightChart(idxs){
-  const ctx=document.getElementById('c-freight').getContext('2d');
-  if(charts.freight) charts.freight.destroy();
-  charts.freight=new Chart(ctx,{
+function buildFreight(idxs) {
+  const d = fArr(FREIGHT, idxs);
+  destroyAndBuild('c-freight', {
     type:'line',
     data:{
-      labels:filteredMonths(idxs),
-      datasets:[{
-        label:'Air Freight % of Logistics',
-        data:filteredArr(FREIGHT_DATA,idxs),
-        borderColor:ROSE,backgroundColor:'rgba(244,63,94,.08)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2
-      }]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{backgroundColor:'#0d2544',titleColor:'#f1f7ff',bodyColor:'#94a3b8',callbacks:{label:c=>`Air Freight: ${c.parsed.y.toFixed(1)}%`}}},
-      scales:{
-        x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:'#4d6b8a',font:{size:9}}},
-        y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4d6b8a',font:{size:10},callback:v=>v+'%'},min:8,max:16}
-      }
-    }
-  });
-}
-
-function buildDSIChart(idxs){
-  const ctx=document.getElementById('c-dsi').getContext('2d');
-  if(charts.dsi) charts.dsi.destroy();
-  const d=filteredArr(DSI_DATA,idxs);
-  const labels=filteredMonths(idxs);
-  charts.dsi=new Chart(ctx,{
-    type:'line',
-    data:{
-      labels,
+      labels:fMon(idxs),
       datasets:[
-        {label:'DSI (days)',data:d,borderColor:SKY,backgroundColor:'rgba(56,189,248,.08)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2},
-        {label:'Upper Target (45d)',data:Array(labels.length).fill(45),borderColor:'rgba(245,158,11,.5)',borderWidth:1,borderDash:[5,4],pointRadius:0,fill:false},
-        {label:'Lower Target (35d)',data:Array(labels.length).fill(35),borderColor:'rgba(245,158,11,.3)',borderWidth:1,borderDash:[5,4],pointRadius:0,fill:false},
+        {label:'Air Freight %',data:d,borderColor:C_RED,backgroundColor:'rgba(255,32,32,0.07)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2},
+        {label:'Target 10%',data:Array(d.length).fill(10),borderColor:'rgba(255,184,0,0.4)',borderWidth:1,borderDash:[6,4],pointRadius:0,fill:false}
       ]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#94a3b8',font:{size:9},usePointStyle:true}},tooltip:{backgroundColor:'#0d2544',titleColor:'#f1f7ff',bodyColor:'#94a3b8',callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y} days`}}},
+      plugins:{legend:{display:false},tooltip:{...tOpt,callbacks:{label:c=>`  ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},
       scales:{
-        x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:'#4d6b8a',font:{size:9}}},
-        y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4d6b8a',font:{size:10},callback:v=>v+'d'},min:25,max:70}
+        x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#444444',font:{size:8}}},
+        y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#444444',callback:v=>v+'%'},min:8,max:16}
       }
     }
   });
 }
 
-function buildAgedChart(idxs){
-  const ctx=document.getElementById('c-aged').getContext('2d');
-  if(charts.aged) charts.aged.destroy();
-  const d=filteredArr(AGED_DATA,idxs);
-  charts.aged=new Chart(ctx,{
+function buildDsi(idxs) {
+  const d = fArr(DSI, idxs);
+  destroyAndBuild('c-dsi', {
     type:'line',
     data:{
-      labels:filteredMonths(idxs),
-      datasets:[{
-        label:'Aged Stock %',
-        data:d,
-        borderColor:GOLD,backgroundColor:'rgba(245,158,11,.07)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2
-      }]
+      labels:fMon(idxs),
+      datasets:[
+        {label:'DSI (days)',data:d,borderColor:C_SKY,backgroundColor:'rgba(56,189,248,0.07)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2},
+        {label:'Upper Target 45d',data:Array(d.length).fill(45),borderColor:'rgba(255,184,0,0.45)',borderWidth:1,borderDash:[5,4],pointRadius:0,fill:false},
+        {label:'Lower Target 35d',data:Array(d.length).fill(35),borderColor:'rgba(255,184,0,0.25)',borderWidth:1,borderDash:[5,4],pointRadius:0,fill:false},
+      ]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{backgroundColor:'#0d2544',titleColor:'#f1f7ff',bodyColor:'#94a3b8',callbacks:{label:c=>`Aged Stock: ${c.parsed.y.toFixed(1)}%`}}},
+      plugins:{legend:{labels:{color:'#8A8A8A',font:{size:8},usePointStyle:true,padding:10}},tooltip:{...tOpt,callbacks:{label:c=>`  ${c.dataset.label}: ${c.parsed.y}`}}},
       scales:{
-        x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:'#4d6b8a',font:{size:9}}},
-        y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4d6b8a',font:{size:10},callback:v=>v+'%'},min:0,max:12}
+        x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#444444',font:{size:8}}},
+        y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#444444',callback:v=>v+'d'},min:25,max:70}
       }
     }
   });
 }
 
-function buildLaneChart(){
-  const ctx=document.getElementById('c-lane').getContext('2d');
-  if(charts.lane) charts.lane.destroy();
-  charts.lane=new Chart(ctx,{
+function buildAged(idxs) {
+  const d = fArr(AGED, idxs);
+  destroyAndBuild('c-aged', {
+    type:'line',
+    data:{
+      labels:fMon(idxs),
+      datasets:[
+        {label:'Aged Stock %',data:d,borderColor:C_AMB,backgroundColor:'rgba(255,184,0,0.07)',borderWidth:2.5,fill:true,tension:.3,pointRadius:2},
+        {label:'Target 5%',data:Array(d.length).fill(5),borderColor:'rgba(61,255,110,0.3)',borderWidth:1,borderDash:[5,4],pointRadius:0,fill:false}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{...tOpt,callbacks:{label:c=>`  ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#444444',font:{size:8}}},
+        y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#444444',callback:v=>v+'%'},min:0,max:12}
+      }
+    }
+  });
+}
+
+function buildLane() {
+  destroyAndBuild('c-lane', {
     type:'doughnut',
     data:{
-      labels:LANE_LABELS,
+      labels:LANE_LBL,
       datasets:[{
         data:LANE_DATA,
-        backgroundColor:[TEAL+'CC','rgba(99,102,241,.8)','rgba(245,158,11,.8)','rgba(56,189,248,.8)','rgba(34,197,94,.8)','rgba(244,63,94,.7)'],
-        borderColor:'#020c1b',borderWidth:2
+        backgroundColor:['rgba(255,32,32,0.75)','rgba(255,184,0,0.7)','rgba(56,189,248,0.7)','rgba(61,255,110,0.65)','rgba(99,102,241,0.7)','rgba(232,232,232,0.3)'],
+        borderColor:'#080808',borderWidth:2
       }]
     },
     options:{
-      responsive:true,maintainAspectRatio:false,cutout:'55%',
+      responsive:true,maintainAspectRatio:false,cutout:'52%',
       plugins:{
-        legend:{position:'right',labels:{color:'#94a3b8',font:{size:10},usePointStyle:true,padding:10}},
-        tooltip:{backgroundColor:'#0d2544',titleColor:'#f1f7ff',bodyColor:'#94a3b8',callbacks:{label:c=>`${c.label}: ${c.parsed}% of volume`}}
+        legend:{position:'right',labels:{color:'#8A8A8A',font:{size:8},usePointStyle:true,padding:10}},
+        tooltip:{...tOpt,callbacks:{label:c=>`  ${c.label}: ${c.parsed}% of volume`}}
       }
     }
   });
 }
 
-function buildRegionOtifChart(){
-  const ctx=document.getElementById('c-region-otif').getContext('2d');
-  if(charts.regionOtif) charts.regionOtif.destroy();
-  charts.regionOtif=new Chart(ctx,{
+function buildRegion() {
+  destroyAndBuild('c-region', {
     type:'bar',
     data:{
-      labels:REGION_LABELS,
+      labels:REG_LBL,
       datasets:[{
-        label:'OTIF % (Jun 2024)',
-        data:REGION_OTIF,
-        backgroundColor:REGION_OTIF.map(v=>v>=95?'rgba(34,197,94,.7)':v>=90?'rgba(0,212,168,.6)':'rgba(245,158,11,.6)'),
-        borderColor:REGION_OTIF.map(v=>v>=95?GREEN:v>=90?TEAL:GOLD),
-        borderWidth:1,borderRadius:5,
+        label:'OTIF % Jun 2024',
+        data:REG_OTIF,
+        backgroundColor:REG_OTIF.map(v=>v>=95?'rgba(61,255,110,0.65)':v>=90?'rgba(255,184,0,0.6)':'rgba(255,32,32,0.55)'),
+        borderColor:REG_OTIF.map(v=>v>=95?C_GRN:v>=90?C_AMB:C_RED),
+        borderWidth:1,borderRadius:0,
       }]
     },
     options:{
       responsive:true,maintainAspectRatio:false,indexAxis:'y',
-      plugins:{legend:{display:false},tooltip:{backgroundColor:'#0d2544',titleColor:'#f1f7ff',bodyColor:'#94a3b8',callbacks:{label:c=>`OTIF: ${c.parsed.x}%`}}},
+      plugins:{legend:{display:false},tooltip:{...tOpt,callbacks:{label:c=>`  OTIF: ${c.parsed.x}%`}}},
       scales:{
-        x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4d6b8a',callback:v=>v+'%'},min:70,max:100},
-        y:{grid:{display:false},ticks:{color:'#94a3b8',font:{size:11}}}
+        x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#444444',callback:v=>v+'%'},min:70,max:100},
+        y:{grid:{display:false},ticks:{color:'#8A8A8A',font:{size:9}}}
       }
     }
   });
 }
 
-function buildWaterfallChart(){
-  const ctx=document.getElementById('c-waterfall').getContext('2d');
-  if(charts.wf) charts.wf.destroy();
-
-  // Build waterfall: base bar + floating bars for reductions + result bar
-  const floatBases=[null,WF_BASE,WF_BASE+WF_DRIVERS[0],WF_BASE+WF_DRIVERS[0]+WF_DRIVERS[1],
+function buildWaterfall() {
+  const floatBases = [null, WF_BASE,
+    WF_BASE+WF_DRIVERS[0],
+    WF_BASE+WF_DRIVERS[0]+WF_DRIVERS[1],
     WF_BASE+WF_DRIVERS[0]+WF_DRIVERS[1]+WF_DRIVERS[2],
-    WF_BASE+WF_DRIVERS[0]+WF_DRIVERS[1]+WF_DRIVERS[2]+WF_DRIVERS[3],null];
-  const barValues=[WF_BASE,...WF_DRIVERS.map(v=>Math.abs(v)),WF_RESULT];
-  const colors=[INDIGO+'CC',GREEN+'CC',GREEN+'CC',GREEN+'CC',GREEN+'CC',GREEN+'CC',GOLD+'CC'];
+    WF_BASE+WF_DRIVERS[0]+WF_DRIVERS[1]+WF_DRIVERS[2]+WF_DRIVERS[3],
+    null
+  ];
+  const barVals  = [WF_BASE, ...WF_DRIVERS.map(v=>Math.abs(v)), WF_RESULT];
+  const barCols  = ['rgba(99,102,241,0.75)','rgba(61,255,110,0.7)','rgba(61,255,110,0.7)','rgba(61,255,110,0.7)','rgba(61,255,110,0.7)','rgba(61,255,110,0.7)','rgba(255,184,0,0.8)'];
+  const wfLabels = ['Baseline 2023','3PL Consolidation','Mode Shift','Route Optim.','Demand Smoothing','Other Savings','Result 2024'];
 
-  charts.wf=new Chart(ctx,{
+  destroyAndBuild('c-waterfall', {
     type:'bar',
     data:{
-      labels:WF_LABELS.map(l=>l.replace('\n',' ')),
+      labels:wfLabels,
       datasets:[
-        {
-          label:'Invisible base',
-          data:floatBases,
-          backgroundColor:'transparent',borderColor:'transparent',borderWidth:0,
-          stack:'wf',
-        },
-        {
-          label:'Value',
-          data:barValues,
-          backgroundColor:colors,
-          borderColor:colors.map(c=>c.replace('CC','FF')),
-          borderWidth:1,borderRadius:4,
-          stack:'wf',
-        }
+        {data:floatBases,backgroundColor:'transparent',borderColor:'transparent',borderWidth:0,stack:'wf'},
+        {data:barVals,backgroundColor:barCols,borderColor:barCols.map(c=>c.replace(/[\d.]+\)$/,'1)')),borderWidth:1,borderRadius:0,stack:'wf'}
       ]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
       plugins:{
         legend:{display:false},
-        tooltip:{backgroundColor:'#0d2544',titleColor:'#f1f7ff',bodyColor:'#94a3b8',
-          callbacks:{
-            label:function(ctx){
-              if(ctx.datasetIndex===0) return null;
-              const labels=['Baseline Cost','3PL Consolidation','Mode Shift','Route Optimisation','Demand Smoothing','Other Savings','Final Result'];
-              return `${labels[ctx.dataIndex]}: AED ${barValues[ctx.dataIndex].toLocaleString()}K`;
-            }
-          }
-        }
+        tooltip:{...tOpt,callbacks:{label:(c)=>{if(c.datasetIndex===0)return null;return `  ${wfLabels[c.dataIndex]}: AED ${barVals[c.dataIndex].toLocaleString()}K`;}}}
       },
       scales:{
-        x:{grid:{display:false},ticks:{color:'#94a3b8',font:{size:10}}},
-        y:{grid:{color:'rgba(255,255,255,.04)'},stacked:true,ticks:{color:'#4d6b8a',font:{size:10},callback:v=>'AED '+v+'K'},min:0,max:8000,
-          title:{display:true,text:'Cost (AED 000s)',color:'#4d6b8a',font:{size:10}}}
+        x:{grid:{display:false},ticks:{color:'#8A8A8A',font:{size:8}}},
+        y:{stacked:true,grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#444444',callback:v=>'AED '+v+'K'},min:0,max:8200,
+          title:{display:true,text:'Cost AED 000s',color:'#444444',font:{size:9}}}
       }
     }
   });
 }
 
-/* ─────────────────────────────────
-   SKU TABLE
-   ───────────────────────────────── */
+/* ── SKU TABLE ── */
 let sortCol='revenue', sortDir='desc';
-function sortTable(col){
-  if(sortCol===col){sortDir=sortDir==='asc'?'desc':'asc';}else{sortCol=col;sortDir='desc';}
+function sortTable(col) {
+  sortDir = sortCol===col ? (sortDir==='asc'?'desc':'asc') : 'desc';
+  sortCol = col;
   renderTable();
 }
-function renderTable(){
-  const cat=document.getElementById('f-cat').value;
-  let d=[...SKU_DATA];
-  if(cat!=='all') d=d.filter(r=>r.category===cat||r.category.startsWith(cat));
+function renderTable() {
+  const cat = document.getElementById('f-cat').value;
+  let d = [...SKU_DATA];
+  if (cat !== 'all') d = d.filter(r => r.category.startsWith(cat));
   d.sort((a,b)=>{
-    const av=a[sortCol],bv=b[sortCol];
-    const cmp=typeof av==='number'?av-bv:(av<bv?-1:av>bv?1:0);
+    const av=a[sortCol], bv=b[sortCol];
+    const cmp = typeof av==='number' ? av-bv : (av<bv?-1:av>bv?1:0);
     return sortDir==='asc'?cmp:-cmp;
   });
-  const tbody=document.getElementById('sku-tbody');
-  tbody.innerHTML=d.map(r=>`
+  const colFn = (v, lo, hi) => v >= hi ? 'var(--grn)' : v >= lo ? 'var(--amb)' : 'var(--red)';
+  document.getElementById('sku-tbody').innerHTML = d.map(r => `
     <tr>
-      <td style="font-weight:700;color:#f1f7ff;">${r.sku}</td>
-      <td>${r.category}</td>
-      <td><span class="badge ${r.abc.toLowerCase()}">${r.abc}</span></td>
-      <td><span class="badge ${r.xyz.toLowerCase()}">${r.xyz}</span></td>
-      <td style="font-weight:600;">${r.units.toLocaleString()}</td>
-      <td style="color:var(--teal);">AED ${r.revenue.toLocaleString()}</td>
-      <td style="color:${r.fa>=85?'#22c55e':r.fa>=75?'#f59e0b':'#f43f5e'};font-weight:600;">${r.fa.toFixed(1)}%</td>
-      <td style="color:${r.otif>=90?'#22c55e':r.otif>=85?'#f59e0b':'#f43f5e'};font-weight:600;">${r.otif.toFixed(1)}%</td>
-      <td style="color:${r.dsi<=45?'#22c55e':r.dsi<=60?'#f59e0b':'#f43f5e'};">${r.dsi}</td>
-      <td style="color:${r.aged<=5?'#22c55e':r.aged<=10?'#f59e0b':'#f43f5e'};">${r.aged.toFixed(1)}%</td>
-      <td style="font-size:.68rem;color:var(--t3);">${r.policy}</td>
+      <td style="font-weight:700;color:var(--fg);letter-spacing:.06em;">${r.sku}</td>
+      <td style="color:var(--fg2);">${r.category}</td>
+      <td><span class="tbl-badge ${r.abc}">${r.abc}</span></td>
+      <td><span class="tbl-badge ${r.xyz}">${r.xyz}</span></td>
+      <td style="font-weight:600;color:var(--fg);">${r.units.toLocaleString()}</td>
+      <td style="color:var(--fg);">AED ${r.revenue.toLocaleString()}</td>
+      <td style="color:${colFn(r.fa,75,88)};font-weight:600;">${r.fa.toFixed(1)}%</td>
+      <td style="color:${colFn(r.otif,85,93)};font-weight:600;">${r.otif.toFixed(1)}%</td>
+      <td style="color:${r.dsi<=45?'var(--grn)':r.dsi<=60?'var(--amb)':'var(--red)'};">${r.dsi}d</td>
+      <td style="color:${r.aged<=5?'var(--grn)':r.aged<=10?'var(--amb)':'var(--red)'};">${r.aged.toFixed(1)}%</td>
+      <td style="font-size:9px;color:var(--fg3);letter-spacing:.03em;">${r.policy}</td>
     </tr>`).join('');
 }
 
-/* ─────────────────────────────────
-   FILTERS
-   ───────────────────────────────── */
-function applyFilters(){
-  activeRegion=document.getElementById('f-region').value;
-  activeCat   =document.getElementById('f-cat').value;
-  activePeriod=document.getElementById('f-period').value;
-  const idxs=getIndices();
-  renderKPIs(idxs);
-  buildOtifFaChart(idxs);
-  buildUnitsChart(idxs);
-  buildFreightChart(idxs);
-  buildDSIChart(idxs);
-  buildAgedChart(idxs);
-  renderTable();
-  // Lane + region charts are static (not period-filtered)
+/* ── FILTERS ── */
+let activePeriod = 'all';
+function getIdxs() {
+  if (activePeriod === 'all') return [...Array(18).keys()];
+  return PERIOD_MAP[activePeriod] || [...Array(18).keys()];
 }
-
-function resetFilters(){
-  document.getElementById('f-region').value='all';
-  document.getElementById('f-cat').value='all';
-  document.getElementById('f-period').value='all';
+function applyFilters() {
+  activePeriod = document.getElementById('f-period').value;
+  const idxs = getIdxs();
+  renderKPIs(idxs);
+  buildOtifFa(idxs);
+  buildUnits(idxs);
+  buildFreight(idxs);
+  buildDsi(idxs);
+  buildAged(idxs);
+  renderTable();
+}
+function resetFilters() {
+  document.getElementById('f-region').value = 'all';
+  document.getElementById('f-cat').value    = 'all';
+  document.getElementById('f-period').value = 'all';
   applyFilters();
 }
 
-/* ─────────────────────────────────
-   INIT
-   ───────────────────────────────── */
-(function init(){
-  const idxs=[...Array(18).keys()];
+/* ── INIT ── */
+(function init() {
+  const idxs = [...Array(18).keys()];
   renderKPIs(idxs);
-  buildOtifFaChart(idxs);
-  buildUnitsChart(idxs);
-  buildFreightChart(idxs);
-  buildDSIChart(idxs);
-  buildAgedChart(idxs);
-  buildLaneChart();
-  buildRegionOtifChart();
-  buildWaterfallChart();
+  buildOtifFa(idxs);
+  buildUnits(idxs);
+  buildFreight(idxs);
+  buildDsi(idxs);
+  buildAged(idxs);
+  buildLane();
+  buildRegion();
+  buildWaterfall();
   renderTable();
 })();
 </script>

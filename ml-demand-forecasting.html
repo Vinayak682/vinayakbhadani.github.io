@@ -3,296 +3,849 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>ML Demand Forecasting Engine | Vinayak Bhadani</title>
-<meta property="og:type" content="website"/>
-<meta property="og:title" content="ML Demand Forecasting — ARIMA + Ensemble Model"/>
-<meta property="og:description" content="Multi-model demand forecasting combining ARIMA, Holt-Winters, XGBoost and LSTM. Automatic model selection, seasonality detection, and confidence intervals for UAE/GCC FMCG products."/>
+<title>DEMAND SIGNAL ENGINE — ML-001 | Vinayak Bhadani</title>
+<meta property="og:title" content="ML Demand Forecasting Engine — XGBoost vs Holt-Winters"/>
+<meta property="og:description" content="Interactive simulator: How ML demand forecasting outperforms statistical models by incorporating price elasticity, marketing spend, and seasonal context. Stakeholder cascade included."/>
 <meta property="og:url" content="https://vinayak682.github.io/vinayakbhadani.github.io/ml-demand-forecasting.html"/>
-<meta property="og:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop&auto=format&q=80"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop&auto=format&q=80"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Archivo+Black&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
+/* ═══════════════════════════════════════════════
+   INDUSTRIAL BRUTALISM — TACTICAL TELEMETRY
+   DEMAND SIGNAL ENGINE // REV 2.6
+   ═══════════════════════════════════════════════ */
 :root{
-  --bg0:#020c1b;--bg1:#051629;--bg2:#081e36;--bg3:#0d2544;--bg4:#122c50;
-  --teal:#00d4a8;--teal2:#00b890;--teal-g:rgba(0,212,168,.12);--teal-g2:rgba(0,212,168,.06);
-  --indigo:#6366f1;--indigo-g:rgba(99,102,241,.12);
-  --gold:#f59e0b;--gold-g:rgba(245,158,11,.12);
-  --rose:#f43f5e;--rose-g:rgba(244,63,94,.10);
-  --sky:#38bdf8;--sky-g:rgba(56,189,248,.10);
-  --t1:#f1f7ff;--t2:#94a3b8;--t3:#4d6b8a;
-  --brd:rgba(255,255,255,.07);--brd2:rgba(255,255,255,.14);
-  --r:14px;--r2:10px;--r3:50px;
-  --sh:0 8px 48px rgba(0,0,0,.5);
-  --tr:.28s cubic-bezier(.4,0,.2,1);
+  --bg:     #080808;
+  --bg1:    #0E0E0E;
+  --bg2:    #141414;
+  --bg3:    #1A1A1A;
+  --bg4:    #222222;
+  --fg:     #E6E6E6;
+  --fg2:    #8A8A8A;
+  --fg3:    #444444;
+  --red:    #FF2020;
+  --red2:   #CC1010;
+  --rdbg:   rgba(255,32,32,0.08);
+  --rdbd:   rgba(255,32,32,0.25);
+  --grn:    #3DFF6E;
+  --amb:    #FFB800;
+  --brd:    rgba(230,230,230,0.09);
+  --brd2:   rgba(230,230,230,0.18);
+  --mono:   'JetBrains Mono', 'Courier New', monospace;
+  --disp:   'Archivo Black', sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg0);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
-h1,h2,h3{font-family:'Outfit',sans-serif;font-weight:800;}
-.container{max-width:1100px;margin:0 auto;padding:40px 24px;}
-.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:700;font-size:.9rem;text-decoration:none;margin-bottom:24px;transition:all var(--tr);}
-.back-link:hover{transform:translateX(-4px);color:var(--teal2);}
-header{margin-bottom:36px;}
-.title{font-size:2.4rem;line-height:1.15;margin-bottom:12px;background:linear-gradient(130deg,var(--teal),var(--indigo));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.subtitle{color:var(--t2);font-size:1rem;max-width:700px;}
 
-.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;margin-bottom:32px;}
-@media(max-width:900px){.grid{grid-template-columns:1fr;}}
+/* CRT SCANLINES */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.055) 2px,rgba(0,0,0,0.055) 4px);
+  pointer-events:none;z-index:9998;
+}
+body{
+  font-family:var(--mono);background:var(--bg);color:var(--fg);
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+  font-size:12px;line-height:1.5;letter-spacing:0.02em;
+}
 
-.card{background:linear-gradient(145deg,rgba(13,37,68,.95),rgba(8,30,54,.95));border:1px solid var(--brd);border-radius:var(--r);padding:24px;box-shadow:var(--sh);}
-.card-title{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+/* ANIMATIONS */
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes pulse-grn{0%{box-shadow:0 0 0 0 rgba(61,255,110,.6)}70%{box-shadow:0 0 0 7px rgba(61,255,110,0)}100%{box-shadow:0 0 0 0 rgba(61,255,110,0)}}
+@keyframes pulse-red{0%{box-shadow:0 0 0 0 rgba(255,32,32,.5)}70%{box-shadow:0 0 0 9px rgba(255,32,32,0)}100%{box-shadow:0 0 0 0 rgba(255,32,32,0)}}
+@keyframes glow-red{0%,100%{text-shadow:0 0 6px rgba(255,32,32,.4)}50%{text-shadow:0 0 18px rgba(255,32,32,.9),0 0 36px rgba(255,32,32,.3)}}
+@keyframes cascade-in{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes bar-fill{from{width:0}to{width:var(--w)}}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-/* Slider elements */
-.slider-group{margin-bottom:22px;}
-.slider-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.slider-label{font-size:.85rem;font-weight:600;color:var(--t2);}
-.slider-val{font-size:.95rem;font-weight:800;color:var(--teal);}
-.range-slider{width:100%;-webkit-appearance:none;background:var(--bg3);height:6px;border-radius:3px;outline:none;transition:all .2s;}
-.range-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--teal);cursor:pointer;box-shadow:0 0 10px rgba(0,212,168,.4);transition:transform .1s;}
-.range-slider::-webkit-slider-thumb:hover{transform:scale(1.2);}
-.slider-desc{font-size:.7rem;color:var(--t3);margin-top:4px;}
+.cursor::after{content:'▌';animation:blink 1s infinite;color:var(--red);}
 
-/* Metric Display */
-.metric-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
-.metric-card{background:rgba(0,0,0,.25);border:1px solid var(--brd);border-radius:12px;padding:16px;text-align:center;}
-.metric-val{font-size:1.8rem;font-weight:900;line-height:1;margin-bottom:4px;}
-.metric-lbl{font-size:.65rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;}
+/* HEADER */
+.hdr{
+  background:var(--bg1);border-bottom:2px solid var(--red);
+  padding:18px 28px 14px;position:sticky;top:0;z-index:100;
+}
+.hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:10px;}
+.hdr-lbl{font-size:9px;color:var(--fg3);text-transform:uppercase;letter-spacing:.14em;margin-bottom:5px;}
+.hdr-title{
+  font-family:var(--disp);font-size:clamp(1.6rem,3vw,2.6rem);
+  color:var(--fg);line-height:.95;letter-spacing:-.02em;text-transform:uppercase;
+}
+.hdr-title em{font-style:normal;color:var(--red);}
+.hdr-meta{font-size:9px;color:var(--fg3);letter-spacing:.08em;text-transform:uppercase;margin-top:7px;}
+.hdr-right{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0;}
+.status-pill{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(61,255,110,.07);border:1px solid rgba(61,255,110,.22);
+  padding:5px 13px;font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--grn);
+}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--grn);animation:pulse-grn 2s infinite;flex-shrink:0;}
+.hdr-ids{font-size:9px;color:var(--fg3);letter-spacing:.05em;text-align:right;}
+.back-lnk{
+  display:inline-flex;align-items:center;gap:7px;color:var(--fg2);
+  text-decoration:none;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;
+}
+.back-lnk:hover{color:var(--red);}
 
-.formula-card{background:var(--bg4);border-left:3px solid var(--indigo);border-radius:8px;padding:12px 16px;font-size:.78rem;color:var(--t2);line-height:1.5;margin-top:20px;}
-.formula-card code{color:var(--indigo);font-weight:700;}
+/* MISSION STRIP */
+.mission{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--bg1);border-bottom:1px solid var(--brd);}
+.mc{padding:14px 22px;border-right:1px solid var(--brd);}
+.mc:last-child{border-right:none;}
+.mc-lbl{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);margin-bottom:6px;}
+.mc-stat{font-family:var(--disp);font-size:1.9rem;line-height:1;margin-bottom:5px;}
+.mc-stat.r{color:var(--red);}
+.mc-stat.g{color:var(--grn);}
+.mc-desc{font-size:10px;color:var(--fg2);line-height:1.55;}
+
+/* MAIN GRID */
+.main-grid{display:grid;grid-template-columns:3fr 2fr 2fr;border-bottom:1px solid var(--brd);}
+.pnl{border-right:1px solid var(--brd);display:flex;flex-direction:column;}
+.pnl:last-child{border-right:none;}
+.pnl-hdr{
+  padding:11px 18px;border-bottom:1px solid var(--brd);background:var(--bg2);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pnl-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg2);}
+.pnl-title em{font-style:normal;color:var(--red);}
+.pnl-tag{font-size:8px;color:var(--fg3);letter-spacing:.05em;}
+.pnl-body{padding:18px;flex:1;}
+
+/* CHART */
+.chart-wrap{position:relative;height:275px;background:var(--bg);border:1px solid var(--brd);margin-bottom:18px;}
+.chart-label{
+  position:absolute;top:8px;left:10px;
+  font-size:9px;color:var(--fg3);letter-spacing:.08em;text-transform:uppercase;
+}
+
+/* MODEL BARS */
+.mb-row{display:flex;align-items:center;gap:10px;margin-bottom:11px;}
+.mb-row:last-child{margin-bottom:0;}
+.mb-name{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg2);width:110px;flex-shrink:0;line-height:1.4;}
+.mb-name small{color:var(--fg3);font-size:8px;display:block;}
+.mb-track{flex:1;background:var(--bg3);height:22px;position:relative;overflow:hidden;}
+.mb-fill{height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;transition:width .7s cubic-bezier(.4,0,.2,1);}
+.mb-fill.bad{background:linear-gradient(90deg,rgba(70,70,70,.3),rgba(70,70,70,.55));}
+.mb-fill.good{background:linear-gradient(90deg,rgba(255,32,32,.15),rgba(255,32,32,.55));}
+.mb-val{font-size:9px;font-weight:800;}
+.mb-pct{font-family:var(--disp);font-size:1.05rem;width:52px;flex-shrink:0;text-align:right;}
+
+/* CONSOLE */
+.con-block{margin-bottom:20px;}
+.con-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:7px;}
+.con-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2);}
+.con-val{font-family:var(--disp);font-size:1.45rem;color:var(--red);line-height:1;}
+.con-sep{border:none;border-top:1px solid var(--brd);margin:18px 0;}
+.con-desc{font-size:9px;color:var(--fg3);letter-spacing:.04em;line-height:1.6;}
+
+/* SLIDERS */
+input[type="range"]{
+  -webkit-appearance:none;appearance:none;width:100%;height:3px;
+  background:var(--bg4);outline:none;border:1px solid var(--brd);
+  cursor:pointer;margin-bottom:7px;border-radius:0;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:14px;height:26px;background:var(--red);
+  cursor:pointer;border-radius:0;box-shadow:0 0 10px rgba(255,32,32,.5);transition:transform .1s;
+}
+input[type="range"]::-webkit-slider-thumb:hover{transform:scaleX(1.25);}
+input[type="range"]::-moz-range-thumb{width:14px;height:26px;background:var(--red);cursor:pointer;border-radius:0;border:none;}
+
+/* MAPE GRID */
+.mape-grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--brd);margin-top:18px;}
+.mape-cell{padding:14px;text-align:center;border-right:1px solid var(--brd);}
+.mape-cell:last-child{border-right:none;background:var(--rdbg);}
+.mape-lbl{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);margin-bottom:7px;}
+.mape-num{font-family:var(--disp);font-size:2rem;line-height:1;margin-bottom:3px;}
+.mape-num.dim{color:var(--fg3);}
+.mape-num.live{color:var(--red);animation:glow-red 2.5s infinite;}
+.mape-tag{font-size:8px;color:var(--fg3);letter-spacing:.07em;}
+
+.acc-box{
+  margin-top:11px;padding:10px 14px;
+  background:var(--bg2);border:1px solid var(--brd);border-left:2px solid var(--red);
+}
+.acc-lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);margin-bottom:5px;}
+.acc-num{font-family:var(--disp);font-size:1.75rem;color:var(--red);line-height:1;margin-bottom:3px;}
+.acc-sub{font-size:9px;color:var(--fg2);}
+
+/* STAKEHOLDER CASCADE */
+.cas-intro{
+  font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--fg3);margin-bottom:13px;padding-bottom:8px;border-bottom:1px solid var(--brd);
+}
+.sk{border:1px solid var(--brd);margin-bottom:9px;background:var(--bg2);transition:border-color .3s,background .3s;}
+.sk.hot{border-color:var(--rdbd);background:rgba(255,32,32,.03);}
+.sk-hdr{
+  display:flex;align-items:center;gap:9px;padding:7px 11px;
+  border-bottom:1px solid var(--brd);transition:background .3s;
+}
+.sk.hot .sk-hdr{background:var(--rdbg);}
+.sk-ico{font-size:13px;flex-shrink:0;}
+.sk-dept{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg);flex:1;}
+.sk-badge{
+  font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:2px 7px;border:1px solid;flex-shrink:0;
+}
+.sk-badge.ok{color:var(--grn);border-color:rgba(61,255,110,.3);background:rgba(61,255,110,.05);}
+.sk-badge.warn{color:var(--amb);border-color:rgba(255,184,0,.3);background:rgba(255,184,0,.05);}
+.sk-badge.hot{color:var(--red);border-color:var(--rdbd);background:var(--rdbg);}
+.sk-body{padding:9px 11px;}
+.sk-impact{font-size:10px;color:var(--fg2);line-height:1.6;margin-bottom:6px;}
+.sk-impact strong{color:var(--fg);}
+.sk-impact .n{color:var(--red);font-weight:700;}
+.sk-action{
+  font-size:9px;color:var(--fg3);letter-spacing:.04em;padding-top:5px;
+  border-top:1px solid var(--brd);line-height:1.55;
+}
+.sk-action::before{content:'>>> ';color:var(--red);font-weight:700;}
+
+/* DECISION ENGINE */
+.dec{background:var(--bg1);border-top:2px solid var(--red);padding:22px 28px;}
+.dec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.dec-title{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);}
+.dec-sub{font-size:8px;color:var(--fg3);letter-spacing:.06em;}
+.dec-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;border:1px solid var(--brd);margin-bottom:18px;}
+.dc{padding:15px 18px;border-right:1px solid var(--brd);}
+.dc:last-child{border-right:none;}
+.dc:first-child{border-right:2px solid var(--red);}
+.dc-lbl{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3);margin-bottom:7px;}
+.dc-val{font-family:var(--disp);font-size:1.5rem;color:var(--fg);line-height:1;margin-bottom:4px;}
+.dc-action{font-size:12px;font-weight:700;color:var(--fg);letter-spacing:.04em;line-height:1.5;}
+.dc-tag{font-size:8px;color:var(--fg3);}
+
+.risk-pill{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.1em;padding:4px 10px;border:1px solid;}
+.risk-LOW{color:var(--grn);border-color:rgba(61,255,110,.4);background:rgba(61,255,110,.06);}
+.risk-MEDIUM{color:var(--amb);border-color:rgba(255,184,0,.4);background:rgba(255,184,0,.06);}
+.risk-HIGH{color:var(--red);border-color:var(--rdbd);background:var(--rdbg);animation:pulse-red 2s infinite;}
+
+.conf-track{width:100%;height:6px;background:var(--bg3);margin-top:7px;overflow:hidden;}
+.conf-bar{height:100%;background:linear-gradient(90deg,rgba(255,32,32,.4),var(--red));transition:width .6s ease;}
+.conf-pct{font-size:8px;color:var(--fg3);margin-top:4px;}
+
+.rationale{background:var(--bg2);border:1px solid var(--brd);border-left:3px solid var(--red);padding:13px 16px;}
+.rat-lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:7px;}
+.rat-txt{font-size:11px;color:var(--fg2);line-height:1.75;}
+.rat-txt strong{color:var(--fg);}
+
+/* FOOTER */
+.ftr{
+  padding:14px 28px;border-top:1px solid var(--brd);background:var(--bg1);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:9px;color:var(--fg3);letter-spacing:.08em;text-transform:uppercase;
+}
+.ftr a{color:var(--fg2);text-decoration:none;transition:color .2s;}
+.ftr a:hover{color:var(--red);}
+
+/* SECTION DIVIDER */
+.sdiv{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);margin-bottom:12px;}
+
+@media(max-width:1100px){
+  .main-grid{grid-template-columns:1fr 1fr;}
+  .mission{grid-template-columns:1fr;}
+  .dec-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:700px){
+  .main-grid{grid-template-columns:1fr;}
+  .hdr-top{flex-direction:column;}
+  .dec-grid{grid-template-columns:1fr;}
+  .mape-grid{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
 
-<div class="container">
-  <a href="./index.html" class="back-link">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-    Back to Portfolio
-  </a>
-
-  <header>
-    <h1 class="title">Machine Learning Demand Forecasting Engine</h1>
-    <p class="subtitle">An advanced interactive simulator demonstrating why traditional statistical models (Holt-Winters DES) fail in complex promotional markets, and how Machine Learning (XGBoost/Prophet) incorporates price elasticity and marketing spend to maximize forecast precision.</p>
-  </header>
-
-  <div class="grid">
-    <!-- Left Column: Forecast Chart -->
-    <div style="display:flex;flex-direction:column;gap:24px;">
-      <div class="card">
-        <div class="card-title">🔮 Real-Time Interactive Forecast Projection (18 Months)</div>
-        <div style="aspect-ratio:1.8/1;width:100%;"><canvas id="fcChart"></canvas></div>
-      </div>
-      
-      <div class="card">
-        <div class="card-title">📖 S&amp;OP Insights: Understanding the Models</div>
-        <p style="font-size:.82rem;color:var(--t2);margin-bottom:12px;line-height:1.65;">
-          <strong>Traditional Statistical Model (Holt-Winters)</strong>: Relies entirely on historical demand trends and historical seasonality. It is mathematically blind to real-world commercial activities (price changes, marketing pushes) occurring in the present, leading to a massive forecast error of <strong>14.2%</strong>.
-        </p>
-        <p style="font-size:.82rem;color:var(--t2);line-height:1.65;">
-          <strong>Machine Learning Model (XGBoost)</strong>: Treat forecasting as a feature engineering problem. It incorporates current price elasticity indices, marketing promotional budgets, and calendar holiday indicators as features. As you adjust the sliders on the right, the ML model dynamically projects demand spikes and dips with an exceptional **7.4% MAPE** (Mean Absolute Percentage Error).
-        </p>
-      </div>
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div>
+      <div class="hdr-lbl">[ UNIT: DEMAND-SIGNAL-ENGINE ] // REV 2.6 // ANDS DUBAI // UAE/GCC FMCG</div>
+      <div class="hdr-title disp">DEMAND SIGNAL <em>//</em> ENGINE</div>
+      <div class="hdr-meta">XGBoost Feature Engineering vs Holt-Winters DES · Price Elasticity · Marketing ROI · Seasonal Calendar · Interactive Simulator</div>
     </div>
-
-    <!-- Right Column: Controls Sliders -->
-    <div style="display:flex;flex-direction:column;gap:24px;">
-      <div class="card">
-        <div class="card-title">⚙️ Feature Engineering Inputs</div>
-        
-        <!-- Slider 1: Price Discount -->
-        <div class="slider-group">
-          <div class="slider-header">
-            <span class="slider-label">Price Discount %</span>
-            <span class="slider-val" id="priceVal">10%</span>
-          </div>
-          <input type="range" class="range-slider" id="priceSlider" min="0" max="50" value="10" oninput="updateForecast()">
-          <div class="slider-desc">Adjust the promotional discount level. A higher discount leverages volume price elasticity (demand increase).</div>
-        </div>
-
-        <!-- Slider 2: Ad Spend -->
-        <div class="slider-group">
-          <div class="slider-header">
-            <span class="slider-label">Marketing Ad Spend (AED)</span>
-            <span class="slider-val" id="adVal">AED 5,000</span>
-          </div>
-          <input type="range" class="range-slider" id="adSlider" min="0" max="25000" step="1000" value="5000" oninput="updateForecast()">
-          <div class="slider-desc">Adjust local advertising and social media budget. Generates media-driven demand lift.</div>
-        </div>
-
-        <!-- Slider 3: Ramadan / Season Peak -->
-        <div class="slider-group">
-          <div class="slider-header">
-            <span class="slider-label">Seasonal Context (Ramadan)</span>
-            <span class="slider-val" id="seasonalVal">Baseline</span>
-          </div>
-          <input type="range" class="range-slider" id="seasonalSlider" min="0" max="2" value="1" oninput="updateForecast()">
-          <div class="slider-desc">Simulate a high-impact regional seasonal surge. 0 = Off-Season, 1 = Baseline, 2 = Ramadan Peak.</div>
-        </div>
-      </div>
-
-      <!-- Accuracy Metrics card -->
-      <div class="card">
-        <div class="card-title">🎯 Live Accuracy Benchmarks (MAPE)</div>
-        <div class="metric-row">
-          <div class="metric-card">
-            <div class="metric-val" style="color:var(--rose);">14.2%</div>
-            <div class="metric-lbl">Statistical MAPE</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-val" id="mlMape" style="color:var(--teal);">7.4%</div>
-            <div class="metric-lbl">Machine Learning MAPE</div>
-          </div>
-        </div>
-        
-        <p style="font-size:.78rem;color:var(--t2);line-height:1.65;text-align:center;">
-          Lower MAPE = Higher Accuracy. By introducing price, marketing, and seasonal features, the ML model **reduces forecasting error by up to 50%**.
-        </p>
-
-        <div class="formula-card">
-          💡 **XGBoost Feature Vector**:
-          <code>F = [T_t, S_t, Price_d, Ad_s, Ramadan_w]</code> where the model calculates demand recursively using non-linear decision tree splits.
-        </div>
+    <div class="hdr-right">
+      <div class="status-pill"><span class="sdot"></span>SIMULATION ACTIVE</div>
+      <div class="hdr-ids">
+        MODEL: ML-XGB-001 · REGION: MENA-GCC<br/>
+        ELASTICITY: 1.60 · AD-ROI: 12%/AED 10K
       </div>
     </div>
   </div>
+  <a href="./index.html" class="back-lnk">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    BACK TO PORTFOLIO
+  </a>
+</div>
+
+<!-- MISSION CONTEXT STRIP -->
+<div class="mission">
+  <div class="mc">
+    <div class="mc-lbl">[ PROBLEM ] WHY STATISTICAL MODELS FAIL</div>
+    <div class="mc-stat r">14.2%</div>
+    <div class="mc-desc">Holt-Winters DES MAPE in promotional markets. Mathematically blind to price changes, marketing campaigns, and calendar events. Generates AED 180K+ in annual overstock &amp; stockout losses.</div>
+  </div>
+  <div class="mc">
+    <div class="mc-lbl">[ SOLUTION ] ML FEATURE ENGINEERING</div>
+    <div class="mc-stat">3 SIGNALS</div>
+    <div class="mc-desc">XGBoost ingests price elasticity index, marketing spend ROI, and seasonal calendar as live features. Demand is a function of commercial decisions — not just historical averages.</div>
+  </div>
+  <div class="mc">
+    <div class="mc-lbl">[ IMPACT ] ACCURACY GAIN REALIZED</div>
+    <div class="mc-stat g">−8.7pp</div>
+    <div class="mc-desc">ML achieves 5.5% MAPE vs 14.2% statistical baseline. Result: AED 240K saved in inventory capital, 96.1% OTIF, 34% aged stock reduction, and precision cross-functional planning.</div>
+  </div>
+</div>
+
+<!-- MAIN 3-COLUMN GRID -->
+<div class="main-grid">
+
+  <!-- ── LEFT: Forecast Chart + Model Bars ── -->
+  <div class="pnl">
+    <div class="pnl-hdr">
+      <div class="pnl-title">[ FORECAST <em>PROJECTION</em> ] — 18-MONTH LIVE SIMULATION</div>
+      <div class="pnl-tag">AUTO-UPDATES ON SLIDER CHANGE</div>
+    </div>
+    <div class="pnl-body">
+      <div class="chart-wrap">
+        <div class="chart-label">UNITS / MONTH — ACTUAL + FORECAST (6-MONTH HORIZON)</div>
+        <canvas id="fcChart"></canvas>
+      </div>
+
+      <div class="sdiv">[ MODEL ACCURACY COMPARISON ] — MAPE (LOWER = BETTER)</div>
+
+      <div class="mb-row">
+        <div class="mb-name">HOLT-WINTERS<small>STATISTICAL · FIXED</small></div>
+        <div class="mb-track">
+          <div class="mb-fill bad" style="width:71%;">
+            <span class="mb-val" style="color:var(--fg3);">14.2%</span>
+          </div>
+        </div>
+        <div class="mb-pct" style="color:var(--fg3);">14.2%</div>
+      </div>
+
+      <div class="mb-row">
+        <div class="mb-name" style="color:var(--red);">XGBOOST ML<small style="color:var(--red);">FEATURE-ENGINEERED · LIVE</small></div>
+        <div class="mb-track">
+          <div class="mb-fill good" id="mlBar" style="width:28%;">
+            <span class="mb-val" style="color:var(--red);" id="mlBarVal">5.5%</span>
+          </div>
+        </div>
+        <div class="mb-pct" style="color:var(--red);" id="mlPct">5.5%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CENTER: Feature Engineering Console ── -->
+  <div class="pnl">
+    <div class="pnl-hdr">
+      <div class="pnl-title">[ FEATURE <em>ENGINEERING</em> CONSOLE ]</div>
+      <div class="pnl-tag">ADJUST → WATCH CASCADE</div>
+    </div>
+    <div class="pnl-body">
+
+      <!-- Slider 1 -->
+      <div class="con-block">
+        <div class="con-row">
+          <div class="con-label">PRICE DISCOUNT %</div>
+          <div class="con-val cursor" id="priceDisplay">10%</div>
+        </div>
+        <input type="range" id="priceSlider" min="0" max="50" value="10" oninput="updateAll()">
+        <div class="con-desc">Price elasticity coeff: 1.60. Each 10% discount drives +16% volume demand. Triggers margin compression vs volume uplift trade-off across Sales &amp; Finance.</div>
+      </div>
+
+      <hr class="con-sep">
+
+      <!-- Slider 2 -->
+      <div class="con-block">
+        <div class="con-row">
+          <div class="con-label">MARKETING AD SPEND</div>
+          <div class="con-val cursor" id="adDisplay">AED 5K</div>
+        </div>
+        <input type="range" id="adSlider" min="0" max="25000" step="1000" value="5000" oninput="updateAll()">
+        <div class="con-desc">Media ROI: +12% demand lift per AED 10,000 spent. Allocates across digital, outdoor &amp; trade. Signal activates 2–3 weeks post-launch.</div>
+      </div>
+
+      <hr class="con-sep">
+
+      <!-- Slider 3 -->
+      <div class="con-block">
+        <div class="con-row">
+          <div class="con-label">SEASONAL CONTEXT</div>
+          <div class="con-val cursor" id="seasonDisplay">BASELINE</div>
+        </div>
+        <input type="range" id="seasonSlider" min="0" max="2" step="1" value="1" oninput="updateAll()">
+        <div class="con-desc">0 = Off-Season (×0.85) · 1 = Baseline (×1.00) · 2 = Ramadan Peak (×1.35). Ramadan activates surge protocol across all 5 departments.</div>
+      </div>
+
+      <!-- MAPE Live Display -->
+      <div class="mape-grid">
+        <div class="mape-cell">
+          <div class="mape-lbl">STATISTICAL MAPE</div>
+          <div class="mape-num dim">14.2%</div>
+          <div class="mape-tag">HOLT-WINTERS · FIXED</div>
+        </div>
+        <div class="mape-cell">
+          <div class="mape-lbl" style="color:var(--red);">ML DYNAMIC MAPE</div>
+          <div class="mape-num live" id="mlMapeNum">5.5%</div>
+          <div class="mape-tag">XGBOOST · LIVE ▌</div>
+        </div>
+      </div>
+
+      <div class="acc-box">
+        <div class="acc-lbl">ACCURACY IMPROVEMENT</div>
+        <div class="acc-num" id="accGap">−8.7pp</div>
+        <div class="acc-sub" id="accSaving">≈ AED 240K saved annually in inventory capital</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT: Stakeholder Cascade ── -->
+  <div class="pnl">
+    <div class="pnl-hdr">
+      <div class="pnl-title">[ STAKEHOLDER <em>CASCADE</em> IMPACT ]</div>
+      <div class="pnl-tag">YOUR CALL RIPPLES HERE</div>
+    </div>
+    <div class="pnl-body">
+      <div class="cas-intro">AS DEMAND PLANNER — YOUR INPUTS TRIGGER:</div>
+
+      <!-- Marketing -->
+      <div class="sk" id="sk-mkt">
+        <div class="sk-hdr">
+          <span class="sk-ico">📢</span>
+          <span class="sk-dept">MARKETING</span>
+          <span class="sk-badge ok" id="b-mkt">ALIGNED</span>
+        </div>
+        <div class="sk-body">
+          <div class="sk-impact" id="i-mkt">Campaign at AED 5K. Media lift: <span class="n">+6%</span> demand. ROI: <strong>142%</strong>. Brand activation coordinated.</div>
+          <div class="sk-action" id="a-mkt">Maintain spend. Monitor weekly sell-through for effectiveness.</div>
+        </div>
+      </div>
+
+      <!-- Sales -->
+      <div class="sk" id="sk-sal">
+        <div class="sk-hdr">
+          <span class="sk-ico">💰</span>
+          <span class="sk-dept">SALES</span>
+          <span class="sk-badge ok" id="b-sal">ON TARGET</span>
+        </div>
+        <div class="sk-body">
+          <div class="sk-impact" id="i-sal">Revenue: <span class="n">AED 18.6K</span>/mo. Volume: <strong>153 units</strong> at 10% discount. Margin delta: <span class="n">−10pp</span>.</div>
+          <div class="sk-action" id="a-sal">Update CRM pipeline. Brief Key Account Managers on revised volume.</div>
+        </div>
+      </div>
+
+      <!-- Inventory -->
+      <div class="sk" id="sk-inv">
+        <div class="sk-hdr">
+          <span class="sk-ico">📦</span>
+          <span class="sk-dept">INVENTORY</span>
+          <span class="sk-badge ok" id="b-inv">COVERED</span>
+        </div>
+        <div class="sk-body">
+          <div class="sk-impact" id="i-inv">Safety stock: <span class="n">178 units</span> (35-day cover). On-hand: <strong>350 units</strong>. No build needed. DSI within target band.</div>
+          <div class="sk-action" id="a-inv">Hold current position. Review at next S&OP cycle.</div>
+        </div>
+      </div>
+
+      <!-- Procurement -->
+      <div class="sk" id="sk-pro">
+        <div class="sk-hdr">
+          <span class="sk-ico">🏭</span>
+          <span class="sk-dept">PROCUREMENT</span>
+          <span class="sk-badge ok" id="b-pro">SCHEDULED</span>
+        </div>
+        <div class="sk-body">
+          <div class="sk-impact" id="i-pro">Forward PO: <span class="n">505 units</span> (3-month + 10% buffer). Lead time: <strong>28 days</strong>. Standard cycle applies.</div>
+          <div class="sk-action" id="a-pro">Process standard PO. No expedite required at current demand.</div>
+        </div>
+      </div>
+
+      <!-- Warehouse -->
+      <div class="sk" id="sk-wh">
+        <div class="sk-hdr">
+          <span class="sk-ico">🏗️</span>
+          <span class="sk-dept">WAREHOUSE</span>
+          <span class="sk-badge ok" id="b-wh">NOMINAL</span>
+        </div>
+        <div class="sk-body">
+          <div class="sk-impact" id="i-wh">Storage utilization: <span class="n">22%</span>. Standard inbound. No surge scheduling required at current level.</div>
+          <div class="sk-action" id="a-wh">Standard receiving schedule. No additional dock allocation needed.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /main-grid -->
+
+<!-- DECISION ENGINE -->
+<div class="dec">
+  <div class="dec-hdr">
+    <div class="dec-title">[ COMMAND DECISION ENGINE ] — BASED ON CURRENT FEATURE INPUTS</div>
+    <div class="dec-sub">UPDATES LIVE AS YOU ADJUST SLIDERS ABOVE</div>
+  </div>
+
+  <div class="dec-grid">
+    <div class="dc">
+      <div class="dc-lbl">RECOMMENDED ACTION</div>
+      <div class="dc-action" id="d-action">STANDARD OPERATING PARAMETERS. MAINTAIN CURRENT INVENTORY POSITION. MONITOR WEEKLY FORECAST VS ACTUALS.</div>
+    </div>
+    <div class="dc">
+      <div class="dc-lbl">FORECAST DEMAND</div>
+      <div class="dc-val" id="d-demand">153</div>
+      <div class="dc-tag">UNITS / MONTH</div>
+    </div>
+    <div class="dc">
+      <div class="dc-lbl">REVENUE IMPACT</div>
+      <div class="dc-val" id="d-revenue">+AED 1.7K</div>
+      <div class="dc-tag">VS BASELINE</div>
+    </div>
+    <div class="dc">
+      <div class="dc-lbl">RISK LEVEL</div>
+      <div id="d-risk"><span class="risk-pill risk-LOW">LOW</span></div>
+      <div style="margin-top:9px;">
+        <div class="dc-tag" style="margin-bottom:4px;">MODEL CONFIDENCE</div>
+        <div class="conf-track"><div class="conf-bar" id="d-conf-bar" style="width:88%;"></div></div>
+        <div class="conf-pct" id="d-conf-pct">88%</div>
+      </div>
+    </div>
+    <div class="dc">
+      <div class="dc-lbl">ML ACCURACY GAIN</div>
+      <div class="dc-val" style="color:var(--red);" id="d-gain">−8.7pp</div>
+      <div class="dc-tag">VS STATISTICAL</div>
+      <div style="margin-top:8px;font-size:9px;color:var(--fg3);" id="d-saving">≈ AED 240K/yr saved</div>
+    </div>
+  </div>
+
+  <div class="rationale">
+    <div class="rat-lbl">DECISION RATIONALE</div>
+    <div class="rat-txt" id="d-rationale">Current feature inputs (10% price discount, AED 5,000 marketing spend, Baseline seasonality) generate a balanced demand forecast of <strong>153 units/month</strong>. ML model confidence is high at 88%. Price elasticity drives +16% volume uplift, partially offset by margin compression. No inventory emergency exists — procurement can follow standard cycle. Continue standard S&amp;OP cadence and review at next weekly forecast lock.</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="ftr">
+  <span>VINAYAK BHADANI · DEMAND PLANNING ANALYST · ANDS DUBAI · UAE</span>
+  <span><a href="./index.html">PORTFOLIO</a> &nbsp;///&nbsp; <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank">LINKEDIN</a></span>
+  <span>REV 2.6 · SIMULATION DATA · ANDS DUBAI OPS 2023–2024</span>
 </div>
 
 <script>
-// Historical actual data (Months 1-12)
-var actualData = [120, 115, 128, 110, 125, 95, 105, 115, 130, 122, 140, 165];
-var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan (F)","Feb (F)","Mar (F)","Apr (F)","May (F)","Jun (F)"];
+/* ═══════════════════════════════════════════════
+   DEMAND SIGNAL ENGINE — CORE LOGIC
+   ═══════════════════════════════════════════════ */
 
-// Statistical Baseline Holt-Winters (flat extrapolation with average seasonality)
-var statForecast = [125, 120, 132, 128, 122, 118]; 
+const MONTHS_ALL = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',
+                    'Jan(F)','Feb(F)','Mar(F)','Apr(F)','May(F)','Jun(F)'];
+const ACTUAL     = [120,115,128,110,125,95,105,115,130,122,140,165];
+const HW_BASE    = [125,120,132,128,122,118];
 
-// Dynamic ML forecast logic
-var mlChart;
+const BASE   = 118;  // baseline monthly demand (units)
+const PRICE0 = 135;  // AED per unit
+const STOCK  = 350;  // units on hand
+const CAP    = 1200; // warehouse capacity (units)
 
+let mlChart;
+
+/* ── CHART INIT ── */
 function initChart() {
-  var ctx = document.getElementById('fcChart').getContext('2d');
-  
-  // Actual curve (Day 1-12) padded with nulls for remaining months
-  var actualCurve = [...actualData, null, null, null, null, null, null];
-  
-  // Statistical curve starts at Month 12 value and extrapolates
-  var statCurve = Array(11).fill(null).concat([actualData[11]], statForecast);
-  
+  Chart.defaults.font.family = "'JetBrains Mono', monospace";
+  Chart.defaults.font.size   = 10;
+  Chart.defaults.color       = '#444444';
+
+  const ctx = document.getElementById('fcChart').getContext('2d');
+  const actualCurve = [...ACTUAL, null, null, null, null, null, null];
+  const hwCurve     = Array(11).fill(null).concat([ACTUAL[11], ...HW_BASE]);
+
   mlChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: months,
+      labels: MONTHS_ALL,
       datasets: [
         {
-          label: 'Actual Historical Sales',
+          label: 'Actual Historical',
           data: actualCurve,
-          borderColor: 'var(--t2)',
-          borderWidth: 3,
-          pointBackgroundColor: 'var(--t1)',
-          fill: false,
-          tension: 0.1
-        },
-        {
-          label: 'Statistical Baseline (Holt-Winters)',
-          data: statCurve,
-          borderColor: 'var(--indigo)',
+          borderColor: 'rgba(220,220,220,0.85)',
           borderWidth: 2,
-          borderDash: [5, 5],
-          pointBackgroundColor: 'var(--indigo)',
-          fill: false,
-          tension: 0.1
-        },
-        {
-          label: 'ML Dynamic Forecast (XGBoost)',
-          data: [], // populated dynamically
-          borderColor: 'var(--teal)',
-          borderWidth: 3.5,
-          pointBackgroundColor: 'var(--teal)',
+          pointBackgroundColor: 'rgba(220,220,220,0.9)',
+          pointRadius: 3,
           fill: false,
           tension: 0.15
+        },
+        {
+          label: 'HW Statistical (Failing)',
+          data: hwCurve,
+          borderColor: 'rgba(80,80,80,0.65)',
+          borderWidth: 2,
+          borderDash: [7, 4],
+          pointBackgroundColor: 'rgba(80,80,80,0.5)',
+          pointRadius: 2,
+          fill: false,
+          tension: 0.15
+        },
+        {
+          label: 'ML Dynamic Forecast',
+          data: [],
+          borderColor: '#FF2020',
+          borderWidth: 3,
+          pointBackgroundColor: '#FF2020',
+          pointRadius: 4,
+          fill: { target: 'origin', above: 'rgba(255,32,32,0.05)' },
+          tension: 0.2
         }
       ]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      animation: { duration: 350, easing: 'easeInOutQuart' },
+      interaction: { mode: 'index', intersect: false },
       scales: {
-        y: {
-          grid: { color: 'rgba(255,255,255,0.04)' },
-          ticks: { color: 'var(--t2)' }
-        },
         x: {
-          grid: { color: 'rgba(255,255,255,0.04)' },
-          ticks: { color: 'var(--t2)' }
+          grid: { color: 'rgba(255,255,255,0.035)' },
+          ticks: { color: '#444444', font: { size: 9 }, maxRotation: 45 }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.035)' },
+          ticks: { color: '#444444', font: { size: 9 } }
         }
       },
       plugins: {
-        legend: { labels: { color: 'var(--t1)' } }
+        legend: {
+          position: 'top',
+          labels: {
+            color: '#777777', font: { size: 9 },
+            usePointStyle: true, boxHeight: 2, padding: 14
+          }
+        },
+        tooltip: {
+          backgroundColor: '#141414',
+          titleColor: '#E6E6E6',
+          bodyColor: '#8A8A8A',
+          borderColor: 'rgba(255,32,32,0.3)',
+          borderWidth: 1,
+          padding: 11,
+          callbacks: {
+            label: c => c.parsed.y === null ? null : `  ${c.dataset.label}: ${c.parsed.y} UNITS`
+          }
+        }
       }
     }
   });
-  
-  updateForecast();
+
+  updateAll();
 }
 
-function updateForecast() {
-  var price = parseInt(document.getElementById('priceSlider').value);
-  var ad = parseInt(document.getElementById('adSlider').value);
-  var seasonal = parseInt(document.getElementById('seasonalSlider').value);
-  
-  // Update slider text labels
-  document.getElementById('priceVal').textContent = price + "%";
-  document.getElementById('adVal').textContent = "AED " + ad.toLocaleString();
-  
-  var seasonLabel = "Baseline";
-  var seasonMultiplier = 1.0;
-  if (seasonal === 0) {
-    seasonLabel = "Off-Season";
-    seasonMultiplier = 0.85;
-  } else if (seasonal === 2) {
-    seasonLabel = "Ramadan Peak ☪️";
-    seasonMultiplier = 1.35;
-  }
-  document.getElementById('seasonalVal').textContent = seasonLabel;
-  
-  // Calculate dynamic ML forecast based on price elasticity (E_p = 1.8) and marketing spend ROI (15% lift per 10K AED)
-  var priceElasticity = 1.6;
-  var priceLift = (price / 100) * priceElasticity;
-  var marketingLift = (ad / 10000) * 0.12; 
-  
-  var mlForecast = statForecast.map((val, idx) => {
-    var totalUplift = 1.0 + priceLift + marketingLift;
-    // Ramadan affects Month 15 & 16 (Mar/Apr F) the most in the simulation
-    var monthSeasonalMultiplier = (idx === 2 || idx === 3) ? seasonMultiplier : 1.0;
-    return Math.round(val * totalUplift * monthSeasonalMultiplier);
+/* ── CORE CALCULATIONS ── */
+function calc(price, ad, seasonal) {
+  const priceLift  = (price / 100) * 1.60;
+  const adLift     = (ad / 10000) * 0.12;
+  const sm         = [0.85, 1.0, 1.35][seasonal];
+
+  const demand     = Math.round(BASE * (1 + priceLift + adLift) * sm);
+  const revenue    = Math.round(demand * PRICE0 * (1 - price / 100));
+  const baseRev    = Math.round(BASE * PRICE0);
+  const revDelta   = revenue - baseRev;
+
+  const roi        = ad > 0 ? Math.round(((adLift * demand * PRICE0) / ad) * 100) : 0;
+  const adLiftPct  = Math.round(adLift * 100);
+
+  const safetyDays = [25, 35, 45][seasonal];
+  const safety     = Math.round(demand * safetyDays / 30);
+  const build      = Math.max(0, demand + safety - STOCK);
+
+  const poQty      = Math.round(demand * 3 * 1.10);
+  const leadtime   = seasonal === 2 ? 21 : 28;
+  const inbound    = Math.round(build * 0.18);
+  const storage    = Math.min(99, Math.round((demand + safety) / CAP * 100));
+
+  const errPrem    = Math.abs(price - 10) / 15 * 0.8
+                   + Math.abs(ad - 5000) / 12000 * 0.6
+                   + Math.abs(seasonal - 1) * 0.45;
+  const mape       = Math.max(4.2, Math.min(9.8, 5.5 + errPrem));
+
+  return { demand, revenue, baseRev, revDelta, roi, adLiftPct,
+           safety, build, poQty, leadtime, inbound, storage, mape };
+}
+
+/* ── BUILD ML FORECAST CURVE ── */
+function buildMLCurve(price, ad, seasonal) {
+  const priceLift = (price / 100) * 1.60;
+  const adLift    = (ad / 10000) * 0.12;
+  const sm        = [0.85, 1.0, 1.35][seasonal];
+
+  const mlForecast = HW_BASE.map((val, idx) => {
+    const uplift = 1 + priceLift + adLift;
+    const mSm    = (idx === 2 || idx === 3) ? sm : sm * 0.92;
+    return Math.round(val * uplift * mSm);
   });
-  
-  var mlCurve = Array(11).fill(null).concat([actualData[11]], mlForecast);
-  mlChart.data.datasets[2].data = mlCurve;
-  mlChart.update();
-  
-  // Calculate dynamic ML MAPE based on feature settings (matching standard mathematical outcomes)
-  // Accuracy increases when features match their baseline levels because models generalize best
-  var errorPremium = Math.abs(price - 10)/10 * 0.4 + Math.abs(ad - 5000)/10000 * 0.3 + Math.abs(seasonal - 1)*0.5;
-  var currentMape = (5.5 + errorPremium).toFixed(1);
-  
-  document.getElementById('mlMape').textContent = currentMape + "%";
-  
-  var mapeEl = document.getElementById('mlMape');
-  if(currentMape < 7.0) {
-    mapeEl.style.color = '#22c55e'; // Green
-  } else if (currentMape < 9.0) {
-    mapeEl.style.color = 'var(--teal)'; // Teal
-  } else {
-    mapeEl.style.color = 'var(--gold)'; // Gold
-  }
+
+  return Array(11).fill(null).concat([ACTUAL[11], ...mlForecast]);
 }
 
-window.onload = function() {
-  initChart();
-};
+/* ── DECISION ENGINE ── */
+function getDecision(price, ad, seasonal, c) {
+  const liftPct = Math.round((c.demand / BASE - 1) * 100);
+  let action, risk, conf, rationale;
+
+  if (seasonal === 2 && price >= 20 && ad >= 10000) {
+    risk = 'HIGH'; conf = 76;
+    action = `SURGE PROTOCOL ACTIVE. BUILD +${c.build} UNITS IMMEDIATELY. EXPEDITE PROCUREMENT: DEADLINE IN ${c.leadtime} DAYS. ALERT WAREHOUSE.`;
+    rationale = `Combined Ramadan surge (×1.35) + heavy promotional pricing (×${(1 + price/100*1.6).toFixed(2)}) + full media activation creates peak demand of <strong>${c.demand} units/month</strong> — ${liftPct}% above baseline. Stockout risk is critical. All 5 departments require immediate escalation. Compress procurement lead time by 7 days.`;
+  } else if (seasonal === 2) {
+    risk = 'HIGH'; conf = 81;
+    action = `RAMADAN PEAK ACTIVE. PRE-BUILD SAFETY STOCK: +${c.safety} UNITS. ALERT WAREHOUSE 14 DAYS PRIOR. LOCK CAMPAIGN DATES WITH MARKETING.`;
+    rationale = `Ramadan seasonal multiplier (×1.35) drives forecast to <strong>${c.demand} units/month</strong>. Seasonal surge demands pre-emptive stock build and warehouse labor planning. Sales should confirm key account orders 3 weeks in advance.`;
+  } else if (seasonal === 0 && price <= 10 && ad <= 3000) {
+    risk = 'LOW'; conf = 92;
+    action = `OFF-SEASON PROTOCOL. INITIATE MARKDOWN CADENCE ON AGED >60-DAY SKUs. REDUCE INBOUND ORDERS BY 20%. CONSOLIDATE 3PL SHIPMENTS.`;
+    rationale = `Off-season conditions (×0.85) with minimal promotional activity. Demand at <strong>${c.demand} units/month</strong> is ${Math.abs(liftPct)}% below baseline. Priority: inventory liquidation, aged stock markdown, freight consolidation. No procurement escalation needed.`;
+  } else if (liftPct > 35) {
+    risk = 'MEDIUM'; conf = 84;
+    action = `BUILD INVENTORY BUFFER: +${c.build > 0 ? c.build : c.safety} UNITS. RAISE SAFETY STOCK TO ${c.safety} UNITS (${seasonal===2?45:35}-DAY COVER). BRIEF PROCUREMENT ON REVISED FORWARD PO.`;
+    rationale = `Demand signal is <strong>${liftPct}% above baseline</strong> at ${c.demand} units/month. Buffer required before promotional period activates. Align procurement on lead time. Sales team should load revised forecast into CRM within 48 hours.`;
+  } else if (liftPct < -15) {
+    risk = 'LOW'; conf = 89;
+    action = `DEMAND BELOW BASELINE. PAUSE EXCESS PROCUREMENT. REDIRECT MARKETING SPEND OR REDUCE DISCOUNT DEPTH.`;
+    rationale = `Forecast of <strong>${c.demand} units/month</strong> is ${Math.abs(liftPct)}% below baseline. Current inputs do not justify full promotional investment. Consider reallocating marketing spend to higher-velocity SKUs.`;
+  } else {
+    risk = 'LOW'; conf = 88;
+    action = `STANDARD OPERATING PARAMETERS. MAINTAIN CURRENT INVENTORY POSITION. MONITOR WEEKLY FORECAST VS ACTUALS. NO ESCALATION REQUIRED.`;
+    rationale = `Current feature inputs generate a balanced demand forecast of <strong>${c.demand} units/month</strong> (${liftPct >= 0 ? '+' : ''}${liftPct}% vs baseline). ML model confidence is high at ${conf}%. No immediate escalation required. Continue standard S&amp;OP cadence.`;
+  }
+
+  return { action, risk, conf, rationale };
+}
+
+/* ── UPDATE STAKEHOLDER CARDS ── */
+function setCard(id, hot, badgeCls, badge, impact, action) {
+  const el = document.getElementById('sk-' + id);
+  el.className = hot ? 'sk hot' : 'sk';
+  document.getElementById('b-' + id).className = 'sk-badge ' + badgeCls;
+  document.getElementById('b-' + id).textContent = badge;
+  document.getElementById('i-' + id).innerHTML = impact;
+  document.getElementById('a-' + id).innerHTML = action;
+}
+
+function updateCascade(price, ad, seasonal, c) {
+  const adKStr  = ad >= 1000 ? 'AED ' + (ad/1000).toFixed(0) + 'K' : 'AED ' + ad;
+  const smLabel = ['×0.85', '×1.00', '×1.35'][seasonal];
+
+  /* MARKETING */
+  const mHot    = ad >= 15000 || (seasonal === 2 && ad >= 8000);
+  const mBadge  = ad >= 15000 ? 'HOT' : ad < 2000 ? 'UNDER-INVEST' : 'ALIGNED';
+  const mCls    = ad >= 15000 ? 'hot' : ad < 2000 ? 'warn' : 'ok';
+  setCard('mkt', mHot, mCls, mBadge,
+    `Campaign active at <span class="n">${adKStr}</span>. Media lift: <span class="n">+${c.adLiftPct}%</span> demand. ROI: <strong>${c.roi}%</strong>. Activates ${Math.min(4, Math.round(ad/6000)+1)} channels across digital + trade.`,
+    ad >= 15000 ? `Surge-level spend. Brief brand team on extended campaign window. Prepare post-promo analysis template immediately.`
+               : ad < 2000 ? `Increase spend to AED 8K+ for meaningful demand signal. Current budget leaves ML model under-informed.`
+               : `Maintain current spend. Monitor weekly sell-through to validate campaign effectiveness.`
+  );
+
+  /* SALES */
+  const revStr  = c.revDelta >= 0 ? `+AED ${(Math.abs(c.revDelta)/1000).toFixed(1)}K` : `−AED ${(Math.abs(c.revDelta)/1000).toFixed(1)}K`;
+  const sCls    = price >= 35 ? 'warn' : 'ok';
+  const sBadge  = price >= 35 ? 'MARGIN HIT' : c.revDelta >= 0 ? 'ON TARGET' : 'REVIEW';
+  setCard('sal', price >= 35, sCls, sBadge,
+    `Revenue: <span class="n">AED ${c.revenue.toLocaleString()}</span>/mo. Volume: <strong>${c.demand} units</strong> at ${price}% discount. Delta vs baseline: <span class="n">${revStr}</span>. Margin impact: <span class="n">−${price}pp</span>.`,
+    price >= 35 ? `DEEP DISCOUNT ALERT. Validate channel margin with Finance before execution. Ensure volume uplift justifies margin erosion.`
+                : `Update CRM pipeline with ${c.demand} unit target. Brief Key Account Managers on revised forecast within 24 hrs.`
+  );
+
+  /* INVENTORY */
+  const iHot   = c.build > 60;
+  const iCls   = c.build > 60 ? 'hot' : c.build > 0 ? 'warn' : 'ok';
+  const iBadge = c.build > 60 ? 'BUILD REQUIRED' : c.build > 0 ? 'REVIEW' : 'COVERED';
+  setCard('inv', iHot, iCls, iBadge,
+    `Safety stock: <span class="n">${c.safety} units</span> (${[25,35,45][seasonal]}-day cover). On-hand: <strong>350 units</strong>. ${c.build > 0 ? `<span class="n">Build +${c.build} units required.</span>` : 'No immediate build required. DSI within 35–45 day target band.'}`,
+    c.build > 60 ? `URGENT: Place replenishment order this week. Failure to build risks stockout at peak demand. Escalate to procurement.`
+                 : c.build > 0 ? `Schedule top-up in next PO cycle. Monitor daily sell-through closely.`
+                 : `Hold current position. Review at next S&OP cycle (weekly).`
+  );
+
+  /* PROCUREMENT */
+  const pHot   = seasonal === 2 || (c.build > 80 && price >= 25);
+  const pCls   = pHot ? 'hot' : price >= 30 ? 'warn' : 'ok';
+  const pBadge = seasonal === 2 ? 'EXPEDITE' : price >= 30 ? 'REVIEW' : 'SCHEDULED';
+  setCard('pro', pHot, pCls, pBadge,
+    `Forward PO: <span class="n">${c.poQty} units</span> (3-month horizon + 10% buffer). Lead time: <strong>${c.leadtime} days</strong>. ${seasonal === 2 ? '<span class="n">Ramadan: compress lead time by 7 days.</span>' : 'Standard lead time applies.'}`,
+    seasonal === 2 ? `EXPEDITE REQUIRED. Ramadan peak needs advanced inventory position. Contact supplier for priority booking.`
+                   : price >= 30 ? `Review forward PO quantity with demand planner. Heavy discount may over-inflate volume signal.`
+                   : `Process standard PO on schedule. No expedite or deviation required.`
+  );
+
+  /* WAREHOUSE */
+  const wHot   = c.storage >= 75 || (seasonal === 2 && c.build > 40);
+  const wCls   = c.storage >= 75 ? 'hot' : c.storage >= 55 ? 'warn' : 'ok';
+  const wBadge = c.storage >= 75 ? 'CAPACITY RISK' : c.storage >= 55 ? 'MONITOR' : 'NOMINAL';
+  setCard('wh', wHot, wCls, wBadge,
+    `Storage utilization: <span class="n">${c.storage}%</span> of capacity. ${c.build > 0 ? `Inbound labor: <strong>+${c.inbound} hours</strong> scheduled for stock build.` : 'Standard inbound volume.'} ${seasonal === 2 ? '<span class="n">Ramadan: pre-schedule receiving teams.</span>' : ''}`,
+    c.storage >= 75 ? `CAPACITY RISK. Engage overflow 3PL immediately. Coordinate space allocation with operations manager.`
+                    : c.build > 25 ? `Schedule additional receiving dock slots. Notify 3PL of increased inbound volume.`
+                    : `Standard receiving schedule. No additional dock allocation or labor surge required.`
+  );
+}
+
+/* ── UPDATE DECISION ENGINE ── */
+function updateDecision(price, ad, seasonal, c) {
+  const dec = getDecision(price, ad, seasonal, c);
+  document.getElementById('d-action').textContent = dec.action;
+  document.getElementById('d-demand').textContent = c.demand;
+
+  const revStr = c.revDelta >= 0
+    ? `+AED ${(Math.abs(c.revDelta)/1000).toFixed(1)}K`
+    : `−AED ${(Math.abs(c.revDelta)/1000).toFixed(1)}K`;
+  const revEl = document.getElementById('d-revenue');
+  revEl.textContent = revStr;
+  revEl.style.color = c.revDelta < -2000 ? 'var(--red)' : 'var(--fg)';
+
+  document.getElementById('d-risk').innerHTML = `<span class="risk-pill risk-${dec.risk}">${dec.risk}</span>`;
+  document.getElementById('d-conf-bar').style.width = dec.conf + '%';
+  document.getElementById('d-conf-pct').textContent = dec.conf + '%';
+
+  const gain = (14.2 - c.mape).toFixed(1);
+  const saving = Math.round(gain * 27.5);
+  document.getElementById('d-gain').textContent = `−${gain}pp`;
+  document.getElementById('d-saving').textContent = `≈ AED ${saving}K/yr saved`;
+  document.getElementById('d-rationale').innerHTML = dec.rationale;
+}
+
+/* ── UPDATE DISPLAYS ── */
+function updateDisplays(price, ad, seasonal, c) {
+  document.getElementById('priceDisplay').textContent = price + '%';
+  document.getElementById('adDisplay').textContent    = ad >= 1000 ? 'AED ' + (ad/1000).toFixed(0) + 'K' : 'AED ' + ad;
+  document.getElementById('seasonDisplay').textContent = ['OFF-SEASON','BASELINE','RAMADAN ☪'][seasonal];
+
+  const mapeStr = c.mape.toFixed(1) + '%';
+  document.getElementById('mlMapeNum').textContent = mapeStr;
+  document.getElementById('mlPct').textContent     = mapeStr;
+  document.getElementById('mlBarVal').textContent  = mapeStr;
+
+  const barW = Math.max(5, (c.mape / 20) * 100);
+  document.getElementById('mlBar').style.width = barW + '%';
+
+  const gain = (14.2 - c.mape).toFixed(1);
+  document.getElementById('accGap').textContent    = `−${gain}pp`;
+  document.getElementById('accSaving').textContent = `≈ AED ${Math.round(gain * 27.5)}K saved annually in inventory capital`;
+}
+
+/* ── MASTER UPDATE ── */
+function updateAll() {
+  const price    = parseInt(document.getElementById('priceSlider').value);
+  const ad       = parseInt(document.getElementById('adSlider').value);
+  const seasonal = parseInt(document.getElementById('seasonSlider').value);
+
+  const c = calc(price, ad, seasonal);
+
+  updateDisplays(price, ad, seasonal, c);
+  mlChart.data.datasets[2].data = buildMLCurve(price, ad, seasonal);
+  mlChart.update('active');
+  updateCascade(price, ad, seasonal, c);
+  updateDecision(price, ad, seasonal, c);
+}
+
+/* ── INIT ── */
+window.addEventListener('load', initChart);
 </script>
 </body>
 </html>
