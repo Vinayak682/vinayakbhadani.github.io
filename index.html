@@ -4715,26 +4715,63 @@ function makeGameDecision(round, decision) {
     </div><!-- /ct-outer -->
 
     <!-- LinkedIn Followers Stat -->
-    <div style="display:flex;justify-content:center;margin-top:54px;">
+    <style>
+      .li-stat-wrap{display:flex;justify-content:center;margin-top:54px;}
+      .li-stat{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:22px;
+        text-decoration:none;padding:22px 30px 22px 26px;border-radius:18px;
+        background:linear-gradient(135deg,rgba(10,102,194,0.16),rgba(0,65,130,0.04));
+        border:1px solid rgba(10,102,194,0.38);
+        box-shadow:0 18px 50px -18px rgba(10,102,194,0.55);
+        -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+        transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s ease,border-color .35s ease;}
+      .li-stat:hover{transform:translateY(-5px);border-color:rgba(10,102,194,0.7);
+        box-shadow:0 28px 64px -16px rgba(10,102,194,0.75);}
+      /* shimmer sweep */
+      .li-stat::before{content:"";position:absolute;top:0;left:-60%;width:50%;height:100%;
+        background:linear-gradient(115deg,transparent,rgba(125,184,238,0.22),transparent);
+        transform:skewX(-18deg);animation:li-shimmer 4.5s ease-in-out infinite;pointer-events:none;}
+      @keyframes li-shimmer{0%{left:-60%;}55%{left:130%;}100%{left:130%;}}
+      /* logo tile + pulsing ring */
+      .li-logo{position:relative;display:inline-flex;align-items:center;justify-content:center;
+        width:56px;height:56px;border-radius:14px;background:#0a66c2;flex-shrink:0;
+        box-shadow:0 6px 18px -4px rgba(10,102,194,0.8);
+        transition:transform .35s cubic-bezier(.2,.7,.2,1);}
+      .li-stat:hover .li-logo{transform:scale(1.06) rotate(-3deg);}
+      .li-logo::after{content:"";position:absolute;inset:0;border-radius:14px;
+        border:2px solid rgba(10,102,194,0.6);animation:li-ring 2.4s ease-out infinite;}
+      @keyframes li-ring{0%{transform:scale(1);opacity:.7;}70%{transform:scale(1.45);opacity:0;}100%{opacity:0;}}
+      .li-logo svg{position:relative;z-index:1;}
+      .li-num{display:block;font-size:2.15rem;font-weight:900;letter-spacing:-0.02em;
+        background:linear-gradient(90deg,#fff,#7db8ee);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+      .li-label{display:block;font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7db8ee;margin-top:4px;}
+      .li-cta{display:flex;flex-direction:column;gap:3px;margin-left:6px;padding-left:20px;
+        border-left:1px solid rgba(10,102,194,0.3);}
+      .li-cta-top{display:inline-flex;align-items:center;gap:8px;font-size:.92rem;font-weight:800;color:#dCEAFB;color:#dceafb;}
+      .li-cta-sub{font-size:.7rem;font-weight:600;letter-spacing:.04em;color:#7db8ee;opacity:.85;}
+      .li-arrow{display:inline-block;color:#4f9be8;animation:li-nudge 1.6s ease-in-out infinite;}
+      .li-stat:hover .li-arrow{animation-duration:.9s;}
+      @keyframes li-nudge{0%,100%{transform:translateX(0);}50%{transform:translateX(5px);}}
+      @media (max-width:520px){.li-stat{flex-wrap:wrap;gap:16px;justify-content:center;text-align:center;}
+        .li-cta{border-left:none;padding-left:0;margin-left:0;align-items:center;}}
+      @media (prefers-reduced-motion:reduce){
+        .li-stat::before,.li-logo::after,.li-arrow{animation:none;}
+        .li-stat::before{display:none;}}
+    </style>
+    <div class="li-stat-wrap">
       <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank" rel="noopener"
-         style="display:inline-flex;align-items:center;gap:20px;text-decoration:none;
-                padding:22px 36px;border-radius:18px;
-                background:linear-gradient(135deg,rgba(10,102,194,0.14),rgba(0,65,130,0.05));
-                border:1px solid rgba(10,102,194,0.35);
-                box-shadow:0 18px 50px -18px rgba(10,102,194,0.55);
-                backdrop-filter:blur(8px);transition:transform .3s ease,box-shadow .3s ease;"
-         onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 26px 60px -16px rgba(10,102,194,0.7)';"
-         onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 18px 50px -18px rgba(10,102,194,0.55)';">
-        <span style="display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;
-                     border-radius:13px;background:#0a66c2;flex-shrink:0;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+         class="li-stat" aria-label="Connect and follow Vinayak Bhadani on LinkedIn — 7,000+ followers">
+        <span class="li-logo">
+          <!-- Official LinkedIn logo -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.74v20.52C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.74V1.74C24 .78 23.2 0 22.22 0z"/></svg>
         </span>
         <span style="text-align:left;line-height:1.1;">
-          <span style="display:block;font-size:2.1rem;font-weight:900;letter-spacing:-0.02em;
-                       background:linear-gradient(90deg,#fff,#7db8ee);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">7,000+</span>
-          <span style="display:block;font-size:.82rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7db8ee;margin-top:4px;">LinkedIn Followers</span>
+          <span class="li-num">7,000+</span>
+          <span class="li-label">LinkedIn Followers</span>
         </span>
-        <span style="margin-left:8px;font-size:.8rem;font-weight:700;color:#0a66c2;border-left:1px solid rgba(10,102,194,0.3);padding-left:18px;">Follow&nbsp;→</span>
+        <span class="li-cta">
+          <span class="li-cta-top">Connect &amp; Follow <span class="li-arrow">→</span></span>
+          <span class="li-cta-sub">for new projects &amp; developments</span>
+        </span>
       </a>
     </div>
 
