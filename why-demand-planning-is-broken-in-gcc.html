@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Why Demand Planning Is Still Broken in the GCC — And What Good Actually Looks Like | Vinayak Bhadani</title>
+<meta name="description" content="Most GCC demand planning is still 'last year plus a percentage.' Here's why — and what genuinely good demand planning looks like for UAE/MENA operators dealing with Ramadan surges, 90-day lead times, and key-account concentration risk."/>
+<meta name="keywords" content="demand planning GCC, demand forecasting UAE, S&OP Dubai, supply chain UAE, Ramadan forecasting, FMCG demand planning"/>
+<meta property="og:title" content="Why Demand Planning Is Still Broken in the GCC"/>
+<meta property="og:description" content="Last year plus a percentage is not a forecast. Here's what genuinely good demand planning looks like in the UAE/GCC."/>
+<meta property="og:type" content="article"/>
+<link rel="canonical" href="https://vinayak682.github.io/vinayakbhadani.github.io/why-demand-planning-is-broken-in-gcc.html"/>
+<style>
+:root{--bg0:#020c1b;--bg1:#0a1628;--bg2:#112240;--bg3:#1d3461;--teal:#00d4a8;--gold:#f59e0b;--purple:#a78bfa;--txt:#ccd6f6;--txt2:#8892b0;--white:#e6f1ff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg0);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.75}
+a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(2,12,27,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-brand{font-size:.85rem;font-weight:700;color:var(--white);text-decoration:none}
+.nav-back{display:flex;align-items:center;gap:7px;font-size:.8rem;color:var(--txt2);text-decoration:none;transition:color .2s}
+.nav-back:hover{color:var(--teal);text-decoration:none}
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 60%,rgba(0,212,168,.05) 100%);padding:72px 24px 60px;border-bottom:1px solid rgba(0,212,168,.15)}
+.hero-inner{max-width:760px;margin:0 auto}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,168,.08);border:1px solid rgba(0,212,168,.3);color:var(--teal);font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:22px}
+.hero h1{font-size:clamp(1.75rem,4.5vw,2.75rem);font-weight:800;color:var(--white);line-height:1.2;margin-bottom:18px}
+.hero h1 span{color:var(--teal)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:20px;font-size:.8rem;color:var(--txt2)}
+.hero-meta span{display:flex;align-items:center;gap:6px}
+.hero-summary{font-size:1.05rem;color:var(--txt2);line-height:1.8;border-left:3px solid var(--teal);padding-left:18px}
+/* ARTICLE */
+.article{max-width:760px;margin:0 auto;padding:56px 24px 80px}
+h2{font-size:1.45rem;font-weight:800;color:var(--white);margin:48px 0 14px;line-height:1.3}
+h3{font-size:1.1rem;font-weight:700;color:var(--purple);margin:32px 0 10px}
+p{color:var(--txt);font-size:.97rem;margin-bottom:18px;line-height:1.82}
+strong{color:var(--white)}
+.callout{background:rgba(0,212,168,.06);border:1px solid rgba(0,212,168,.25);border-radius:10px;padding:20px 22px;margin:28px 0}
+.callout p{margin:0;font-size:.93rem;color:var(--txt2)}
+.callout strong{color:var(--teal)}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:28px 0}
+.stat-box{background:var(--bg1);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:18px 16px;text-align:center}
+.stat-val{font-size:1.8rem;font-weight:800;color:var(--teal);line-height:1}
+.stat-lbl{font-size:.74rem;color:var(--txt2);margin-top:5px;line-height:1.4}
+ul,ol{padding-left:22px;margin-bottom:18px}
+li{font-size:.97rem;color:var(--txt);margin-bottom:8px;line-height:1.75}
+hr{border:none;border-top:1px solid rgba(255,255,255,.07);margin:44px 0}
+/* CTA */
+.cta-block{background:var(--bg1);border:1px solid rgba(167,139,250,.25);border-radius:14px;padding:32px;text-align:center;margin-top:56px}
+.cta-block h3{color:var(--white);font-size:1.15rem;font-weight:800;margin:0 0 8px}
+.cta-block p{color:var(--txt2);font-size:.88rem;margin:0 0 22px}
+.btn-cta{display:inline-flex;align-items:center;gap:9px;padding:13px 26px;border-radius:10px;font-weight:700;font-size:.88rem;text-decoration:none;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.45);color:var(--purple);transition:transform .2s,box-shadow .2s}
+.btn-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(167,139,250,.25);text-decoration:none}
+.btn-cta2{background:rgba(0,212,168,.1);border-color:rgba(0,212,168,.4);color:var(--teal)}
+.btn-cta2:hover{box-shadow:0 8px 24px rgba(0,212,168,.2)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 0}
+.tag{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--txt2);font-size:.73rem;padding:4px 12px;border-radius:20px}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">Vinayak Bhadani</a>
+  <a href="index.html#faq" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back to Perspectives
+  </a>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">📊 Demand Planning · GCC</div>
+    <h1>Why Demand Planning Is Still <span>Broken in the GCC</span> — And What Good Actually Looks Like</h1>
+    <div class="hero-meta">
+      <span>✍ Vinayak Bhadani</span>
+      <span>📅 June 2026</span>
+      <span>⏱ 6 min read</span>
+      <span>📍 Dubai, UAE</span>
+    </div>
+    <p class="hero-summary">Most demand planning in the GCC is still "last year plus a percentage" — which sounds like a method but is actually institutional inertia dressed up as a forecast. Here's what genuinely good looks like in a market with 40% Ramadan spikes, 90-day import lead times, and single key accounts representing 30% of your volume.</p>
+  </div>
+</header>
+
+<article class="article">
+
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-val">40%</div><div class="stat-lbl">Ramadan demand spike in FMCG categories</div></div>
+    <div class="stat-box"><div class="stat-val">90d</div><div class="stat-lbl">Typical import lead times from Asia to GCC</div></div>
+    <div class="stat-box"><div class="stat-val">30%</div><div class="stat-lbl">Volume one key account can represent</div></div>
+    <div class="stat-box"><div class="stat-val">&lt;5%</div><div class="stat-lbl">GCC FMCG companies with formal S&OP</div></div>
+  </div>
+
+  <h2>The Honest Problem</h2>
+  <p>I've reviewed demand planning processes at a range of UAE-based FMCG and retail distributors. The most common method I encounter — the one that is treated as standard practice — is to take last year's actuals, apply a flat percentage based on sales targets, and call it a forecast.</p>
+  <p>That is not a forecast. That is a projection of optimism. It ignores sell-out velocity. It ignores promotional calendars. It ignores the structural pattern shifts that make GCC demand fundamentally different from the European or North American markets where most ERP forecasting logic was designed.</p>
+
+  <div class="callout">
+    <p><strong>The GCC is not a European market with better weather.</strong> Ramadan moves 11 days earlier every year. National Day demand shifts between months. Ramadan in summer versus Ramadan in winter produces meaningfully different sell-out patterns for the same SKU. A European statistical model trained on January seasonality data will be systematically wrong in Dubai for a decade before it self-corrects.</p>
+  </div>
+
+  <h2>What Genuinely Good Demand Planning Looks Like</h2>
+  <p>Good demand planning in the GCC has three structural components that most operators are missing at least two of:</p>
+
+  <h3>1. A Statistical Baseline Built on Sell-Out Data, Not Sell-In</h3>
+  <p>The majority of GCC distributors forecast from their own sales-out data — what they shipped to the trade. This is the wrong input. Sell-in data includes the buffer that retailers are holding; it lags real consumer demand by weeks. The baseline needs to be built on sell-through — what actually moved off the shelf. Retailers like Lulu, Carrefour, and Spinneys increasingly share EPOS data. The distributors who have learned to use it have a structural forecasting advantage over those who are still working from invoices.</p>
+
+  <h3>2. A Structured Commercial Intelligence Overlay</h3>
+  <p>Statistical models, even good ones, cannot know that your key account is planning a promotion in week 14, or that a new listing in Oman is about to add 8,000 units of incremental demand per month. This information lives in the heads of sales managers. The planning function's job is to extract it, structure it, and fold it into the baseline before the purchase order is placed. That means a formal demand review meeting — not a Tuesday call with slides, but a documented process where assumptions are logged and later reconciled against actuals.</p>
+
+  <h3>3. A Financial Reconciliation Step Before Anyone Commits to a PO</h3>
+  <p>The demand plan and the financial plan live in parallel in most organisations. Demand planning produces a volume number; Finance produces a revenue target; the two are reconciled, if at all, at the end of the month when the variance has already materialised. The fix is to run the reconciliation before the supply commitment, not after. When the unconstrained demand plan exceeds the financial target, someone needs to make a decision — not just note the gap in a spreadsheet.</p>
+
+  <h2>The GCC-Specific Compounding Factors</h2>
+  <p>The standard challenges of demand planning — forecast bias, lumpy demand, new product introductions — all exist in the GCC. But three factors amplify them significantly:</p>
+
+  <ul>
+    <li><strong>Lead times of 45–90 days from Asia</strong> mean your planning horizon is not a suggestion. A forecast error in month one becomes a stockout or an overstock that you cannot correct for three months. The margin for error is structurally smaller here than in markets with domestic production and short replenishment cycles.</li>
+    <li><strong>Key account concentration</strong> — a single retail chain representing 25–35% of your volume is common in the UAE. That means one buyer's ranging decision, one promotional plan, or one warehouse problem can move your demand curve by 25% in a single week.</li>
+    <li><strong>The Islamic calendar layer</strong> — Ramadan, Eid Al Fitr, Eid Al Adha, and National Days are not just seasonal peaks. They are demand regime changes that require a fundamentally different planning posture for 6–8 weeks per year. The planners who treat them as "just bigger Christmases" consistently underplan them.</li>
+  </ul>
+
+  <div class="callout">
+    <p><strong>What this means practically:</strong> the GCC planner who is working from a system designed for European seasonality, with sell-in data as input, and no structured commercial intelligence overlay, is running blind in the three areas where the market is most different from what the model expects. The result is predictable — either chronic overstock in stable periods or stockouts during the peaks that matter most.</p>
+  </div>
+
+  <h2>The Mindset Shift That Changes Everything</h2>
+  <p>The planners who thrive in this environment share one characteristic: they treat forecasting as a <em>decision-making discipline</em>, not a spreadsheet exercise. The forecast is not the end product. It is the input to a set of decisions about purchasing, positioning, and risk tolerance. When you design the planning process around the decisions it needs to enable — rather than around the accuracy metric you are measured against — everything about how you structure the work changes.</p>
+
+  <p>That shift is what I designed at ANDS Dubai. The process started with a question: what decisions does this forecast need to enable, and what information do those decisions require? The answer shaped every element of the S&OP cycle — what data we collected, what meetings we ran, what numbers we reported to the CFO, and what we held ourselves accountable for when the plan was wrong.</p>
+
+  <hr/>
+
+  <div class="tags">
+    <span class="tag">Demand Planning</span>
+    <span class="tag">GCC</span>
+    <span class="tag">S&OP</span>
+    <span class="tag">UAE Supply Chain</span>
+    <span class="tag">Ramadan Forecasting</span>
+    <span class="tag">FMCG</span>
+    <span class="tag">Forecasting Methodology</span>
+  </div>
+
+  <div class="cta-block">
+    <h3>Want to see this in practice?</h3>
+    <p>The KPI dashboard and ML forecasting engine below are built on the exact methodology described here — 18 months of real GCC FMCG data, interactive and live.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:4px">
+      <a href="supply-chain-kpi-dashboard.html" class="btn-cta btn-cta2">View KPI Dashboard →</a>
+      <a href="index.html#projects" class="btn-cta">See All Projects →</a>
+    </div>
+  </div>
+
+</article>
+
+</body>
+</html>

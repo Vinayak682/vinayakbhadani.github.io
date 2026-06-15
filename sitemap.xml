@@ -2,9 +2,81 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://vinayak682.github.io/vinayakbhadani.github.io/</loc>
-    <lastmod>2026-03-10</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/why-demand-planning-is-broken-in-gcc.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/why-sop-processes-fail.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/financial-cost-of-weak-supply-chain.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/supply-chain-resilience-conflict-zones.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/ai-in-demand-planning-hype-vs-reality.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/execution-vs-transformation-supply-chain.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/supply-chain-kpi-dashboard.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/ml-demand-forecasting.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/supply-chain-risk-framework.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/sop-process-playbook.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/supply-chain-scorecard.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vinayak682.github.io/vinayakbhadani.github.io/ai-supply-chain-copilot.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
-<!-- NOTE: Once vinayakbhadani.com is registered, update <loc> to https://vinayakbhadani.com/ -->
+<!-- NOTE: Once vinayakbhadani.com is registered, update all <loc> entries to https://vinayakbhadani.com/ -->
