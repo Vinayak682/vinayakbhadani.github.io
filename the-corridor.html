@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Corridor — Demand Planning Intelligence by Vinayak Bhadani</title>
+<meta name="description" content="Asia to Jebel Ali to the World. One supply-chain decision a week, read by AI agents and distilled by a Dubai demand planner who has worked both ends of the corridor.">
+<!--
+  ============================================================
+  THE CORRIDOR · standalone newsletter page for the portfolio
+  Drop into: Vinayak682/vinayakbhadani.github.io  → /the-corridor.html
+  Replace the 4 PLACEHOLDERS marked with  <!-- EDIT -->  below:
+    1. PORTFOLIO_HOME   – link back to your main site
+    2. BEEHIIV_FORM     – your beehiiv (or MailerLite) form action URL
+    3. SOCIAL_*         – LinkedIn / X / Instagram / GitHub URLs
+    4. G-08JD9489HY           – your Google Analytics 4 measurement id
+  ============================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080a0c; --panel:#0b0f12; --panel2:#10171d;
+    --teal:#00C08B; --amber:#ffd166; --red:#ff8b7e;
+    --ink:#e6edf1; --ink2:#cdd6db; --mut:#9fb0bb; --mut2:#7b8c96; --line:rgba(255,255,255,.07);
+    --sans:'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.6}
+  .mono{font-family:var(--mono)}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:680px;margin:0 auto;padding:0 22px}
+
+  /* ── TOP NAV (the Newsletter field on top) ── */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(18px);background:rgba(8,10,12,.72);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:680px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;gap:18px}
+  .nav-brand{font-weight:800;letter-spacing:2px;font-size:15px;color:#fff}
+  .nav-links{display:flex;gap:18px;margin-left:auto;align-items:center}
+  .nav-links a{font-size:13px;color:var(--mut);transition:color .3s}
+  .nav-links a:hover{color:#fff}
+  .nav-links a.active{color:var(--teal);font-weight:600}
+  .nav-cta{background:var(--teal);color:#04140e;font-weight:700;font-size:12px;padding:8px 15px;border-radius:999px;transition:transform .4s cubic-bezier(.32,.72,0,1)}
+  .nav-cta:hover{transform:scale(.96)}
+  @media(max-width:600px){.nav-links a:not(.active){display:none}}
+
+  /* ── HERO ── */
+  header.hero{padding:54px 0 30px;position:relative;overflow:hidden}
+  .hero-orb{position:absolute;width:340px;height:340px;border-radius:50%;background:var(--teal);filter:blur(90px);opacity:.13;top:-160px;right:-90px;pointer-events:none}
+  .kicker{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--teal);border:1px solid rgba(0,192,139,.3);padding:5px 12px;border-radius:999px;margin-bottom:20px}
+  .hero h1{font-weight:800;font-size:clamp(30px,5.5vw,44px);line-height:1.08;letter-spacing:-1px;color:#fff;margin-bottom:14px}
+  .hero p.lede{font-size:16px;color:var(--mut);max-width:520px;margin-bottom:26px}
+  .hero-form{display:flex;gap:9px;max-width:440px}
+  .hero-form input{flex:1;background:var(--panel);border:1px solid #243640;border-radius:999px;padding:13px 18px;color:#fff;font-size:14px;font-family:var(--sans)}
+  .hero-form input:focus{outline:none;border-color:var(--teal)}
+  .hero-form button{background:var(--teal);color:#04140e;border:none;font-weight:700;font-size:14px;padding:13px 22px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:transform .4s cubic-bezier(.32,.72,0,1)}
+  .hero-form button:hover{transform:scale(.97)}
+  .hero-meta{font-size:12px;color:var(--mut2);margin-top:12px}
+
+  /* ── LATEST EDITION ── */
+  .edition{padding:14px 0 10px}
+  .ed-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:24px}
+  .ed-head .num{font-family:var(--mono);font-size:12px;color:var(--teal);font-weight:700}
+  .ed-head .ttl{font-weight:800;font-size:18px;color:#fff}
+  .ed-head .date{font-family:var(--mono);font-size:11px;color:var(--mut2);margin-left:auto}
+
+  h2.story{font-weight:800;font-size:clamp(23px,4vw,30px);line-height:1.22;color:#fff;letter-spacing:-.3px;margin-bottom:10px}
+  .byline{font-size:12px;color:var(--mut2);margin-bottom:24px}
+  .sec{display:block;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--teal);margin:30px 0 12px}
+  p.body{font-size:16px;line-height:1.75;color:var(--ink2);margin-bottom:15px}
+  p.body b{color:#fff;font-weight:700}
+  p.fine{font-size:14px;line-height:1.65;color:var(--mut);margin:4px 0 8px}
+  p.fine i{color:var(--teal);font-style:normal;font-weight:600}
+
+  /* viz: reroute */
+  .viz{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:18px;margin:22px 0;overflow:hidden}
+  .viz svg{width:100%;height:auto}
+  .ml{fill:var(--mut2);font-size:8px;font-weight:600}
+  .blk{fill:#ff6b5e;font-size:8px;font-weight:700}
+  .cp{fill:var(--teal);font-size:8px;font-weight:700}
+  .viz-cap{font-size:12px;color:var(--mut);text-align:center;margin-top:8px}
+  .viz-cap b{color:#fff}
+
+  /* representation cards */
+  .card{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:15px;margin:10px 0 13px}
+  .drow{display:flex;align-items:center;gap:10px;padding:9px 0;flex-wrap:wrap}
+  .drow.bad{border-bottom:1px solid rgba(255,255,255,.05)}
+  .rk{font-size:9px;letter-spacing:.5px;color:var(--mut2);width:150px;flex-shrink:0}
+  .rv{font-size:13.5px;color:var(--ink);flex:1}
+  .rv b{color:#fff;font-family:var(--mono)}
+  .flag{font-size:9px;font-weight:700;padding:3px 9px;border-radius:5px}
+  .flag.r{background:rgba(255,107,94,.14);color:var(--red)}
+  .flag.g{background:rgba(0,192,139,.14);color:var(--teal)}
+
+  .bar-lbl{font-size:10px;letter-spacing:.5px;color:var(--mut2);margin-bottom:11px}
+  .bar{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+  .bar .tag{font-family:var(--mono);font-size:10px;color:var(--mut);width:38px}
+  .track{flex:1;height:11px;background:rgba(255,255,255,.05);border-radius:6px;overflow:hidden}
+  .fill{height:100%;border-radius:6px;background:#3a4a52}
+  .fill.teal{background:var(--teal);width:30%;transition:width 1.6s cubic-bezier(.32,.72,0,1)}
+  .fill.teal.go{width:78%}
+  .bar .n{font-family:var(--mono);font-size:11px;color:#fff;width:38px;text-align:right}
+
+  .seg{margin:8px 0}
+  .seg-row{display:flex;align-items:center;gap:13px;padding:12px 14px;background:var(--bg);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;
+    opacity:0;transform:translateX(-12px);transition:all .6s cubic-bezier(.32,.72,0,1);transition-delay:var(--sd)}
+  .seg.in .seg-row{opacity:1;transform:none}
+  .seg-class{font-family:var(--mono);font-size:11px;font-weight:700;width:110px;flex-shrink:0}
+  .seg-do{font-size:12px;font-weight:700;color:#fff;width:96px;flex-shrink:0}
+  .seg-why{font-size:12.5px;color:var(--mut);line-height:1.45}
+
+  .trap{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:17px 15px;margin:10px 0 14px;flex-wrap:wrap}
+  .trap-node{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:#fff;letter-spacing:.3px}
+  .dot{width:9px;height:9px;border-radius:50%;background:#ff6b5e;box-shadow:0 0 8px #ff6b5e}
+  .dot.g{background:var(--teal);box-shadow:0 0 8px var(--teal)}
+  .trap-lag{flex:1;text-align:center;font-size:10px;color:var(--amber);border-top:1px dashed rgba(255,211,102,.4);padding-top:5px;min-width:100px}
+  .trap-lag .mono{font-size:12px;font-weight:700}
+
+  .reply{background:rgba(0,192,139,.06);border:1px solid rgba(0,192,139,.16);border-radius:12px;padding:15px 17px;font-size:14.5px;color:var(--ink2);line-height:1.6;margin-top:8px}
+  .reply b{color:#fff}
+
+  /* archive */
+  .archive{padding:40px 0 10px}
+  .archive h3{font-size:13px;letter-spacing:.15em;color:var(--mut2);text-transform:uppercase;margin-bottom:16px}
+  .arch-row{display:flex;align-items:center;gap:14px;padding:15px 0;border-top:1px solid var(--line)}
+  .arch-num{font-family:var(--mono);font-size:12px;color:var(--teal);width:42px;flex-shrink:0}
+  .arch-ttl{font-size:14.5px;color:var(--ink);flex:1}
+  .arch-ttl.soon{color:var(--mut2)}
+  .arch-date{font-family:var(--mono);font-size:11px;color:var(--mut2)}
+
+  /* footer */
+  footer{margin-top:46px;padding:34px 0 40px;border-top:1px solid var(--line);text-align:center}
+  footer .fh{font-weight:700;font-size:19px;color:#fff;margin-bottom:8px}
+  footer .fs{font-size:13px;color:var(--mut);margin-bottom:18px}
+  .foot-form{display:flex;gap:9px;max-width:400px;margin:0 auto 18px}
+  .foot-form input{flex:1;background:var(--panel);border:1px solid #243640;border-radius:999px;padding:12px 16px;color:#fff;font-size:14px;font-family:var(--sans)}
+  .foot-form input:focus{outline:none;border-color:var(--teal)}
+  .foot-form button{background:var(--teal);color:#04140e;border:none;font-weight:700;font-size:13px;padding:12px 20px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .soc{display:flex;justify-content:center;gap:9px;margin-bottom:14px}
+  .soc a{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--mut);transition:all .4s cubic-bezier(.32,.72,0,1)}
+  .soc a:hover{color:var(--teal);border-color:rgba(0,192,139,.5);transform:translateY(-2px)}
+  .foot-fine{font-size:11px;color:var(--mut2)}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.32,.72,0,1),transform .8s cubic-bezier(.32,.72,0,1);transition-delay:var(--d,0s)}
+  .reveal.in{opacity:1;transform:none}
+  @media(max-width:560px){.seg-row{flex-wrap:wrap}.hero-form,.foot-form{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<!-- ── NAV with Newsletter field on top ── -->
+<nav>
+  <div class="nav-in">
+    <a class="nav-brand" href="/">THE CORRIDOR</a>
+    <div class="nav-links">
+      <a href="https://vinayak682.github.io/vinayakbhadani.github.io/"><!-- EDIT PORTFOLIO_HOME -->Portfolio</a>
+      <a href="https://vinayak682.github.io/vinayakbhadani.github.io/#projects">Projects</a>
+      <a href="/the-corridor.html" class="active">Newsletter</a>
+      <a class="nav-cta" href="#subscribe">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-orb"></div>
+  <div class="wrap">
+    <span class="kicker reveal">DEMAND PLANNING INTELLIGENCE · DUBAI</span>
+    <h1 class="reveal" style="--d:.06s">I run AI agents that read the Asia&nbsp;&rarr;&nbsp;Jebel&nbsp;Ali&nbsp;&rarr;&nbsp;World corridor &mdash; and hand you one decision a week.</h1>
+    <p class="lede reveal" style="--d:.12s">Singapore to Dubai, lived and operated. Freight, ports, Eid surges and chokepoints &mdash; watched live, distilled to a single call you can act on.</p>
+    <form class="hero-form reveal" style="--d:.18s" action="https://assets.mailerlite.com/jsonp/2493003/forms/191521736629421236/subscribe" method="post" target="_blank">
+      <input type="email" name="fields[email]" placeholder="you@company.com" required>
+      <button type="submit">Join the Corridor</button>
+    </form>
+    <p class="hero-meta reveal" style="--d:.24s">Free &middot; one email a week &middot; operators across the GCC &amp; SE Asia</p>
+  </div>
+</header>
+
+<!-- ── LATEST EDITION ── -->
+<main class="wrap">
+<section class="edition">
+  <div class="ed-head reveal">
+    <span class="num">001</span><span class="ttl">Latest edition</span><span class="date">28 JUN 2026</span>
+  </div>
+
+  <h2 class="story reveal">Your planning system has a blind spot &mdash; and it will never warn you about it.</h2>
+  <p class="byline reveal">Vinayak Bhadani &middot; Dubai &middot; 4 min read</p>
+
+  <!-- REPRESENTATION 1: reroute -->
+  <div class="viz reveal">
+    <svg viewBox="0 0 360 116" role="img" aria-label="China to Jebel Ali shipping reroute via the Cape of Good Hope after the Hormuz and Red Sea closure">
+      <circle cx="24" cy="32" r="4.5" fill="#00C08B"/><text x="16" y="20" class="ml">CHINA</text>
+      <circle cx="336" cy="32" r="4.5" fill="#00C08B"/><text x="286" y="20" class="ml">JEBEL ALI</text>
+      <line x1="29" y1="32" x2="331" y2="32" stroke="#ff6b5e" stroke-width="1.6" stroke-dasharray="5 5" opacity=".55"/>
+      <text x="120" y="28" class="blk">HORMUZ + RED SEA CLOSED</text>
+      <path id="cape" d="M29,32 C50,114 332,114 331,34" fill="none" stroke="#00C08B" stroke-width="2.2" stroke-dasharray="610" stroke-dashoffset="610"/>
+      <text x="128" y="106" class="cp">CAPE REROUTE +14 DAYS</text>
+      <circle r="4" fill="#fff"><animateMotion dur="3.6s" begin="1s" repeatCount="indefinite" rotate="auto"><mpath href="#cape"/></animateMotion></circle>
+    </svg>
+    <div class="viz-cap">First dual-corridor shutdown in modern history &middot; transits <b class="mono">130&rarr;4</b> (&minus;97%)</div>
+  </div>
+
+  <!-- 01 BLIND SPOT -->
+  <span class="sec reveal">01 — THE BLIND SPOT</span>
+  <p class="body reveal">Netstock and Slim4 store <b>one static lead time per supplier.</b> Blue Yonder and Kinaxis won&rsquo;t take you under ~$5M spend &mdash; and still model a supplier, not a route. The moment your cargo moved Hormuz&rarr;Cape, your tool kept optimising against a lead time that&rsquo;s now fiction. It won&rsquo;t flag it. It just under-orders fast-movers and over-orders the rest until a shelf is empty.</p>
+  <div class="card reveal">
+    <div class="drow bad">
+      <span class="rk">HOW YOUR SYSTEM SEES IT</span><span class="rv">Supplier &rarr; lead time <b>25d</b> (fixed)</span><span class="flag r">BLIND</span>
+    </div>
+    <div class="drow">
+      <span class="rk">WHAT&rsquo;S ACTUALLY TRUE</span><span class="rv">Route &rarr; Hormuz <b>25d</b> / Cape <b>63d</b></span><span class="flag g">REAL</span>
+    </div>
+  </div>
+  <p class="fine reveal">Open your tool now: is lead time an attribute of the <i>supplier</i> or the <i>route</i>? If it&rsquo;s the supplier, you&rsquo;re flying blind &mdash; and so is every competitor on the same software.</p>
+
+  <!-- 02 SIGNAL -->
+  <span class="sec reveal">02 — THE SIGNAL NOBODY&rsquo;S NAMING</span>
+  <p class="body reveal">GCC buyers are sending far more RFQs to India and SE Asia suppliers than a year ago. That&rsquo;s the diversification scramble, already moving &mdash; and alternative capacity is being booked out by your competitors this quarter.</p>
+  <div class="card reveal">
+    <div class="bar-lbl">RFQs TO INDIA / SE ASIA SUPPLIERS</div>
+    <div class="bar"><span class="tag">2025</span><div class="track"><div class="fill" style="width:30%"></div></div><span class="n">1.0&times;</span></div>
+    <div class="bar"><span class="tag">2026</span><div class="track"><div class="fill teal" id="ratioFill"></div></div><span class="n" id="ratioN">1.0&times;</span></div>
+  </div>
+  <p class="fine reveal">The window to onboard a second source at normal terms: <b style="color:#fff">about one quarter</b> before lead times and pricing on the &ldquo;alternative&rdquo; lanes climb too.</p>
+
+  <!-- 03 THE CALL -->
+  <span class="sec reveal">03 — THE CALL (DON&rsquo;T DO WHAT YOUR PEERS DO)</span>
+  <p class="body reveal">The reflex is &ldquo;buffer everywhere.&rdquo; Wrong &mdash; it&rsquo;s the slowest, most expensive response. On a 60-day lane you wait two months to feel it. Segment instead:</p>
+  <div class="seg reveal">
+    <div class="seg-row" style="--sd:.05s"><span class="seg-class" style="color:#00C08B">A · FAST</span><span class="seg-do">AIR-BRIDGE</span><span class="seg-why">One Eid stockout costs more than 6 weeks of air freight. Run the break-even.</span></div>
+    <div class="seg-row" style="--sd:.12s"><span class="seg-class" style="color:#ffd166">B · MID</span><span class="seg-do">BUFFER &times;1.6</span><span class="seg-why">Here the &radic;(lead-time) math applies. Recalc and re-order now.</span></div>
+    <div class="seg-row" style="--sd:.19s"><span class="seg-class" style="color:#ff8b7e">C · SLOW</span><span class="seg-do">LET THIN</span><span class="seg-why">A controlled stockout is a strategy. Don&rsquo;t trap cash in slow lines now.</span></div>
+  </div>
+
+  <!-- 04 SINGAPORE EDGE -->
+  <span class="sec reveal">04 — FROM THE SINGAPORE SIDE</span>
+  <p class="body reveal">Having worked the SE Asia supply side before the Dubai demand side: &ldquo;just shift to SE Asia&rdquo; underestimates how fast Vietnamese and Indian capacity <b>saturates</b> when the whole Gulf pivots at once. The obvious second source everyone&rsquo;s calling will be first to quote you longer lead times. The smarter origin is the less obvious one &mdash; mapped lane-by-lane in coming issues.</p>
+
+  <!-- 05 THE TRAP -->
+  <span class="sec reveal">05 — THE TRAP WAITING FOR YOU</span>
+  <div class="trap reveal">
+    <div class="trap-node"><span class="dot"></span>HORMUZ REOPENS</div>
+    <div class="trap-lag"><span class="mono">+4&ndash;6 WKS</span> repositioning lag</div>
+    <div class="trap-node"><span class="dot g"></span>FREIGHT DROPS</div>
+  </div>
+  <p class="body reveal">Do <b>not</b> unwind your buffer or cancel the second source on day one. Freight lags a reopening by weeks on vessel repositioning and backlog &mdash; and the firms that diversified keep pricing leverage they won&rsquo;t surrender. The reopening is a trap for the impatient.</p>
+  <p class="reply reveal">Reply with one thing: <b>which lane are you on, and does your system model it at the route or supplier level?</b> I&rsquo;m mapping how exposed the GCC really is &mdash; your answer shapes next week&rsquo;s read.</p>
+</section>
+
+<!-- ── ARCHIVE ── -->
+<section class="archive">
+  <h3>The archive</h3>
+  <div class="arch-row">
+    <span class="arch-num">001</span>
+    <span class="arch-ttl">Your planning system has a blind spot &mdash; and it will never warn you about it.</span>
+    <span class="arch-date">28 JUN</span>
+  </div>
+  <div class="arch-row">
+    <span class="arch-num">002</span>
+    <span class="arch-ttl soon">Coming next week &mdash; subscribe to get it first.</span>
+    <span class="arch-date">&mdash;</span>
+  </div>
+</section>
+</main>
+
+<!-- ── FOOTER / SUBSCRIBE ── -->
+<footer id="subscribe">
+  <div class="wrap">
+    <p class="fh">One corridor decision, every week.</p>
+    <p class="fs">Freight, ports, Eid surges, chokepoints &mdash; read by AI agents, distilled to a single call. Free.</p>
+    <form class="foot-form" action="https://assets.mailerlite.com/jsonp/2493003/forms/191521736629421236/subscribe" method="post" target="_blank">
+      <input type="email" name="fields[email]" placeholder="you@company.com" required>
+      <button type="submit">Join the Corridor</button>
+    </form>
+    <div class="soc">
+      <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+      <a href="https://www.linkedin.com/company/122893988/" target="_blank" rel="noopener" aria-label="LinkedIn Page · Next-Gen Supply Chain">Co</a>
+      <a href="https://www.instagram.com/nextgensupplychain.ai/" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+      <a href="https://github.com/Vinayak682" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
+    </div>
+    <p class="foot-fine">Vinayak Bhadani &middot; Demand Planning &times; Agentic AI &middot; Dubai</p>
+  </div>
+</footer>
+
+<!-- ── Google Analytics 4 (EDIT G-08JD9489HY) ── -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-08JD9489HY"></script>
+<script>
+  window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+  gtag('js',new Date());gtag('config','G-08JD9489HY');
+  function ga4(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
+</script>
+
+<!-- ── meaningful motion ── -->
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
+    e.target.classList.add('in');
+    var f=e.target.querySelector('#ratioFill');if(f)f.classList.add('go');
+    io.unobserve(e.target);
+  }});},{threshold:.18});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  // reroute draw-in
+  var cape=document.getElementById('cape');
+  if(cape){setTimeout(function(){cape.style.transition='stroke-dashoffset 2.6s cubic-bezier(.32,.72,0,1)';cape.style.strokeDashoffset='0';},500);}
+
+  // ratio count-up 1.0x -> 2.5x
+  var rn=document.getElementById('ratioN');
+  if(rn){setTimeout(function(){var s=performance.now();
+    (function f(t){var p=Math.min((t-s)/1500,1);rn.innerHTML=(1+1.5*(0.5-Math.cos(Math.PI*p)/2)).toFixed(1)+'&times;';if(p<1)requestAnimationFrame(f);})(performance.now());},1100);}
+
+  // track subscribe submits
+  document.querySelectorAll('form').forEach(function(fm){fm.addEventListener('submit',function(){ga4('newsletter_signup',{page:'the-corridor'});});});
+})();
+</script>
+</body>
+</html>
