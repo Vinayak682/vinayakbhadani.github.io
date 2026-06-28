@@ -147,6 +147,7 @@
 </style>
 </head>
 <body>
+<iframe name="ml_iframe" style="display:none" aria-hidden="true" tabindex="-1"></iframe>
 
 <!-- ── NAV with Newsletter field on top ── -->
 <nav>
@@ -168,7 +169,7 @@
     <span class="kicker reveal">DEMAND PLANNING INTELLIGENCE · DUBAI</span>
     <h1 class="reveal" style="--d:.06s">I run AI agents that read the Asia&nbsp;&rarr;&nbsp;Jebel&nbsp;Ali&nbsp;&rarr;&nbsp;World corridor &mdash; and hand you one decision a week.</h1>
     <p class="lede reveal" style="--d:.12s">Singapore to Dubai, lived and operated. Freight, ports, Eid surges and chokepoints &mdash; watched live, distilled to a single call you can act on.</p>
-    <form class="hero-form reveal" style="--d:.18s" action="https://assets.mailerlite.com/jsonp/2493003/forms/191521736629421236/subscribe" method="post" target="_blank">
+    <form class="hero-form reveal" style="--d:.18s" action="https://assets.mailerlite.com/jsonp/2475995/forms/191521736629421236/subscribe" method="post" target="ml_iframe">
       <input type="email" name="fields[email]" placeholder="you@company.com" required>
       <button type="submit">Join the Corridor</button>
     </form>
@@ -268,7 +269,7 @@
   <div class="wrap">
     <p class="fh">One corridor decision, every week.</p>
     <p class="fs">Freight, ports, Eid surges, chokepoints &mdash; read by AI agents, distilled to a single call. Free.</p>
-    <form class="foot-form" action="https://assets.mailerlite.com/jsonp/2493003/forms/191521736629421236/subscribe" method="post" target="_blank">
+    <form class="foot-form" action="https://assets.mailerlite.com/jsonp/2475995/forms/191521736629421236/subscribe" method="post" target="ml_iframe">
       <input type="email" name="fields[email]" placeholder="you@company.com" required>
       <button type="submit">Join the Corridor</button>
     </form>
@@ -309,8 +310,13 @@
   if(rn){setTimeout(function(){var s=performance.now();
     (function f(t){var p=Math.min((t-s)/1500,1);rn.innerHTML=(1+1.5*(0.5-Math.cos(Math.PI*p)/2)).toFixed(1)+'&times;';if(p<1)requestAnimationFrame(f);})(performance.now());},1100);}
 
-  // track subscribe submits
-  document.querySelectorAll('form').forEach(function(fm){fm.addEventListener('submit',function(){ga4('newsletter_signup',{page:'the-corridor'});});});
+  // subscribe: posts to hidden iframe (no navigation), then shows inline success
+  document.querySelectorAll('form').forEach(function(fm){fm.addEventListener('submit',function(){
+    ga4('newsletter_signup',{page:'the-corridor'});
+    var f=fm;setTimeout(function(){
+      f.innerHTML='<p style="color:#00C08B;font-weight:700;font-size:15px;padding:10px 0;margin:0">✅ You’re in — check your inbox to confirm.</p>';
+    },150);
+  });});
 })();
 </script>
 </body>
