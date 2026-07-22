@@ -973,7 +973,10 @@ section{padding:96px 0;position:relative;}
 .flagship-label{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,rgba(245,158,11,.1),rgba(34,211,238,.08));border:1px solid rgba(245,158,11,.3);border-radius:20px;padding:6px 18px;font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#f59e0b;margin-bottom:22px;}
 .flagship-label::before{content:'';width:7px;height:7px;background:#f59e0b;border-radius:50%;animation:flagPulse 1.8s ease-in-out infinite;}
 @keyframes flagPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.6);opacity:1}50%{box-shadow:0 0 0 8px rgba(245,158,11,0);opacity:.8}}
-.flagship-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:0;}
+.flagship-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:24px;margin-bottom:0;}
+/* Non-supply-chain work hidden for now. Remove this rule (or the .nonsc-hidden
+   class on the element) to bring it back. */
+.nonsc-hidden{display:none !important;}
 /* Base flagship card */
 .fcard{position:relative;border-radius:22px;overflow:hidden;display:flex;flex-direction:column;background:rgba(8,20,40,.7);backdrop-filter:blur(16px);transition:transform .4s cubic-bezier(.25,.8,.25,1),box-shadow .4s;}
 .fcard:hover{transform:translateY(-8px);}
@@ -2762,8 +2765,11 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 
       <div class="flagship-grid">
 
-        <!-- ── AlphaOS ─────────────────────────────────── -->
-        <div class="fcard fcard-alphaos" id="fcAlphaOS">
+        <!-- ── AlphaOS ─────────────────────────────────────
+             HIDDEN (not supply-chain). To restore: delete the
+             "nonsc-hidden" class from the div below.
+             ─────────────────────────────────────────────── -->
+        <div class="fcard fcard-alphaos nonsc-hidden" id="fcAlphaOS">
           <!-- Orbiting rings -->
           <div class="fcard-orb fcard-orb-1"></div>
           <div class="fcard-orb fcard-orb-2"></div>
@@ -3079,7 +3085,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 
     <!-- ── FILTER TABS ─────────────────────────────────── -->
     <div class="pj-filter">
-      <button class="pj-ftab active" onclick="filterPJ('all',this)">All 16 Projects</button>
+      <button class="pj-ftab active" onclick="filterPJ('all',this)">All 15 Projects</button>
       <button class="pj-ftab" onclick="filterPJ('agentic',this)">🤖 Agentic AI</button>
       <button class="pj-ftab" onclick="filterPJ('saas',this)">🚀 AI SaaS</button>
       <button class="pj-ftab" onclick="filterPJ('analytics',this)">📊 Analytics &amp; Data</button>
@@ -6138,7 +6144,9 @@ window.addEventListener('scroll', function() {
   if(!pal||!inp)return;
   var CMDS=[
     {icon:'⬇️',label:'Download CV',sub:'PDF · Updated 2026',action:function(){window.open('Vinayak-Bhadani-Resume-Demand-Planning-AI-Supply-Chain.pdf','_blank');}},
-    {icon:'🤖',label:'Open AlphaOS',sub:'Flagship AI Platform',action:function(){window.open('https://vinayak682.github.io/alpha-os/','_blank');}},
+    // HIDDEN (not supply-chain) — restore by uncommenting:
+    // {icon:'🤖',label:'Open AlphaOS',sub:'Flagship AI Platform',action:function(){window.open('https://vinayak682.github.io/alpha-os/','_blank');}},
+    {icon:'🧠',label:'Open AI Supply Chain Platform',sub:'Flagship AI Platform',action:function(){window.open('https://vinayak682.github.io/ai-supply-chain-platform/','_blank');}},
     {icon:'📧',label:'Send Email',sub:'vinayakbhadani19@gmail.com',action:function(){window.location='mailto:vinayakbhadani19@gmail.com';}},
     {icon:'💼',label:'View LinkedIn',sub:'linkedin.com/in/vinayakbhadani',action:function(){window.open('https://linkedin.com/in/vinayakbhadani','_blank');}},
     {icon:'🎯',label:'Go to Contact',sub:'Start a conversation',action:function(){document.getElementById('contact').scrollIntoView({behavior:'smooth'});close();}},
@@ -6184,7 +6192,7 @@ window.addEventListener('scroll', function() {
     skills:function(){return '<div style="color:#c4b5fd;">'+bar('LLMs & Gen AI',92)+bar('Python',87)+bar('S&OP',95)+bar('Power BI',90)+'</div>';},
     experience:function(){return '<div style="color:#c4b5fd;line-height:2;"><span style="color:#a78bfa;">▸ 2026–Present</span> Demand Planner & AI Lead @ Emirates Pride<br><span style="color:#a78bfa;">▸ 2023–2025</span> Demand Planner @ ANDS Dubai · +30% accuracy</div>';},
     contact:function(){return '<div style="color:#c4b5fd;line-height:2;"><span style="color:#a78bfa;">email:</span> vinayakbhadani19@gmail.com<br><span style="color:#a78bfa;">linkedin:</span> linkedin.com/in/vinayakbhadani</div>';},
-    projects:function(){return '<div style="color:#c4b5fd;line-height:2;"><span style="color:#a78bfa;">▸ AlphaOS</span> — AI Platform<br><span style="color:#a78bfa;">▸ AI Supply Chain</span> — Live Intelligence<br><span style="color:#a78bfa;">▸ DP Simulator</span> — GCC Scenarios</div>';},
+    projects:function(){return '<div style="color:#c4b5fd;line-height:2;"><span style="color:#a78bfa;">▸ AI Supply Chain</span> — Live Intelligence<br><span style="color:#a78bfa;">▸ SupplyMind</span> — S&amp;OP Copilot<br><span style="color:#a78bfa;">▸ DP Simulator</span> — GCC Scenarios</div>';},
     certs:function(){return '<div style="color:#c4b5fd;line-height:2;"><span style="color:#a78bfa;">✓</span> CISCP · CISCM — IPSCMI USA<br><span style="color:#a78bfa;">✓</span> McKinsey Forward Program 2025<br><span style="color:#a78bfa;">✓</span> Gen AI Mastermind — Outskill</div>';},
     education:function(){return '<div style="color:#c4b5fd;line-height:2;"><span style="color:#a78bfa;">▸ MGB 2023</span> SP Jain — Dubai·Mumbai·Singapore·Sydney<br><span style="color:#a78bfa;">▸ B.E. 2021</span> SVCE Bengaluru — IS Engineering</div>';},
     'hire me':function(){setTimeout(function(){term.style.display='none';document.getElementById('contact').scrollIntoView({behavior:'smooth'});},1500);return '<div style="color:#22d3ee;text-align:center;padding:12px;">🚀 Smart choice! Navigating to contact…</div>';},
@@ -6724,7 +6732,9 @@ var KB = {
     {tag:'ml', text:'ML Forecasting Engine achieves <strong>7.4% MAPE</strong> using XGBoost + Prophet vs 14.8% baseline'},
     {tag:'retail', text:'Deployed custom inventory management app across <strong>25+ retail stores</strong> (UAE, Oman, KSA) at Emirates Pride'},
     {tag:'gcc', text:'3+ years operating across <strong>China→MENA→GCC trade lanes</strong> with deep UAE/GCC market knowledge'},
-    {tag:'saas', text:'Built and shipped <strong>AlphaOS</strong> — a 10-strategy algorithmic trading platform (React, Polygon.io, Claude AI)'},
+    // HIDDEN (not supply-chain) — restore by uncommenting:
+    // {tag:'saas', text:'Built and shipped <strong>AlphaOS</strong> — a 10-strategy algorithmic trading platform (React, Polygon.io, Claude AI)'},
+    {tag:'saas', text:'Built and shipped the <strong>AI Supply Chain Platform</strong> — real-time OTIF compliance + exception intelligence (React, Supabase, Claude AI)'},
     {tag:'sop', text:'Designed and implemented full <strong>4-week S&OP governance cycle</strong> with RACI matrix and 9 live KPI gauges'},
   ],
 
@@ -6735,7 +6745,8 @@ var KB = {
     {name:'SupplyMind — S&OP Copilot', url:'https://sop-copilot.vercel.app', tags:['ai','sop','saas','claude','gcc']},
     {name:'GCC Event Surge Planner', url:'https://event-surge-planner.vercel.app', tags:['ai','gcc','forecast','claude','saas']},
     {name:'Supply Chain Risk Framework', url:'./supply-chain-risk-framework.html', tags:['risk','logistics','gcc','mena']},
-    {name:'AlphaOS — Algorithmic Trading', url:'https://vinayak682.github.io/alphaos/', tags:['ai','saas','react','typescript']},
+    // HIDDEN (not supply-chain) — restore by uncommenting:
+    // {name:'AlphaOS — Algorithmic Trading', url:'https://vinayak682.github.io/alphaos/', tags:['ai','saas','react','typescript']},
     {name:'S&OP Process Playbook', url:'./sop-process-playbook.html', tags:['sop','kpi','strategy','leadership']},
     {name:'ABC-XYZ Inventory Classification', url:'./ABC-XYZ-Inventory-Analysis.xlsx', tags:['inventory','abc','analytics']},
     {name:'Supply Chain Scorecard', url:'./supply-chain-scorecard.html', tags:['kpi','analytics','strategy','gcc']},
