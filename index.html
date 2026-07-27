@@ -361,7 +361,7 @@ section{padding:96px 0;position:relative;}
   background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.25);
   border-radius:var(--r3);font-size:.72rem;font-weight:600;color:#7dd3fc;letter-spacing:.02em;
 }
-.{font-size:clamp(2.6rem,6vw,4.4rem);font-weight:900;line-height:1.0;letter-spacing:-.035em;margin-bottom:14px;}
+.hero-name{font-size:clamp(2.35rem,5vw,4.15rem);font-weight:900;line-height:1.0;letter-spacing:-.045em;margin-bottom:14px;white-space:nowrap;}
 .hero-name span{
   background:linear-gradient(130deg,#c084fc 0%,#818cf8 40%,#22d3ee 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
@@ -1526,6 +1526,8 @@ footer::before{
   font-weight: 700;
   margin: 0;
 }
+
+@media(max-width:560px){.hero-name{font-size:clamp(2rem,11vw,3rem);letter-spacing:-.05em;white-space:nowrap;}}
 </style>
 <style>
 @keyframes blink-cursor { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -1927,7 +1929,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
         <div class="hero-seeking" style="display:none;">
           <span class="seeking-badge">🎯 Targeting: Demand Planning Manager &nbsp;·&nbsp; S&amp;OP Lead &nbsp;·&nbsp; Supply Chain Analyst · Dubai / GCC</span>
         </div>
-        <h1 class="hero-name" aria-label="Vinayak Bhadani">Vinayak<br/><span>Bhadani</span></h1>
+        <h1 class="hero-name" aria-label="Vinayak Bhadani">Vinayak <span>Bhadani</span></h1>
         <p class="hero-role"><span id="heroTyped"></span><span style="display:inline-block;width:2px;height:1em;background:#a78bfa;margin-left:3px;vertical-align:middle;animation:blink-cursor 1s step-end infinite;"></span></p>
         <p class="hero-tagline">Optimising 100,000+ Units Monthly &amp; Cutting Logistics Costs by 30%</p>
         <div class="hero-stats" aria-label="Key metrics">
