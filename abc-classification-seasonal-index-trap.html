@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>The C-Class Trap: When ABC Analysis Gets It Wrong</title>
+<meta name="description" content="A high-value gifting SKU sells 1–2 units a month, then 18 in the National Day week. ABC analysis calls it C-class and a flat seasonal index buries the spike. Here's why event-driven SKUs need a monthly seasonal index by category, not an annual average."/>
+<meta name="keywords" content="ABC analysis limitations, ABC XYZ classification, seasonal index by month, intermittent demand forecasting, lumpy demand planning, event driven demand, GCC retail planning"/>
+<meta name="author" content="Vinayak Bhadani"/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://vinayak682.github.io/vinayakbhadani.github.io/abc-classification-seasonal-index-trap.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The C-Class Trap: When ABC Analysis Gets It Wrong"/>
+<meta property="og:description" content="It sells 1–2 units a month, so ABC calls it C-class. Then National Day arrives and it sells 18. Half its annual demand lives in three weeks — and a flat seasonal index cannot see any of it."/>
+<meta property="og:url" content="https://vinayak682.github.io/vinayakbhadani.github.io/abc-classification-seasonal-index-trap.html"/>
+<meta property="og:image" content="https://vinayak682.github.io/vinayakbhadani.github.io/og-preview.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="The C-Class Trap — when ABC analysis misclassifies event-driven SKUs"/>
+<meta property="og:site_name" content="Vinayak Bhadani"/>
+<meta property="og:locale" content="en_GB"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The C-Class Trap: When ABC Analysis Gets It Wrong"/>
+<meta name="twitter:description" content="Half its annual demand lives in three weeks. A flat seasonal index cannot see any of it."/>
+<meta name="twitter:image" content="https://vinayak682.github.io/vinayakbhadani.github.io/og-preview.png"/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<!-- Google Analytics 4 --><script async src="https://www.googletagmanager.com/gtag/js?id=G-08JD9489HY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-08JD9489HY');document.addEventListener('click',function(e){if(e.target.closest('[id$="-cv-btn"]'))gtag('event','cv_download',{event_category:'engagement'});if(e.target.href&&e.target.href.includes('linkedin'))gtag('event','linkedin_click',{event_category:'engagement'});});</script>
+<style>
+:root{--bg0:#020c1b;--bg1:#0a1628;--bg2:#112240;--teal:#00d4a8;--purple:#a78bfa;--gold:#f59e0b;--red:#f87171;--txt:#ccd6f6;--txt2:#8892b0;--white:#e6f1ff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg0);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.75}
+a{color:var(--purple);text-decoration:none}a:hover{text-decoration:underline}
+.nav{position:sticky;top:0;z-index:100;background:rgba(2,12,27,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-brand{font-size:.85rem;font-weight:700;color:var(--white);text-decoration:none}
+.nav-back{display:flex;align-items:center;gap:7px;font-size:.8rem;color:var(--txt2);text-decoration:none;transition:color .2s}
+.nav-back:hover{color:var(--purple);text-decoration:none}
+.hero{background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 60%,rgba(167,139,250,.06) 100%);padding:60px 24px 0;border-bottom:1px solid rgba(167,139,250,.15)}
+.hero-inner{max-width:760px;margin:0 auto}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);color:var(--purple);font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:22px}
+.hero h1{font-size:clamp(1.75rem,4.5vw,2.75rem);font-weight:800;color:var(--white);line-height:1.2;margin-bottom:18px}
+.hero h1 span{color:var(--purple)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:20px;font-size:.8rem;color:var(--txt2)}
+.hero-summary{font-size:1.05rem;color:var(--txt2);line-height:1.8;border-left:3px solid var(--purple);padding-left:18px;margin-bottom:38px}
+.figure{max-width:820px;margin:0 auto;padding:0 24px}
+.figure svg{width:100%;height:auto;display:block;border:1px solid rgba(167,139,250,.18);border-radius:12px;background:rgba(2,12,27,.55)}
+.figcap{font-size:.78rem;color:var(--txt2);margin:10px 0 34px;line-height:1.6}
+.article{max-width:760px;margin:0 auto;padding:52px 24px 80px}
+h2{font-size:1.45rem;font-weight:800;color:var(--white);margin:48px 0 14px;line-height:1.3}
+h3{font-size:1.1rem;font-weight:700;color:var(--purple);margin:32px 0 10px}
+p{color:var(--txt);font-size:.97rem;margin-bottom:18px;line-height:1.82}
+strong{color:var(--white)}em{color:var(--txt2)}
+.callout{background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.25);border-radius:10px;padding:20px 22px;margin:28px 0}
+.callout p{margin:0;font-size:.93rem;color:var(--txt2)}
+.callout strong{color:var(--purple)}
+.formula{background:var(--bg1);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:20px 22px;margin:24px 0;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:.86rem;color:var(--white);overflow-x:auto;line-height:1.9}
+.formula .c{color:var(--txt2);font-family:'Segoe UI',system-ui,sans-serif}
+ul,ol{padding-left:22px;margin-bottom:18px}
+li{font-size:.97rem;color:var(--txt);margin-bottom:9px;line-height:1.75}
+table{width:100%;border-collapse:collapse;margin:26px 0;font-size:.88rem}
+th,td{text-align:left;padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.08)}
+th{font-weight:700;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--txt2)}
+td strong{color:var(--white)}
+.scroll{overflow-x:auto}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:28px 0}
+.box{background:var(--bg1);border:1px solid rgba(255,255,255,.09);border-radius:11px;padding:18px 20px}
+.box.bad{border-color:rgba(248,113,113,.3)}
+.box.good{border-color:rgba(0,212,168,.3)}
+.box h4{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:9px;font-weight:700}
+.box.bad h4{color:var(--red)}
+.box.good h4{color:var(--teal)}
+.box p{font-size:.88rem;margin:0;color:var(--txt2);line-height:1.7}
+.cta-block{background:var(--bg1);border:1px solid rgba(167,139,250,.25);border-radius:14px;padding:32px;text-align:center;margin-top:56px}
+.cta-block h3{color:var(--white);font-size:1.15rem;font-weight:800;margin:0 0 8px}
+.cta-block p{color:var(--txt2);font-size:.88rem;margin:0 0 22px}
+.btn-cta{display:inline-flex;align-items:center;gap:9px;padding:13px 26px;border-radius:10px;font-weight:700;font-size:.88rem;text-decoration:none;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.45);color:var(--purple);transition:transform .2s}
+.btn-cta:hover{transform:translateY(-2px);text-decoration:none}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 0}
+.tag{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--txt2);font-size:.73rem;padding:4px 12px;border-radius:20px}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"The C-Class Trap — When ABC Analysis and a Flat Seasonal Index Misclassify Your Best SKUs","description":"A high-value gifting SKU sells 1–2 units a month, then 18 in the National Day week. ABC calls it C-class and a flat seasonal index buries the spike. Why event-driven SKUs need a monthly seasonal index by category.","image":["https://vinayak682.github.io/vinayakbhadani.github.io/og-preview.png"],"datePublished":"2026-08-05","dateModified":"2026-08-05","wordCount":1740,"inLanguage":"en-GB","author":{"@type":"Person","@id":"https://vinayak682.github.io/vinayakbhadani.github.io/#person","name":"Vinayak Bhadani","jobTitle":"Demand Planning Analyst","url":"https://vinayak682.github.io/vinayakbhadani.github.io/","sameAs":["https://www.linkedin.com/in/vinayakbhadani/"]},"publisher":{"@type":"Person","name":"Vinayak Bhadani","url":"https://vinayak682.github.io/vinayakbhadani.github.io/"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://vinayak682.github.io/vinayakbhadani.github.io/abc-classification-seasonal-index-trap.html"},"keywords":["ABC analysis","ABC XYZ classification","seasonal index","intermittent demand","lumpy demand","event driven demand","demand planning"]}
+</script>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">Vinayak Bhadani</a>
+  <a href="insights.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    All Insights
+  </a>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">📦 Segmentation · Intermittent Demand</div>
+    <h1>The <span>C-Class Trap</span> — When ABC Analysis and a Flat Seasonal Index Bury Your Best SKUs</h1>
+    <div class="hero-meta">
+      <span>✍ Vinayak Bhadani</span>
+      <span>📅 August 2026</span>
+      <span>⏱ 9 min read</span>
+      <span>📍 Dubai, UAE</span>
+    </div>
+    <p class="hero-summary">There is a class of SKU that standard planning systems handle badly and confidently: low unit velocity, high unit value, and demand concentrated into two or three calendar events a year. ABC analysis calls it a C item. A flat seasonal index smooths its peaks into nothing. The system then recommends carrying almost none of it — and it stocks out in the only weeks that ever mattered.</p>
+  </div>
+</header>
+
+<div class="figure">
+  <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar chart of monthly demand for a high-value gifting SKU. Most months show 1 to 2 units. Three event months show 12, 18 and 15 units. A flat horizontal line at 5.3 units represents the annual-average seasonal index, which over-forecasts the quiet months and severely under-forecasts the three event months.">
+    <defs>
+      <pattern id="miss" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="0" x2="0" y2="6" stroke="#f87171" stroke-width="2.4" stroke-opacity=".55"/>
+      </pattern>
+    </defs>
+
+    <text x="26" y="26" font-size="11" fill="#8892b0" font-weight="700">UNITS / MONTH</text>
+
+    <!-- y axis grid -->
+    <g font-size="9.5" fill="#8892b0">
+      <line x1="58" y1="250" x2="794" y2="250" stroke="#8892b0" stroke-opacity=".35"/>
+      <line x1="58" y1="190" x2="794" y2="190" stroke="#8892b0" stroke-opacity=".12"/>
+      <line x1="58" y1="130" x2="794" y2="130" stroke="#8892b0" stroke-opacity=".12"/>
+      <line x1="58" y1="70"  x2="794" y2="70"  stroke="#8892b0" stroke-opacity=".12"/>
+      <text x="52" y="254" text-anchor="end">0</text>
+      <text x="52" y="194" text-anchor="end">6</text>
+      <text x="52" y="134" text-anchor="end">12</text>
+      <text x="52" y="74"  text-anchor="end">18</text>
+    </g>
+
+    <!-- bars: Jan..Dec  values 1,2,12,2,1,8,1,1,18,2,1,15  (10px per unit) -->
+    <g>
+      <rect x="70"  y="240" width="38" height="10"  rx="2" fill="#8892b0" fill-opacity=".45"/>
+      <rect x="130" y="230" width="38" height="20"  rx="2" fill="#8892b0" fill-opacity=".45"/>
+      <rect x="190" y="130" width="38" height="120" rx="2" fill="#a78bfa" fill-opacity=".85"/>
+      <rect x="250" y="230" width="38" height="20"  rx="2" fill="#8892b0" fill-opacity=".45"/>
+      <rect x="310" y="240" width="38" height="10"  rx="2" fill="#8892b0" fill-opacity=".45"/>
+      <rect x="370" y="170" width="38" height="80"  rx="2" fill="#a78bfa" fill-opacity=".85"/>
+      <rect x="430" y="240" width="38" height="10"  rx="2" fill="#8892b0" fill-opacity=".45"/>
+      <rect x="490" y="240" width="38" height="10"  rx="2" fill="#8892b0" fill-opacity=".45"/>
+      <rect x="550" y="70"  width="38" height="180" rx="2" fill="#a78bfa" fill-opacity=".85"/>
+      <rect x="610" y="230" width="38" height="20"  rx="2" fill="#8892b0" fill-opacity=".45"/>
+      <rect x="670" y="240" width="38" height="10"  rx="2" fill="#8892b0" fill-opacity=".45"/>
+      <rect x="730" y="100" width="38" height="150" rx="2" fill="#a78bfa" fill-opacity=".85"/>
+    </g>
+
+    <!-- missed-sales band above the flat line on event months -->
+    <g>
+      <rect x="190" y="130" width="38" height="67"  fill="#f87171" fill-opacity=".62"/>
+      <rect x="370" y="170" width="38" height="27"  fill="#f87171" fill-opacity=".62"/>
+      <rect x="550" y="70"  width="38" height="127" fill="#f87171" fill-opacity=".62"/>
+      <rect x="730" y="100" width="38" height="97"  fill="#f87171" fill-opacity=".62"/>
+      <rect x="190" y="130" width="38" height="67"  fill="url(#miss)"/>
+      <rect x="370" y="170" width="38" height="27"  fill="url(#miss)"/>
+      <rect x="550" y="70"  width="38" height="127" fill="url(#miss)"/>
+      <rect x="730" y="100" width="38" height="97"  fill="url(#miss)"/>
+    </g>
+
+    <!-- flat seasonal index line at 5.3 units -->
+    <line x1="58" y1="197" x2="794" y2="197" stroke="#f59e0b" stroke-width="2.4" stroke-dasharray="7 5"/>
+    <rect x="600" y="176" width="196" height="17" rx="4" fill="#020c1b" fill-opacity=".85"/>
+    <text x="698" y="189" text-anchor="middle" font-size="10.5" fill="#f59e0b" font-weight="700">flat index = 64 ÷ 12 = 5.3/mo</text>
+
+    <!-- month labels -->
+    <g font-size="9.5" fill="#8892b0" text-anchor="middle">
+      <text x="89" y="266">Jan</text><text x="149" y="266">Feb</text>
+      <text x="209" y="266" fill="#a78bfa" font-weight="700">Mar</text>
+      <text x="269" y="266">Apr</text><text x="329" y="266">May</text>
+      <text x="389" y="266" fill="#a78bfa" font-weight="700">Jun</text>
+      <text x="449" y="266">Jul</text><text x="509" y="266">Aug</text>
+      <text x="569" y="266" fill="#a78bfa" font-weight="700">Sep</text>
+      <text x="629" y="266">Oct</text><text x="689" y="266">Nov</text>
+      <text x="749" y="266" fill="#a78bfa" font-weight="700">Dec</text>
+    </g>
+    <g font-size="9" fill="#8892b0" text-anchor="middle">
+      <text x="209" y="279">Eid al-Fitr</text>
+      <text x="389" y="279">Eid al-Adha</text>
+      <text x="569" y="279">National Day</text>
+      <text x="749" y="279">New Year</text>
+    </g>
+
+    <!-- legend -->
+    <g font-size="10">
+      <rect x="70" y="300" width="12" height="12" rx="2" fill="#a78bfa" fill-opacity=".85"/>
+      <text x="90" y="310" fill="#8892b0">Actual demand</text>
+      <rect x="210" y="300" width="12" height="12" rx="2" fill="url(#miss)"/>
+      <text x="230" y="310" fill="#8892b0">Demand the flat index cannot see — 32 of 64 units</text>
+      <line x1="600" y1="306" x2="626" y2="306" stroke="#f59e0b" stroke-width="2.4" stroke-dasharray="7 5"/>
+      <text x="634" y="310" fill="#8892b0">Flat seasonal index</text>
+    </g>
+  </svg>
+  <p class="figcap"><strong style="color:#a78bfa">Figure 1.</strong> The same SKU, one year. The dashed line is what an annual-average seasonal index tells you to plan for. The hatched area is the demand that line is structurally incapable of seeing — <strong style="color:#e6f1ff">half the year's volume, sitting in four weeks</strong>. Meanwhile the line over-forecasts eight quiet months, so the system is simultaneously holding stock you don't need and missing the sales you do.</p>
+</div>
+
+<article class="article">
+
+  <h2>The SKU that breaks the model</h2>
+
+  <p>Picture a premium corporate gifting item. Call it a presentation set — high perceived value, priced around AED 2,400, the kind of thing bought as a gesture rather than a routine purchase.</p>
+
+  <p>Through most of the year it sells one or two units a month. Occasionally none. On a velocity ranking it sits near the bottom of the portfolio. Then Eid arrives and it sells twelve. Then National Day and it sells eighteen in a fortnight. Then the New Year corporate gifting window and it sells fifteen.</p>
+
+  <p>Sixty-four units for the year. <strong>Thirty-two of them — exactly half — inside four weeks.</strong></p>
+
+  <p>Now watch what a conventional planning setup does with that SKU.</p>
+
+  <h3>Step one: ABC misclassifies it</h3>
+
+  <p>Classic ABC ranks SKUs by annual consumption value and cuts at roughly 80/15/5. Sixty-four units is a small number next to the fast-movers, so unless the value ranking is done carefully this item lands in C. And C-class carries a standard package of consequences: lower target service level, less frequent review, minimal safety stock, low forecasting attention, and often an explicit instruction to planners not to spend time on it.</p>
+
+  <p>Every one of those consequences is wrong for this SKU, and they are applied automatically.</p>
+
+  <h3>Step two: the flat seasonal index erases the signal</h3>
+
+  <p>Then the system computes a seasonal index. If that index is a single annual figure — or if seasonality is fitted across a whole category and applied uniformly — the calculation is effectively 64 ÷ 12 ≈ 5.3 units per month. That number is the worst possible answer, because it is wrong in <em>both</em> directions:</p>
+
+  <ul>
+    <li>In the eight quiet months it forecasts 5.3 against actual demand of 1–2. You carry stock that ages, occupies space and ties up AED 2,400 a unit.</li>
+    <li>In the four event months it forecasts 5.3 against actual demand of 12, 8, 18 and 15. You stock out in every one of them.</li>
+  </ul>
+
+  <p>The average is arithmetically correct and operationally useless. It describes a month that never happens.</p>
+
+  <div class="callout">
+    <p><strong>The one-line version:</strong> an average is a bad description of a distribution with two modes. This SKU does not have a demand rate — it has an <em>off</em> state and an <em>event</em> state, and planning it as though it has a single rate guarantees you are wrong in every month of the year.</p>
+  </div>
+
+  <h3>Step three: the loss is invisible in the KPI</h3>
+
+  <p>Here is the part that makes this so persistent. A stockout on a C-class item barely registers. Line fill rate is dominated by the fast-movers. Unit-based service level metrics treat one missed gift set the same as one missed carton of a commodity item. So the reporting says the month went fine.</p>
+
+  <p>But in revenue terms, thirty-two missed units at AED 2,400 is roughly <strong>AED 77,000 of lost sales on a single SKU</strong> — and on gifting lines the gross margin percentage is usually well above the portfolio average, so the profit impact is disproportionately larger. Multiply that across every event-driven item in a gifting or seasonal range and the number stops being a rounding error.</p>
+
+  <p>Worse, these are not deferrable sales. Nobody buys a National Day gift in October. The demand does not queue — it evaporates, and frequently it walks to a competitor who had stock.</p>
+
+  <h2>What is actually going on, in planning terms</h2>
+
+  <p>Two distinct failures are being conflated, and separating them is what makes the problem solvable.</p>
+
+  <div class="grid2">
+    <div class="box bad">
+      <h4>Failure 1 — Wrong classification axis</h4>
+      <p>ABC measures <strong>importance by value</strong>. It says nothing about <strong>predictability</strong>. A SKU can be low-volume and highly predictable, or low-volume and violently lumpy. ABC cannot tell them apart, so it treats them identically.</p>
+    </div>
+    <div class="box bad">
+      <h4>Failure 2 — Wrong seasonality granularity</h4>
+      <p>A seasonal index applied at portfolio or annual level assumes every SKU inside it shares one shape. Event-driven SKUs have a shape that is nothing like the category average, so the index actively destroys their signal.</p>
+    </div>
+  </div>
+
+  <p>The formal name for the demand pattern is <strong>lumpy demand</strong> — infrequent occurrence combined with high variability in size when it does occur. It is the hardest of the four standard demand classes to forecast, and it is precisely the class that conventional systems demote to the lowest tier of attention.</p>
+
+  <h2>The fix, in four moves</h2>
+
+  <h3>1. Add a second axis: ABC × XYZ</h3>
+
+  <p>ABC on its own is one-dimensional. Overlay an XYZ classification measuring demand variability — typically the coefficient of variation, σ ÷ μ:</p>
+
+  <div class="formula">
+CV  =  σ(monthly demand)  ÷  μ(monthly demand)<br/>
+<span class="c">X = CV &lt; 0.5   stable and predictable</span><br/>
+<span class="c">Y = 0.5–1.0    variable, often seasonal</span><br/>
+<span class="c">Z = CV &gt; 1.0   lumpy, event-driven, hard to forecast</span><br/><br/>
+<span class="c">Our SKU: μ = 5.3, σ ≈ 6.3  →  CV ≈ 1.2  →  <strong>Z</strong></span>
+  </div>
+
+  <p>Now the SKU is a <strong>CZ</strong> item, not a C item — and CZ is a completely different management instruction from CX. A CX item genuinely can be left on autopilot with a low review frequency. A CZ item needs event-based planning and human attention precisely because the model cannot handle it. Same ABC letter, opposite treatment.</p>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th></th><th>X — stable</th><th>Y — seasonal</th><th>Z — lumpy / event</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A</strong> — high value</td><td>Automate, tight control</td><td>Seasonal profile + review</td><td>Plan every event manually</td></tr>
+      <tr><td><strong>B</strong> — mid value</td><td>Automate</td><td>Seasonal profile</td><td>Event-based planning</td></tr>
+      <tr><td><strong>C</strong> — low value</td><td>Autopilot, low review</td><td>Simple profile</td><td><strong>← our SKU lives here. Not autopilot.</strong></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>2. Move from an annual index to a monthly index, computed per category</h3>
+
+  <p>Replace the single annual figure with twelve monthly indices, and — critically — fit them at the level of the smallest group that genuinely shares a demand shape. Gifting is not one category. Corporate gifting, personal gifting and seasonal confectionery peak on different events.</p>
+
+  <div class="formula">
+Seasonal index<sub>m</sub>  =  average demand in month m  ÷  average monthly demand<br/><br/>
+<span class="c">Flat approach:   every month = 1.00  →  forecast 5.3 every month</span><br/>
+<span class="c">Monthly index:   Jan 0.19 · Mar 2.26 · Sep 3.40 · Dec 2.83 · quiet months ~0.19–0.38</span><br/>
+<span class="c">Forecast Sep  =  5.3 × 3.40  ≈  <strong>18 units</strong>  — the spike is now in the plan</span>
+  </div>
+
+  <h3>3. Plan the event, not the month</h3>
+
+  <p>For a genuinely lumpy SKU, even a monthly index is coarse. National Day demand does not occupy September evenly — it occupies about ten days of it. Build the plan around an event calendar with a defined build-up window and a hard cut-off, and work backwards through lead time from the event date rather than the month boundary. If it is a 60-day import lane, the September event is a July purchasing decision.</p>
+
+  <h3>4. Set service level by contribution, not by letter</h3>
+
+  <p>The reason C-class items get a low service target is an assumption that a stockout is cheap. For a high-value, high-margin event SKU that assumption is simply false. Set the target from the economics — the margin lost on a missed sale against the cost of carrying the unit — rather than inheriting it from the ABC letter. In practice this usually justifies a materially higher service level for the event window only, and a low one for the rest of the year.</p>
+
+  <div class="grid2">
+    <div class="box good">
+      <h4>Before</h4>
+      <p>C-class · flat index 5.3/month · standard C service level · monthly statistical review. Result: stocked out in all four events, carrying dead stock for eight months.</p>
+    </div>
+    <div class="box good">
+      <h4>After</h4>
+      <p>CZ item · monthly index by sub-category · event-anchored build-up plan · service level set by margin. Result: buffer sits where the demand is, and the quiet months hold almost nothing.</p>
+    </div>
+  </div>
+
+  <h2>Where this breaks</h2>
+
+  <p><strong>You need enough event history.</strong> Two or three observations of one event is a thin basis for an index. Where history is short, borrow the shape from a comparable SKU in the same sub-category and scale it — an assumption you state openly rather than a number you pretend is measured.</p>
+
+  <p><strong>Some events move.</strong> Eid shifts about eleven days earlier each Gregorian year, so a monthly index anchored to calendar months will drift out of alignment within a couple of years. Fixed-date events like National Day and New Year are stable; lunar events need to be indexed relative to the event date instead. That is a different mechanism and it is worth handling separately.</p>
+
+  <p><strong>Chasing lumpy demand at SKU level can overfit.</strong> With single-digit monthly numbers, one unusual corporate order can look like seasonality. Fit the profile at sub-category level where the sample is larger, then apply it down to the SKU — more robust than fitting twelve parameters to sixty-four observations.</p>
+
+  <p><strong>The upside is capped by shelf life and obsolescence.</strong> Event-specific packaging that misses its event is often worth very little afterwards. The higher service level is justified by margin, but only up to the point where the write-off risk on unsold event stock overtakes it. That trade-off deserves an explicit number, not an instinct.</p>
+
+  <div class="callout">
+    <p><strong>The takeaway:</strong> the problem was never that the SKU was hard to forecast. It was that the system asked the wrong question. "How many does this sell per month?" has no useful answer for an event-driven item. "When does it sell, and how much in that window?" has a very good one — and the data to answer it was sitting in the history the whole time.</p>
+  </div>
+
+  <div class="tags">
+    <span class="tag">ABC Analysis</span><span class="tag">ABC-XYZ</span><span class="tag">Seasonal Index</span><span class="tag">Lumpy Demand</span><span class="tag">Inventory Segmentation</span><span class="tag">GCC Retail</span>
+  </div>
+
+  <div class="cta-block">
+    <h3>Work out what the buffer should actually be</h3>
+    <p>Once the SKU is classified as CZ with an event-anchored profile, the next question is how much to hold in the build-up window. The safety stock and reorder point calculators take the variability directly.</p>
+    <a href="supply-chain-calculators.html" class="btn-cta">Open the calculators →</a>
+  </div>
+
+
+  <!-- Related reading -->
+  <aside style="margin:56px 0 8px;padding-top:30px;border-top:1px solid rgba(255,255,255,.09)">
+    <h2 style="font-size:.78rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8892b0;margin-bottom:18px">Related reading</h2>
+    <div style="display:grid;gap:10px"><a href="ramadan-demand-planning-gcc.html" style="display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:9px;color:#ccd6f6;text-decoration:none;font-size:.88rem;line-height:1.5;font-weight:600"><span style="color:#00d4a8;flex-shrink:0">→</span><span>Ramadan Demand Planning — Why Your Model Breaks</span></a><a href="why-demand-planning-is-broken-in-gcc.html" style="display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:9px;color:#ccd6f6;text-decoration:none;font-size:.88rem;line-height:1.5;font-weight:600"><span style="color:#00d4a8;flex-shrink:0">→</span><span>Why Demand Planning Is Still Broken in the GCC</span></a><a href="ai-in-demand-planning-hype-vs-reality.html" style="display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:9px;color:#ccd6f6;text-decoration:none;font-size:.88rem;line-height:1.5;font-weight:600"><span style="color:#00d4a8;flex-shrink:0">→</span><span>Where AI Genuinely Changes Demand Planning</span></a></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px">
+      <a href="insights.html" style="display:inline-flex;align-items:center;gap:7px;font-size:.83rem;font-weight:700;color:#00d4a8;text-decoration:none;border:1px solid rgba(0,212,168,.35);background:rgba(0,212,168,.08);padding:9px 17px;border-radius:8px">All insights <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="supply-chain-calculators.html" style="display:inline-flex;align-items:center;gap:7px;font-size:.83rem;font-weight:700;color:#a78bfa;text-decoration:none;border:1px solid rgba(167,139,250,.35);background:rgba(167,139,250,.08);padding:9px 17px;border-radius:8px">Free calculators <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="the-corridor.html" style="display:inline-flex;align-items:center;gap:7px;font-size:.83rem;font-weight:700;color:#8892b0;text-decoration:none;border:1px solid rgba(255,255,255,.14);padding:9px 17px;border-radius:8px">The Corridor <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </aside>
+</article>
+
+</body>
+</html>

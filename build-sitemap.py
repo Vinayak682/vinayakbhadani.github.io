@@ -23,6 +23,9 @@ RULES = {
     "supply-chain-calculators.html": (0.9, "weekly"),
     "the-corridor.html": (0.9, "weekly"),
     # Articles
+    "abc-classification-seasonal-index-trap.html": (0.9, "monthly"),
+    "ramadan-demand-planning-gcc.html": (0.9, "monthly"),
+    "red-sea-rerouting-planning-math.html": (0.9, "monthly"),
     "why-demand-planning-is-broken-in-gcc.html": (0.8, "monthly"),
     "why-sop-processes-fail.html": (0.8, "monthly"),
     "financial-cost-of-weak-supply-chain.html": (0.8, "monthly"),
