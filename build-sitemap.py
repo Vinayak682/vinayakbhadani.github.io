@@ -18,7 +18,8 @@ TODAY = datetime.date.today().isoformat()
 # priority / changefreq by page role. Anything unlisted falls back to DEFAULT.
 DEFAULT = (0.6, "monthly")
 RULES = {
-    # Tools — the organic-traffic engine
+    # Hubs and tools — the organic-traffic engine
+    "insights.html": (0.9, "weekly"),
     "supply-chain-calculators.html": (0.9, "weekly"),
     "the-corridor.html": (0.9, "weekly"),
     # Articles

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Insights — Demand Planning &amp; Supply Chain, GCC</title>
+<meta name="description" content="Field notes on demand planning, S&amp;OP and supply chain risk from Dubai — written from inside GCC operations. Ramadan demand, Red Sea rerouting, forecast accuracy and the financial case for planning."/>
+<meta name="keywords" content="demand planning insights, supply chain articles GCC, S&OP articles, demand forecasting UAE, supply chain blog Dubai"/>
+<meta name="author" content="Vinayak Bhadani"/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://vinayak682.github.io/vinayakbhadani.github.io/insights.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Insights — Demand Planning &amp; Supply Chain, GCC"/>
+<meta property="og:description" content="Field notes on demand planning, S&amp;OP and supply chain risk, written from inside GCC operations."/>
+<meta property="og:url" content="https://vinayak682.github.io/vinayakbhadani.github.io/insights.html"/>
+<meta property="og:image" content="https://vinayak682.github.io/vinayakbhadani.github.io/og-preview.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Insights — Demand Planning &amp; Supply Chain, GCC"/>
+<meta property="og:site_name" content="Vinayak Bhadani"/>
+<meta property="og:locale" content="en_GB"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Insights — Demand Planning &amp; Supply Chain, GCC"/>
+<meta name="twitter:description" content="Field notes on demand planning, S&amp;OP and supply chain risk, written from inside GCC operations."/>
+<meta name="twitter:image" content="https://vinayak682.github.io/vinayakbhadani.github.io/og-preview.png"/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-08JD9489HY"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-08JD9489HY');document.addEventListener('click',function(e){if(e.target.closest('[id$="-cv-btn"]'))gtag('event','cv_download',{event_category:'engagement'});if(e.target.href&&e.target.href.includes('linkedin'))gtag('event','linkedin_click',{event_category:'engagement'});});</script>
+<style>
+:root{--bg0:#020c1b;--bg1:#0a1628;--bg2:#112240;--bg3:#1d3461;--teal:#00d4a8;--gold:#f59e0b;--purple:#a78bfa;--txt:#ccd6f6;--txt2:#8892b0;--white:#e6f1ff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg0);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--teal);text-decoration:none}
+img{max-width:100%;height:auto}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(2,12,27,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-brand{font-size:.85rem;font-weight:700;color:var(--white)}
+.nav-links{display:flex;gap:20px;font-size:.8rem;flex-wrap:wrap}
+.nav-links a{color:var(--txt2);transition:color .2s}
+.nav-links a:hover,.nav-links a[aria-current]{color:var(--teal)}
+
+/* BREADCRUMB */
+.crumb{max-width:1080px;margin:0 auto;padding:18px 24px 0;font-size:.75rem;color:var(--txt2)}
+.crumb a{color:var(--txt2)}.crumb a:hover{color:var(--teal)}
+.crumb span{margin:0 7px;opacity:.5}
+
+/* HERO */
+.hero{max-width:1080px;margin:0 auto;padding:26px 24px 44px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,168,.08);border:1px solid rgba(0,212,168,.3);color:var(--teal);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:20px}
+.hero h1{font-size:clamp(1.9rem,4.5vw,2.9rem);font-weight:800;color:var(--white);line-height:1.15;margin-bottom:16px;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p{font-size:1.03rem;color:var(--txt2);max-width:660px;line-height:1.75}
+
+/* GRID */
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 72px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:20px}
+.card{display:flex;flex-direction:column;background:linear-gradient(160deg,var(--bg1),var(--bg2));border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:26px 24px 22px;transition:border-color .22s,transform .22s;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 auto auto 0;width:100%;height:2px;background:linear-gradient(90deg,var(--teal),transparent);opacity:0;transition:opacity .22s}
+.card:hover{border-color:rgba(0,212,168,.4);transform:translateY(-3px)}
+.card:hover::before{opacity:1}
+.card-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:.72rem;color:var(--txt2);margin-bottom:12px;letter-spacing:.04em}
+.card h2{font-size:1.12rem;line-height:1.35;font-weight:700;color:var(--white);margin-bottom:11px;letter-spacing:-.01em}
+.card h2 a{color:inherit}
+.card:hover h2 a{color:var(--teal)}
+.card p{font-size:.88rem;color:var(--txt2);line-height:1.68;margin-bottom:16px;flex:1}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.tag{font-size:.68rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--purple);background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);padding:3px 9px;border-radius:5px}
+.read{display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:700;color:var(--teal);margin-top:auto}
+.card:hover .read svg{transform:translateX(3px)}
+.read svg{transition:transform .2s}
+
+/* SECTION LABEL */
+.sec{display:flex;align-items:baseline;gap:14px;margin:0 0 22px}
+.sec h3{font-size:.78rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--txt2)}
+.sec .rule{flex:1;height:1px;background:rgba(255,255,255,.09)}
+.sec + .grid{margin-bottom:52px}
+
+/* CTA BAND */
+.band{max-width:1080px;margin:0 auto 72px;padding:0 24px}
+.band-inner{background:linear-gradient(135deg,rgba(0,212,168,.08),rgba(167,139,250,.06));border:1px solid rgba(0,212,168,.25);border-radius:16px;padding:34px 30px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.band h3{font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:8px}
+.band p{font-size:.9rem;color:var(--txt2);max-width:520px}
+.band-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;font-weight:700;padding:11px 20px;border-radius:9px;border:1px solid rgba(0,212,168,.4);color:var(--teal);background:rgba(0,212,168,.09);transition:background .2s,transform .2s;white-space:nowrap}
+.btn:hover{background:rgba(0,212,168,.18);transform:translateY(-1px)}
+.btn.alt{border-color:rgba(167,139,250,.4);color:var(--purple);background:rgba(167,139,250,.09)}
+.btn.alt:hover{background:rgba(167,139,250,.18)}
+
+footer{border-top:1px solid rgba(255,255,255,.07);padding:30px 24px 44px;text-align:center;font-size:.78rem;color:var(--txt2)}
+footer a{color:var(--txt2)}footer a:hover{color:var(--teal)}
+
+@media(max-width:720px){
+  .band-inner{grid-template-columns:1fr}
+  .nav{padding:12px 18px;gap:12px}
+  .nav-brand{white-space:nowrap;font-size:.8rem}
+  .nav-links{gap:13px;font-size:.75rem;justify-content:flex-end}
+}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":"Insights — Demand Planning & Supply Chain, GCC","description":"Field notes on demand planning, S&OP and supply chain risk from inside GCC operations.","url":"https://vinayak682.github.io/vinayakbhadani.github.io/insights.html","inLanguage":"en-GB","author":{"@type":"Person","@id":"https://vinayak682.github.io/vinayakbhadani.github.io/#person","name":"Vinayak Bhadani"},"mainEntity":{"@type":"ItemList","itemListOrder":"https://schema.org/ItemListOrderDescending","numberOfItems":8,"itemListElement":[
+{"@type":"ListItem","position":1,"url":"https://vinayak682.github.io/vinayakbhadani.github.io/why-demand-planning-is-broken-in-gcc.html","name":"Why Demand Planning Is Still Broken in the GCC"},
+{"@type":"ListItem","position":2,"url":"https://vinayak682.github.io/vinayakbhadani.github.io/why-sop-processes-fail.html","name":"Why Most S&OP Processes Fail"},
+{"@type":"ListItem","position":3,"url":"https://vinayak682.github.io/vinayakbhadani.github.io/financial-cost-of-weak-supply-chain.html","name":"The Real Financial Cost of a Weak Supply Chain"},
+{"@type":"ListItem","position":4,"url":"https://vinayak682.github.io/vinayakbhadani.github.io/supply-chain-resilience-conflict-zones.html","name":"Supply Chain Resilience Between Three Conflict Zones"},
+{"@type":"ListItem","position":5,"url":"https://vinayak682.github.io/vinayakbhadani.github.io/ai-in-demand-planning-hype-vs-reality.html","name":"Where AI Genuinely Changes Demand Planning"},
+{"@type":"ListItem","position":6,"url":"https://vinayak682.github.io/vinayakbhadani.github.io/execution-vs-transformation-supply-chain.html","name":"Execution vs Transformation in Supply Chain"},
+{"@type":"ListItem","position":7,"url":"https://vinayak682.github.io/vinayakbhadani.github.io/war-conflict-supply-chain.html","name":"War, Conflict & Supply Chain Disruption"},
+{"@type":"ListItem","position":8,"url":"https://vinayak682.github.io/vinayakbhadani.github.io/digital-twin-concept-study.html","name":"Digital Twin for GCC FMCG Supply Chains"}]}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"https://vinayak682.github.io/vinayakbhadani.github.io/"},
+{"@type":"ListItem","position":2,"name":"Insights","item":"https://vinayak682.github.io/vinayakbhadani.github.io/insights.html"}]}
+</script>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">Vinayak Bhadani</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="insights.html" aria-current="page">Insights</a>
+    <a href="supply-chain-calculators.html">Calculators</a>
+    <a href="the-corridor.html">Newsletter</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</nav>
+
+<div class="crumb">
+  <a href="index.html">Home</a><span>›</span>Insights
+</div>
+
+<header class="hero">
+  <p class="eyebrow">Field Notes</p>
+  <h1>Demand planning, written from <em>inside</em> the operation.</h1>
+  <p>Not commentary. These are the problems I have actually had to solve running planning across China–MENA–GCC: Ramadan demand curves that break standard seasonality, Red Sea rerouting that rewrites your safety stock overnight, and S&amp;OP meetings that quietly turn into reporting sessions. Written for practitioners, not for search engines.</p>
+</header>
+
+<main class="wrap">
+
+  <div class="sec"><h3>Demand Planning &amp; S&amp;OP</h3><div class="rule"></div></div>
+  <div class="grid">
+
+    <article class="card">
+      <div class="card-meta"><span>15 June 2026</span><span>·</span><span>6 min read</span></div>
+      <h2><a href="why-demand-planning-is-broken-in-gcc.html">Why Demand Planning Is Still Broken in the GCC — And What Good Actually Looks Like</a></h2>
+      <p>Most GCC demand planning is still “last year plus a percentage.” Here's why that persists — and what genuinely good planning looks like against Ramadan surges, 90-day lead times and key-account concentration risk.</p>
+      <div class="tags"><span class="tag">Demand Planning</span><span class="tag">GCC</span><span class="tag">S&amp;OP</span></div>
+      <a class="read" href="why-demand-planning-is-broken-in-gcc.html">Read the article <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span>15 June 2026</span><span>·</span><span>7 min read</span></div>
+      <h2><a href="why-sop-processes-fail.html">Why Most S&amp;OP Processes Fail — And What a Real Transformation Looks Like</a></h2>
+      <p>S&amp;OP fails for one reason almost every time: it becomes a reporting meeting instead of a decision-making forum. Here's the architecture that changes that, and what 18 months of transformation actually looked like.</p>
+      <div class="tags"><span class="tag">S&amp;OP</span><span class="tag">Process Design</span><span class="tag">Transformation</span></div>
+      <a class="read" href="why-sop-processes-fail.html">Read the article <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span>15 June 2026</span><span>·</span><span>6 min read</span></div>
+      <h2><a href="ai-in-demand-planning-hype-vs-reality.html">Where AI Genuinely Changes Demand Planning — And Where the Hype Gets Ahead</a></h2>
+      <p>AI meaningfully improves demand planning in three places. Where the hype outruns reality is the assumption that better algorithms remove the need for human judgment. An honest assessment from someone who builds both.</p>
+      <div class="tags"><span class="tag">AI Forecasting</span><span class="tag">Machine Learning</span><span class="tag">Demand Planning</span></div>
+      <a class="read" href="ai-in-demand-planning-hype-vs-reality.html">Read the article <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+
+  </div>
+
+  <div class="sec"><h3>Risk &amp; Resilience</h3><div class="rule"></div></div>
+  <div class="grid">
+
+    <article class="card">
+      <div class="card-meta"><span>15 June 2026</span><span>·</span><span>7 min read</span></div>
+      <h2><a href="supply-chain-resilience-conflict-zones.html">Supply Chain Resilience When Your Region Sits Between Three Conflict Zones</a></h2>
+      <p>The UAE sits 33km from the Strait of Hormuz, beside a Red Sea corridor that saw +323% freight rates, and dependent on Black Sea wheat. Resilience here is not a backup plan in a drawer — here's what it actually requires.</p>
+      <div class="tags"><span class="tag">Resilience</span><span class="tag">Geopolitical Risk</span><span class="tag">Red Sea</span></div>
+      <a class="read" href="supply-chain-resilience-conflict-zones.html">Read the article <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span>11 March 2026</span><span>·</span><span>7 min read</span><span>·</span><span>Research</span></div>
+      <h2><a href="war-conflict-supply-chain.html">War, Conflict &amp; Supply Chain Disruption</a></h2>
+      <p>A quantitative analysis of how geopolitical conflict translates into real cost and lead-time impact for GCC operators — with deep dives into the Red Sea crisis, the Ukraine-Russia war and Strait of Hormuz scenarios.</p>
+      <div class="tags"><span class="tag">Geopolitical Risk</span><span class="tag">Scenario Analysis</span><span class="tag">GCC</span></div>
+      <a class="read" href="war-conflict-supply-chain.html">Read the study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+
+  </div>
+
+  <div class="sec"><h3>Strategy &amp; Craft</h3><div class="rule"></div></div>
+  <div class="grid">
+
+    <article class="card">
+      <div class="card-meta"><span>15 June 2026</span><span>·</span><span>6 min read</span></div>
+      <h2><a href="financial-cost-of-weak-supply-chain.html">The Real Financial Cost of a Weak Supply Chain — How to Make the Case to a CFO</a></h2>
+      <p>A 5% forecast accuracy gain cuts emergency air freight by AED 800K–1.2M a year. A 10% reduction in inventory days releases AED 3–5M in working capital. How to build the case in numbers a CFO will act on.</p>
+      <div class="tags"><span class="tag">Supply Chain Finance</span><span class="tag">Working Capital</span><span class="tag">CFO</span></div>
+      <a class="read" href="financial-cost-of-weak-supply-chain.html">Read the article <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span>15 June 2026</span><span>·</span><span>6 min read</span></div>
+      <h2><a href="execution-vs-transformation-supply-chain.html">What Separates a Supply Chain Professional Who Executes From One Who Transforms</a></h2>
+      <p>Execution is necessary but not differentiating. Transformation means diagnosing why a system underperforms, designing a better one, and sustaining it when conditions shift. What that distinction looks like in practice.</p>
+      <div class="tags"><span class="tag">Leadership</span><span class="tag">Transformation</span><span class="tag">Career</span></div>
+      <a class="read" href="execution-vs-transformation-supply-chain.html">Read the article <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+
+    <article class="card">
+      <div class="card-meta"><span>11 March 2026</span><span>·</span><span>11 min read</span><span>·</span><span>Concept study</span></div>
+      <h2><a href="digital-twin-concept-study.html">Digital Twin for GCC FMCG Supply Chains</a></h2>
+      <p>A concept study simulating demand shocks, the container crisis and Red Sea disruption across a regional distribution network — built around what GCC distributors actually faced between 2020 and 2024.</p>
+      <div class="tags"><span class="tag">Digital Twin</span><span class="tag">Simulation</span><span class="tag">FMCG</span></div>
+      <a class="read" href="digital-twin-concept-study.html">Read the study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </article>
+
+  </div>
+</main>
+
+<section class="band">
+  <div class="band-inner">
+    <div>
+      <h3>Run the numbers yourself</h3>
+      <p>Free calculators for safety stock, EOQ, reorder point, MAPE, inventory turnover and carrying cost — no signup. Or get one operator's read on the Asia → Jebel Ali corridor each week.</p>
+    </div>
+    <div class="band-actions">
+      <a class="btn" href="supply-chain-calculators.html">Open the calculators →</a>
+      <a class="btn alt" href="the-corridor.html">The Corridor →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><a href="index.html">← Back to portfolio</a> &nbsp;·&nbsp; Vinayak Bhadani — Demand Planning Analyst, Dubai UAE</p>
+</footer>
+
+</body>
+</html>
