@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Signature Stack — preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* ════════════════════════════════════════════════════════════════
+   Preview shell — mirrors the index.html aurora tokens so the
+   stack below can be lifted out verbatim.
+   ════════════════════════════════════════════════════════════════ */
+:root{
+  --bg0:#04020e;--bg1:#080516;--bg2:#0e091f;
+  --t1:#f0f4ff;--t2:#8b9dc0;--t3:#3e5474;
+  --teal:#a78bfa;--cyan:#22d3ee;--gold:#f59e0b;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  margin:0;font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg0);color:var(--t1);line-height:1.65;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+/* fake nav — same 62px height as #nav .nav-i on the live site */
+.demo-nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:62px;
+  display:flex;align-items:center;padding:0 28px;
+  background:rgba(4,2,14,.88);backdrop-filter:blur(28px) saturate(1.4);
+  border-bottom:1px solid rgba(192,132,252,.1);
+  font-size:.82rem;font-weight:800;letter-spacing:-.01em;
+}
+.demo-nav span{background:linear-gradient(90deg,#f0f4ff,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.demo-pad{height:62px;}
+.demo-spacer{
+  min-height:70vh;display:flex;align-items:center;justify-content:center;
+  color:var(--t3);font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;
+}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
+
+
+/* ════════════════════════════════════════════════════════════════
+   SIGNATURE STACK  —  drop-in starts here
+   Pinned deck of flagship projects. Every card carries a full row
+   of tabs; only its own tab is painted, the rest hold their slot
+   invisibly so the row assembles itself as cards lock into place.
+   position:sticky only — no GSAP, no ScrollTrigger, no pin-spacers.
+   ════════════════════════════════════════════════════════════════ */
+.sigStack{
+  --stackTop:78px;                                        /* 62px nav + 16px air */
+  --cardH:min(552px, calc(100svh - var(--stackTop) - 40px));
+  --gap:64px;                                             /* scroll travel per card */
+  --tabH:46px;
+  position:relative;
+  padding:96px 0 40px;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(192,132,252,.07) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 60% at 85% 75%, rgba(34,211,238,.045) 0%, transparent 55%),
+    linear-gradient(180deg,var(--bg0) 0%,var(--bg1) 45%,var(--bg0) 100%);
+}
+.sigStack__head{margin-bottom:34px;}
+.sigStack__eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(192,132,252,.07);border:1px solid rgba(192,132,252,.25);
+  border-radius:20px;padding:6px 16px;font-size:.7rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:#c084fc;margin-bottom:16px;
+}
+.sigStack__eyebrow::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:linear-gradient(135deg,#c084fc,#22d3ee);
+  animation:sigPulse 2s infinite;
+}
+@keyframes sigPulse{0%,100%{opacity:1}50%{opacity:.45}}
+.sigStack__title{
+  font-family:'Outfit',system-ui,sans-serif;
+  font-size:clamp(1.9rem,4.2vw,3rem);font-weight:900;
+  letter-spacing:-.03em;line-height:1.08;margin:0 0 12px;
+}
+.sigStack__title em{
+  font-style:normal;
+  background:linear-gradient(100deg,#c084fc,#22d3ee 60%,#34d399);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sigStack__sub{max-width:62ch;color:var(--t2);font-size:.92rem;margin:0;}
+
+.sigStack__wrapper{position:relative;}
+
+/* ── the card ─────────────────────────────────────────────────── */
+.sigCard{
+  position:sticky;
+  top:var(--stackTop);
+  height:var(--cardH);
+  display:flex;flex-direction:column;
+  margin-bottom:var(--gap);
+}
+.sigCard:last-child{margin-bottom:0;}
+
+/* ── tab row: one FULL row per card ───────────────────────────── */
+.sigCard__tabs{
+  display:flex;align-items:flex-end;position:relative;
+  height:var(--tabH);flex:0 0 var(--tabH);           /* fixed — equal rows keep the illusion aligned */
+  padding-left:2px;
+}
+.sigCard__tab{
+  position:relative;overflow:hidden;
+  border:1px solid rgba(var(--c-rgb),.34);border-bottom:0;
+  border-radius:13px 13px 0 0;
+  padding:0 18px;height:38px;
+  display:inline-flex;align-items:center;gap:8px;
+  background:
+    linear-gradient(180deg, rgba(var(--c-rgb),.26), rgba(var(--c-rgb),.11)),
+    linear-gradient(180deg,#0d0722,#0d0722);          /* opaque floor — no bleed-through */
+  color:rgb(var(--c-rgb));
+  font:800 .7rem/1 'Inter',system-ui,sans-serif;
+  letter-spacing:.13em;text-transform:uppercase;
+  cursor:pointer;white-space:nowrap;
+  transition:transform .38s cubic-bezier(.22,.61,.36,1),
+             filter .28s ease, box-shadow .28s ease;
+}
+.sigCard__tab + .sigCard__tab{margin-left:-9px;}      /* the overlap */
+.sigCard__tab__idx{
+  font-size:.6rem;opacity:.6;font-variant-numeric:tabular-nums;
+}
+/* scrub rail — fills across the tab as you travel through its card */
+.sigCard__tab__rail{
+  position:absolute;left:0;bottom:0;height:2px;width:100%;
+  background:rgb(var(--c-rgb));
+  transform:scaleX(var(--p,0));transform-origin:left;
+  box-shadow:0 0 10px rgba(var(--c-rgb),.7);
+  transition:transform .12s linear;
+}
+.sigCard__tab:hover{filter:brightness(1.22);}
+.sigCard__tab:focus-visible{outline:2px solid rgb(var(--c-rgb));outline-offset:2px;}
+
+/* the key line: hidden, but still holds its slot */
+.sigCard__tab--ghost{opacity:0;visibility:hidden;pointer-events:none;}
+
+/* tabs of cards already buried recede; the pinned card's tab leads */
+.sigCard[data-state="passed"] .sigCard__tab.is-own{filter:saturate(.55) brightness(.72);}
+.sigCard[data-state="active"] .sigCard__tab.is-own{
+  transform:translateY(-3px);
+  box-shadow:0 -8px 26px rgba(var(--c-rgb),.22);
+}
+
+/* colored rim welding tab to card */
+.sigCard__line{
+  position:absolute;top:calc(100% - 8px);left:0;width:100%;height:110px;
+  border-radius:22px 22px 0 0;z-index:-1;
+  background:linear-gradient(180deg, rgb(var(--c-rgb)) 0%, rgba(var(--c-rgb),.42) 26%, rgba(var(--c-rgb),0) 62%);
+}
+
+/* ── body ─────────────────────────────────────────────────────── */
+.sigCard__body{
+  flex:1;min-height:0;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1fr 400px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  background:#0b0620;                                  /* MUST be opaque */
+  box-shadow:0 -1px 0 rgba(255,255,255,.05), 0 30px 90px rgba(0,0,0,.5);
+  transition:filter .5s ease, box-shadow .5s ease;
+}
+.sigCard__body::before{                                /* accent wash */
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 70% at 100% 0%, rgba(var(--c-rgb),.14), transparent 62%),
+    radial-gradient(ellipse 40% 50% at 0% 100%, rgba(var(--c-rgb),.06), transparent 60%);
+}
+/* buried cards dim — depth without transforms, so tabs stay aligned */
+.sigCard[data-state="passed"] .sigCard__body{filter:brightness(.62) saturate(.75);}
+.sigCard[data-state="active"] .sigCard__body{
+  box-shadow:0 -1px 0 rgba(var(--c-rgb),.28), 0 34px 100px rgba(0,0,0,.6),
+             0 0 0 1px rgba(var(--c-rgb),.16);
+}
+
+.sigCard__main{
+  position:relative;z-index:1;
+  padding:34px 34px 30px;display:flex;flex-direction:column;min-width:0;
+}
+.sigCard__meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:14px;}
+.sigCard__kind{
+  font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 11px;border-radius:12px;
+  color:rgb(var(--c-rgb));border:1px solid rgba(var(--c-rgb),.34);background:rgba(var(--c-rgb),.09);
+}
+.sigCard__live{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.58rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 10px;border-radius:11px;color:#4ade80;
+  background:rgba(34,197,94,.09);border:1px solid rgba(34,197,94,.26);
+}
+.sigCard__live::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;
+  box-shadow:0 0 8px #4ade80;animation:sigLive 2s ease-in-out infinite;
+}
+@keyframes sigLive{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.55}}
+
+.sigCard__title{
+  font-family:'Outfit',system-ui,sans-serif;
+  font-size:clamp(1.35rem,2.5vw,1.95rem);font-weight:900;
+  letter-spacing:-.025em;line-height:1.14;margin:0 0 8px;color:var(--t1);
+}
+.sigCard__hook{
+  font-size:.85rem;font-weight:600;font-style:italic;
+  color:rgb(var(--c-rgb));opacity:.92;margin:0 0 12px;
+}
+.sigCard__desc{
+  font-size:.85rem;color:var(--t2);line-height:1.72;margin:0 0 18px;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;
+}
+.sigCard__stats{
+  list-style:none;margin:0 0 18px;padding:0;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid rgba(255,255,255,.08);border-radius:13px;overflow:hidden;
+  background:rgba(255,255,255,.025);
+}
+.sigCard__stats li{padding:13px 12px;text-align:center;border-right:1px solid rgba(255,255,255,.06);}
+.sigCard__stats li:last-child{border-right:0;}
+.sigCard__stats b{
+  display:block;font-size:1.22rem;font-weight:900;line-height:1.1;
+  color:rgb(var(--c-rgb));font-variant-numeric:tabular-nums;margin-bottom:3px;
+}
+.sigCard__stats span{
+  font-size:.58rem;color:var(--t3);text-transform:uppercase;
+  letter-spacing:.09em;font-weight:700;
+}
+.sigCard__tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:20px;}
+.sigCard__tags i{
+  font-style:normal;font-size:.63rem;font-weight:600;padding:3px 9px;border-radius:9px;
+  color:rgba(var(--c-rgb),.82);background:rgba(var(--c-rgb),.06);
+  border:1px solid rgba(var(--c-rgb),.16);
+}
+.sigCard__cta{
+  position:relative;overflow:hidden;margin-top:auto;align-self:flex-start;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 24px;border-radius:11px;text-decoration:none;
+  font-size:.84rem;font-weight:800;
+  color:rgb(var(--c-rgb));
+  background:rgba(var(--c-rgb),.11);border:1px solid rgba(var(--c-rgb),.44);
+  transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.sigCard__cta::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:skewX(-20deg);
+}
+.sigCard__cta:hover::after{animation:sigSwipe .6s ease forwards;}
+@keyframes sigSwipe{to{left:180%}}
+.sigCard__cta:hover{
+  transform:translateY(-2px);background:rgba(var(--c-rgb),.17);
+  box-shadow:0 14px 34px rgba(0,0,0,.45),0 0 26px rgba(var(--c-rgb),.14);
+}
+.sigCard__cta svg{width:14px;height:14px;fill:currentColor;transition:transform .2s;}
+.sigCard__cta:hover svg{transform:translate(3px,-2px);}
+
+/* ── right rail visual ────────────────────────────────────────── */
+.sigCard__viz{
+  position:relative;z-index:1;
+  border-left:1px solid rgba(255,255,255,.06);
+  background:linear-gradient(150deg, rgba(var(--c-rgb),.055), rgba(4,2,14,.85));
+  display:flex;align-items:center;justify-content:center;padding:26px;
+}
+.sigCard__viz svg{width:100%;height:auto;max-height:100%;}
+.sigCard__vizFrame{
+  width:100%;border:1px solid rgba(255,255,255,.09);border-radius:15px;
+  background:rgba(4,2,14,.72);padding:18px;
+  box-shadow:0 22px 60px rgba(0,0,0,.45);
+}
+.sigCard__vizHead{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.55rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;
+  color:rgb(var(--c-rgb));margin-bottom:14px;
+}
+.sigCard__vizHead b{color:var(--t1);font-size:.62rem;}
+/* draw-on once the card is pinned */
+.sigCard [data-draw]{stroke-dasharray:var(--len,400);stroke-dashoffset:var(--len,400);}
+.sigCard[data-seen="1"] [data-draw]{transition:stroke-dashoffset 1.1s cubic-bezier(.22,.61,.36,1) .12s;stroke-dashoffset:0;}
+.sigCard [data-rise]{transform:scaleY(0);transform-origin:bottom;}
+.sigCard[data-seen="1"] [data-rise]{transition:transform .7s cubic-bezier(.22,.61,.36,1) var(--d,0s);transform:scaleY(1);}
+
+/* content settles in as the card becomes active */
+.sigCard__main > *{opacity:.4;transform:translateY(10px);transition:opacity .5s ease, transform .5s cubic-bezier(.22,.61,.36,1);}
+.sigCard[data-state="active"] .sigCard__main > *{opacity:1;transform:none;}
+.sigCard[data-state="active"] .sigCard__main > *:nth-child(2){transition-delay:.04s;}
+.sigCard[data-state="active"] .sigCard__main > *:nth-child(3){transition-delay:.08s;}
+.sigCard[data-state="active"] .sigCard__main > *:nth-child(4){transition-delay:.12s;}
+.sigCard[data-state="active"] .sigCard__main > *:nth-child(5){transition-delay:.16s;}
+.sigCard[data-state="active"] .sigCard__main > *:nth-child(6){transition-delay:.2s;}
+
+/* ── deck footer: jump straight to the full grid ──────────────── */
+.sigStack__foot{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  margin-top:34px;color:var(--t3);font-size:.72rem;
+  letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+}
+.sigStack__foot::before,.sigStack__foot::after{
+  content:'';height:1px;flex:1;max-width:180px;
+  background:linear-gradient(90deg,transparent,rgba(192,132,252,.28),transparent);
+}
+
+/* ── tablet / mobile: no stacking, plain list, own tab only ───── */
+@media (max-width:1023px){
+  .sigStack{--cardH:auto;}
+  .sigCard{position:static;height:auto;margin-bottom:22px;}
+  .sigCard__tab--ghost{display:none;}
+  .sigCard__body{grid-template-columns:1fr;overflow:visible;}
+  .sigCard__main{padding:26px 20px 24px;}
+  .sigCard__desc{-webkit-line-clamp:unset;}
+  .sigCard__viz{border-left:0;border-top:1px solid rgba(255,255,255,.06);padding:20px;}
+  .sigCard__main > *{opacity:1;transform:none;}
+  .sigCard[data-state="passed"] .sigCard__body{filter:none;}
+  .sigCard[data-state="passed"] .sigCard__tab.is-own{filter:none;}
+}
+@media (max-width:560px){
+  .sigCard__stats{grid-template-columns:repeat(3,1fr);}
+  .sigCard__stats b{font-size:1rem;}
+  .sigCard__title{font-size:1.25rem;}
+}
+@media (prefers-reduced-motion: reduce){
+  .sigStack{--cardH:auto;}
+  .sigCard{position:static;height:auto;}
+  .sigCard__tab--ghost{display:none;}
+  .sigCard__body{overflow:visible;}
+  .sigCard__main > *{opacity:1;transform:none;transition:none;}
+  .sigCard [data-draw]{stroke-dashoffset:0;}
+  .sigCard [data-rise]{transform:scaleY(1);}
+  .sigCard__tab,.sigCard__tab__rail{transition:none;}
+}
+</style>
+</head>
+<body>
+
+<nav class="demo-nav"><span>Vinayak Bhadani — preview shell (62px nav, same as live)</span></nav>
+<div class="demo-pad"></div>
+<div class="demo-spacer">scroll ↓</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SIGNATURE STACK
+     Only data-label + data-color are required per card — the tab
+     rows are generated, so tab markup is never duplicated by hand.
+     ══════════════════════════════════════════════════════════════ -->
+<section class="sigStack" id="signature" aria-label="Signature projects">
+  <div class="wrap">
+
+    <div class="sigStack__head">
+      <div class="sigStack__eyebrow">Signature Work</div>
+      <h2 class="sigStack__title">Five projects that <em>carry the whole case</em></h2>
+      <p class="sigStack__sub">The full seventeen are below. These five are the ones worth ten minutes — each one live, interactive, and built end to end. Scroll to deal them out, or click any tab to jump.</p>
+    </div>
+
+    <div class="sigStack__wrapper" id="sigWrapper">
+
+      <!-- 1 ─────────────────────────────────────────────────── -->
+      <article class="sigCard" data-label="Strategy Sim" data-color="#c084fc" data-id="gambit">
+        <div class="sigCard__body">
+          <div class="sigCard__main">
+            <div class="sigCard__meta">
+              <span class="sigCard__kind">Strategy Simulation · GCC/MENA</span>
+              <span class="sigCard__live">60-case engine</span>
+            </div>
+            <h3 class="sigCard__title">The GCC Planning Gambit</h3>
+            <p class="sigCard__hook">“Sixty disruptions. Six turns. Every move changes what becomes possible next.”</p>
+            <p class="sigCard__desc">A playable supply-chain strategy engine. Navigate randomised GCC and MENA disruptions across retail, quick commerce, FMCG, pharma, automotive and cold chain. Decisions move service, cash, inventory and risk, trigger control-room consequences, and close with a framework-based evaluation of how you actually plan.</p>
+            <ul class="sigCard__stats">
+              <li><b data-count="60">0</b><span>Business cases</span></li>
+              <li><b data-count="10">0</b><span>Verticals</span></li>
+              <li><b data-count="6">0</b><span>Strategy dimensions</span></li>
+            </ul>
+            <div class="sigCard__tags"><i>S&amp;OP Strategy</i><i>Scenario Planning</i><i>Decision Evaluation</i><i>GCC Operations</i></div>
+            <a class="sigCard__cta" href="./gcc-nexus-control-tower.html" target="_blank" rel="noopener">Play the flagship game <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="sigCard__viz" aria-hidden="true">
+            <div class="sigCard__vizFrame">
+              <div class="sigCard__vizHead"><span>Strategy scorecard</span><b>76 / 100</b></div>
+              <div style="display:grid;gap:11px">
+                <div><div style="display:flex;justify-content:space-between;font-size:.6rem;color:var(--t2)"><span>Service orientation</span><b style="color:#34d399">84</b></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:5px;overflow:hidden"><i data-rise style="--d:.05s;display:block;width:84%;height:100%;background:#34d399;border-radius:4px"></i></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:.6rem;color:var(--t2)"><span>Financial discipline</span><b style="color:#f59e0b">68</b></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:5px;overflow:hidden"><i data-rise style="--d:.12s;display:block;width:68%;height:100%;background:#f59e0b;border-radius:4px"></i></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:.6rem;color:var(--t2)"><span>Network resilience</span><b style="color:#22d3ee">79</b></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:5px;overflow:hidden"><i data-rise style="--d:.19s;display:block;width:79%;height:100%;background:#22d3ee;border-radius:4px"></i></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:.6rem;color:var(--t2)"><span>Strategic optionality</span><b style="color:#c084fc">73</b></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:5px;overflow:hidden"><i data-rise style="--d:.26s;display:block;width:73%;height:100%;background:#c084fc;border-radius:4px"></i></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:.6rem;color:var(--t2)"><span>Decision governance</span><b style="color:#818cf8">71</b></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:5px;overflow:hidden"><i data-rise style="--d:.33s;display:block;width:71%;height:100%;background:#818cf8;border-radius:4px"></i></div></div>
+              </div>
+              <div style="margin-top:15px;padding:9px 11px;border-left:2px solid #c084fc;background:rgba(192,132,252,.06);font-size:.6rem;line-height:1.5;color:var(--t2)"><b style="color:var(--t1)">Consequence-led planner</b><br>Strong cross-market segmentation, improving financial discipline.</div>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+      <!-- 2 ─────────────────────────────────────────────────── -->
+      <article class="sigCard" data-label="S&amp;OP Copilot" data-color="#60a5fa" data-id="supplymind">
+        <div class="sigCard__body">
+          <div class="sigCard__main">
+            <div class="sigCard__meta">
+              <span class="sigCard__kind">AI SaaS · Live Product</span>
+              <span class="sigCard__live">Live app</span>
+            </div>
+            <h3 class="sigCard__title">SupplyMind — AI S&amp;OP Copilot</h3>
+            <p class="sigCard__hook">“Runs Sunday night — delivers your Monday brief before you wake up.”</p>
+            <p class="sigCard__desc">An S&amp;OP briefing-pack generator built for UAE and GCC manufacturers. It pulls live data from SAP B1, Zoho and Excel, then emails the decisions needed, forecast variance, inventory alerts and risk flags before the Monday 8 AM meeting — replacing the three-hour session that produced nothing.</p>
+            <ul class="sigCard__stats">
+              <li><b>Claude API</b><span>AI engine</span></li>
+              <li><b>Next.js 16</b><span>Stack</span></li>
+              <li><b>UAE / GCC</b><span>Market</span></li>
+            </ul>
+            <div class="sigCard__tags"><i>Claude API</i><i>Supabase</i><i>Next.js 16</i><i>S&amp;OP</i><i>TypeScript</i></div>
+            <a class="sigCard__cta" href="https://sop-copilot.vercel.app" target="_blank" rel="noopener">Open the live app <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="sigCard__viz" aria-hidden="true">
+            <div class="sigCard__vizFrame">
+              <div class="sigCard__vizHead"><span>Monday brief · auto-generated</span><b>07:42</b></div>
+              <div style="display:grid;gap:9px;font-size:.63rem;color:var(--t2)">
+                <div style="display:flex;gap:9px;align-items:flex-start;padding:9px 11px;border-radius:9px;background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.18)"><span style="color:#60a5fa;font-weight:900">01</span><span><b style="color:var(--t1)">3 decisions needed</b><br>SKU-4471 reorder · line 2 capacity · Q3 phase-in</span></div>
+                <div style="display:flex;gap:9px;align-items:flex-start;padding:9px 11px;border-radius:9px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.18)"><span style="color:#f59e0b;font-weight:900">02</span><span><b style="color:var(--t1)">Forecast variance +14%</b><br>Two families drifting above plan</span></div>
+                <div style="display:flex;gap:9px;align-items:flex-start;padding:9px 11px;border-radius:9px;background:rgba(244,63,94,.06);border:1px solid rgba(244,63,94,.18)"><span style="color:#fb7185;font-weight:900">03</span><span><b style="color:var(--t1)">2 stockout risks</b><br>Cover below 9 days at Jebel Ali</span></div>
+                <div style="display:flex;gap:9px;align-items:flex-start;padding:9px 11px;border-radius:9px;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.18)"><span style="color:#34d399;font-weight:900">04</span><span><b style="color:var(--t1)">OTIF 96.1%</b><br>Held for a fourth consecutive week</span></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+      <!-- 3 ─────────────────────────────────────────────────── -->
+      <article class="sigCard" data-label="Demand AI" data-color="#34d399" data-id="surge">
+        <div class="sigCard__body">
+          <div class="sigCard__main">
+            <div class="sigCard__meta">
+              <span class="sigCard__kind">AI SaaS · Live Product</span>
+              <span class="sigCard__live">Live app</span>
+            </div>
+            <h3 class="sigCard__title">GCC Event Surge Planner</h3>
+            <p class="sigCard__hook">“Ramadan shifts eleven days a year — generic tools miss the peak every time.”</p>
+            <p class="sigCard__desc">A demand forecasting engine built specifically for GCC event volatility. Pre-seeded with Ramadan, Eid, Dubai Shopping Festival, White Friday and UAE National Day through 2027, with proven surge multipliers. Returns per-SKU forecasts with confidence bands and the order date you need to hit, before the surge arrives.</p>
+            <ul class="sigCard__stats">
+              <li><b data-count="5">0</b><span>GCC events</span></li>
+              <li><b>Per-SKU</b><span>Forecasts</span></li>
+              <li><b>2025–27</b><span>Pre-seeded</span></li>
+            </ul>
+            <div class="sigCard__tags"><i>Claude API</i><i>Ramadan</i><i>GCC Events</i><i>Next.js 16</i><i>Supabase</i></div>
+            <a class="sigCard__cta" href="https://event-surge-planner.vercel.app" target="_blank" rel="noopener">Open the live app <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="sigCard__viz" aria-hidden="true">
+            <div class="sigCard__vizFrame">
+              <div class="sigCard__vizHead"><span>Ramadan surge · per-SKU</span><b>×2.8 peak</b></div>
+              <svg viewBox="0 0 340 150" role="img">
+                <defs>
+                  <linearGradient id="surgeBand" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#34d399" stop-opacity=".28"/>
+                    <stop offset="100%" stop-color="#34d399" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="40" x2="340" y2="40" stroke="rgba(255,255,255,.05)"/>
+                <line x1="0" y1="80" x2="340" y2="80" stroke="rgba(255,255,255,.05)"/>
+                <line x1="0" y1="120" x2="340" y2="120" stroke="rgba(255,255,255,.05)"/>
+                <!-- confidence band -->
+                <path d="M8 112 L60 106 L104 96 L140 70 L172 26 L204 34 L240 74 L280 96 L332 104 L332 132 L280 124 L240 112 L204 92 L172 68 L140 104 L104 118 L60 124 L8 128 Z" fill="url(#surgeBand)"/>
+                <!-- baseline (generic tool) -->
+                <polyline data-draw style="--len:420" points="8,120 60,116 104,112 140,110 172,108 204,106 240,108 280,112 332,116" fill="none" stroke="#3e5474" stroke-width="1.8" stroke-dasharray="4,4"/>
+                <!-- surge-aware forecast -->
+                <polyline data-draw style="--len:460" points="8,120 60,115 104,104 140,87 172,47 204,63 240,93 280,104 332,110" fill="none" stroke="#34d399" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+                <circle cx="172" cy="47" r="4.5" fill="#34d399"><animate attributeName="r" values="4.5;7.5;4.5" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;.35;1" dur="2s" repeatCount="indefinite"/></circle>
+                <text x="172" y="20" fill="#34d399" font-size="9" font-weight="800" text-anchor="middle" letter-spacing="1.4">RAMADAN PEAK</text>
+                <text x="8" y="146" fill="#3e5474" font-size="8" font-weight="700" letter-spacing="1.2">W-8</text>
+                <text x="316" y="146" fill="#3e5474" font-size="8" font-weight="700" letter-spacing="1.2">W+4</text>
+              </svg>
+              <div style="margin-top:12px;display:flex;gap:14px;font-size:.55rem;font-weight:700;letter-spacing:.08em;color:var(--t3);text-transform:uppercase">
+                <span style="display:flex;align-items:center;gap:5px"><i style="width:14px;height:2px;background:#34d399;display:block"></i>Surge-aware</span>
+                <span style="display:flex;align-items:center;gap:5px"><i style="width:14px;height:2px;background:#3e5474;display:block"></i>Generic tool</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+      <!-- 4 ─────────────────────────────────────────────────── -->
+      <article class="sigCard" data-label="Forecasting" data-color="#22d3ee" data-id="mlforecast">
+        <div class="sigCard__body">
+          <div class="sigCard__main">
+            <div class="sigCard__meta">
+              <span class="sigCard__kind">AI Forecasting · Interactive</span>
+              <span class="sigCard__live">Live tool</span>
+            </div>
+            <h3 class="sigCard__title">ML Demand Forecasting Engine</h3>
+            <p class="sigCard__hook">“Traditional stats versus dynamic ML — price elasticity and marketing spend included.”</p>
+            <p class="sigCard__desc">An interactive engine that runs Holt-Winters against XGBoost and Prophet on the same series, then shows you where each one breaks. Models price elasticity, marketing budget and regional Ramadan peaks dynamically, cutting MAPE roughly in half against the statistical baseline.</p>
+            <ul class="sigCard__stats">
+              <li><b data-count="-50" data-suffix="%">0</b><span>Forecast error</span></li>
+              <li><b data-count="7.4" data-dec="1" data-suffix="%">0</b><span>ML MAPE</span></li>
+              <li><b>XGBoost</b><span>Feature model</span></li>
+            </ul>
+            <div class="sigCard__tags"><i>Prophet</i><i>XGBoost</i><i>Holt-Winters</i><i>Elasticity</i><i>Interactive</i></div>
+            <a class="sigCard__cta" href="./ml-demand-forecasting.html" target="_blank" rel="noopener">Open the engine <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="sigCard__viz" aria-hidden="true">
+            <div class="sigCard__vizFrame">
+              <div class="sigCard__vizHead"><span>MAPE · stat vs ML</span><b>14.9% → 7.4%</b></div>
+              <svg viewBox="0 0 340 150" role="img">
+                <line x1="0" y1="36" x2="340" y2="36" stroke="rgba(255,255,255,.05)"/>
+                <line x1="0" y1="76" x2="340" y2="76" stroke="rgba(255,255,255,.05)"/>
+                <line x1="0" y1="116" x2="340" y2="116" stroke="rgba(255,255,255,.05)"/>
+                <!-- actuals -->
+                <polyline data-draw style="--len:480" points="10,96 46,84 82,102 118,72 154,58 190,86 226,54 262,40 298,62 330,44" fill="none" stroke="#f0f4ff" stroke-width="2.2" stroke-opacity=".85" stroke-linejoin="round"/>
+                <!-- stat baseline -->
+                <polyline data-draw style="--len:480" points="10,104 46,98 82,90 118,94 154,84 190,96 226,80 262,72 298,84 330,74" fill="none" stroke="#3e5474" stroke-width="1.8" stroke-dasharray="4,4"/>
+                <!-- ML -->
+                <polyline data-draw style="--len:480" points="10,98 46,86 82,99 118,75 154,61 190,84 226,57 262,44 298,64 330,47" fill="none" stroke="#22d3ee" stroke-width="2.4" stroke-linejoin="round"/>
+                <circle cx="330" cy="47" r="4" fill="#22d3ee"><animate attributeName="opacity" values="1;.3;1" dur="1.8s" repeatCount="indefinite"/></circle>
+                <text x="10" y="142" fill="#3e5474" font-size="8" font-weight="700" letter-spacing="1.2">JAN</text>
+                <text x="308" y="142" fill="#3e5474" font-size="8" font-weight="700" letter-spacing="1.2">DEC</text>
+              </svg>
+              <div style="margin-top:12px;display:flex;gap:12px;font-size:.55rem;font-weight:700;letter-spacing:.08em;color:var(--t3);text-transform:uppercase;flex-wrap:wrap">
+                <span style="display:flex;align-items:center;gap:5px"><i style="width:14px;height:2px;background:#f0f4ff;display:block"></i>Actual</span>
+                <span style="display:flex;align-items:center;gap:5px"><i style="width:14px;height:2px;background:#22d3ee;display:block"></i>ML</span>
+                <span style="display:flex;align-items:center;gap:5px"><i style="width:14px;height:2px;background:#3e5474;display:block"></i>Holt-Winters</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+      <!-- 5 ─────────────────────────────────────────────────── -->
+      <article class="sigCard" data-label="Agentic AI" data-color="#f59e0b" data-id="agent">
+        <div class="sigCard__body">
+          <div class="sigCard__main">
+            <div class="sigCard__meta">
+              <span class="sigCard__kind">Agentic AI · Stateful</span>
+              <span class="sigCard__live">Ask it anything</span>
+            </div>
+            <h3 class="sigCard__title">Portfolio Intelligence Agent</h3>
+            <p class="sigCard__hook">“Ask me anything about Vinayak — grounded in real data, answered in seconds.”</p>
+            <p class="sigCard__desc">A stateful LangGraph agent that knows this entire portfolio — projects, skills, experience and live GitHub activity. Recruiters can ask in plain language, request a cover letter tailored to any JD, or get an honest gap analysis. RAG over live portfolio and GitHub data, persistent memory via Mem0, FastAPI backend.</p>
+            <ul class="sigCard__stats">
+              <li><b>LangGraph</b><span>Agent framework</span></li>
+              <li><b>FAISS</b><span>RAG retrieval</span></li>
+              <li><b>Mem0</b><span>Persistent memory</span></li>
+            </ul>
+            <div class="sigCard__tags"><i>LangGraph</i><i>Claude API</i><i>FAISS</i><i>Mem0</i><i>FastAPI</i><i>Gradio</i></div>
+            <a class="sigCard__cta" href="https://github.com/Vinayak682" target="_blank" rel="noopener">View on GitHub <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="sigCard__viz" aria-hidden="true">
+            <div class="sigCard__vizFrame">
+              <div class="sigCard__vizHead"><span>Agent graph</span><b>stateful</b></div>
+              <svg viewBox="0 0 340 168" role="img">
+                <g font-family="Inter,system-ui" font-size="8.5" font-weight="800" letter-spacing=".8">
+                  <!-- edges -->
+                  <path data-draw style="--len:80" d="M62 30 L62 62" stroke="#f59e0b" stroke-opacity=".5" stroke-width="1.6"/>
+                  <path data-draw style="--len:120" d="M104 78 L188 78" stroke="#f59e0b" stroke-opacity=".5" stroke-width="1.6"/>
+                  <path data-draw style="--len:120" d="M230 94 L230 122" stroke="#f59e0b" stroke-opacity=".5" stroke-width="1.6"/>
+                  <path data-draw style="--len:220" d="M188 134 L96 134 L96 96" stroke="#f59e0b" stroke-opacity=".3" stroke-width="1.4" stroke-dasharray="3,3"/>
+                  <!-- nodes -->
+                  <rect x="14" y="10" width="96" height="22" rx="7" fill="rgba(245,158,11,.12)" stroke="rgba(245,158,11,.4)"/>
+                  <text x="62" y="25" fill="#f59e0b" text-anchor="middle">RECRUITER Q</text>
+
+                  <rect x="14" y="62" width="90" height="34" rx="9" fill="rgba(245,158,11,.09)" stroke="rgba(245,158,11,.32)"/>
+                  <text x="59" y="76" fill="#f0f4ff" text-anchor="middle">ROUTER</text>
+                  <text x="59" y="88" fill="#8b9dc0" text-anchor="middle" font-weight="600">LangGraph</text>
+
+                  <rect x="188" y="62" width="84" height="34" rx="9" fill="rgba(34,211,238,.09)" stroke="rgba(34,211,238,.32)"/>
+                  <text x="230" y="76" fill="#f0f4ff" text-anchor="middle">RAG</text>
+                  <text x="230" y="88" fill="#8b9dc0" text-anchor="middle" font-weight="600">FAISS index</text>
+
+                  <rect x="188" y="122" width="84" height="34" rx="9" fill="rgba(192,132,252,.09)" stroke="rgba(192,132,252,.32)"/>
+                  <text x="230" y="136" fill="#f0f4ff" text-anchor="middle">MEMORY</text>
+                  <text x="230" y="148" fill="#8b9dc0" text-anchor="middle" font-weight="600">Mem0 store</text>
+
+                  <rect x="286" y="62" width="46" height="34" rx="9" fill="rgba(52,211,153,.09)" stroke="rgba(52,211,153,.32)"/>
+                  <text x="309" y="76" fill="#34d399" text-anchor="middle">OUT</text>
+                  <text x="309" y="88" fill="#8b9dc0" text-anchor="middle" font-weight="600">answer</text>
+                  <path data-draw style="--len:40" d="M272 79 L286 79" stroke="#34d399" stroke-opacity=".6" stroke-width="1.6"/>
+                </g>
+                <circle cx="62" cy="46" r="3" fill="#f59e0b"><animate attributeName="cy" values="34;58;34" dur="2.6s" repeatCount="indefinite"/><animate attributeName="opacity" values=".2;1;.2" dur="2.6s" repeatCount="indefinite"/></circle>
+              </svg>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+    </div><!-- /sigStack__wrapper -->
+
+    <div class="sigStack__foot">All 17 projects below</div>
+  </div>
+</section>
+
+<div class="demo-spacer">…the existing filter tabs + 3-column grid continue here</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   SIGNATURE STACK — controller
+   • builds one full tab row per card (only its own tab is painted)
+   • IntersectionObserver sentinels for active state (no per-frame
+     getBoundingClientRect in the scroll handler)
+   • rAF-throttled scrub rail, roving-tabindex keyboard nav,
+     hash deep-links, one-shot metric counters
+   ════════════════════════════════════════════════════════════════ */
+(function(){
+  var stack = document.querySelector('.sigStack');
+  if(!stack) return;
+  var wrapper = document.getElementById('sigWrapper');
+  var cards   = Array.prototype.slice.call(wrapper.querySelectorAll('.sigCard'));
+  if(!cards.length) return;
+
+  var reduce  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var meta    = cards.map(function(c){
+    return { label:c.dataset.label, color:c.dataset.color, id:c.dataset.id||'' };
+  });
+
+  function rgbOf(hex){
+    var h = hex.replace('#','');
+    if(h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    var n = parseInt(h,16);
+    return [(n>>16)&255, (n>>8)&255, n&255].join(',');
+  }
+  /* ── build the rows ─────────────────────────────────────────── */
+  cards.forEach(function(card,i){
+    card.style.zIndex = i + 1;                       /* own stacking context → z-index:-1 rim stays put */
+    card.style.setProperty('--c', meta[i].color);
+    card.style.setProperty('--c-rgb', rgbOf(meta[i].color));
+
+    var row = document.createElement('div');
+    row.className = 'sigCard__tabs';
+    row.setAttribute('role','tablist');
+    row.setAttribute('aria-label','Signature projects');
+
+    meta.forEach(function(m,j){
+      var own = (j === i);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'sigCard__tab ' + (own ? 'is-own' : 'sigCard__tab--ghost');
+      btn.style.setProperty('--c-rgb', rgbOf(m.color));
+      btn.innerHTML =
+        '<span class="sigCard__tab__idx">' + String(j+1).padStart(2,'0') + '</span>' +
+        '<span>' + m.label + '</span>' +
+        (own ? '<span class="sigCard__tab__rail"></span>' : '');
+
+      /* only the painted tab is reachable — the 4 ghosts per row are
+         inert for AT, otherwise the deck announces 25 buttons */
+      if(own){
+        btn.setAttribute('role','tab');
+        btn.setAttribute('aria-controls', 'sigpanel-' + j);
+        btn.tabIndex = -1;
+      } else {
+        btn.setAttribute('aria-hidden','true');
+        btn.tabIndex = -1;
+      }
+      btn.addEventListener('click', function(){ goTo(j, true); });
+      btn.addEventListener('keydown', onTabKey);
+      row.appendChild(btn);
+    });
+
+    var line = document.createElement('span');
+    line.className = 'sigCard__line';
+    line.setAttribute('aria-hidden','true');
+    row.appendChild(line);
+
+    card.prepend(row);
+
+    var body = card.querySelector('.sigCard__body');
+    if(body){ body.id = 'sigpanel-' + i; body.setAttribute('role','tabpanel'); }
+  });
+
+  var ownTabs = cards.map(function(c){ return c.querySelector('.sigCard__tab.is-own'); });
+
+  /* ── geometry, measured once per layout ─────────────────────────
+     The scroll handler must never read layout. Everything it needs
+     is cached here and invalidated on resize / font load. */
+  var tops = [], pin = 0, deckEnd = 0;
+  function measure(){
+    var wrapTop = wrapper.getBoundingClientRect().top + window.scrollY;
+    pin  = parseFloat(getComputedStyle(cards[0]).top) || 0;
+    tops = cards.map(function(c){ return wrapTop + c.offsetTop; });
+    deckEnd = tops[tops.length-1] + cards[cards.length-1].offsetHeight;
+  }
+  function cardTop(i){ return tops[i]; }
+  function topOffset(){ return pin; }
+  function goTo(i, focus){
+    var y = cardTop(i) - topOffset() + 2;
+    window.scrollTo({ top:y, behavior: reduce ? 'auto' : 'smooth' });
+    if(focus && meta[i].id) history.replaceState(null,'','#p-'+meta[i].id);
+  }
+  function onTabKey(e){
+    var dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if(!dir) return;
+    e.preventDefault();
+    var next = Math.min(cards.length-1, Math.max(0, active + dir));
+    goTo(next);
+    var t = ownTabs[next]; if(t){ t.tabIndex = 0; t.focus({preventScroll:true}); }
+  }
+
+  /* ── active tracking ────────────────────────────────────────── */
+  var active = -1;
+  function setActive(i){
+    if(i === active) return;
+    active = i;
+    cards.forEach(function(c,j){
+      var state = j < i ? 'passed' : j === i ? 'active' : 'ahead';
+      c.dataset.state = state;
+      if(ownTabs[j]){
+        ownTabs[j].setAttribute('aria-selected', j === i ? 'true' : 'false');
+        ownTabs[j].tabIndex = j === i ? 0 : -1;
+      }
+      if(j <= i && c.dataset.seen !== '1'){
+        c.dataset.seen = '1';
+        countUp(c);
+      }
+    });
+    if(meta[i] && meta[i].id) history.replaceState(null,'','#p-'+meta[i].id);
+  }
+
+  /* which card is currently locked at the pin line — pure arithmetic
+     against cached tops, so this is safe to run every frame */
+  function resolveActive(){
+    var y = window.scrollY + pin + 6, i = 0;
+    for(var k=0;k<cards.length;k++){ if(tops[k] <= y) i = k; }
+    setActive(i);
+  }
+
+  /* ── scrub rail: how far through the pinned card you are ────── */
+  var ticking = false;
+  function frame(){
+    ticking = false;
+    resolveActive();
+    if(active < 0) return;
+    var rail = ownTabs[active] && ownTabs[active].querySelector('.sigCard__tab__rail');
+    if(!rail) return;
+    var start = tops[active] - pin;
+    var end   = (active < cards.length-1) ? tops[active+1] - pin : deckEnd - pin;
+    var p = (window.scrollY - start) / Math.max(1, end - start);
+    rail.style.setProperty('--p', Math.min(1, Math.max(0, p)).toFixed(3));
+  }
+  function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(frame); } }
+
+  if(!reduce){
+    addEventListener('scroll', onScroll, {passive:true});
+  }
+  addEventListener('resize', function(){ measure(); onScroll(); });
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(function(){ measure(); onScroll(); });
+  }
+
+  /* ── metric counters (one shot per card) ────────────────────── */
+  function countUp(card){
+    if(reduce) { card.querySelectorAll('[data-count]').forEach(function(el){
+      el.textContent = (el.dataset.prefix||'') + el.dataset.count + (el.dataset.suffix||'');
+    }); return; }
+    card.querySelectorAll('[data-count]').forEach(function(el){
+      var target = parseFloat(el.dataset.count) || 0;
+      var dec    = parseInt(el.dataset.dec) || 0;
+      var pre    = el.dataset.prefix || '';
+      var suf    = el.dataset.suffix || '';
+      var t0     = performance.now(), dur = 1100;
+      (function tick(now){
+        var pct  = Math.min((now - t0)/dur, 1);
+        var ease = 1 - Math.pow(1 - pct, 3);
+        el.textContent = pre + (target*ease).toFixed(dec) + suf;
+        if(pct < 1) requestAnimationFrame(tick);
+        else el.textContent = pre + target.toFixed(dec) + suf;
+      })(performance.now());
+    });
+  }
+
+  /* ── deep link: /#p-supplymind opens on that card ───────────── */
+  function fromHash(){
+    var m = (location.hash||'').match(/^#p-(.+)$/);
+    if(!m) return false;
+    var i = meta.findIndex(function(x){ return x.id === m[1]; });
+    if(i < 0) return false;
+    requestAnimationFrame(function(){ window.scrollTo({top: tops[i]-pin+2, behavior:'auto'}); frame(); });
+    return true;
+  }
+
+  measure();
+  if(!fromHash()) resolveActive();
+  frame();
+})();
+</script>
+
+</body>
+</html>
