@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>MRP &amp; BOM Planner — Free Material Requirements Tool</title>
+<meta name="description" content="Free MRP calculator: explode a finished-goods order through its bill of materials, net off stock and open orders, apply MOQ rounding, and back-schedule every purchase order against the required date. Shows which component is the binding constraint."/>
+<meta name="keywords" content="MRP calculator, material requirements planning, bill of materials calculator, BOM explosion, net requirement calculation, back scheduling, MOQ rounding, production planning tool"/>
+<meta name="author" content="Vinayak Bhadani"/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://vinayak682.github.io/vinayakbhadani.github.io/mrp-bom-planner.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="MRP &amp; BOM Planner — Free Material Requirements Tool"/>
+<meta property="og:description" content="Explode a finished-goods order through its BOM, net off stock, apply MOQ, and back-schedule every PO. Find the component that actually gates your date."/>
+<meta property="og:url" content="https://vinayak682.github.io/vinayakbhadani.github.io/mrp-bom-planner.html"/>
+<meta property="og:image" content="https://vinayak682.github.io/vinayakbhadani.github.io/og-preview.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="MRP and BOM Planner"/>
+<meta property="og:site_name" content="Vinayak Bhadani"/>
+<meta property="og:locale" content="en_GB"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="MRP &amp; BOM Planner — Free Material Requirements Tool"/>
+<meta name="twitter:description" content="Explode a finished-goods order through its BOM, net off stock, apply MOQ, and back-schedule every PO."/>
+<meta name="twitter:image" content="https://vinayak682.github.io/vinayakbhadani.github.io/og-preview.png"/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<!-- Google Analytics 4 --><script async src="https://www.googletagmanager.com/gtag/js?id=G-08JD9489HY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-08JD9489HY');</script>
+<style>
+:root{--bg0:#020c1b;--bg1:#0a1628;--bg2:#112240;--teal:#00d4a8;--gold:#f59e0b;--purple:#a78bfa;--red:#f87171;--green:#4ade80;--txt:#ccd6f6;--txt2:#8892b0;--white:#e6f1ff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg0);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--teal);text-decoration:none}
+.nav{position:sticky;top:0;z-index:100;background:rgba(2,12,27,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-brand{font-size:.85rem;font-weight:700;color:var(--white)}
+.nav-links{display:flex;gap:18px;font-size:.78rem;flex-wrap:wrap;justify-content:flex-end}
+.nav-links a{color:var(--txt2)}.nav-links a:hover,.nav-links a[aria-current]{color:var(--teal)}
+.crumb{max-width:1320px;margin:0 auto;padding:16px 24px 0;font-size:.75rem;color:var(--txt2)}
+.crumb a{color:var(--txt2)}.crumb span{margin:0 7px;opacity:.5}
+.hero{max-width:1320px;margin:0 auto;padding:22px 24px 26px}
+.eyebrow{display:inline-flex;gap:8px;background:rgba(0,212,168,.08);border:1px solid rgba(0,212,168,.3);color:var(--teal);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:18px}
+.hero h1{font-size:clamp(1.7rem,4vw,2.6rem);font-weight:800;color:var(--white);line-height:1.15;letter-spacing:-.02em;margin-bottom:14px}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p{font-size:1rem;color:var(--txt2);max-width:770px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 24px}
+.card{background:linear-gradient(160deg,var(--bg1),var(--bg2));border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:24px 26px;margin-bottom:20px}
+.card h2{font-size:.76rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--txt2);margin-bottom:18px}
+.ordergrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px}
+label{display:block;font-size:.74rem;font-weight:600;color:var(--txt2);margin-bottom:6px}
+input,select{width:100%;background:rgba(2,12,27,.6);border:1px solid rgba(255,255,255,.13);border-radius:8px;padding:10px 12px;color:var(--white);font-size:.9rem;font-family:inherit}
+input:focus,select:focus{outline:none;border-color:rgba(0,212,168,.6)}
+.tblwrap{overflow-x:auto;border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:.83rem;min-width:940px}
+th{text-align:left;padding:9px 8px;font-size:.67rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--txt2);border-bottom:1px solid rgba(255,255,255,.12);white-space:nowrap}
+td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.06)}
+td input,td select{padding:7px 8px;font-size:.83rem;border-radius:6px}
+td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--white);font-weight:600}
+td.muted{color:var(--txt2);font-weight:400}
+.pill{display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.07em;padding:3px 9px;border-radius:5px;white-space:nowrap}
+.ok{background:rgba(74,222,128,.14);color:var(--green);border:1px solid rgba(74,222,128,.35)}
+.tight{background:rgba(245,158,11,.14);color:var(--gold);border:1px solid rgba(245,158,11,.35)}
+.late{background:rgba(248,113,113,.14);color:var(--red);border:1px solid rgba(248,113,113,.4)}
+.none{background:rgba(136,146,176,.12);color:var(--txt2);border:1px solid rgba(136,146,176,.3)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;padding:10px 18px;border-radius:9px;border:1px solid rgba(0,212,168,.4);color:var(--teal);background:rgba(0,212,168,.09);cursor:pointer;transition:.2s;font-family:inherit}
+.btn:hover{background:rgba(0,212,168,.18)}
+.btn.ghost{border-color:rgba(255,255,255,.14);color:var(--txt2);background:rgba(255,255,255,.03)}
+.btn.ghost:hover{color:var(--white)}
+.btn.danger{border-color:rgba(248,113,113,.35);color:var(--red);background:rgba(248,113,113,.08)}
+.rowbtn{background:none;border:none;color:var(--txt2);cursor:pointer;font-size:1rem;padding:2px 6px;border-radius:4px}
+.rowbtn:hover{color:var(--red);background:rgba(248,113,113,.1)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.kpi{background:linear-gradient(160deg,var(--bg1),var(--bg2));border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:18px 20px}
+.kpi .k{font-size:.68rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--txt2);margin-bottom:7px}
+.kpi .v{font-size:1.5rem;font-weight:800;color:var(--white);line-height:1.15;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:.76rem;color:var(--txt2);margin-top:4px}
+.kpi.alarm{border-color:rgba(248,113,113,.4)}
+.kpi.alarm .v{color:var(--red)}
+.kpi.good{border-color:rgba(74,222,128,.35)}
+.kpi.good .v{color:var(--green)}
+.verdict{border-radius:12px;padding:18px 22px;margin-bottom:20px;font-size:.93rem;line-height:1.65}
+.verdict.v-ok{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.3)}
+.verdict.v-late{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.35)}
+.verdict strong{color:var(--white)}
+/* timeline */
+.tl{overflow-x:auto}
+.tl svg{display:block;min-width:760px;width:100%;height:auto}
+.note{font-size:.78rem;color:var(--txt2);margin-top:10px;line-height:1.6}
+.prose{max-width:820px;margin:0 auto;padding:10px 24px 40px}
+.prose h2{font-size:1.35rem;font-weight:800;color:var(--white);margin:40px 0 14px}
+.prose h3{font-size:1.03rem;font-weight:700;color:var(--teal);margin:28px 0 9px}
+.prose p{font-size:.95rem;margin-bottom:16px;line-height:1.8}
+.prose ul{padding-left:22px;margin-bottom:16px}
+.prose li{font-size:.94rem;margin-bottom:8px}
+.prose strong{color:var(--white)}
+.formula{background:var(--bg1);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:18px 20px;margin:20px 0;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:.83rem;color:var(--white);overflow-x:auto;line-height:1.9}
+.formula .c{color:var(--txt2);font-family:'Segoe UI',system-ui,sans-serif}
+.band{max-width:1320px;margin:0 auto 70px;padding:0 24px}
+.band-inner{background:linear-gradient(135deg,rgba(0,212,168,.08),rgba(167,139,250,.06));border:1px solid rgba(0,212,168,.25);border-radius:16px;padding:30px;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}
+.band h3{font-size:1.18rem;font-weight:800;color:var(--white);margin-bottom:7px}
+.band p{font-size:.88rem;color:var(--txt2);max-width:560px}
+.band a{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;font-weight:700;padding:11px 20px;border-radius:9px;border:1px solid rgba(0,212,168,.4);color:var(--teal);background:rgba(0,212,168,.09);white-space:nowrap}
+footer{border-top:1px solid rgba(255,255,255,.07);padding:28px 24px 44px;text-align:center;font-size:.78rem;color:var(--txt2)}
+footer a{color:var(--txt2)}
+@media(max-width:760px){
+  .band-inner{grid-template-columns:1fr}
+  .nav{padding:12px 18px}.nav-brand{white-space:nowrap;font-size:.8rem}
+  .nav-links{gap:12px;font-size:.73rem}
+}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"MRP & BOM Planner","applicationCategory":"BusinessApplication","operatingSystem":"Any (web browser)","description":"Free material requirements planning calculator. Explodes a finished-goods order through its bill of materials, nets off stock and open orders, applies MOQ rounding and back-schedules purchase orders against a required date.","url":"https://vinayak682.github.io/vinayakbhadani.github.io/mrp-bom-planner.html","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"},"author":{"@type":"Person","@id":"https://vinayak682.github.io/vinayakbhadani.github.io/#person","name":"Vinayak Bhadani"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What is a BOM explosion in MRP?","acceptedAnswer":{"@type":"Answer","text":"A BOM explosion multiplies a finished-goods order quantity by the quantity-per-unit of every component in the bill of materials, giving the gross requirement for each component. Scrap or yield loss is added on top, since not every unit issued becomes a good unit."}},
+{"@type":"Question","name":"How do you calculate net requirement?","acceptedAnswer":{"@type":"Answer","text":"Net requirement equals gross requirement minus stock on hand minus quantity already on order, floored at zero. Only the net requirement needs to be purchased. Ignoring open purchase orders is the most common cause of double ordering."}},
+{"@type":"Question","name":"What is back-scheduling?","acceptedAnswer":{"@type":"Answer","text":"Back-scheduling works backwards from the date the finished goods are required, subtracting the production lead time and then each component's procurement lead time, to determine the latest date each purchase order can be placed. If that date is in the past, the order cannot meet the requirement."}},
+{"@type":"Question","name":"Why does MOQ matter in material requirements planning?","acceptedAnswer":{"@type":"Answer","text":"Minimum order quantity forces the purchase quantity up to the supplier's minimum, and rounds to a multiple of it. This creates excess inventory that carries forward, which is why netting against existing stock before applying MOQ matters. A small net requirement can still trigger a large purchase."}}]}
+</script>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">Vinayak Bhadani</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="insights.html">Insights</a>
+    <a href="supply-chain-calculators.html">Calculators</a>
+    <a href="mrp-bom-planner.html" aria-current="page">MRP Planner</a>
+    <a href="demand-to-delivery-flow.html">Process Flow</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</nav>
+
+<div class="crumb"><a href="index.html">Home</a><span>›</span><a href="supply-chain-calculators.html">Tools</a><span>›</span>MRP &amp; BOM Planner</div>
+
+<header class="hero">
+  <p class="eyebrow">🧮 Material Requirements Planning</p>
+  <h1>MRP &amp; BOM Planner — find the component that <em>actually</em> gates your date</h1>
+  <p>Enter a finished-goods order and its bill of materials. This explodes the requirement, nets off stock and open purchase orders, applies MOQ rounding, and back-schedules every purchase order from the required date. It then tells you which single component is the binding constraint — because it is almost never the one people expect.</p>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>1 · Finished goods order</h2>
+    <div class="ordergrid">
+      <div><label for="fgName">Finished goods item</label><input id="fgName" type="text" value="Eau de Parfum 100ml"/></div>
+      <div><label for="fgQty">Order quantity (units)</label><input id="fgQty" type="number" min="1" value="12000"/></div>
+      <div><label for="reqDate">Required date</label><input id="reqDate" type="date"/></div>
+      <div><label for="prodDays">Production lead time (days)</label><input id="prodDays" type="number" min="0" value="21"/></div>
+      <div><label for="today">Planning date (today)</label><input id="today" type="date"/></div>
+    </div>
+    <p class="note">Production lead time covers everything inside the factory — mixing, maceration, filling, packing and QC release. For fragrance, maceration is fixed chemistry and cannot be compressed, so treat it as a hard floor rather than a buffer.</p>
+  </div>
+
+  <div class="card">
+    <h2>2 · Bill of materials</h2>
+    <div class="tblwrap">
+      <table id="bom">
+        <thead><tr>
+          <th style="min-width:150px">Component</th>
+          <th>Qty / unit</th><th>Scrap %</th><th>On hand</th><th>On order</th>
+          <th>Lead time (d)</th><th>MOQ</th><th>Unit cost</th><th>Source</th><th></th>
+        </tr></thead>
+        <tbody id="bomBody"></tbody>
+      </table>
+    </div>
+    <div class="actions">
+      <button class="btn" id="addRow">+ Add component</button>
+      <button class="btn ghost" id="loadDemo">Reset to example BOM</button>
+      <button class="btn ghost" id="clearAll">Clear all</button>
+      <button class="btn ghost" id="exportCsv">⤓ Export CSV</button>
+    </div>
+  </div>
+
+  <div id="verdict"></div>
+  <div class="kpis" id="kpis"></div>
+
+  <div class="card">
+    <h2>3 · Material requirements &amp; purchase schedule</h2>
+    <div class="tblwrap">
+      <table id="results">
+        <thead><tr>
+          <th style="min-width:150px">Component</th>
+          <th>Gross req</th><th>Available</th><th>Net req</th><th>Order qty</th>
+          <th>Order value</th><th>Order by</th><th>Slack (d)</th><th>Status</th>
+        </tr></thead>
+        <tbody id="resBody"></tbody>
+      </table>
+    </div>
+    <p class="note">Order quantity is the net requirement rounded up to a multiple of MOQ. “Order by” is the latest date the purchase order can be released and still land in time for the production start. Negative slack means the date is already unachievable through that component.</p>
+  </div>
+
+  <div class="card">
+    <h2>4 · Critical path</h2>
+    <div class="tl"><svg id="gantt" viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Timeline showing procurement lead time and production window for each component against the required date."></svg></div>
+  </div>
+
+</div>
+
+<section class="band">
+  <div class="band-inner">
+    <div>
+      <h3>See where this sits in the wider process</h3>
+      <p>This calculation is the “Raw Material Availability Check” gate in the demand-to-delivery flow — the decision point that routes a plan either straight into production or into a three-to-six month procurement cycle.</p>
+    </div>
+    <a href="demand-to-delivery-flow.html">Open the process flow →</a>
+  </div>
+</section>
+
+<div class="prose">
+  <h2>How the calculation works</h2>
+
+  <p>Material requirements planning is four arithmetic steps applied in a fixed order. The order matters — doing MOQ rounding before netting, for example, produces systematically inflated purchase orders.</p>
+
+  <h3>Step 1 — BOM explosion (gross requirement)</h3>
+  <div class="formula">
+Gross requirement  =  FG order qty  ×  qty per unit  ×  (1 + scrap %)
+  </div>
+  <p>Scrap belongs here rather than as a later adjustment, because losses compound down the structure. If you lose 2% of caps at the capping line, you needed 2% more caps to start with, not 2% more finished units.</p>
+
+  <h3>Step 2 — Netting</h3>
+  <div class="formula">
+Net requirement  =  max( 0,  gross requirement − on hand − on order )
+  </div>
+  <p>Open purchase orders are the line most often left out, and leaving it out is how the same material gets bought twice. If a purchase order is already in transit for that component, it is supply — as real as stock in the rack, just later.</p>
+
+  <h3>Step 3 — Lot sizing (MOQ)</h3>
+  <div class="formula">
+Order quantity  =  ceiling( net requirement ÷ MOQ )  ×  MOQ
+  </div>
+  <p>This is where excess inventory is created, and it is unavoidable rather than a mistake. What matters is knowing it is happening: a net requirement of 300 against an MOQ of 5,000 means you are buying sixteen times what this order needs, and that surplus is now a carrying-cost decision, not a purchasing one.</p>
+
+  <h3>Step 4 — Back-scheduling</h3>
+  <div class="formula">
+Production start  =  required date  −  production lead time<br/>
+Order-by date     =  production start  −  component lead time<br/>
+Slack             =  order-by date  −  today
+  </div>
+  <p>Negative slack is the whole point of the exercise. It says the date cannot be met through that component regardless of how much you expedite everything else — and it identifies which component to negotiate, substitute or air-freight rather than expediting the whole order.</p>
+
+  <h2>Where this model breaks</h2>
+  <ul>
+    <li><strong>It assumes deterministic lead times.</strong> Real lead times are distributions, and right-skewed ones. Use a high percentile rather than the average for anything on the critical path, or you will be late roughly half the time by construction.</li>
+    <li><strong>It is single-level.</strong> A real BOM has sub-assemblies with their own lead times, and the explosion cascades. For a two-level structure, run the tool once per level and chain the dates.</li>
+    <li><strong>It ignores capacity.</strong> Material availability is necessary but not sufficient — you can be fully material-ready and still line-constrained. Check the production calendar alongside this, not after it.</li>
+    <li><strong>It nets against total stock, not available-to-promise.</strong> If some of that on-hand stock is already committed to another order, your true availability is lower than this shows.</li>
+    <li><strong>Shelf life is not modelled.</strong> Buying sixteen times your requirement because of MOQ is a different decision for a component with a two-year shelf life than for one with six months.</li>
+  </ul>
+
+  <h2>Frequently asked</h2>
+  <h3>Why is my order-by date in the past?</h3>
+  <p>Because the required date is not achievable through that component. The tool is telling you the truth rather than smoothing it. The options are: move the required date, find a shorter-lead-time source, substitute the component, or split the order so the constrained portion ships later.</p>
+
+  <h3>Should MOQ excess count as a planning failure?</h3>
+  <p>No — it is a structural feature of supplier economics. It becomes a failure only when nobody accounts for it, and the surplus quietly becomes aged stock nobody has budgeted to carry.</p>
+</div>
+
+<footer><p><a href="index.html">← Back to portfolio</a> &nbsp;·&nbsp; Free planning tools · Vinayak Bhadani, Dubai UAE</p></footer>
+
+<script>
+const DEMO=[
+ {n:'Glass bottle 100ml',  q:1,    s:2,  oh:4000,  oo:0,     lt:75, moq:10000, c:3.10, src:'Overseas'},
+ {n:'Pump &amp; actuator',     q:1,    s:1.5,oh:1500,  oo:6000,  lt:90, moq:10000, c:2.40, src:'Overseas'},
+ {n:'Cap — metallised',   q:1,    s:2,  oh:800,   oo:0,     lt:95, moq:15000, c:1.85, src:'Overseas'},
+ {n:'Fragrance concentrate (kg)',q:0.012,s:1,oh:60, oo:40,   lt:60, moq:25,    c:420,  src:'Overseas'},
+ {n:'Perfumers alcohol (L)',q:0.085,s:1, oh:900,   oo:0,     lt:20, moq:200,   c:9.50, src:'Local'},
+ {n:'Folding carton',     q:1,    s:3,  oh:2500,  oo:5000,  lt:35, moq:10000, c:0.95, src:'Local'},
+ {n:'Label set',          q:1,    s:2.5,oh:14000, oo:0,     lt:25, moq:5000,  c:0.28, src:'Local'},
+ {n:'Shipper case (12s)', q:0.0834,s:1, oh:200,   oo:0,     lt:30, moq:500,   c:4.20, src:'Local'}
+];
+const $=id=>document.getElementById(id);
+const body=$('bomBody'),resBody=$('resBody');
+const fmt=n=>n.toLocaleString('en-GB',{maximumFractionDigits:0});
+const fmt2=n=>n.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+const iso=d=>d.toISOString().slice(0,10);
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
+const dDiff=(a,b)=>Math.round((a-b)/86400000);
+
+function dateInit(){
+  const t=new Date();$('today').value=iso(t);
+  $('reqDate').value=iso(addDays(t,150));
+}
+function row(d={}){
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+   <td><input type="text" class="f-n" value="${d.n||''}" placeholder="Component"/></td>
+   <td><input type="number" class="f-q" step="any" min="0" value="${d.q??1}"/></td>
+   <td><input type="number" class="f-s" step="any" min="0" value="${d.s??0}"/></td>
+   <td><input type="number" class="f-oh" step="any" min="0" value="${d.oh??0}"/></td>
+   <td><input type="number" class="f-oo" step="any" min="0" value="${d.oo??0}"/></td>
+   <td><input type="number" class="f-lt" min="0" value="${d.lt??30}"/></td>
+   <td><input type="number" class="f-moq" min="0" value="${d.moq??0}"/></td>
+   <td><input type="number" class="f-c" step="any" min="0" value="${d.c??0}"/></td>
+   <td><select class="f-src"><option${d.src==='Local'?' selected':''}>Local</option><option${d.src!=='Local'?' selected':''}>Overseas</option></select></td>
+   <td><button class="rowbtn" title="Remove">✕</button></td>`;
+  tr.querySelector('.rowbtn').onclick=()=>{tr.remove();calc();};
+  tr.querySelectorAll('input,select').forEach(i=>i.addEventListener('input',calc));
+  body.appendChild(tr);
+}
+function loadDemo(){body.innerHTML='';DEMO.forEach(d=>row({...d,n:d.n.replace('&amp;','&')}));calc();}
+
+function readRows(){
+  return [...body.querySelectorAll('tr')].map(tr=>({
+    n:tr.querySelector('.f-n').value||'(unnamed)',
+    q:+tr.querySelector('.f-q').value||0,
+    s:+tr.querySelector('.f-s').value||0,
+    oh:+tr.querySelector('.f-oh').value||0,
+    oo:+tr.querySelector('.f-oo').value||0,
+    lt:+tr.querySelector('.f-lt').value||0,
+    moq:+tr.querySelector('.f-moq').value||0,
+    c:+tr.querySelector('.f-c').value||0,
+    src:tr.querySelector('.f-src').value
+  }));
+}
+
+let LAST=[];
+function calc(){
+  const fgQty=+$('fgQty').value||0, prod=+$('prodDays').value||0;
+  const today=new Date($('today').value||Date.now());
+  const req=new Date($('reqDate').value||Date.now());
+  const prodStart=addDays(req,-prod);
+  const rows=readRows();
+
+  const out=rows.map(r=>{
+    const gross=fgQty*r.q*(1+r.s/100);
+    const avail=r.oh+r.oo;
+    const net=Math.max(0,gross-avail);
+    const orderQty=net>0?(r.moq>0?Math.ceil(net/r.moq)*r.moq:Math.ceil(net)):0;
+    const value=orderQty*r.c;
+    const orderBy=addDays(prodStart,-r.lt);
+    const slack=dDiff(orderBy,today);
+    let st='none';
+    if(net>0){st=slack<0?'late':(slack<14?'tight':'ok');}
+    return {...r,gross,avail,net,orderQty,value,orderBy,slack,st};
+  });
+  LAST=out;
+
+  // results table
+  resBody.innerHTML=out.map(o=>{
+    const label={ok:'ORDER',tight:'ORDER NOW',late:'LATE',none:'COVERED'}[o.st];
+    return `<tr>
+      <td>${o.n}<div style="font-size:.7rem;color:#8892b0">${o.src} · ${o.lt}d lead</div></td>
+      <td class="num">${fmt(o.gross)}</td>
+      <td class="num muted">${fmt(o.avail)}</td>
+      <td class="num">${fmt(o.net)}</td>
+      <td class="num">${o.orderQty?fmt(o.orderQty):'—'}</td>
+      <td class="num muted">${o.value?fmt2(o.value):'—'}</td>
+      <td class="num muted">${o.net>0?iso(o.orderBy):'—'}</td>
+      <td class="num" style="color:${o.slack<0?'#f87171':o.slack<14?'#f59e0b':'#4ade80'}">${o.net>0?o.slack:'—'}</td>
+      <td><span class="pill ${o.st}">${label}</span></td></tr>`;
+  }).join('');
+
+  // KPIs
+  const needed=out.filter(o=>o.net>0);
+  const lateOnes=needed.filter(o=>o.slack<0);
+  const totalValue=out.reduce((a,b)=>a+b.value,0);
+  const binding=needed.slice().sort((a,b)=>a.slack-b.slack)[0];
+  const worst=binding?binding.slack:null;
+  const earliest=binding&&binding.slack<0?addDays(req,-binding.slack):null;
+  const moqExcess=out.reduce((a,b)=>a+Math.max(0,b.orderQty-b.net)*b.c,0);
+
+  $('kpis').innerHTML=`
+    <div class="kpi ${lateOnes.length?'alarm':'good'}"><div class="k">Components to buy</div><div class="v">${needed.length} / ${out.length}</div><div class="s">${lateOnes.length} cannot make the date</div></div>
+    <div class="kpi"><div class="k">Purchase value</div><div class="v">${fmt(totalValue)}</div><div class="s">at entered unit costs</div></div>
+    <div class="kpi ${worst!==null&&worst<0?'alarm':''}"><div class="k">Binding constraint</div><div class="v" style="font-size:1.02rem;line-height:1.35">${binding?binding.n:'—'}</div><div class="s">${binding?(binding.slack<0?`${Math.abs(binding.slack)} days too late`:`${binding.slack} days of slack`):'nothing to buy'}</div></div>
+    <div class="kpi"><div class="k">MOQ excess value</div><div class="v">${fmt(moqExcess)}</div><div class="s">bought above requirement</div></div>`;
+
+  // verdict
+  const v=$('verdict');
+  if(!out.length){v.innerHTML='';}
+  else if(lateOnes.length){
+    v.className='verdict v-late';
+    v.innerHTML=`<strong>This order cannot meet ${iso(req)}.</strong> ${lateOnes.length} component${lateOnes.length>1?'s are':' is'} already past the latest order date — the binding one is <strong>${binding.n}</strong> at ${Math.abs(binding.slack)} days short. The earliest achievable required date on current lead times is <strong>${earliest?iso(earliest):'—'}</strong>. Expediting anything else changes nothing until this component is resolved.`;
+  }else if(needed.length){
+    v.className='verdict v-ok';
+    v.innerHTML=`<strong>Achievable.</strong> ${needed.length} component${needed.length>1?'s need':' needs'} purchasing, and the tightest is <strong>${binding.n}</strong> with ${binding.slack} days of slack. Release that purchase order by <strong>${iso(binding.orderBy)}</strong> to hold the date.`;
+  }else{
+    v.className='verdict v-ok';
+    v.innerHTML='<strong>Fully covered by stock and open orders.</strong> No purchasing required for this order.';
+  }
+
+  drawGantt(out,today,req,prodStart);
+  if(typeof gtag!=='undefined')gtag('event','calculator_use',{event_category:'engagement',calculator_name:'mrp_bom_planner'});
+}
+
+function drawGantt(out,today,req,prodStart){
+  const svg=$('gantt');svg.innerHTML='';
+  const need=out.filter(o=>o.net>0).sort((a,b)=>a.slack-b.slack).slice(0,9);
+  const L=210,R=880,W=R-L;
+  const H=52+need.length*26+34;
+  svg.setAttribute('viewBox',`0 0 900 ${Math.max(H,120)}`);
+  const NS='http://www.w3.org/2000/svg';
+  const mk=(t,a,x)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(x!=null)e.textContent=x;svg.appendChild(e);return e;};
+  if(!need.length){mk('text',{x:20,y:40,'font-size':12,fill:'#8892b0'},'Nothing to purchase — fully covered by stock and open orders.');return;}
+
+  const minD=need.reduce((m,o)=>o.orderBy<m?o.orderBy:m,today);
+  const start=minD<today?minD:today, end=req;
+  const span=Math.max(1,dDiff(end,start));
+  const X=d=>L+(dDiff(d,start)/span)*W;
+
+  mk('text',{x:20,y:22,'font-size':10.5,fill:'#8892b0','font-weight':700},'ORDER-BY → ARRIVAL → PRODUCTION');
+  // today & required lines
+  mk('line',{x1:X(today),y1:32,x2:X(today),y2:H-26,stroke:'#00d4a8','stroke-width':1.6,'stroke-dasharray':'4 4'});
+  mk('text',{x:X(today),y:28,'font-size':9.5,fill:'#00d4a8','text-anchor':'middle','font-weight':700},'today');
+  mk('line',{x1:X(req),y1:32,x2:X(req),y2:H-26,stroke:'#f87171','stroke-width':1.6});
+  mk('text',{x:X(req),y:28,'font-size':9.5,fill:'#f87171','text-anchor':'end','font-weight':700},'required');
+  mk('line',{x1:X(prodStart),y1:32,x2:X(prodStart),y2:H-26,stroke:'#a78bfa','stroke-width':1.4,'stroke-dasharray':'3 5'});
+  mk('text',{x:X(prodStart),y:28,'font-size':9.5,fill:'#a78bfa','text-anchor':'middle','font-weight':700},'prod start');
+
+  need.forEach((o,i)=>{
+    const y=44+i*26;
+    const col=o.slack<0?'#f87171':o.slack<14?'#f59e0b':'#4ade80';
+    mk('text',{x:20,y:y+13,'font-size':10,fill:'#ccd6f6'},o.n.length>28?o.n.slice(0,27)+'…':o.n);
+    const x1=X(o.orderBy),x2=X(prodStart);
+    mk('rect',{x:Math.min(x1,x2),y:y+3,width:Math.max(3,Math.abs(x2-x1)),height:13,rx:3,fill:col,'fill-opacity':.35,stroke:col,'stroke-opacity':.6});
+    mk('rect',{x:X(prodStart),y:y+3,width:Math.max(3,X(req)-X(prodStart)),height:13,rx:3,fill:'#a78bfa','fill-opacity':.18});
+    mk('circle',{cx:x1,cy:y+9.5,r:3.4,fill:col});
+    if(o.slack<0)mk('text',{x:x1-6,y:y+13,'font-size':9,fill:'#f87171','text-anchor':'end','font-weight':700},`${o.slack}d`);
+  });
+  mk('text',{x:20,y:H-8,'font-size':9,fill:'#8892b0'},`${iso(start)}  →  ${iso(end)}   ·   bars = procurement lead time, violet = production window`);
+}
+
+/* CSV */
+$('exportCsv').onclick=()=>{
+  const h=['Component','Source','Gross req','Available','Net req','Order qty','Unit cost','Order value','Order by','Slack days','Status'];
+  const rows=LAST.map(o=>[o.n,o.src,Math.round(o.gross),o.avail,Math.round(o.net),o.orderQty,o.c,o.value.toFixed(2),o.net>0?iso(o.orderBy):'',o.net>0?o.slack:'',o.st]);
+  const csv=[h,...rows].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download='mrp-plan.csv';a.click();
+  if(typeof gtag!=='undefined')gtag('event','excel_download',{event_category:'engagement',event_label:'mrp_csv'});
+};
+
+$('addRow').onclick=()=>{row();calc();};
+$('loadDemo').onclick=loadDemo;
+$('clearAll').onclick=()=>{body.innerHTML='';calc();};
+['fgQty','prodDays','reqDate','today','fgName'].forEach(id=>$(id).addEventListener('input',calc));
+
+dateInit();loadDemo();
+</script>
+</body>
+</html>

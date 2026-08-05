@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Demand to Delivery — Interactive Process Flow</title>
+<meta name="description" content="An interactive end-to-end demand-to-delivery process flow across eight functions: demand planning, production planning, procurement, finance, logistics, warehouse, factory and distribution. Click any step for its inputs, outputs, owner and lead time."/>
+<meta name="keywords" content="demand to delivery process flow, S&OP process map, supply chain swimlane diagram, procurement process flow, manufacturing planning process, GCC supply chain"/>
+<meta name="author" content="Vinayak Bhadani"/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://vinayak682.github.io/vinayakbhadani.github.io/demand-to-delivery-flow.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Demand to Delivery — Interactive Process Flow"/>
+<meta property="og:description" content="Eight functions, 27 steps, one end-to-end flow. Click any step for its inputs, outputs, owner and lead time."/>
+<meta property="og:url" content="https://vinayak682.github.io/vinayakbhadani.github.io/demand-to-delivery-flow.html"/>
+<meta property="og:image" content="https://vinayak682.github.io/vinayakbhadani.github.io/og-preview.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Demand to Delivery interactive process flow"/>
+<meta property="og:site_name" content="Vinayak Bhadani"/>
+<meta property="og:locale" content="en_GB"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Demand to Delivery — Interactive Process Flow"/>
+<meta name="twitter:description" content="Eight functions, 27 steps, one end-to-end flow. Click any step for its inputs, outputs, owner and lead time."/>
+<meta name="twitter:image" content="https://vinayak682.github.io/vinayakbhadani.github.io/og-preview.png"/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<!-- Google Analytics 4 --><script async src="https://www.googletagmanager.com/gtag/js?id=G-08JD9489HY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-08JD9489HY');</script>
+<style>
+:root{--bg0:#020c1b;--bg1:#0a1628;--bg2:#112240;--teal:#00d4a8;--gold:#f59e0b;--purple:#a78bfa;--red:#f87171;--txt:#ccd6f6;--txt2:#8892b0;--white:#e6f1ff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg0);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--teal);text-decoration:none}
+.nav{position:sticky;top:0;z-index:100;background:rgba(2,12,27,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-brand{font-size:.85rem;font-weight:700;color:var(--white)}
+.nav-links{display:flex;gap:18px;font-size:.78rem;flex-wrap:wrap;justify-content:flex-end}
+.nav-links a{color:var(--txt2)}.nav-links a:hover,.nav-links a[aria-current]{color:var(--teal)}
+.crumb{max-width:1400px;margin:0 auto;padding:16px 24px 0;font-size:.75rem;color:var(--txt2)}
+.crumb a{color:var(--txt2)}.crumb span{margin:0 7px;opacity:.5}
+.hero{max-width:1400px;margin:0 auto;padding:22px 24px 26px}
+.eyebrow{display:inline-flex;gap:8px;background:rgba(0,212,168,.08);border:1px solid rgba(0,212,168,.3);color:var(--teal);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:18px}
+.hero h1{font-size:clamp(1.7rem,4vw,2.6rem);font-weight:800;color:var(--white);line-height:1.15;letter-spacing:-.02em;margin-bottom:14px}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p{font-size:1rem;color:var(--txt2);max-width:760px}
+.toolbar{max-width:1400px;margin:0 auto;padding:0 24px 14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tbtn{font-size:.78rem;font-weight:700;padding:8px 15px;border-radius:8px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.03);color:var(--txt2);cursor:pointer;transition:.18s}
+.tbtn:hover{border-color:rgba(0,212,168,.45);color:var(--teal)}
+.tbtn.on{background:rgba(0,212,168,.12);border-color:rgba(0,212,168,.5);color:var(--teal)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.73rem;color:var(--txt2);margin-left:auto}
+.legend i{display:inline-block;width:26px;height:0;border-top:2px solid var(--txt2);vertical-align:middle;margin-right:7px}
+.legend i.dash{border-top-style:dashed}
+.stage{max-width:1400px;margin:0 auto;padding:0 24px 20px}
+.canvas{overflow-x:auto;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:linear-gradient(160deg,#04101f,#020c1b)}
+.canvas svg{display:block;min-width:1180px;width:100%;height:auto}
+.hint{font-size:.76rem;color:var(--txt2);margin-top:9px}
+/* node styling */
+.node{cursor:pointer}
+.node rect{transition:stroke .18s,filter .18s}
+.node:hover rect,.node.sel rect{stroke-width:2.2;filter:drop-shadow(0 0 9px rgba(0,212,168,.45))}
+.node text{pointer-events:none;user-select:none}
+.edge{fill:none;stroke-linecap:round}
+.flowline{stroke-dasharray:7 9;animation:dash 1.4s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-32}}
+.dim{opacity:.16}
+/* detail panel */
+.panel{max-width:1400px;margin:0 auto 60px;padding:0 24px}
+.pcard{background:linear-gradient(160deg,var(--bg1),var(--bg2));border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:26px 28px;min-height:150px}
+.pcard .ptag{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 11px;border-radius:5px;margin-bottom:12px}
+.pcard h2{font-size:1.3rem;color:var(--white);font-weight:800;margin-bottom:6px;letter-spacing:-.01em}
+.pcard .psub{font-size:.9rem;color:var(--txt2);margin-bottom:20px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.pbox h4{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--txt2);margin-bottom:8px}
+.pbox ul{list-style:none;padding:0}
+.pbox li{font-size:.85rem;color:var(--txt);padding:4px 0 4px 15px;position:relative;line-height:1.55}
+.pbox li::before{content:"›";position:absolute;left:0;color:var(--teal);font-weight:700}
+.pbox p{font-size:.85rem;color:var(--txt)}
+.risk{border-left:2px solid var(--red);padding-left:13px}
+.risk h4{color:var(--red)}
+.empty{color:var(--txt2);font-size:.92rem;display:flex;align-items:center;gap:10px;height:100px}
+.band{max-width:1400px;margin:0 auto 72px;padding:0 24px}
+.band-inner{background:linear-gradient(135deg,rgba(0,212,168,.08),rgba(167,139,250,.06));border:1px solid rgba(0,212,168,.25);border-radius:16px;padding:32px 30px;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}
+.band h3{font-size:1.2rem;font-weight:800;color:var(--white);margin-bottom:7px}
+.band p{font-size:.89rem;color:var(--txt2);max-width:560px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;font-weight:700;padding:11px 20px;border-radius:9px;border:1px solid rgba(0,212,168,.4);color:var(--teal);background:rgba(0,212,168,.09);white-space:nowrap;transition:.2s}
+.btn:hover{background:rgba(0,212,168,.18)}
+.btn.alt{border-color:rgba(167,139,250,.4);color:var(--purple);background:rgba(167,139,250,.09)}
+footer{border-top:1px solid rgba(255,255,255,.07);padding:28px 24px 44px;text-align:center;font-size:.78rem;color:var(--txt2)}
+footer a{color:var(--txt2)}
+@media(max-width:760px){
+  .band-inner{grid-template-columns:1fr}
+  .nav{padding:12px 18px}.nav-brand{white-space:nowrap;font-size:.8rem}
+  .nav-links{gap:12px;font-size:.73rem}
+  .legend{margin-left:0;width:100%}
+}
+@media(prefers-reduced-motion:reduce){.flowline{animation:none;stroke-dasharray:7 9}}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Demand to Delivery — Interactive Process Flow","description":"An interactive end-to-end demand-to-delivery process flow across eight functions, from forecast collection to finished goods delivery.","url":"https://vinayak682.github.io/vinayakbhadani.github.io/demand-to-delivery-flow.html","inLanguage":"en-GB","author":{"@type":"Person","@id":"https://vinayak682.github.io/vinayakbhadani.github.io/#person","name":"Vinayak Bhadani"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"https://vinayak682.github.io/vinayakbhadani.github.io/"},
+{"@type":"ListItem","position":2,"name":"Tools","item":"https://vinayak682.github.io/vinayakbhadani.github.io/supply-chain-calculators.html"},
+{"@type":"ListItem","position":3,"name":"Demand to Delivery Flow","item":"https://vinayak682.github.io/vinayakbhadani.github.io/demand-to-delivery-flow.html"}]}
+</script>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">Vinayak Bhadani</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="insights.html">Insights</a>
+    <a href="supply-chain-calculators.html">Calculators</a>
+    <a href="mrp-bom-planner.html">MRP Planner</a>
+    <a href="demand-to-delivery-flow.html" aria-current="page">Process Flow</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</nav>
+
+<div class="crumb"><a href="index.html">Home</a><span>›</span><a href="supply-chain-calculators.html">Tools</a><span>›</span>Demand to Delivery Flow</div>
+
+<header class="hero">
+  <p class="eyebrow">⚙ Process Architecture</p>
+  <h1>Demand to Delivery — the <em>whole</em> chain, in one view</h1>
+  <p>Eight functions, twenty-seven steps, one continuous flow from a forecast input to a delivered case. Solid lines carry material; dashed lines carry information and payment. Click any step to see who owns it, what it consumes, what it produces, and where it goes wrong.</p>
+</header>
+
+<div class="toolbar">
+  <button class="tbtn on" id="btnFlow">⏸ Pause flow</button>
+  <button class="tbtn" id="btnMat">Material only</button>
+  <button class="tbtn" id="btnInfo">Information only</button>
+  <button class="tbtn" id="btnAll">Show all</button>
+  <div class="legend">
+    <span><i></i>Material flow</span>
+    <span><i class="dash"></i>Information / payment</span>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="canvas"><svg id="flow" viewBox="0 0 1240 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Swimlane process flow diagram from demand planning through to distribution."></svg></div>
+  <p class="hint">Tip: the diagram scrolls horizontally on narrow screens. Click a step for detail.</p>
+</div>
+
+<div class="panel">
+  <div class="pcard" id="detail">
+    <div class="empty">👆 Select any step in the flow above to see its inputs, outputs, owner and failure modes.</div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="band-inner">
+    <div>
+      <h3>See the material requirement side of this flow</h3>
+      <p>The “Raw Material Availability Check” gate in Production Planning is where most plans break. The MRP planner explodes a finished-goods order into its components, nets against stock, and back-schedules the purchase orders that gate is really asking about.</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a class="btn" href="mrp-bom-planner.html">Open MRP planner →</a>
+      <a class="btn alt" href="supply-chain-calculators.html">Calculators →</a>
+    </div>
+  </div>
+</section>
+
+<footer><p><a href="index.html">← Back to portfolio</a> &nbsp;·&nbsp; Process architecture · Vinayak Bhadani, Dubai UAE</p></footer>
+
+<script>
+/* ───────────── Lane definitions ───────────── */
+const LANES = [
+  {id:'dp',  name:'DEMAND\nPLANNING',      c:'#1f6fb2', y:52,  h:104},
+  {id:'pp',  name:'PRODUCTION\nPLANNING',  c:'#2e7d32', y:156, h:126},
+  {id:'pr',  name:'PROCUREMENT',           c:'#c2620f', y:282, h:126},
+  {id:'fi',  name:'FINANCE',               c:'#5b2c6f', y:408, h:96},
+  {id:'lg',  name:'LOGISTICS\n& SHIPPING', c:'#17758f', y:504, h:96},
+  {id:'wh',  name:'WAREHOUSE',             c:'#1a3a6b', y:600, h:96},
+  {id:'fa',  name:'PRODUCTION\n(FACTORY)', c:'#8b4513', y:696, h:96},
+  {id:'di',  name:'DISTRIBUTION',          c:'#2d6a3e', y:792, h:96}
+];
+
+/* ───────────── Node definitions ─────────────
+   x,y = top-left of the box. w,h default 176x52.            */
+const N = [
+ {id:'collect', lane:'dp', x:186, y:78, t:'Collect Forecast Inputs', s:'7 demand streams',
+  owner:'Demand Planning', lt:'Monthly cycle',
+  inp:['Retail outlets — UAE','KSA & Oman distributors','Travel retail / duty-free','E-commerce','Export partners','Private label accounts','Marketing promo calendar'],
+  out:['Raw demand signals by channel','Promo and event calendar'],
+  risk:'Channels submit in different formats and at different times. Late or missing submissions get silently replaced by last year plus a percentage.'},
+
+ {id:'consolidate', lane:'dp', x:420, y:78, t:'Consolidate & Plan Forecast', s:'Reconcile all sources',
+  owner:'Demand Planning', lt:'1–2 weeks',
+  inp:['All channel submissions','Historical sales by SKU','Event & season calendar','Promotion plan'],
+  out:['Single reconciled forecast','Statistical baseline plus overrides'],
+  risk:'Double counting between channels, and unreconciled promo uplift that already sits in the statistical baseline.'},
+
+ {id:'finalize', lane:'dp', x:654, y:78, t:'Finalise Demand Plan', s:'Monthly / quarterly plan',
+  owner:'Demand Planning · S&OP forum', lt:'Locked monthly',
+  inp:['Reconciled forecast','Consensus from S&OP review'],
+  out:['Approved demand plan','Handoff to production planning'],
+  risk:'A plan agreed but not binding. If it can be overridden downstream without a decision log, everything after this is theatre.'},
+
+ {id:'assess', lane:'pp', x:186, y:186, t:'Assess RM Requirements', s:'Explode plan to materials',
+  owner:'Production Planning', lt:'Days',
+  inp:['Approved demand plan','Bill of materials per SKU','On-hand raw material stock','Open purchase orders','Re-order level criteria'],
+  out:['Gross and net material requirement','Shortage list by component'],
+  risk:'BOM accuracy. A wrong consumption factor on one shared component silently corrupts every SKU that uses it.'},
+
+ {id:'gate', lane:'pp', x:0, y:0, diamond:true, cx:520, cy:222, rx:74, ry:40,
+  t:'RM Available?', s:'Availability gate',
+  owner:'Production Planning', lt:'Decision point',
+  inp:['Net requirement by component','Stock on hand and on order','Re-order levels'],
+  out:['YES → production plan released','NO → raw material requisition'],
+  risk:'This is the single highest-leverage gate in the chain. A false YES stops the line mid-run; a false NO buys material you already had.'},
+
+ {id:'prodplan', lane:'pp', x:672, y:172, t:'Proceed with Production Plan', s:'Release to factory',
+  owner:'Production Planning', lt:'Per production calendar',
+  inp:['Confirmed material availability','Capacity and line availability'],
+  out:['Firm production schedule'],
+  risk:'Capacity checked after material rather than alongside it — you can be material-ready and still line-constrained.'},
+
+ {id:'requisition', lane:'pp', x:672, y:232, t:'Prepare RM Requisition', s:'Local 45+ d · Overseas 3–6 mo',
+  owner:'Production Planning → Procurement', lt:'Local 45+ days · Overseas 3–6 months',
+  inp:['Shortage list','Lead time by supplier class','Minimum order quantities'],
+  out:['Purchase requisition to procurement'],
+  risk:'The lead time gap is the whole game. An overseas requisition raised in month 5 for a month 6 need is already impossible.'},
+
+ {id:'reviewpo', lane:'pr', x:186, y:312, t:'Review Requests & Release PO', s:'Quotation → PO flow',
+  owner:'Procurement', lt:'Days to weeks',
+  inp:['Purchase requisition','Supplier quotations','Approved supplier list'],
+  out:['Released purchase order'],
+  risk:'Quotation cycles quietly consume the buffer that planning assumed was transit time.'},
+
+ {id:'polocal', lane:'pr', x:420, y:296, t:'PO — Local Supplier', s:'30+ days production',
+  owner:'Procurement', lt:'30+ days',
+  inp:['Approved PO','Delivery schedule'],
+  out:['Confirmed local order'],
+  risk:'Short lead time invites late ordering, which removes any recovery room when the supplier slips.'},
+
+ {id:'pooverseas', lane:'pr', x:420, y:352, t:'PO — Overseas Supplier', s:'3–6 months production',
+  owner:'Procurement', lt:'3–6 months',
+  inp:['Approved PO','Production slot booking'],
+  out:['Confirmed overseas order'],
+  risk:'Commitment is made against a forecast 3–6 months out — the point in the chain with the worst forecast accuracy and the least flexibility.'},
+
+ {id:'followlocal', lane:'pr', x:672, y:296, t:'Follow Up — Local', s:'Coordinate to warehouse',
+  owner:'Procurement', lt:'Ongoing',
+  inp:['Open local POs'],
+  out:['Confirmed delivery dates','Goods arrival updates'],
+  risk:'Follow-up done by memory rather than by exception report; small slips accumulate unnoticed.'},
+
+ {id:'followoverseas', lane:'pr', x:672, y:352, t:'Follow Up — Overseas', s:'Ready-to-ship & handoff',
+  owner:'Procurement → Logistics', lt:'Ongoing',
+  inp:['Open overseas POs','Production status from supplier'],
+  out:['Ready-to-ship date','Notification to logistics & shipping'],
+  risk:'The handoff to logistics is informal. If the ready-to-ship date does not reach the forwarder early, you lose the sailing.'},
+
+ {id:'procpay', lane:'fi', x:280, y:432, t:'Procurement Payment Requests', s:'Supplier payment',
+  owner:'Finance', lt:'Per payment terms',
+  inp:['Supplier invoice','Final shipping documents','Approved PO'],
+  out:['Supplier payment released'],
+  risk:'Payment approval sitting behind document mismatches will hold the shipment regardless of how well planning performed.'},
+
+ {id:'logpay', lane:'fi', x:760, y:432, t:'Logistics Payment Requests', s:'Customs duty advance',
+  owner:'Finance', lt:'Before clearance',
+  inp:['Freight forwarder invoice','Customs duty assessment'],
+  out:['Duty advance and freight payment'],
+  risk:'Duty advance not released in time turns a berthed container into demurrage.'},
+
+ {id:'coordsupplier', lane:'lg', x:186, y:528, t:'Coordinate with Supplier', s:'Ready date · qty · volume',
+  owner:'Logistics & Shipping', lt:'Days',
+  inp:['Ready-to-ship notification','Cargo dimensions and volume'],
+  out:['Confirmed collection plan'],
+  risk:'Volume misreported means the wrong equipment is booked and the cargo rolls.'},
+
+ {id:'coordff', lane:'lg', x:420, y:528, t:'Coordinate with Forwarder', s:'Quote & booking',
+  owner:'Logistics & Shipping', lt:'Days to weeks',
+  inp:['Confirmed cargo details','Required arrival date'],
+  out:['Freight quote','Confirmed booking and sailing'],
+  risk:'Space availability, not price, is the binding constraint in a tight market.'},
+
+ {id:'eta', lane:'lg', x:654, y:528, t:'Notify ETA & Shipping Docs', s:'Final invoice shared',
+  owner:'Logistics & Shipping', lt:'Pre-arrival',
+  inp:['Bill of lading','Commercial invoice','Packing list','Certificate of origin'],
+  out:['ETA to warehouse and production','Documents to finance for payment'],
+  risk:'Document errors discovered at the port rather than at issue. Every correction is measured in days of dwell.'},
+
+ {id:'customs', lane:'lg', x:888, y:528, t:'Customs Clearance', s:'Duty & freight settlement',
+  owner:'Logistics & Shipping · Finance', lt:'Days — highly variable',
+  inp:['Cleared documents','Duty advance from finance'],
+  out:['Released cargo for delivery'],
+  risk:'This is usually the highest-variance step in the whole lane, and the one most often modelled as a fixed number.'},
+
+ {id:'arrival', lane:'wh', x:186, y:624, t:'Shipment Arrival', s:'Goods at warehouse',
+  owner:'Warehouse', lt:'Same day',
+  inp:['Cleared cargo','Delivery note'],
+  out:['Received shipment awaiting QC'],
+  risk:'Receiving capacity assumed infinite in the plan. Several containers landing together creates a queue nobody scheduled.'},
+
+ {id:'qcgrn', lane:'wh', x:420, y:624, t:'QC Check & GRN', s:'Inspect and book in',
+  owner:'Warehouse · Quality', lt:'1–3 days',
+  inp:['Received goods','Quality specification'],
+  out:['Goods receipt note','Accepted / rejected quantities'],
+  risk:'Stock is physically present but not yet systemically available. Planners see zero while pallets sit in the bay.'},
+
+ {id:'availability', lane:'wh', x:654, y:624, t:'Goods Availability Updated', s:'System stock live',
+  owner:'Warehouse', lt:'Immediate on GRN',
+  inp:['Approved GRN'],
+  out:['Updated on-hand stock','Notification to procurement and production'],
+  risk:'Lag between physical receipt and system update is the most common cause of a false shortage at the availability gate.'},
+
+ {id:'release', lane:'wh', x:888, y:624, t:'Release RM to Factory', s:'Issue against production order',
+  owner:'Warehouse', lt:'Per production schedule',
+  inp:['Firm production order','Available raw material'],
+  out:['Materials issued to factory'],
+  risk:'Partial issues against a full order start a run that cannot finish.'},
+
+ {id:'production', lane:'fa', x:186, y:720, t:'Production Process', s:'Mix · macerate · filter · fill · pack',
+  owner:'Factory', lt:'Per batch — includes maceration',
+  inp:['Issued raw materials','Production order','Process specification'],
+  out:['Bulk and finished units','In-process quality records'],
+  risk:'Maceration time is fixed chemistry, not a schedulable buffer. It cannot be compressed to recover lost days.'},
+
+ {id:'fgready', lane:'fa', x:420, y:720, t:'FG Ready & QC Check', s:'Release to warehouse',
+  owner:'Factory · Quality', lt:'Days',
+  inp:['Finished units','Quality specification'],
+  out:['Released finished goods'],
+  risk:'A QC hold this late has no recovery path before the demand window closes.'},
+
+ {id:'fgarrival', lane:'wh', x:1050, y:624, t:'FG Goods Arrival', s:'GRN at warehouse', w:150,
+  owner:'Warehouse', lt:'Same day',
+  inp:['Released finished goods from factory'],
+  out:['Finished goods in stock, available to sell'],
+  risk:'Finished goods GRN treated as lower priority than inbound raw material, delaying availability to the sales channel.'},
+
+ {id:'pickpack', lane:'di', x:186, y:816, t:'Pick, Pack & Ship', s:'Per channel request',
+  owner:'Distribution', lt:'Daily cycle',
+  inp:['Customer and channel orders','Available finished goods'],
+  out:['Packed and dispatched shipments'],
+  risk:'Allocation rules under short supply. Without them, the first order to arrive takes stock the largest account needed.'},
+
+ {id:'delivery', lane:'di', x:420, y:816, t:'FG Goods Delivery', s:'Order fulfilled',
+  owner:'Distribution', lt:'Per route',
+  inp:['Dispatched shipment'],
+  out:['Delivered order','OTIF measurement point'],
+  risk:'This is where service level is finally measured — but every cause of a miss originated upstream, often months earlier.'}
+];
+
+/* ───────────── Edges ─────────────
+   type: 'm' material (solid) | 'i' information/payment (dashed)  */
+const E = [
+ {f:'collect',t:'consolidate',type:'m'},
+ {f:'consolidate',t:'finalize',type:'m'},
+ {f:'finalize',t:'assess',type:'m',route:'down-back'},
+ {f:'assess',t:'gate',type:'m'},
+ {f:'gate',t:'prodplan',type:'m',label:'YES',lc:'#4ade80'},
+ {f:'gate',t:'requisition',type:'m',label:'NO',lc:'#f87171'},
+ {f:'requisition',t:'reviewpo',type:'m',route:'down-back'},
+ {f:'reviewpo',t:'polocal',type:'m'},
+ {f:'reviewpo',t:'pooverseas',type:'m'},
+ {f:'polocal',t:'followlocal',type:'m'},
+ {f:'pooverseas',t:'followoverseas',type:'m'},
+ {f:'followoverseas',t:'coordsupplier',type:'m',route:'down-back'},
+ {f:'coordsupplier',t:'coordff',type:'m'},
+ {f:'coordff',t:'eta',type:'m'},
+ {f:'eta',t:'customs',type:'m'},
+ {f:'customs',t:'arrival',type:'m',route:'down-back'},
+ {f:'arrival',t:'qcgrn',type:'m'},
+ {f:'qcgrn',t:'availability',type:'m'},
+ {f:'availability',t:'release',type:'m'},
+ {f:'release',t:'production',type:'m',route:'down-back'},
+ {f:'production',t:'fgready',type:'m'},
+ {f:'fgready',t:'fgarrival',type:'m',route:'up-right'},
+ {f:'fgarrival',t:'pickpack',type:'m',route:'down-back'},
+ {f:'pickpack',t:'delivery',type:'m'},
+ /* information / payment */
+ {f:'eta',t:'procpay',type:'i',label:'invoice'},
+ {f:'procpay',t:'reviewpo',type:'i',label:'supplier payment'},
+ {f:'customs',t:'logpay',type:'i',label:'duty'},
+ {f:'followlocal',t:'coordsupplier',type:'i',label:'delivery updates'},
+ {f:'availability',t:'reviewpo',type:'i',label:'stock updates'}
+];
+
+/* ───────────── Render ───────────── */
+const SVG='http://www.w3.org/2000/svg';
+const svg=document.getElementById('flow');
+const byId={}; N.forEach(n=>byId[n.id]=n);
+const W=176,H=52;
+
+function el(tag,attrs,txt){const e=document.createElementNS(SVG,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;return e;}
+function box(n){return n.diamond?{x:n.cx-n.rx,y:n.cy-n.ry,w:n.rx*2,h:n.ry*2,cx:n.cx,cy:n.cy}:{x:n.x,y:n.y,w:n.w||W,h:n.h||H,cx:n.x+(n.w||W)/2,cy:n.y+(n.h||H)/2};}
+function laneOf(id){return LANES.find(l=>l.id===id);}
+
+/* defs */
+const defs=el('defs');
+['#8892b0','#4ade80','#f87171','#a78bfa'].forEach((c,i)=>{
+  const m=el('marker',{id:'ar'+i,viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:6,markerHeight:6,orient:'auto-start-reverse'});
+  m.appendChild(el('path',{d:'M0 0 L10 5 L0 10 z',fill:c}));defs.appendChild(m);
+});
+svg.appendChild(defs);
+
+/* lanes */
+const gLanes=el('g');
+LANES.forEach(l=>{
+  gLanes.appendChild(el('rect',{x:0,y:l.y,width:1240,height:l.h,fill:l.c,'fill-opacity':.05}));
+  gLanes.appendChild(el('rect',{x:0,y:l.y,width:160,height:l.h,fill:l.c,'fill-opacity':.9}));
+  gLanes.appendChild(el('line',{x1:0,y1:l.y,x2:1240,y2:l.y,stroke:'#fff','stroke-opacity':.07}));
+  const lines=l.name.split('\n');
+  lines.forEach((ln,i)=>{
+    gLanes.appendChild(el('text',{x:80,y:l.y+l.h/2-(lines.length-1)*7+i*14+4,'text-anchor':'middle',
+      'font-size':10.5,'font-weight':800,fill:'#fff','letter-spacing':'.06em'},ln));
+  });
+});
+svg.appendChild(gLanes);
+svg.appendChild(el('text',{x:620,y:32,'text-anchor':'middle','font-size':14,'font-weight':800,fill:'#e6f1ff','letter-spacing':'.1em'},'DEMAND PLANNING TO DELIVERY — PROCESS FLOW'));
+
+/* edges */
+const gEdges=el('g');
+function path(e){
+  const a=box(byId[e.f]),b=box(byId[e.t]);
+  if(e.route==='down-back'){
+    const midY=(a.y+a.h+b.y)/2;
+    return `M${a.cx} ${a.y+a.h} L${a.cx} ${midY} L${b.cx} ${midY} L${b.cx} ${b.y}`;
+  }
+  if(e.route==='up-right'){
+    const midX=(a.x+a.w+b.x)/2;
+    return `M${a.x+a.w} ${a.cy} L${midX} ${a.cy} L${midX} ${b.cy} L${b.x} ${b.cy}`;
+  }
+  if(Math.abs(a.cy-b.cy)<6) return `M${a.x+a.w} ${a.cy} L${b.x} ${b.cy}`;
+  const mx=(a.x+a.w+b.x)/2;
+  return `M${a.x+a.w} ${a.cy} L${mx} ${a.cy} L${mx} ${b.cy} L${b.x} ${b.cy}`;
+}
+E.forEach((e,i)=>{
+  const col=e.lc||(e.type==='m'?'#8892b0':'#a78bfa');
+  const mk=e.lc==='#4ade80'?'ar1':e.lc==='#f87171'?'ar2':(e.type==='m'?'ar0':'ar3');
+  const p=el('path',{d:path(e),class:'edge flowline edge-'+e.type,stroke:col,
+    'stroke-width':e.type==='m'?2:1.5,'stroke-opacity':e.type==='m'?.85:.6,'marker-end':`url(#${mk})`});
+  p.dataset.type=e.type;gEdges.appendChild(p);
+  if(e.label){
+    const a=box(byId[e.f]),b=box(byId[e.t]);
+    gEdges.appendChild(el('text',{x:(a.cx+b.cx)/2,y:(a.cy+b.cy)/2-6,'text-anchor':'middle',
+      'font-size':8.5,'font-weight':700,fill:col,'fill-opacity':.95,class:'elabel','data-type':e.type},e.label));
+  }
+});
+svg.appendChild(gEdges);
+
+/* nodes */
+const gNodes=el('g');
+function wrap(t,max){const w=t.split(' ');const out=[];let cur='';w.forEach(x=>{if((cur+' '+x).trim().length>max){out.push(cur.trim());cur=x;}else cur+=' '+x;});if(cur.trim())out.push(cur.trim());return out;}
+N.forEach(n=>{
+  const l=laneOf(n.lane),b=box(n);
+  const g=el('g',{class:'node',tabindex:0,role:'button','aria-label':n.t});g.dataset.id=n.id;
+  if(n.diamond){
+    g.appendChild(el('path',{d:`M${b.cx} ${b.y} L${b.x+b.w} ${b.cy} L${b.cx} ${b.y+b.h} L${b.x} ${b.cy} Z`,
+      fill:'#0a1628',stroke:l.c,'stroke-width':1.6}));
+    g.appendChild(el('text',{x:b.cx,y:b.cy-3,'text-anchor':'middle','font-size':10,'font-weight':800,fill:'#e6f1ff'},'RM Available?'));
+    g.appendChild(el('text',{x:b.cx,y:b.cy+11,'text-anchor':'middle','font-size':8.5,fill:'#8892b0'},'availability gate'));
+  }else{
+    g.appendChild(el('rect',{x:b.x,y:b.y,width:b.w,height:b.h,rx:7,fill:'#0a1628',stroke:l.c,'stroke-width':1.5}));
+    const tl=wrap(n.t,26);
+    tl.forEach((ln,i)=>g.appendChild(el('text',{x:b.cx,y:b.y+(tl.length>1?18:24)+i*12,'text-anchor':'middle',
+      'font-size':9.8,'font-weight':700,fill:'#e6f1ff'},ln)));
+    g.appendChild(el('text',{x:b.cx,y:b.y+b.h-11,'text-anchor':'middle','font-size':8.2,fill:'#8892b0'},n.s));
+  }
+  gNodes.appendChild(g);
+});
+svg.appendChild(gNodes);
+
+/* ───────────── Interaction ───────────── */
+const detail=document.getElementById('detail');
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function show(id){
+  const n=byId[id],l=laneOf(n.lane);
+  document.querySelectorAll('.node').forEach(x=>x.classList.toggle('sel',x.dataset.id===id));
+  detail.innerHTML=`
+    <span class="ptag" style="background:${l.c}33;color:#fff;border:1px solid ${l.c}">${esc(l.name.replace('\n',' '))}</span>
+    <h2>${esc(n.t)}</h2>
+    <p class="psub">${esc(n.s)} &nbsp;·&nbsp; Owner: <strong style="color:#ccd6f6">${esc(n.owner)}</strong> &nbsp;·&nbsp; Lead time: <strong style="color:#ccd6f6">${esc(n.lt)}</strong></p>
+    <div class="pgrid">
+      <div class="pbox"><h4>Inputs</h4><ul>${n.inp.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>
+      <div class="pbox"><h4>Outputs</h4><ul>${n.out.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>
+      <div class="pbox risk"><h4>Where it breaks</h4><p>${esc(n.risk)}</p></div>
+    </div>`;
+  if(typeof gtag!=='undefined')gtag('event','flow_node_view',{event_category:'engagement',event_label:id});
+}
+gNodes.querySelectorAll('.node').forEach(g=>{
+  g.addEventListener('click',()=>show(g.dataset.id));
+  g.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();show(g.dataset.id);}});
+});
+
+/* toolbar */
+let playing=true;
+const btnFlow=document.getElementById('btnFlow');
+btnFlow.onclick=()=>{playing=!playing;
+  document.querySelectorAll('.flowline').forEach(p=>p.style.animationPlayState=playing?'running':'paused');
+  btnFlow.textContent=playing?'⏸ Pause flow':'▶ Play flow';btnFlow.classList.toggle('on',playing);};
+function filter(mode){
+  document.querySelectorAll('.edge,.elabel').forEach(p=>{
+    const t=p.dataset.type||p.getAttribute('data-type');
+    p.classList.toggle('dim',mode!=='all'&&t!==mode);
+  });
+  [['btnMat','m'],['btnInfo','i'],['btnAll','all']].forEach(([b,m])=>
+    document.getElementById(b).classList.toggle('on',mode===m));
+}
+document.getElementById('btnMat').onclick=()=>filter('m');
+document.getElementById('btnInfo').onclick=()=>filter('i');
+document.getElementById('btnAll').onclick=()=>filter('all');
+</script>
+</body>
+</html>

@@ -21,7 +21,13 @@ RULES = {
     # Hubs and tools — the organic-traffic engine
     "insights.html": (0.9, "weekly"),
     "supply-chain-calculators.html": (0.9, "weekly"),
+    "mrp-bom-planner.html": (0.9, "weekly"),
+    "demand-to-delivery-flow.html": (0.9, "weekly"),
     "the-corridor.html": (0.9, "weekly"),
+    # 2026-08 articles
+    "abc-classification-seasonal-index-trap.html": (0.8, "monthly"),
+    "ramadan-demand-planning-gcc.html": (0.8, "monthly"),
+    "red-sea-rerouting-planning-math.html": (0.8, "monthly"),
     # Articles
     "abc-classification-seasonal-index-trap.html": (0.9, "monthly"),
     "ramadan-demand-planning-gcc.html": (0.9, "monthly"),
