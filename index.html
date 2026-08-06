@@ -6665,8 +6665,10 @@ window.addEventListener('scroll', function() {
 }
 .profile-frame:hover{transform:none!important;box-shadow:18px 18px 0 rgba(255,90,47,.055),0 26px 70px rgba(0,0,0,.46),0 0 0 1px rgba(255,255,255,.025)!important;}
 .profile-inner{width:310px!important;border-radius:9px 33px 9px 9px!important;background:#061321!important;}
+/* Portrait proportions matched to the reference: 7 / 8.7 */
 .profile-photo{
-  width:310px!important;height:400px!important;object-fit:cover!important;object-position:center 8%!important;
+  width:310px!important;height:auto!important;aspect-ratio:7/8.7!important;
+  object-fit:cover!important;object-position:center top!important;
   border-radius:8px 32px 8px 8px!important;filter:brightness(.98) contrast(1.04) saturate(.94)!important;
 }
 .profile-inner::after{height:120px!important;background:linear-gradient(to top,rgba(3,10,18,.98) 0%,rgba(3,10,18,.72) 48%,transparent 100%)!important;}
@@ -6675,7 +6677,7 @@ window.addEventListener('scroll', function() {
 .profile-nametag-role{-webkit-text-fill-color:#b9c0cb!important;background:none!important;color:#b9c0cb!important;font-size:.64rem!important;display:flex!important;align-items:center!important;gap:7px!important;}
 .profile-nametag-role::before{content:'';width:6px;height:6px;border-radius:50%;background:#ff5a2f;box-shadow:0 0 8px rgba(255,90,47,.45);flex:0 0 auto;}
 .profile-nametag-dot,.profile-accent-1,.profile-accent-2,.profile-accent-3,.profile-accent-4{display:none!important;animation:none!important;}
-@media(max-width:900px){.profile-inner,.profile-photo{width:270px!important}.profile-photo{height:348px!important}}
+@media(max-width:900px){.profile-inner,.profile-photo{width:270px!important}}
 </style>
 
 <!-- Smart Bar -->
