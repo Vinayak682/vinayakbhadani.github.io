@@ -28,7 +28,17 @@
   document.addEventListener('click',function(e){
     if(e.target.closest('[id$="-cv-btn"]'))gtag('event','cv_download',{event_category:'engagement'});
     if(e.target.href&&e.target.href.includes('linkedin'))gtag('event','linkedin_click',{event_category:'engagement'});
+    if(e.target.closest&&e.target.closest('a[href^="mailto:"]'))gtag('event','email_click',{event_category:'engagement'});
+    if(e.target.closest&&e.target.closest('a[href*="wa.me"],a[href*="whatsapp"]'))gtag('event','whatsapp_click',{event_category:'engagement'});
   });
+  /* Contact form — Formspree POSTs and navigates away; gtag uses sendBeacon so
+     the event still lands. Capture-phase so it fires before any other handler. */
+  document.addEventListener('submit',function(e){
+    var f=e.target;
+    if(f&&f.action&&f.action.indexOf('formspree.io')>-1){
+      gtag('event','contact_form_submit',{event_category:'conversion',event_label:'contact_section'});
+    }
+  },true);
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>

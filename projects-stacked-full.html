@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Projects — chaptered stack preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* ════════════════════════════════════════════════════════════════
+   Preview shell — mirrors index.html aurora tokens
+   ════════════════════════════════════════════════════════════════ */
+:root{
+  --bg0:#04020e;--bg1:#080516;--bg2:#0e091f;
+  --t1:#f0f4ff;--t2:#8b9dc0;--t3:#3e5474;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  margin:0;font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg0);color:var(--t1);line-height:1.65;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.demo-nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;height:62px;
+  display:flex;align-items:center;padding:0 28px;
+  background:rgba(4,2,14,.88);backdrop-filter:blur(28px) saturate(1.4);
+  border-bottom:1px solid rgba(192,132,252,.1);
+  font-size:.8rem;font-weight:800;
+}
+.demo-nav span{background:linear-gradient(90deg,#f0f4ff,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.demo-pad{height:62px;}
+.demo-spacer{
+  min-height:60vh;display:flex;align-items:center;justify-content:center;
+  color:var(--t3);font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;
+}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
+
+
+/* ════════════════════════════════════════════════════════════════
+   CHAPTERED STACK
+   Level 1  chapter rail   — sticky under the nav, tracks the deck
+   Level 2  project cards  — sticky under the rail, ghost-tab rows
+   ════════════════════════════════════════════════════════════════ */
+.stk{
+  --nav:62px;                 /* your #nav .nav-i height           */
+  --railH:52px;               /* level-1 rail                      */
+  --pin:calc(var(--nav) + var(--railH) + 10px);   /* card pin line  */
+  --cardH:min(496px, calc(100svh - var(--pin) - 36px));
+  --gap:52px;                 /* extra scroll travel per card      */
+  --tabH:44px;
+  position:relative;
+  padding:88px 0 40px;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(192,132,252,.07) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 60% at 85% 70%, rgba(34,211,238,.045) 0%, transparent 55%),
+    linear-gradient(180deg,var(--bg0) 0%,var(--bg1) 40%,var(--bg0) 100%);
+}
+.stk__head{margin-bottom:30px;}
+.stk__eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(192,132,252,.07);border:1px solid rgba(192,132,252,.25);
+  border-radius:20px;padding:6px 16px;font-size:.7rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:#c084fc;margin-bottom:16px;
+}
+.stk__eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;
+  background:linear-gradient(135deg,#c084fc,#22d3ee);animation:stkPulse 2s infinite;}
+@keyframes stkPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.stk__title{
+  font-family:'Outfit',system-ui,sans-serif;
+  font-size:clamp(1.9rem,4.2vw,3rem);font-weight:900;
+  letter-spacing:-.03em;line-height:1.08;margin:0 0 12px;
+}
+.stk__title em{font-style:normal;
+  background:linear-gradient(100deg,#c084fc,#22d3ee 62%,#34d399);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.stk__sub{max-width:64ch;color:var(--t2);font-size:.92rem;margin:0;}
+
+/* ── level 1: chapter rail ────────────────────────────────────── */
+.stk__rail{
+  position:sticky;top:var(--nav);z-index:60;
+  height:var(--railH);margin-bottom:26px;
+  display:flex;align-items:center;gap:6px;
+  padding:0 24px;overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:none;-ms-overflow-style:none;
+  background:rgba(4,2,14,.86);
+  backdrop-filter:blur(22px) saturate(1.3);
+  -webkit-backdrop-filter:blur(22px) saturate(1.3);
+  border-top:1px solid rgba(255,255,255,.05);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.stk__rail::-webkit-scrollbar{display:none;}
+.railChip{
+  position:relative;overflow:hidden;flex:0 0 auto;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:22px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.09);background:transparent;
+  color:var(--t2);font:700 .72rem/1 'Inter',system-ui,sans-serif;
+  font-family:inherit;letter-spacing:.02em;white-space:nowrap;
+  transition:color .22s,border-color .22s,background .22s;
+}
+.railChip b{font-size:.6rem;opacity:.55;font-variant-numeric:tabular-nums;font-weight:800;}
+.railChip em{font-style:normal;font-size:.6rem;opacity:.5;font-weight:800;}
+.railChip:hover{color:var(--t1);border-color:rgba(255,255,255,.2);}
+.railChip[aria-current="true"]{
+  color:rgb(var(--c-rgb));border-color:rgba(var(--c-rgb),.45);
+  background:rgba(var(--c-rgb),.1);
+}
+.railChip[aria-current="true"] b,.railChip[aria-current="true"] em{opacity:.8;}
+.railChip__fill{                                    /* progress through the deck */
+  position:absolute;left:0;bottom:0;height:2px;width:100%;
+  background:rgb(var(--c-rgb));transform:scaleX(var(--p,0));transform-origin:left;
+  transition:transform .14s linear;
+}
+.railChip:focus-visible{outline:2px solid rgb(var(--c-rgb));outline-offset:2px;}
+
+/* ── chapter intro ────────────────────────────────────────────── */
+.deck{margin-bottom:74px;}
+.deck:last-child{margin-bottom:0;}
+.deck__intro{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:start;gap:20px;
+  padding:0 0 22px;margin-bottom:4px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.deck__num{
+  font-family:'Outfit',system-ui,sans-serif;font-size:2.3rem;font-weight:900;
+  line-height:1;color:rgba(var(--c-rgb),.32);font-variant-numeric:tabular-nums;
+}
+.deck__kicker{
+  display:block;font-size:.62rem;font-weight:800;letter-spacing:.19em;
+  text-transform:uppercase;color:rgb(var(--c-rgb));margin-bottom:5px;
+}
+.deck__name{
+  font-family:'Outfit',system-ui,sans-serif;font-size:1.5rem;font-weight:900;
+  letter-spacing:-.02em;margin:0 0 6px;color:var(--t1);
+}
+.deck__blurb{margin:0;font-size:.84rem;color:var(--t2);max-width:62ch;}
+.deck__count{
+  font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:rgb(var(--c-rgb));border:1px solid rgba(var(--c-rgb),.3);
+  background:rgba(var(--c-rgb),.08);border-radius:20px;padding:5px 12px;white-space:nowrap;
+}
+.deck__count::after{content:' projects';opacity:.6;}
+.deck__stack{position:relative;}
+
+/* ── level 2: the card ────────────────────────────────────────── */
+.stkCard{
+  position:sticky;top:var(--pin);
+  height:var(--cardH);
+  display:flex;flex-direction:column;
+  margin-bottom:var(--gap);
+}
+.stkCard:last-child{margin-bottom:0;}
+
+/* tab row — one FULL row per card, only its own tab painted */
+.stkCard__tabs{
+  display:flex;align-items:flex-end;position:relative;
+  height:var(--tabH);flex:0 0 var(--tabH);padding-left:2px;
+}
+.stkCard__tab{
+  position:relative;overflow:hidden;
+  border:1px solid rgba(var(--c-rgb),.34);border-bottom:0;
+  border-radius:12px 12px 0 0;padding:0 16px;height:36px;
+  display:inline-flex;align-items:center;gap:7px;
+  background:
+    linear-gradient(180deg, rgba(var(--c-rgb),.26), rgba(var(--c-rgb),.1)),
+    linear-gradient(180deg,#0d0722,#0d0722);
+  color:rgb(var(--c-rgb));
+  font:800 .66rem/1 'Inter',system-ui,sans-serif;
+  letter-spacing:.12em;text-transform:uppercase;
+  cursor:pointer;white-space:nowrap;font-family:inherit;
+  transition:transform .38s cubic-bezier(.22,.61,.36,1),filter .28s,box-shadow .28s;
+}
+.stkCard__tab + .stkCard__tab{margin-left:-9px;}
+.stkCard__tab__idx{font-size:.58rem;opacity:.6;font-variant-numeric:tabular-nums;}
+.stkCard__tab__rail{
+  position:absolute;left:0;bottom:0;height:2px;width:100%;
+  background:rgb(var(--c-rgb));transform:scaleX(var(--p,0));transform-origin:left;
+  box-shadow:0 0 10px rgba(var(--c-rgb),.7);transition:transform .12s linear;
+}
+.stkCard__tab:hover{filter:brightness(1.2);}
+.stkCard__tab:focus-visible{outline:2px solid rgb(var(--c-rgb));outline-offset:2px;}
+.stkCard__tab--ghost{opacity:0;visibility:hidden;pointer-events:none;}
+.stkCard[data-state="passed"] .stkCard__tab.is-own{filter:saturate(.55) brightness(.72);}
+.stkCard[data-state="active"] .stkCard__tab.is-own{
+  transform:translateY(-3px);box-shadow:0 -8px 24px rgba(var(--c-rgb),.22);
+}
+
+/* rim welding tab to card */
+.stkCard__line{
+  position:absolute;top:calc(100% - 8px);left:0;width:100%;height:100px;
+  border-radius:20px 20px 0 0;z-index:-1;
+  background:linear-gradient(180deg, rgb(var(--c-rgb)) 0%, rgba(var(--c-rgb),.4) 26%, rgba(var(--c-rgb),0) 60%);
+}
+
+/* body */
+.stkCard__body{
+  flex:1;min-height:0;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1fr 306px;
+  border:1px solid rgba(255,255,255,.08);border-radius:20px;
+  background:#0b0620;                                   /* MUST stay opaque */
+  box-shadow:0 -1px 0 rgba(255,255,255,.05),0 28px 84px rgba(0,0,0,.5);
+  transition:filter .5s ease,box-shadow .5s ease;
+}
+.stkCard__body::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 70% at 100% 0%, rgba(var(--c-rgb),.13), transparent 62%),
+    radial-gradient(ellipse 40% 50% at 0% 100%, rgba(var(--c-rgb),.05), transparent 60%);
+}
+.stkCard[data-state="passed"] .stkCard__body{filter:brightness(.6) saturate(.72);}
+.stkCard[data-state="active"] .stkCard__body{
+  box-shadow:0 -1px 0 rgba(var(--c-rgb),.26),0 32px 96px rgba(0,0,0,.6),
+             0 0 0 1px rgba(var(--c-rgb),.15);
+}
+
+.stkCard__main{position:relative;z-index:1;padding:28px 30px 26px;display:flex;flex-direction:column;min-width:0;}
+.stkCard__meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.stkCard__kind{
+  font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 10px;border-radius:11px;color:rgb(var(--c-rgb));
+  border:1px solid rgba(var(--c-rgb),.34);background:rgba(var(--c-rgb),.09);
+}
+.stkCard__live{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.56rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 10px;border-radius:11px;color:#4ade80;
+  background:rgba(34,197,94,.09);border:1px solid rgba(34,197,94,.26);
+}
+.stkCard__live::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;
+  box-shadow:0 0 8px #4ade80;animation:stkLive 2s ease-in-out infinite;}
+@keyframes stkLive{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.55}}
+.stkCard__title{
+  font-family:'Outfit',system-ui,sans-serif;
+  font-size:clamp(1.2rem,2.2vw,1.66rem);font-weight:900;
+  letter-spacing:-.025em;line-height:1.16;margin:0 0 7px;color:var(--t1);
+}
+.stkCard__hook{font-size:.82rem;font-weight:600;font-style:italic;color:rgb(var(--c-rgb));opacity:.92;margin:0 0 11px;}
+.stkCard__desc{
+  font-size:.83rem;color:var(--t2);line-height:1.7;margin:0 0 16px;
+  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;
+}
+.stkCard__tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px;}
+.stkCard__tags i{
+  font-style:normal;font-size:.62rem;font-weight:600;padding:3px 9px;border-radius:9px;
+  color:rgba(var(--c-rgb),.82);background:rgba(var(--c-rgb),.06);
+  border:1px solid rgba(var(--c-rgb),.16);
+}
+.stkCard__cta{
+  position:relative;overflow:hidden;margin-top:auto;align-self:flex-start;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 22px;border-radius:11px;text-decoration:none;
+  font-size:.82rem;font-weight:800;color:rgb(var(--c-rgb));
+  background:rgba(var(--c-rgb),.11);border:1px solid rgba(var(--c-rgb),.44);
+  transition:transform .2s,box-shadow .2s,background .2s;
+}
+.stkCard__cta::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:skewX(-20deg);
+}
+.stkCard__cta:hover::after{animation:stkSwipe .6s ease forwards;}
+@keyframes stkSwipe{to{left:180%}}
+.stkCard__cta:hover{transform:translateY(-2px);background:rgba(var(--c-rgb),.17);
+  box-shadow:0 14px 32px rgba(0,0,0,.45),0 0 24px rgba(var(--c-rgb),.14);}
+.stkCard__cta svg{width:13px;height:13px;fill:currentColor;transition:transform .2s;}
+.stkCard__cta:hover svg{transform:translate(3px,-2px);}
+
+/* right readout rail */
+.stkCard__rail{
+  position:relative;z-index:1;
+  border-left:1px solid rgba(255,255,255,.06);
+  background:linear-gradient(150deg, rgba(var(--c-rgb),.055), rgba(4,2,14,.85));
+  display:flex;flex-direction:column;justify-content:center;gap:16px;padding:26px 24px;
+}
+.stkCard__glyph{
+  width:56px;height:56px;border-radius:15px;display:flex;align-items:center;justify-content:center;
+  font-size:1.7rem;border:1px solid rgba(var(--c-rgb),.24);background:rgba(var(--c-rgb),.09);
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+.stkCard__stats{list-style:none;margin:0;padding:0;display:grid;gap:9px;}
+.stkCard__stats li{
+  padding:11px 13px;border-radius:11px;
+  border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.028);
+}
+.stkCard__stats b{
+  display:block;font-size:1.06rem;font-weight:900;line-height:1.15;
+  color:rgb(var(--c-rgb));margin-bottom:2px;
+}
+.stkCard__stats span{
+  font-size:.56rem;color:var(--t3);text-transform:uppercase;
+  letter-spacing:.1em;font-weight:700;
+}
+
+/* content settles in as the card becomes active */
+.stkCard__main > *{opacity:.42;transform:translateY(9px);
+  transition:opacity .5s ease,transform .5s cubic-bezier(.22,.61,.36,1);}
+.stkCard[data-state="active"] .stkCard__main > *{opacity:1;transform:none;}
+.stkCard[data-state="active"] .stkCard__main > *:nth-child(2){transition-delay:.04s;}
+.stkCard[data-state="active"] .stkCard__main > *:nth-child(3){transition-delay:.08s;}
+.stkCard[data-state="active"] .stkCard__main > *:nth-child(4){transition-delay:.12s;}
+.stkCard[data-state="active"] .stkCard__main > *:nth-child(5){transition-delay:.16s;}
+.stkCard[data-state="active"] .stkCard__main > *:nth-child(6){transition-delay:.2s;}
+
+/* ── tablet / mobile: unstack into a plain list ───────────────── */
+@media (max-width:1023px){
+  .stk{--cardH:auto;}
+  .stkCard{position:static;height:auto;margin-bottom:18px;}
+  .stkCard__tab--ghost{display:none;}
+  .stkCard__body{grid-template-columns:1fr;overflow:visible;}
+  .stkCard__main{padding:24px 20px 22px;}
+  .stkCard__desc{-webkit-line-clamp:unset;}
+  .stkCard__rail{border-left:0;border-top:1px solid rgba(255,255,255,.06);
+    flex-direction:row;align-items:center;padding:18px 20px;}
+  .stkCard__stats{flex:1;grid-template-columns:repeat(3,1fr);}
+  .stkCard__main > *{opacity:1;transform:none;}
+  .stkCard[data-state="passed"] .stkCard__body{filter:none;}
+  .stkCard[data-state="passed"] .stkCard__tab.is-own{filter:none;}
+  .deck__intro{grid-template-columns:auto 1fr;}
+  .deck__count{grid-column:2;justify-self:start;}
+}
+@media (max-width:600px){
+  .stkCard__rail{flex-direction:column;align-items:stretch;}
+  .stkCard__stats{grid-template-columns:1fr;}
+  .deck__num{font-size:1.7rem;}
+  .stk__rail{padding:0 16px;}
+}
+@media (prefers-reduced-motion: reduce){
+  .stk{--cardH:auto;}
+  .stkCard{position:static;height:auto;}
+  .stkCard__tab--ghost{display:none;}
+  .stkCard__body{overflow:visible;}
+  .stkCard__main > *{opacity:1;transform:none;transition:none;}
+  .stkCard__tab,.stkCard__tab__rail,.railChip__fill{transition:none;}
+}
+
+</style>
+</head>
+<body>
+
+<nav class="demo-nav"><span>Vinayak Bhadani — preview shell (62px nav, same as live)</span></nav>
+<div class="demo-pad"></div>
+<div class="demo-spacer">scroll ↓</div>
+
+<section class="stk" id="projects-stacked" aria-label="Projects">
+  <div class="wrap stk__head">
+    <div class="stk__eyebrow">Portfolio</div>
+    <h2 class="stk__title">Seven chapters. <em>16 live projects.</em></h2>
+    <p class="stk__sub">Every project is something you can open and use. Pick a chapter from the rail, or scroll and let the deck deal itself out. Each chapter stacks its own projects — the tabs assemble as you go.</p>
+  </div>
+
+  <!-- chapter rail (level 1) — generated from the decks below -->
+  <div class="stk__rail" id="stkRail" role="navigation" aria-label="Project chapters"></div>
+
+  <div class="wrap stk__decks" id="stkDecks">
+
+    <section class="deck" id="ch-flagship" data-chapter="Flagship Platforms" data-color="#c084fc"
+             style="--c-rgb:192,132,252" aria-labelledby="chh-flagship">
+      <header class="deck__intro">
+        <span class="deck__num">01</span>
+        <div>
+          <span class="deck__kicker">Start here</span>
+          <h3 class="deck__name" id="chh-flagship">Flagship Platforms</h3>
+          <p class="deck__blurb">The two builds that carry the most weight — a playable strategy engine and a two-module enterprise platform.</p>
+        </div>
+        <span class="deck__count">2</span>
+      </header>
+      <div class="deck__stack">
+      <article class="stkCard" data-label="Gambit" data-color="#c084fc" style="--c-rgb:192,132,252">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">Strategy Simulation · GCC/MENA</span><span class="stkCard__live">60-case game engine</span>
+            </div>
+            <h3 class="stkCard__title">The GCC Planning Gambit</h3>
+            <p class="stkCard__hook">Sixty disruptions. Six turns. Every move changes what becomes possible next.</p>
+            <p class="stkCard__desc">A playable supply-chain strategy engine. Navigate randomised GCC and MENA disruptions across retail, quick commerce, FMCG, pharma, automotive and cold chain. Decisions move service, cash, inventory and risk, trigger control-room consequences, and close with a framework-based evaluation of how you actually plan.</p>
+            <div class="stkCard__tags"><i>S&amp;OP Strategy</i><i>Scenario Planning</i><i>Decision Evaluation</i><i>GCC Operations</i><i>Interactive Game</i></div>
+            <a class="stkCard__cta" href="./gcc-nexus-control-tower.html" target="_blank" rel="noopener">Play the flagship game <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">♟</div>
+            <ul class="stkCard__stats"><li><b>60</b><span>Business cases</span></li><li><b>10</b><span>Industry verticals</span></li><li><b>6</b><span>Strategy dimensions</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      <article class="stkCard" data-label="Platform" data-color="#22d3ee" style="--c-rgb:34,211,238">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">Enterprise SaaS · UAE/GCC + US</span><span class="stkCard__live">In build · live demo</span>
+            </div>
+            <h3 class="stkCard__title">AI Supply Chain Platform</h3>
+            <p class="stkCard__hook">Real-time OTIF compliance copilot plus an exception brain — built for operations teams.</p>
+            <p class="stkCard__desc">Two flagship modules on one platform. Compliance Shield tracks OTIF delivery in real time with AI root-cause analysis across 36K+ supply chain events. Neural Command is an exception brain that surfaces which disruptions actually need a human — ranked by revenue impact — before they escalate.</p>
+            <div class="stkCard__tags"><i>Claude API</i><i>Supabase</i><i>React</i><i>OTIF Compliance</i><i>Exception Brain</i></div>
+            <a class="stkCard__cta" href="https://vinayak682.github.io/ai-supply-chain-platform/" target="_blank" rel="noopener">Open platform demo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">🛰</div>
+            <ul class="stkCard__stats"><li><b>21</b><span>DB tables</span></li><li><b>36K+</b><span>Data rows</span></li><li><b>2</b><span>AI engines</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      </div>
+    </section>
+    <section class="deck" id="ch-saas" data-chapter="AI SaaS Products" data-color="#60a5fa"
+             style="--c-rgb:96,165,250" aria-labelledby="chh-saas">
+      <header class="deck__intro">
+        <span class="deck__num">02</span>
+        <div>
+          <span class="deck__kicker">Shipped &amp; live</span>
+          <h3 class="deck__name" id="chh-saas">AI SaaS Products</h3>
+          <p class="deck__blurb">Products with real users and real URLs, built for UAE and GCC planning teams.</p>
+        </div>
+        <span class="deck__count">2</span>
+      </header>
+      <div class="deck__stack">
+      <article class="stkCard" data-label="SupplyMind" data-color="#3b82f6" style="--c-rgb:59,130,246">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">AI SaaS · Live Product</span><span class="stkCard__live">Live App</span>
+            </div>
+            <h3 class="stkCard__title">SupplyMind — AI S&amp;OP Copilot</h3>
+            <p class="stkCard__hook">Runs Sunday night — delivers your Monday meeting brief before you wake up</p>
+            <p class="stkCard__desc">AI-powered S&amp;OP briefing pack generator built for UAE/GCC manufacturers. Pulls live data from SAP B1, Zoho, and Excel. Delivers decisions needed, forecast variance, inventory alerts, and risk flags by email before the Monday 8 AM planning meeting — eliminating 3-hour meetings that produce nothing.</p>
+            <div class="stkCard__tags"><i>Claude API</i><i>Supabase</i><i>Next.js 16</i><i>S&amp;OP</i><i>TypeScript</i></div>
+            <a class="stkCard__cta" href="https://sop-copilot.vercel.app" target="_blank" rel="noopener">Open Live App <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">🧠</div>
+            <ul class="stkCard__stats"><li><b>Claude API</b><span>AI Engine</span></li><li><b>Next.js 16</b><span>Stack</span></li><li><b>UAE/GCC</b><span>Market</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      <article class="stkCard" data-label="Surge Planner" data-color="#10b981" style="--c-rgb:16,185,129">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">AI SaaS · Live Product</span><span class="stkCard__live">Live App</span>
+            </div>
+            <h3 class="stkCard__title">GCC Event Surge Planner</h3>
+            <p class="stkCard__hook">Ramadan shifts 11 days every year — generic tools miss the peak every time</p>
+            <p class="stkCard__desc">AI demand forecasting engine built for GCC event volatility. Pre-seeded with Ramadan, Eid, Dubai Shopping Festival, White Friday, and UAE National Day data for 2025–2027 with proven surge multipliers. Delivers per-SKU demand forecasts with confidence bands and order date recommendations before each surge hits.</p>
+            <div class="stkCard__tags"><i>Claude API</i><i>Ramadan</i><i>GCC Events</i><i>Next.js 16</i><i>Supabase</i></div>
+            <a class="stkCard__cta" href="https://event-surge-planner.vercel.app" target="_blank" rel="noopener">Open Live App <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">🌙</div>
+            <ul class="stkCard__stats"><li><b>5 Events</b><span>GCC Calendar</span></li><li><b>Per-SKU</b><span>Forecasts</span></li><li><b>2025–27</b><span>Pre-seeded</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      </div>
+    </section>
+    <section class="deck" id="ch-agentic" data-chapter="Agentic AI" data-color="#a78bfa"
+             style="--c-rgb:167,139,250" aria-labelledby="chh-agentic">
+      <header class="deck__intro">
+        <span class="deck__num">03</span>
+        <div>
+          <span class="deck__kicker">Autonomous systems</span>
+          <h3 class="deck__name" id="chh-agentic">Agentic AI</h3>
+          <p class="deck__blurb">Agents that reason in steps and act — not chat wrappers.</p>
+        </div>
+        <span class="deck__count">2</span>
+      </header>
+      <div class="deck__stack">
+      <article class="stkCard" data-label="Portfolio Agent" data-color="#a78bfa" style="--c-rgb:167,139,250">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">Agentic AI · LangGraph</span><span class="stkCard__live">New · 2026</span>
+            </div>
+            <h3 class="stkCard__title">Portfolio Intelligence Agent</h3>
+            <p class="stkCard__hook">Ask me anything about Vinayak — I&#x27;ll answer in seconds, grounded in real data</p>
+            <p class="stkCard__desc">A stateful LangGraph agent (Claude claude-sonnet-4-6) that knows everything about this portfolio — projects, skills, experience, and GitHub activity. Recruiters can ask natural-language questions, request tailored cover letters for any JD, or get a gap analysis. Built with RAG over live portfolio + GitHub data, persistent memory via Mem0, and a FastAPI backend.</p>
+            <div class="stkCard__tags"><i>LangGraph</i><i>Claude API</i><i>FAISS</i><i>Mem0</i><i>FastAPI</i></div>
+            <a class="stkCard__cta" href="https://github.com/Vinayak682" target="_blank" rel="noopener">View on GitHub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">🤖</div>
+            <ul class="stkCard__stats"><li><b>LangGraph</b><span>Agent Framework</span></li><li><b>RAG</b><span>FAISS + Embeddings</span></li><li><b>Mem0</b><span>Persistent Memory</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      <article class="stkCard" data-label="ReAct Copilot" data-color="#f43f5e" style="--c-rgb:244,63,94">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">GenAI &amp; Automation</span><span class="stkCard__live">Live Interactive</span>
+            </div>
+            <h3 class="stkCard__title">AI Supply Chain Copilot (ReAct Agent)</h3>
+            <p class="stkCard__hook">Your digital supply chain assistant — writing SQL queries and drafting POs in seconds</p>
+            <p class="stkCard__desc">A simulated GenAI Copilot using a ReAct reasoning framework to solve complex supply chain queries. Watch the agent analyze stock databases, calculate EOQs, and auto-draft professional purchase orders ready to be exported.</p>
+            <div class="stkCard__tags"><i>GenAI Copilot</i><i>ReAct Agent</i><i>SQL Generator</i><i>EOQ Calculator</i></div>
+            <a class="stkCard__cta" href="./ai-supply-chain-copilot.html" target="_blank" rel="noopener">Open AI Copilot <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">🤖</div>
+            <ul class="stkCard__stats"><li><b>ReAct</b><span>LLM Framework</span></li><li><b>Auto</b><span>PO Drafting</span></li><li><b>SQL</b><span>Database Queries</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      </div>
+    </section>
+    <section class="deck" id="ch-analytics" data-chapter="Analytics &amp; Data" data-color="#22d3ee"
+             style="--c-rgb:34,211,238" aria-labelledby="chh-analytics">
+      <header class="deck__intro">
+        <span class="deck__num">04</span>
+        <div>
+          <span class="deck__kicker">Models &amp; pipelines</span>
+          <h3 class="deck__name" id="chh-analytics">Analytics &amp; Data</h3>
+          <p class="deck__blurb">Where the forecasting maths and the data engineering live.</p>
+        </div>
+        <span class="deck__count">2</span>
+      </header>
+      <div class="deck__stack">
+      <article class="stkCard" data-label="ML Forecasting" data-color="#22d3ee" style="--c-rgb:34,211,238">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">AI Forecasting</span><span class="stkCard__live">Live Tool</span>
+            </div>
+            <h3 class="stkCard__title">ML Demand Forecasting Engine</h3>
+            <p class="stkCard__hook">Traditional stats vs. dynamic ML featuring price elasticity and marketing spend</p>
+            <p class="stkCard__desc">An interactive machine learning forecasting engine comparing Holt-Winters against XGBoost/Prophet. Models price elasticity, marketing budgets, and regional Ramadan peaks dynamically to reduce MAPE error.</p>
+            <div class="stkCard__tags"><i>Prophet</i><i>XGBoost</i><i>Elasticity</i><i>Interactive</i></div>
+            <a class="stkCard__cta" href="./ml-demand-forecasting.html" target="_blank" rel="noopener">Open Engine <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">🔮</div>
+            <ul class="stkCard__stats"><li><b>−50%</b><span>Forecast Error</span></li><li><b>7.4%</b><span>ML MAPE</span></li><li><b>XGBoost</b><span>Features</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      <article class="stkCard" data-label="ETL Pipeline" data-color="#a855f7" style="--c-rgb:168,85,247">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">Systems &amp; ETL</span><span class="stkCard__live">Live Interactive</span>
+            </div>
+            <h3 class="stkCard__title">Real-Time ERP/Shopify ETL Pipeline</h3>
+            <p class="stkCard__hook">Automating data pipelines from ingestion to anomaly cleaning — with zero manual effort</p>
+            <p class="stkCard__desc">A real-time ETL simulator capturing raw order data from ERP and Shopify systems, running automatic cleaning pipelines, detecting anomalies using statistical Z-score algorithms, and loading sanitized data into an interactive analytics warehouse.</p>
+            <div class="stkCard__tags"><i>ETL Pipelines</i><i>Data Quality</i><i>Z-Score Anomaly</i><i>Shopify Sync</i></div>
+            <a class="stkCard__cta" href="./erp-shopify-etl-pipeline.html" target="_blank" rel="noopener">Open ETL Pipeline <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">🔄</div>
+            <ul class="stkCard__stats"><li><b>99.9%</b><span>Data Accuracy</span></li><li><b>Z-Score</b><span>Anomaly Engine</span></li><li><b>Real-Time</b><span>Ingestion Speed</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      </div>
+    </section>
+    <section class="deck" id="ch-risk" data-chapter="Risk &amp; Geopolitics" data-color="#fb7185"
+             style="--c-rgb:251,113,133" aria-labelledby="chh-risk">
+      <header class="deck__intro">
+        <span class="deck__num">05</span>
+        <div>
+          <span class="deck__kicker">Exposure &amp; disruption</span>
+          <h3 class="deck__name" id="chh-risk">Risk &amp; Geopolitics</h3>
+          <p class="deck__blurb">Quantifying what wars, straits and trade lanes actually cost a GCC operator.</p>
+        </div>
+        <span class="deck__count">2</span>
+      </header>
+      <div class="deck__stack">
+      <article class="stkCard" data-label="Risk Radar" data-color="#ef4444" style="--c-rgb:239,68,68">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">Risk</span><span class="stkCard__live">Live Tool</span>
+            </div>
+            <h3 class="stkCard__title">Supply Chain Risk Assessment Framework</h3>
+            <p class="stkCard__hook">An early-warning scorecard for every threat a supply chain faces</p>
+            <p class="stkCard__desc">Scores 8 risk dimensions (political, currency, supplier, logistics) for any trade lane. Pre-loaded with China–UAE, India–UAE, and Europe–UAE profiles. Interactive sliders update the radar chart and mitigation actions live. Based on BCG 2024 GCC research.</p>
+            <div class="stkCard__tags"><i>Radar Chart</i><i>Interactive</i><i>GCC Trade Lanes</i></div>
+            <a class="stkCard__cta" href="./supply-chain-risk-framework.html" target="_blank" rel="noopener">Open Risk Tool <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">⚠️</div>
+            <ul class="stkCard__stats"><li><b>8</b><span>Risk Dimensions</span></li><li><b>3</b><span>Trade Lanes</span></li><li><b>BCG</b><span>2024 Framework</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      <article class="stkCard" data-label="Conflict Impact" data-color="#fb7185" style="--c-rgb:251,113,133">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">Geopolitics</span><span class="stkCard__live">Research</span>
+            </div>
+            <h3 class="stkCard__title">War &amp; Conflict: GCC Supply Chain Impact</h3>
+            <p class="stkCard__hook">When wars start, supply chains feel it first — here&#x27;s the proof</p>
+            <p class="stkCard__desc">Quantifies the exact supply chain impact of three real conflicts: Red Sea crisis (freight +323%), Ukraine war (wheat +70%), Strait of Hormuz risk. Uses real Drewry WCI data, FAO commodity prices, and builds a three-pillar resilience playbook for UAE operators.</p>
+            <div class="stkCard__tags"><i>Red Sea Crisis</i><i>Ukraine War</i><i>Hormuz</i></div>
+            <a class="stkCard__cta" href="./war-conflict-supply-chain.html" target="_blank" rel="noopener">Read Analysis <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">🚢</div>
+            <ul class="stkCard__stats"><li><b>+323%</b><span>Freight Spike</span></li><li><b>+14 Days</b><span>Transit Added</span></li><li><b>3</b><span>Case Studies</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      </div>
+    </section>
+    <section class="deck" id="ch-strategy" data-chapter="Strategy &amp; Process" data-color="#34d399"
+             style="--c-rgb:52,211,153" aria-labelledby="chh-strategy">
+      <header class="deck__intro">
+        <span class="deck__num">06</span>
+        <div>
+          <span class="deck__kicker">How the work is run</span>
+          <h3 class="deck__name" id="chh-strategy">Strategy &amp; Process</h3>
+          <p class="deck__blurb">Scorecards, governance and network design — the operating-model side of planning.</p>
+        </div>
+        <span class="deck__count">4</span>
+      </header>
+      <div class="deck__stack">
+      <article class="stkCard" data-label="Scorecard" data-color="#38bdf8" style="--c-rgb:56,189,248">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">Strategy</span><span class="stkCard__live">Live Interactive</span>
+            </div>
+            <h3 class="stkCard__title">Supply Chain Scorecard</h3>
+            <p class="stkCard__hook">A command-centre view of supply chain health — the way a Director sees the business</p>
+            <p class="stkCard__desc">An executive-grade interactive scorecard covering all four supply chain dimensions: Demand Planning, Inventory Management, Supplier Performance, and Logistics. 24 live KPIs with GCC vs World Class benchmarks, radar performance profile, 6-month trend, and 5 prioritised strategic actions — each with quantified ROI impact.</p>
+            <div class="stkCard__tags"><i>Inventory</i><i>Supplier Mgmt</i><i>GCC Benchmarks</i><i>Interactive</i></div>
+            <a class="stkCard__cta" href="./supply-chain-scorecard.html" target="_blank" rel="noopener">Open Scorecard <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">📊</div>
+            <ul class="stkCard__stats"><li><b>24</b><span>Live KPIs</span></li><li><b>4</b><span>Dimensions</span></li><li><b>AED 5M+</b><span>Actions Identified</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      <article class="stkCard" data-label="S&amp;OP Playbook" data-color="#22c55e" style="--c-rgb:34,197,94">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">Strategy</span><span class="stkCard__live">Live Interactive</span>
+            </div>
+            <h3 class="stkCard__title">S&amp;OP Process Design Playbook</h3>
+            <p class="stkCard__hook">The complete operating manual for running a world-class planning team</p>
+            <p class="stkCard__desc">An interactive S&amp;OP process framework showing the complete system for aligning Sales, Finance, Procurement and Operations around one monthly plan. Explore the 4-week governance cycle, RACI matrix, 9 live KPI gauges, and 5-level maturity model — all built from the ANDS Dubai S&amp;OP implementation.</p>
+            <div class="stkCard__tags"><i>S&amp;OP Design</i><i>RACI Matrix</i><i>Governance</i><i>Interactive</i></div>
+            <a class="stkCard__cta" href="./sop-process-playbook.html" target="_blank" rel="noopener">Open Interactive Playbook <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">📋</div>
+            <ul class="stkCard__stats"><li><b>9</b><span>Live KPI Gauges</span></li><li><b>4</b><span>Cycle Weeks</span></li><li><b>5</b><span>Maturity Levels</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      <article class="stkCard" data-label="Network Optimizer" data-color="#06b6d4" style="--c-rgb:6,182,212">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">Network &amp; Inventory</span><span class="stkCard__live">Live Interactive</span>
+            </div>
+            <h3 class="stkCard__title">Multi-Echelon Network Inventory Optimizer</h3>
+            <p class="stkCard__hook">Balancing safety stocks across your entire supply chain network dynamically</p>
+            <p class="stkCard__desc">An interactive network visualizer modeling a central JAFZA Hub in Dubai feeding multiple regional retail nodes. Compare centralized pooling policies against decentralized safety stock holding to optimize warehouse footprints and slash carrying costs.</p>
+            <div class="stkCard__tags"><i>Multi-Echelon</i><i>Safety Stock</i><i>JAFZA Hub</i><i>Network Optimization</i></div>
+            <a class="stkCard__cta" href="./multi-echelon-inventory-optimizer.html" target="_blank" rel="noopener">Open Optimizer <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">🌐</div>
+            <ul class="stkCard__stats"><li><b>−25%</b><span>Carrying Cost</span></li><li><b>JAFZA</b><span>Central Hub</span></li><li><b>98%</b><span>Service Level</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      <article class="stkCard" data-label="Perfume Sim" data-color="#f59e0b" style="--c-rgb:245,158,11">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">End-to-End Simulation</span><span class="stkCard__live">Live Interactive</span>
+            </div>
+            <h3 class="stkCard__title">Global Perfume Supply Chain Simulator</h3>
+            <p class="stkCard__hook">An executive operations console simulating China-to-UAE sourcing lanes and GCC retail flows</p>
+            <p class="stkCard__desc">An interactive 30-day supply chain simulator tracking Guangzhou packaging procurement, Jebel Ali customs clearance, Al Quoz blending runs, and GCC store stockouts. Manage lead times and calculate actual cash ROI against port delays.</p>
+            <div class="stkCard__tags"><i>Global Sourcing</i><i>JAFZA Hub</i><i>Batch Production</i><i>Chart.js</i></div>
+            <a class="stkCard__cta" href="./perfume-supply-chain-simulator.html" target="_blank" rel="noopener">Open Simulator <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">🧪</div>
+            <ul class="stkCard__stats"><li><b>OTIF</b><span>Service Target</span></li><li><b>Net P&amp;L</b><span>Operations Profit</span></li><li><b>Inbound</b><span>Lead Times</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      </div>
+    </section>
+    <section class="deck" id="ch-tools" data-chapter="Free Tools &amp; Downloads" data-color="#f59e0b"
+             style="--c-rgb:245,158,11" aria-labelledby="chh-tools">
+      <header class="deck__intro">
+        <span class="deck__num">07</span>
+        <div>
+          <span class="deck__kicker">Take it with you</span>
+          <h3 class="deck__name" id="chh-tools">Free Tools &amp; Downloads</h3>
+          <p class="deck__blurb">No sign-up, no gate — the calculators and workbooks planners use daily.</p>
+        </div>
+        <span class="deck__count">2</span>
+      </header>
+      <div class="deck__stack">
+      <article class="stkCard" data-label="Calculators" data-color="#f97316" style="--c-rgb:249,115,22">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">Free Tools</span><span class="stkCard__live">Live Interactive</span>
+            </div>
+            <h3 class="stkCard__title">Supply Chain Calculator Hub</h3>
+            <p class="stkCard__hook">Every formula a demand planner uses daily — free, instant, no sign-up</p>
+            <p class="stkCard__desc">6 free, instant supply chain calculators: Safety Stock (with full demand + lead time variability), EOQ, Reorder Point, MAPE Forecast Accuracy, Inventory Turnover with GCC benchmarks, and Carrying Cost. Formula explanations and GCC-specific context built into every tool.</p>
+            <div class="stkCard__tags"><i>Safety Stock</i><i>EOQ</i><i>MAPE</i><i>Reorder Point</i></div>
+            <a class="stkCard__cta" href="./supply-chain-calculators.html" target="_blank" rel="noopener">Open Calculator Hub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">🧮</div>
+            <ul class="stkCard__stats"><li><b>6</b><span>Calculators</span></li><li><b>GCC</b><span>Benchmarks</span></li><li><b>Free</b><span>No Sign-Up</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      <article class="stkCard" data-label="ABC-XYZ" data-color="#f59e0b" style="--c-rgb:245,158,11">
+        <div class="stkCard__body">
+          <div class="stkCard__main">
+            <div class="stkCard__meta">
+              <span class="stkCard__kind">Inventory</span><span class="stkCard__live">Excel File</span>
+            </div>
+            <h3 class="stkCard__title">ABC-XYZ Inventory Classification</h3>
+            <p class="stkCard__hook">A priority map that tells you which products deserve the most attention</p>
+            <p class="stkCard__desc">A 5-sheet Excel workbook classifying 30 products into 9 management zones — identifying which items drive 70% of revenue (ABC) and which are erratically ordered (XYZ). Complete with reorder formulas and inventory policies per segment.</p>
+            <div class="stkCard__tags"><i>Excel</i><i>Pareto</i><i>Coeff. of Variation</i></div>
+            <a class="stkCard__cta" href="./ABC-XYZ-Inventory-Analysis.xlsx" target="_blank" rel="noopener">Download Excel <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
+          </div>
+          <aside class="stkCard__rail" aria-hidden="true">
+            <div class="stkCard__glyph">📦</div>
+            <ul class="stkCard__stats"><li><b>30</b><span>SKUs Classified</span></li><li><b>9</b><span>Stock Strategies</span></li><li><b>−18%</b><span>Aged Stock</span></li></ul>
+          </aside>
+        </div>
+      </article>
+      </div>
+    </section>
+  </div>
+</section>
+
+<div class="demo-spacer">…contact section continues here</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   CHAPTERED STACK — controller
+
+   Level 1  chapter rail : which deck you're in + progress through it
+   Level 2  card stack   : one full ghost-tab row per card, per deck
+
+   Only the chrome is generated. The cards themselves are static HTML
+   so they stay crawlable — this section is SEO-load-bearing.
+   ══════════════════════════════════════════════════════════════════ */
+(function(){
+  var root = document.querySelector('.stk');
+  if(!root) return;
+  var railEl = document.getElementById('stkRail');
+  var decks  = [].slice.call(document.querySelectorAll('.deck'));
+  if(!decks.length) return;
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function rgbOf(hex){
+    var h = String(hex||'').replace('#','');
+    if(h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    var n = parseInt(h,16) || 0;
+    return [(n>>16)&255,(n>>8)&255,n&255].join(',');
+  }
+
+  /* ── model ──────────────────────────────────────────────────── */
+  var model = decks.map(function(deck, di){
+    var stackEl = deck.querySelector('.deck__stack');
+    var cards   = [].slice.call(stackEl.querySelectorAll('.stkCard'));
+    return {
+      i:di, el:deck, stackEl:stackEl, cards:cards,
+      id:deck.id, name:deck.dataset.chapter, color:deck.dataset.color,
+      labels:cards.map(function(c){ return c.dataset.label; }),
+      tops:[], start:0, end:0, deckTop:0, chip:null, fill:null, ownTabs:[]
+    };
+  });
+
+  /* ── build: one full tab row on every card of its own deck ──── */
+  model.forEach(function(d){
+    d.cards.forEach(function(card, i){
+      card.style.zIndex = i + 1;                  /* own stacking context → the z-index:-1 rim stays put */
+
+      var row = document.createElement('div');
+      row.className = 'stkCard__tabs';
+      row.setAttribute('role','tablist');
+      row.setAttribute('aria-label', d.name);
+
+      d.cards.forEach(function(other, j){
+        var own = (j === i);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'stkCard__tab ' + (own ? 'is-own' : 'stkCard__tab--ghost');
+        btn.style.setProperty('--c-rgb', rgbOf(other.dataset.color));
+        btn.innerHTML =
+          '<span class="stkCard__tab__idx">' + String(j+1).padStart(2,'0') + '</span>' +
+          '<span>' + d.labels[j] + '</span>' +
+          (own ? '<span class="stkCard__tab__rail"></span>' : '');
+
+        /* the ghosts hold layout only — never expose them to AT, or a
+           4-card deck announces 16 buttons */
+        if(own){
+          btn.setAttribute('role','tab');
+          btn.setAttribute('aria-controls', d.id + '-panel-' + j);
+        } else {
+          btn.setAttribute('aria-hidden','true');
+        }
+        btn.tabIndex = -1;
+        btn.addEventListener('click', function(){ goToCard(d.i, j, true); });
+        btn.addEventListener('keydown', function(e){ onCardKey(e, d); });
+        row.appendChild(btn);
+      });
+
+      var line = document.createElement('span');
+      line.className = 'stkCard__line';
+      line.setAttribute('aria-hidden','true');
+      row.appendChild(line);
+      card.prepend(row);
+
+      var body = card.querySelector('.stkCard__body');
+      if(body){ body.id = d.id + '-panel-' + i; body.setAttribute('role','tabpanel'); }
+    });
+    d.ownTabs = d.cards.map(function(c){ return c.querySelector('.stkCard__tab.is-own'); });
+  });
+
+  /* ── build: level-1 chapter rail ────────────────────────────── */
+  model.forEach(function(d){
+    var chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'railChip';
+    chip.style.setProperty('--c-rgb', rgbOf(d.color));
+    chip.innerHTML = '<b>' + String(d.i+1).padStart(2,'0') + '</b>' +
+                     '<span>' + d.name + '</span>' +
+                     '<em>' + d.cards.length + '</em>' +
+                     '<span class="railChip__fill"></span>';
+    chip.addEventListener('click', function(){ goToDeck(d.i); });
+    chip.addEventListener('keydown', onRailKey);
+    railEl.appendChild(chip);
+    d.chip = chip;
+    d.fill = chip.querySelector('.railChip__fill');
+  });
+  var chips = model.map(function(d){ return d.chip; });
+
+  /* ── geometry, measured once per layout ─────────────────────────
+     Never read layout in the scroll handler. And never use offsetTop
+     on a sticky card: once stuck it reports its SHIFTED position, not
+     its position in flow, so every measurement drifts as you scroll. */
+  var pin = 0, railTop = 0;
+  function measure(){
+    var first = model[0].cards[0];
+    pin = parseFloat(getComputedStyle(first).top) || 0;
+    railTop = railEl ? (parseFloat(getComputedStyle(railEl).top) || 0) : 0;
+    model.forEach(function(d){
+      d.deckTop = d.el.getBoundingClientRect().top + window.scrollY;
+      var y = d.stackEl.getBoundingClientRect().top + window.scrollY;
+      d.tops = d.cards.map(function(c){
+        var t = y;
+        y += c.offsetHeight + (parseFloat(getComputedStyle(c).marginBottom) || 0);
+        return t;
+      });
+      d.start = d.tops[0];
+      d.end   = y;
+    });
+  }
+
+  /* ── navigation ─────────────────────────────────────────────── */
+  function scrollTo(y){
+    window.scrollTo({ top: Math.max(0, y), behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function goToCard(di, ci, mark){
+    scrollTo(model[di].tops[ci] - pin + 2);
+    if(mark) history.replaceState(null, '', '#' + model[di].id);
+  }
+  function goToDeck(di){
+    /* land on the chapter header, not the first card, so you get context */
+    scrollTo(model[di].deckTop - railTop - (railEl ? railEl.offsetHeight : 0) - 14);
+    history.replaceState(null, '', '#' + model[di].id);
+  }
+  function onRailKey(e){
+    var dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if(!dir) return;
+    e.preventDefault();
+    var n = Math.min(model.length-1, Math.max(0, curDeck + dir));
+    goToDeck(n);
+    chips[n].focus({preventScroll:true});
+  }
+  function onCardKey(e, d){
+    var dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if(!dir) return;
+    e.preventDefault();
+    var n = Math.min(d.cards.length-1, Math.max(0, curCard + dir));
+    goToCard(d.i, n);
+    var t = d.ownTabs[n];
+    if(t){ t.tabIndex = 0; t.focus({preventScroll:true}); }
+  }
+
+  /* ── state ──────────────────────────────────────────────────── */
+  var curDeck = -1, curCard = -1;
+
+  function apply(di, ci){
+    if(di === curDeck && ci === curCard) return;
+    curDeck = di; curCard = ci;
+
+    model.forEach(function(d){
+      var before = d.i < di, after = d.i > di;
+      d.chip.setAttribute('aria-current', d.i === di ? 'true' : 'false');
+      if(d.fill) d.fill.style.setProperty('--p', before ? '1' : after ? '0' : d.fill.style.getPropertyValue('--p') || '0');
+
+      d.cards.forEach(function(c, j){
+        var state = before ? 'passed'
+                  : after  ? 'ahead'
+                  : (j < ci ? 'passed' : j === ci ? 'active' : 'ahead');
+        c.dataset.state = state;
+        var t = d.ownTabs[j];
+        if(t){
+          t.setAttribute('aria-selected', state === 'active' ? 'true' : 'false');
+          t.tabIndex = state === 'active' ? 0 : -1;
+          if(state !== 'active'){
+            var r = t.querySelector('.stkCard__tab__rail');
+            if(r) r.style.setProperty('--p', state === 'passed' ? '1' : '0');
+          }
+        }
+      });
+    });
+
+    if(model[di]) history.replaceState(null, '', '#' + model[di].id);
+  }
+
+  /* pure arithmetic against cached tops — safe to run every frame */
+  function resolve(){
+    var y = window.scrollY + pin + 6;
+    var di = 0;
+    for(var k = 0; k < model.length; k++){ if(model[k].deckTop <= y) di = k; }
+    var d = model[di], ci = 0;
+    for(var j = 0; j < d.tops.length; j++){ if(d.tops[j] <= y) ci = j; }
+    apply(di, ci);
+
+    /* rails */
+    var d2 = model[curDeck];
+    if(d2 && d2.fill){
+      var p = (y - d2.start) / Math.max(1, d2.end - d2.start);
+      d2.fill.style.setProperty('--p', Math.min(1, Math.max(0, p)).toFixed(3));
+    }
+    var tab = d2 && d2.ownTabs[curCard];
+    var rail = tab && tab.querySelector('.stkCard__tab__rail');
+    if(rail && d2){
+      var start = d2.tops[curCard];
+      var end   = (curCard < d2.tops.length-1) ? d2.tops[curCard+1] : d2.end;
+      var q = (y - start) / Math.max(1, end - start);
+      rail.style.setProperty('--p', Math.min(1, Math.max(0, q)).toFixed(3));
+    }
+    keepChipVisible();
+  }
+
+  /* the rail scrolls horizontally on narrow screens — keep the
+     current chapter in view without yanking the page */
+  var lastChip = -1;
+  function keepChipVisible(){
+    if(curDeck === lastChip || !railEl) return;
+    lastChip = curDeck;
+    var chip = chips[curDeck];
+    if(!chip) return;
+    var cr = chip.getBoundingClientRect(), rr = railEl.getBoundingClientRect();
+    if(cr.left < rr.left + 8 || cr.right > rr.right - 8){
+      railEl.scrollTo({ left: chip.offsetLeft - 24, behavior: reduce ? 'auto' : 'smooth' });
+    }
+  }
+
+  var ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ ticking = false; resolve(); });
+  }
+
+  addEventListener('scroll', onScroll, {passive:true});
+  addEventListener('resize', function(){ measure(); onScroll(); });
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(function(){ measure(); onScroll(); });
+  }
+
+  /* deep link: /#ch-analytics opens on that chapter */
+  measure();
+  var hash = (location.hash || '').replace('#','');
+  var target = model.filter(function(d){ return d.id === hash; })[0];
+  if(target){
+    requestAnimationFrame(function(){
+      window.scrollTo({top: target.deckTop - railTop - (railEl ? railEl.offsetHeight : 0) - 14, behavior:'auto'});
+      resolve();
+    });
+  } else {
+    resolve();
+  }
+})();
+
+</script>
+</body>
+</html>
