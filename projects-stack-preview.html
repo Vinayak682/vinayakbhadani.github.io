@@ -665,10 +665,18 @@ body{
      is cached here and invalidated on resize / font load. */
   var tops = [], pin = 0, deckEnd = 0;
   function measure(){
-    var wrapTop = wrapper.getBoundingClientRect().top + window.scrollY;
-    pin  = parseFloat(getComputedStyle(cards[0]).top) || 0;
-    tops = cards.map(function(c){ return wrapTop + c.offsetTop; });
-    deckEnd = tops[tops.length-1] + cards[cards.length-1].offsetHeight;
+    /* NOTE: do NOT use card.offsetTop here. Once a sticky element is
+       stuck, offsetTop reports its *shifted* position, not its position
+       in flow — so tab clicks and active-state both drift as you scroll.
+       Accumulate heights from the (non-sticky) wrapper instead. */
+    var y = wrapper.getBoundingClientRect().top + window.scrollY;
+    pin   = parseFloat(getComputedStyle(cards[0]).top) || 0;
+    tops  = cards.map(function(c){
+      var top = y;
+      y += c.offsetHeight + (parseFloat(getComputedStyle(c).marginBottom) || 0);
+      return top;
+    });
+    deckEnd = y;
   }
   function cardTop(i){ return tops[i]; }
   function topOffset(){ return pin; }
@@ -697,6 +705,12 @@ body{
       if(ownTabs[j]){
         ownTabs[j].setAttribute('aria-selected', j === i ? 'true' : 'false');
         ownTabs[j].tabIndex = j === i ? 0 : -1;
+        /* rails of cards you've cleared read as complete, not frozen
+           at whatever fraction they held when you scrolled past */
+        if(state !== 'active'){
+          var r = ownTabs[j].querySelector('.sigCard__tab__rail');
+          if(r) r.style.setProperty('--p', state === 'passed' ? '1' : '0');
+        }
       }
       if(j <= i && c.dataset.seen !== '1'){
         c.dataset.seen = '1';
