@@ -24,11 +24,12 @@
 <meta name="twitter:description" content="Eight functions, 27 steps, one end-to-end flow. Click any step for its inputs, outputs, owner and lead time."/>
 <meta name="twitter:image" content="https://vinayak682.github.io/vinayakbhadani.github.io/og-preview.png"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <!-- Google Analytics 4 --><script async src="https://www.googletagmanager.com/gtag/js?id=G-08JD9489HY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-08JD9489HY');</script>
 <style>
 :root{--bg0:#020c1b;--bg1:#0a1628;--bg2:#112240;--teal:#00d4a8;--gold:#f59e0b;--purple:#a78bfa;--red:#f87171;--txt:#ccd6f6;--txt2:#8892b0;--white:#e6f1ff}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg0);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+body{background:var(--bg0);color:var(--txt);font-family:'Inter', 'Segoe UI', system-ui, sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
 a{color:var(--teal);text-decoration:none}
 .nav{position:sticky;top:0;z-index:100;background:rgba(2,12,27,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .nav-brand{font-size:.85rem;font-weight:700;color:var(--white)}
@@ -45,37 +46,84 @@ a{color:var(--teal);text-decoration:none}
 .tbtn{font-size:.78rem;font-weight:700;padding:8px 15px;border-radius:8px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.03);color:var(--txt2);cursor:pointer;transition:.18s}
 .tbtn:hover{border-color:rgba(0,212,168,.45);color:var(--teal)}
 .tbtn.on{background:rgba(0,212,168,.12);border-color:rgba(0,212,168,.5);color:var(--teal)}
+.search-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:var(--white);padding:7px 12px;font-size:.78rem;font-family:inherit;width:220px;transition:.2s}
+.search-input:focus{outline:none;border-color:var(--teal);background:rgba(0,212,168,.05)}
+.search-badge{font-size:.7rem;color:var(--txt2);background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;display:none}
 .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.73rem;color:var(--txt2);margin-left:auto}
 .legend i{display:inline-block;width:26px;height:0;border-top:2px solid var(--txt2);vertical-align:middle;margin-right:7px}
 .legend i.dash{border-top-style:dashed}
-.stage{max-width:1400px;margin:0 auto;padding:0 24px 20px}
-.canvas{overflow-x:auto;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:linear-gradient(160deg,#04101f,#020c1b)}
-.canvas svg{display:block;min-width:1180px;width:100%;height:auto}
+
+.stats-bar{max-width:1400px;margin:0 auto 16px;padding:12px 24px;display:flex;gap:30px;background:rgba(2,12,27,.5);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+.stat{display:flex;flex-direction:column;align-items:flex-start}
+.stat-val{font-size:1.1rem;font-weight:800;color:var(--teal);line-height:1}
+.stat-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2);margin-top:4px}
+
+.stage{max-width:1400px;margin:0 auto;padding:0 24px 20px;position:relative}
+.canvas{overflow:hidden;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:linear-gradient(160deg,#04101f,#020c1b);position:relative}
+.canvas svg{display:block;min-width:100%;width:100%;height:auto;cursor:grab}
+.canvas svg:active{cursor:grabbing}
 .hint{font-size:.76rem;color:var(--txt2);margin-top:9px}
+
+.zoom-controls{position:absolute;top:16px;right:16px;display:flex;flex-direction:column;gap:4px;background:rgba(10,22,40,.8);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:4px}
+.zbtn{background:transparent;border:none;color:var(--txt2);width:28px;height:28px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.zbtn:hover{background:rgba(255,255,255,.1);color:var(--white)}
+
+.walkthrough-bar{position:absolute;top:16px;left:16px;right:16px;background:rgba(10,22,40,.9);backdrop-filter:blur(12px);border:1px solid var(--teal);border-radius:8px;padding:12px 16px;display:none;align-items:center;gap:16px;z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.walkthrough-bar.active{display:flex}
+.wt-progress{flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;position:relative}
+.wt-bar{position:absolute;left:0;top:0;bottom:0;background:var(--teal);width:0%;transition:width .3s}
+.wt-step{font-size:.8rem;font-weight:700;color:var(--white);min-width:60px;text-align:right}
+
+.reset-btn{position:absolute;top:16px;left:16px;display:none;z-index:10;background:var(--red);color:var(--white);border:none;padding:6px 12px;border-radius:6px;font-size:.75rem;font-weight:700;cursor:pointer}
+.reset-btn.active{display:block}
+
 /* node styling */
-.node{cursor:pointer}
-.node rect{transition:stroke .18s,filter .18s}
-.node:hover rect,.node.sel rect{stroke-width:2.2;filter:drop-shadow(0 0 9px rgba(0,212,168,.45))}
+.node{cursor:pointer;transition:opacity .4s ease;opacity:0;}
+.node rect,.node path{transition:all .2s ease;}
+.node:hover{transform-origin:center;}
+.node:hover rect,.node:hover path{stroke-width:2.5;filter:drop-shadow(0 0 12px rgba(0,212,168,.5));}
 .node text{pointer-events:none;user-select:none}
-.edge{fill:none;stroke-linecap:round}
+.node.sel rect,.node.sel path{stroke-width:2.5;filter:drop-shadow(0 0 12px rgba(0,212,168,.5))}
+.node[data-id="gate"] path{animation:gatePulse 3s ease-in-out infinite}
+@keyframes gatePulse{0%,100%{filter:none}50%{filter:drop-shadow(0 0 14px rgba(245,158,11,.5))}}
+
+.node.traced rect,.node.traced path{stroke-width:2.5;filter:drop-shadow(0 0 12px rgba(0,212,168,.5))}
+
+.edge{fill:none;stroke-linecap:round;opacity:0;transition:opacity .8s ease}
+.edge.traced{stroke-opacity:1 !important;stroke-width:2.5 !important;filter:drop-shadow(0 0 8px rgba(0,212,168,.4))}
+
 .flowline{stroke-dasharray:7 9;animation:dash 1.4s linear infinite}
 @keyframes dash{to{stroke-dashoffset:-32}}
-.dim{opacity:.16}
+.dim{opacity:.16 !important; filter:none !important}
+
 /* detail panel */
 .panel{max-width:1400px;margin:0 auto 60px;padding:0 24px}
-.pcard{background:linear-gradient(160deg,var(--bg1),var(--bg2));border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:26px 28px;min-height:150px}
+.pcard{background:linear-gradient(160deg,var(--bg1),var(--bg2));border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:26px 28px;min-height:150px;transition:opacity .25s ease, transform .25s ease;}
+.pcard.fading{opacity:.3;transform:translateY(8px)}
 .pcard .ptag{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 11px;border-radius:5px;margin-bottom:12px}
 .pcard h2{font-size:1.3rem;color:var(--white);font-weight:800;margin-bottom:6px;letter-spacing:-.01em}
 .pcard .psub{font-size:.9rem;color:var(--txt2);margin-bottom:20px}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
 .pbox h4{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--txt2);margin-bottom:8px}
 .pbox ul{list-style:none;padding:0}
-.pbox li{font-size:.85rem;color:var(--txt);padding:4px 0 4px 15px;position:relative;line-height:1.55}
+.pbox li{font-size:.85rem;color:var(--txt);padding:4px 0 4px 15px;position:relative;line-height:1.55;opacity:0;animation:cascadeIn .3s ease forwards}
+@keyframes cascadeIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
 .pbox li::before{content:"›";position:absolute;left:0;color:var(--teal);font-weight:700}
 .pbox p{font-size:.85rem;color:var(--txt)}
-.risk{border-left:2px solid var(--red);padding-left:13px}
+.risk{border-left:2px solid var(--red);padding-left:13px;animation:riskPulse 2s ease-in-out infinite}
+@keyframes riskPulse{0%,100%{box-shadow:none}50%{box-shadow:-4px 0 12px rgba(248,113,113,.15)}}
 .risk h4{color:var(--red)}
 .empty{color:var(--txt2);font-size:.92rem;display:flex;align-items:center;gap:10px;height:100px}
+
+/* Tooltip */
+.rich-tooltip{position:fixed;background:rgba(10,22,40,.92);backdrop-filter:blur(16px);border:1px solid rgba(0,212,168,.25);border-radius:12px;padding:14px 18px;pointer-events:none;opacity:0;transition:opacity .2s;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:280px;display:none}
+.rich-tooltip.show{opacity:1;display:block}
+.rt-title{font-size:.9rem;font-weight:700;color:var(--white);margin-bottom:4px}
+.rt-owner{font-size:.75rem;color:var(--txt2);margin-bottom:10px}
+.rt-stats{display:flex;gap:12px;margin-bottom:10px}
+.rt-stat{font-size:.7rem;color:var(--txt);background:rgba(255,255,255,.05);padding:3px 8px;border-radius:4px}
+.rt-click{font-size:.7rem;color:var(--teal);font-weight:600;margin-top:6px}
+
 .band{max-width:1400px;margin:0 auto 72px;padding:0 24px}
 .band-inner{background:linear-gradient(135deg,rgba(0,212,168,.08),rgba(167,139,250,.06));border:1px solid rgba(0,212,168,.25);border-radius:16px;padding:32px 30px;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}
 .band h3{font-size:1.2rem;font-weight:800;color:var(--white);margin-bottom:7px}
@@ -90,6 +138,7 @@ footer a{color:var(--txt2)}
   .nav{padding:12px 18px}.nav-brand{white-space:nowrap;font-size:.8rem}
   .nav-links{gap:12px;font-size:.73rem}
   .legend{margin-left:0;width:100%}
+  .stats-bar{flex-wrap:wrap;gap:15px}
 }
 @media(prefers-reduced-motion:reduce){.flowline{animation:none;stroke-dasharray:7 9}}
 </style>
@@ -130,14 +179,42 @@ footer a{color:var(--txt2)}
   <button class="tbtn" id="btnMat">Material only</button>
   <button class="tbtn" id="btnInfo">Information only</button>
   <button class="tbtn" id="btnAll">Show all</button>
+  <button class="tbtn" id="btnWalkthrough">▶ Walkthrough</button>
+  <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search steps, owners, inputs…">
+  <span class="search-badge" id="searchBadge">0 matches</span>
   <div class="legend">
     <span><i></i>Material flow</span>
     <span><i class="dash"></i>Information / payment</span>
   </div>
 </div>
 
+<div class="stats-bar">
+  <div class="stat"><span class="stat-val" data-val="27">0</span><span class="stat-label">Process Steps</span></div>
+  <div class="stat"><span class="stat-val" data-val="8">0</span><span class="stat-label">Functions</span></div>
+  <div class="stat"><span class="stat-val" data-val="21">0</span><span class="stat-label">Material Flows</span></div>
+  <div class="stat"><span class="stat-val" data-val="5">0</span><span class="stat-label">Info Flows</span></div>
+  <div class="stat"><span class="stat-val">~6–9 mo</span><span class="stat-label">Critical Path</span></div>
+</div>
+
 <div class="stage">
-  <div class="canvas"><svg id="flow" viewBox="0 0 1240 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Swimlane process flow diagram from demand planning through to distribution."></svg></div>
+  <div class="walkthrough-bar" id="walkthroughBar">
+    <button class="tbtn" id="wtPrev">⏮ Prev</button>
+    <button class="tbtn" id="wtPlayPause">⏸ Pause</button>
+    <button class="tbtn" id="wtNext">⏭ Next</button>
+    <div class="wt-progress"><div class="wt-bar" id="wtBar"></div></div>
+    <div class="wt-step" id="wtStep">1 / 27</div>
+    <button class="tbtn" id="wtExit">✖ Exit</button>
+  </div>
+  <button class="reset-btn" id="resetTraceBtn">✖ Reset View</button>
+  <div class="canvas" id="canvasWrap">
+    <div class="zoom-controls">
+      <button class="zbtn" id="btnZoomIn" title="Zoom In">+</button>
+      <button class="zbtn" id="btnZoomOut" title="Zoom Out">−</button>
+      <button class="zbtn" id="btnZoomFit" title="Fit to screen">⊡</button>
+      <button class="zbtn" id="btnFullscreen" title="Fullscreen">⛶</button>
+    </div>
+    <svg id="flow" viewBox="0 0 1240 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Swimlane process flow diagram from demand planning through to distribution."></svg>
+  </div>
   <p class="hint">Tip: the diagram scrolls horizontally on narrow screens. Click a step for detail.</p>
 </div>
 
@@ -146,6 +223,8 @@ footer a{color:var(--txt2)}
     <div class="empty">👆 Select any step in the flow above to see its inputs, outputs, owner and failure modes.</div>
   </div>
 </div>
+
+<div class="rich-tooltip" id="tooltip"></div>
 
 <section class="band">
   <div class="band-inner">
@@ -175,166 +254,139 @@ const LANES = [
   {id:'di',  name:'DISTRIBUTION',          c:'#2d6a3e', y:792, h:96}
 ];
 
-/* ───────────── Node definitions ─────────────
-   x,y = top-left of the box. w,h default 176x52.            */
+/* ───────────── Node definitions ───────────── */
 const N = [
  {id:'collect', lane:'dp', x:186, y:78, t:'Collect Forecast Inputs', s:'7 demand streams',
   owner:'Demand Planning', lt:'Monthly cycle',
   inp:['Retail outlets — UAE','KSA & Oman distributors','Travel retail / duty-free','E-commerce','Export partners','Private label accounts','Marketing promo calendar'],
   out:['Raw demand signals by channel','Promo and event calendar'],
   risk:'Channels submit in different formats and at different times. Late or missing submissions get silently replaced by last year plus a percentage.'},
-
  {id:'consolidate', lane:'dp', x:420, y:78, t:'Consolidate & Plan Forecast', s:'Reconcile all sources',
   owner:'Demand Planning', lt:'1–2 weeks',
   inp:['All channel submissions','Historical sales by SKU','Event & season calendar','Promotion plan'],
   out:['Single reconciled forecast','Statistical baseline plus overrides'],
   risk:'Double counting between channels, and unreconciled promo uplift that already sits in the statistical baseline.'},
-
  {id:'finalize', lane:'dp', x:654, y:78, t:'Finalise Demand Plan', s:'Monthly / quarterly plan',
   owner:'Demand Planning · S&OP forum', lt:'Locked monthly',
   inp:['Reconciled forecast','Consensus from S&OP review'],
   out:['Approved demand plan','Handoff to production planning'],
   risk:'A plan agreed but not binding. If it can be overridden downstream without a decision log, everything after this is theatre.'},
-
  {id:'assess', lane:'pp', x:186, y:186, t:'Assess RM Requirements', s:'Explode plan to materials',
   owner:'Production Planning', lt:'Days',
   inp:['Approved demand plan','Bill of materials per SKU','On-hand raw material stock','Open purchase orders','Re-order level criteria'],
   out:['Gross and net material requirement','Shortage list by component'],
   risk:'BOM accuracy. A wrong consumption factor on one shared component silently corrupts every SKU that uses it.'},
-
  {id:'gate', lane:'pp', x:0, y:0, diamond:true, cx:520, cy:222, rx:74, ry:40,
   t:'RM Available?', s:'Availability gate',
   owner:'Production Planning', lt:'Decision point',
   inp:['Net requirement by component','Stock on hand and on order','Re-order levels'],
   out:['YES → production plan released','NO → raw material requisition'],
   risk:'This is the single highest-leverage gate in the chain. A false YES stops the line mid-run; a false NO buys material you already had.'},
-
  {id:'prodplan', lane:'pp', x:672, y:172, t:'Proceed with Production Plan', s:'Release to factory',
   owner:'Production Planning', lt:'Per production calendar',
   inp:['Confirmed material availability','Capacity and line availability'],
   out:['Firm production schedule'],
   risk:'Capacity checked after material rather than alongside it — you can be material-ready and still line-constrained.'},
-
  {id:'requisition', lane:'pp', x:672, y:232, t:'Prepare RM Requisition', s:'Local 45+ d · Overseas 3–6 mo',
   owner:'Production Planning → Procurement', lt:'Local 45+ days · Overseas 3–6 months',
   inp:['Shortage list','Lead time by supplier class','Minimum order quantities'],
   out:['Purchase requisition to procurement'],
   risk:'The lead time gap is the whole game. An overseas requisition raised in month 5 for a month 6 need is already impossible.'},
-
  {id:'reviewpo', lane:'pr', x:186, y:312, t:'Review Requests & Release PO', s:'Quotation → PO flow',
   owner:'Procurement', lt:'Days to weeks',
   inp:['Purchase requisition','Supplier quotations','Approved supplier list'],
   out:['Released purchase order'],
   risk:'Quotation cycles quietly consume the buffer that planning assumed was transit time.'},
-
  {id:'polocal', lane:'pr', x:420, y:296, t:'PO — Local Supplier', s:'30+ days production',
   owner:'Procurement', lt:'30+ days',
   inp:['Approved PO','Delivery schedule'],
   out:['Confirmed local order'],
   risk:'Short lead time invites late ordering, which removes any recovery room when the supplier slips.'},
-
  {id:'pooverseas', lane:'pr', x:420, y:352, t:'PO — Overseas Supplier', s:'3–6 months production',
   owner:'Procurement', lt:'3–6 months',
   inp:['Approved PO','Production slot booking'],
   out:['Confirmed overseas order'],
   risk:'Commitment is made against a forecast 3–6 months out — the point in the chain with the worst forecast accuracy and the least flexibility.'},
-
  {id:'followlocal', lane:'pr', x:672, y:296, t:'Follow Up — Local', s:'Coordinate to warehouse',
   owner:'Procurement', lt:'Ongoing',
   inp:['Open local POs'],
   out:['Confirmed delivery dates','Goods arrival updates'],
   risk:'Follow-up done by memory rather than by exception report; small slips accumulate unnoticed.'},
-
  {id:'followoverseas', lane:'pr', x:672, y:352, t:'Follow Up — Overseas', s:'Ready-to-ship & handoff',
   owner:'Procurement → Logistics', lt:'Ongoing',
   inp:['Open overseas POs','Production status from supplier'],
   out:['Ready-to-ship date','Notification to logistics & shipping'],
   risk:'The handoff to logistics is informal. If the ready-to-ship date does not reach the forwarder early, you lose the sailing.'},
-
  {id:'procpay', lane:'fi', x:280, y:432, t:'Procurement Payment Requests', s:'Supplier payment',
   owner:'Finance', lt:'Per payment terms',
   inp:['Supplier invoice','Final shipping documents','Approved PO'],
   out:['Supplier payment released'],
   risk:'Payment approval sitting behind document mismatches will hold the shipment regardless of how well planning performed.'},
-
  {id:'logpay', lane:'fi', x:760, y:432, t:'Logistics Payment Requests', s:'Customs duty advance',
   owner:'Finance', lt:'Before clearance',
   inp:['Freight forwarder invoice','Customs duty assessment'],
   out:['Duty advance and freight payment'],
   risk:'Duty advance not released in time turns a berthed container into demurrage.'},
-
  {id:'coordsupplier', lane:'lg', x:186, y:528, t:'Coordinate with Supplier', s:'Ready date · qty · volume',
   owner:'Logistics & Shipping', lt:'Days',
   inp:['Ready-to-ship notification','Cargo dimensions and volume'],
   out:['Confirmed collection plan'],
   risk:'Volume misreported means the wrong equipment is booked and the cargo rolls.'},
-
  {id:'coordff', lane:'lg', x:420, y:528, t:'Coordinate with Forwarder', s:'Quote & booking',
   owner:'Logistics & Shipping', lt:'Days to weeks',
   inp:['Confirmed cargo details','Required arrival date'],
   out:['Freight quote','Confirmed booking and sailing'],
   risk:'Space availability, not price, is the binding constraint in a tight market.'},
-
  {id:'eta', lane:'lg', x:654, y:528, t:'Notify ETA & Shipping Docs', s:'Final invoice shared',
   owner:'Logistics & Shipping', lt:'Pre-arrival',
   inp:['Bill of lading','Commercial invoice','Packing list','Certificate of origin'],
   out:['ETA to warehouse and production','Documents to finance for payment'],
   risk:'Document errors discovered at the port rather than at issue. Every correction is measured in days of dwell.'},
-
  {id:'customs', lane:'lg', x:888, y:528, t:'Customs Clearance', s:'Duty & freight settlement',
   owner:'Logistics & Shipping · Finance', lt:'Days — highly variable',
   inp:['Cleared documents','Duty advance from finance'],
   out:['Released cargo for delivery'],
   risk:'This is usually the highest-variance step in the whole lane, and the one most often modelled as a fixed number.'},
-
  {id:'arrival', lane:'wh', x:186, y:624, t:'Shipment Arrival', s:'Goods at warehouse',
   owner:'Warehouse', lt:'Same day',
   inp:['Cleared cargo','Delivery note'],
   out:['Received shipment awaiting QC'],
   risk:'Receiving capacity assumed infinite in the plan. Several containers landing together creates a queue nobody scheduled.'},
-
  {id:'qcgrn', lane:'wh', x:420, y:624, t:'QC Check & GRN', s:'Inspect and book in',
   owner:'Warehouse · Quality', lt:'1–3 days',
   inp:['Received goods','Quality specification'],
   out:['Goods receipt note','Accepted / rejected quantities'],
   risk:'Stock is physically present but not yet systemically available. Planners see zero while pallets sit in the bay.'},
-
  {id:'availability', lane:'wh', x:654, y:624, t:'Goods Availability Updated', s:'System stock live',
   owner:'Warehouse', lt:'Immediate on GRN',
   inp:['Approved GRN'],
   out:['Updated on-hand stock','Notification to procurement and production'],
   risk:'Lag between physical receipt and system update is the most common cause of a false shortage at the availability gate.'},
-
  {id:'release', lane:'wh', x:888, y:624, t:'Release RM to Factory', s:'Issue against production order',
   owner:'Warehouse', lt:'Per production schedule',
   inp:['Firm production order','Available raw material'],
   out:['Materials issued to factory'],
   risk:'Partial issues against a full order start a run that cannot finish.'},
-
  {id:'production', lane:'fa', x:186, y:720, t:'Production Process', s:'Mix · macerate · filter · fill · pack',
   owner:'Factory', lt:'Per batch — includes maceration',
   inp:['Issued raw materials','Production order','Process specification'],
   out:['Bulk and finished units','In-process quality records'],
   risk:'Maceration time is fixed chemistry, not a schedulable buffer. It cannot be compressed to recover lost days.'},
-
  {id:'fgready', lane:'fa', x:420, y:720, t:'FG Ready & QC Check', s:'Release to warehouse',
   owner:'Factory · Quality', lt:'Days',
   inp:['Finished units','Quality specification'],
   out:['Released finished goods'],
   risk:'A QC hold this late has no recovery path before the demand window closes.'},
-
  {id:'fgarrival', lane:'wh', x:1050, y:624, t:'FG Goods Arrival', s:'GRN at warehouse', w:150,
   owner:'Warehouse', lt:'Same day',
   inp:['Released finished goods from factory'],
   out:['Finished goods in stock, available to sell'],
   risk:'Finished goods GRN treated as lower priority than inbound raw material, delaying availability to the sales channel.'},
-
  {id:'pickpack', lane:'di', x:186, y:816, t:'Pick, Pack & Ship', s:'Per channel request',
   owner:'Distribution', lt:'Daily cycle',
   inp:['Customer and channel orders','Available finished goods'],
   out:['Packed and dispatched shipments'],
   risk:'Allocation rules under short supply. Without them, the first order to arrive takes stock the largest account needed.'},
-
  {id:'delivery', lane:'di', x:420, y:816, t:'FG Goods Delivery', s:'Order fulfilled',
   owner:'Distribution', lt:'Per route',
   inp:['Dispatched shipment'],
@@ -342,8 +394,7 @@ const N = [
   risk:'This is where service level is finally measured — but every cause of a miss originated upstream, often months earlier.'}
 ];
 
-/* ───────────── Edges ─────────────
-   type: 'm' material (solid) | 'i' information/payment (dashed)  */
+/* ───────────── Edges ───────────── */
 const E = [
  {f:'collect',t:'consolidate',type:'m'},
  {f:'consolidate',t:'finalize',type:'m'},
@@ -377,11 +428,19 @@ const E = [
  {f:'availability',t:'reviewpo',type:'i',label:'stock updates'}
 ];
 
+/* ───────────── Adj Lists ───────────── */
+const adjFwd = {}, adjBck = {};
+E.forEach((e,i) => {
+  (adjFwd[e.f] = adjFwd[e.f] || []).push({to: e.t, idx: i});
+  (adjBck[e.t] = adjBck[e.t] || []).push({from: e.f, idx: i});
+});
+
 /* ───────────── Render ───────────── */
 const SVG='http://www.w3.org/2000/svg';
 const svg=document.getElementById('flow');
 const byId={}; N.forEach(n=>byId[n.id]=n);
 const W=176,H=52;
+const edgePaths = [];
 
 function el(tag,attrs,txt){const e=document.createElementNS(SVG,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;return e;}
 function box(n){return n.diamond?{x:n.cx-n.rx,y:n.cy-n.ry,w:n.rx*2,h:n.ry*2,cx:n.cx,cy:n.cy}:{x:n.x,y:n.y,w:n.w||W,h:n.h||H,cx:n.x+(n.w||W)/2,cy:n.y+(n.h||H)/2};}
@@ -393,6 +452,11 @@ const defs=el('defs');
   const m=el('marker',{id:'ar'+i,viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:6,markerHeight:6,orient:'auto-start-reverse'});
   m.appendChild(el('path',{d:'M0 0 L10 5 L0 10 z',fill:c}));defs.appendChild(m);
 });
+// Particle Glow Filter
+const filter = el('filter', {id:'particleGlow', x:'-20%', y:'-20%', width:'140%', height:'140%'});
+filter.appendChild(el('feGaussianBlur', {stdDeviation:3, result:'blur'}));
+filter.appendChild(el('feComposite', {in:'SourceGraphic', in2:'blur', operator:'over'}));
+defs.appendChild(filter);
 svg.appendChild(defs);
 
 /* lanes */
@@ -430,8 +494,11 @@ E.forEach((e,i)=>{
   const col=e.lc||(e.type==='m'?'#8892b0':'#a78bfa');
   const mk=e.lc==='#4ade80'?'ar1':e.lc==='#f87171'?'ar2':(e.type==='m'?'ar0':'ar3');
   const p=el('path',{d:path(e),class:'edge flowline edge-'+e.type,stroke:col,
-    'stroke-width':e.type==='m'?2:1.5,'stroke-opacity':e.type==='m'?.85:.6,'marker-end':`url(#${mk})`});
-  p.dataset.type=e.type;gEdges.appendChild(p);
+    'stroke-width':e.type==='m'?2:1.5,'stroke-opacity':e.type==='m'?.85:.6,'marker-end':`url(#${mk})`,
+    'data-from':e.f, 'data-to':e.t});
+  p.dataset.type=e.type;
+  gEdges.appendChild(p);
+  edgePaths.push(p);
   if(e.label){
     const a=box(byId[e.f]),b=box(byId[e.t]);
     gEdges.appendChild(el('text',{x:(a.cx+b.cx)/2,y:(a.cy+b.cy)/2-6,'text-anchor':'middle',
@@ -462,35 +529,210 @@ N.forEach(n=>{
 });
 svg.appendChild(gNodes);
 
+/* particles */
+const gParticles = el('g');
+svg.appendChild(gParticles);
+
+/* Entrance Animations */
+setTimeout(()=>{
+  const nodes = Array.from(document.querySelectorAll('.node'));
+  nodes.forEach((n,i)=>{
+    setTimeout(()=>n.style.opacity = 1, i*80);
+  });
+  setTimeout(()=>{
+    document.querySelectorAll('.edge').forEach(e=>e.style.opacity=1);
+  }, nodes.length*80);
+  
+  // count up stats
+  document.querySelectorAll('.stat-val').forEach(el=>{
+    const target = parseInt(el.dataset.val);
+    if(isNaN(target)) return;
+    let count = 0;
+    const inc = target / 30;
+    const step = () => {
+      count += inc;
+      if(count >= target) el.textContent = target;
+      else {
+        el.textContent = Math.floor(count);
+        requestAnimationFrame(step);
+      }
+    };
+    step();
+  });
+}, 100);
+
 /* ───────────── Interaction ───────────── */
 const detail=document.getElementById('detail');
+const resetBtn=document.getElementById('resetTraceBtn');
+let isWalkthrough = false;
+let traceActive = false;
 function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+
+function tracePath(id) {
+  document.querySelectorAll('.node, .edge').forEach(x => {
+    x.classList.remove('traced', 'sel', 'dim');
+  });
+  if(!id) { traceActive = false; resetBtn.classList.remove('active'); return; }
+  
+  traceActive = true;
+  resetBtn.classList.add('active');
+  const upNodes = new Set(), downNodes = new Set(), tracedEdges = new Set();
+  
+  const qB = [id]; upNodes.add(id);
+  while(qB.length) {
+    const cur = qB.shift();
+    (adjBck[cur]||[]).forEach(e => {
+      tracedEdges.add(e.idx);
+      if(!upNodes.has(e.from)) { upNodes.add(e.from); qB.push(e.from); }
+    });
+  }
+  
+  const qF = [id]; downNodes.add(id);
+  while(qF.length) {
+    const cur = qF.shift();
+    (adjFwd[cur]||[]).forEach(e => {
+      tracedEdges.add(e.idx);
+      if(!downNodes.has(e.to)) { downNodes.add(e.to); qF.push(e.to); }
+    });
+  }
+  
+  document.querySelectorAll('.node').forEach(n => {
+    const nid = n.dataset.id;
+    if(nid === id) n.classList.add('sel', 'traced');
+    else if(upNodes.has(nid) || downNodes.has(nid)) n.classList.add('traced');
+    else n.classList.add('dim');
+  });
+  
+  document.querySelectorAll('.edge').forEach((e, i) => {
+    if(tracedEdges.has(i)) e.classList.add('traced');
+    else e.classList.add('dim');
+  });
+}
+
 function show(id){
   const n=byId[id],l=laneOf(n.lane);
-  document.querySelectorAll('.node').forEach(x=>x.classList.toggle('sel',x.dataset.id===id));
-  detail.innerHTML=`
-    <span class="ptag" style="background:${l.c}33;color:#fff;border:1px solid ${l.c}">${esc(l.name.replace('\n',' '))}</span>
-    <h2>${esc(n.t)}</h2>
-    <p class="psub">${esc(n.s)} &nbsp;·&nbsp; Owner: <strong style="color:#ccd6f6">${esc(n.owner)}</strong> &nbsp;·&nbsp; Lead time: <strong style="color:#ccd6f6">${esc(n.lt)}</strong></p>
-    <div class="pgrid">
-      <div class="pbox"><h4>Inputs</h4><ul>${n.inp.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>
-      <div class="pbox"><h4>Outputs</h4><ul>${n.out.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>
-      <div class="pbox risk"><h4>Where it breaks</h4><p>${esc(n.risk)}</p></div>
-    </div>`;
+  if(!isWalkthrough) tracePath(id);
+  else document.querySelectorAll('.node').forEach(x=>x.classList.toggle('sel',x.dataset.id===id));
+  
+  detail.classList.add('fading');
+  setTimeout(()=>{
+    detail.innerHTML=`
+      <span class="ptag" style="background:${l.c}33;color:#fff;border:1px solid ${l.c}">${esc(l.name.replace('\n',' '))}</span>
+      <h2>${esc(n.t)}</h2>
+      <p class="psub">${esc(n.s)} &nbsp;·&nbsp; Owner: <strong style="color:#ccd6f6">${esc(n.owner)}</strong> &nbsp;·&nbsp; Lead time: <strong style="color:#ccd6f6">${esc(n.lt)}</strong></p>
+      <div class="pgrid">
+        <div class="pbox"><h4>Inputs</h4><ul>${n.inp.map((i,idx)=>`<li style="animation-delay:${idx*50}ms">${esc(i)}</li>`).join('')}</ul></div>
+        <div class="pbox"><h4>Outputs</h4><ul>${n.out.map((i,idx)=>`<li style="animation-delay:${idx*50}ms">${esc(i)}</li>`).join('')}</ul></div>
+        <div class="pbox risk"><h4>Where it breaks</h4><p>${esc(n.risk)}</p></div>
+      </div>`;
+      detail.classList.remove('fading');
+  }, 200);
   if(typeof gtag!=='undefined')gtag('event','flow_node_view',{event_category:'engagement',event_label:id});
 }
+
+resetBtn.onclick = () => { tracePath(null); detail.innerHTML=`<div class="empty">👆 Select any step in the flow above to see its inputs, outputs, owner and failure modes.</div>`; };
+
 gNodes.querySelectorAll('.node').forEach(g=>{
   g.addEventListener('click',()=>show(g.dataset.id));
   g.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();show(g.dataset.id);}});
+  
+  // Tooltip
+  g.addEventListener('mouseenter', e=>{
+    if(isWalkthrough) return;
+    const id = g.dataset.id;
+    const nd = byId[id];
+    const tt = document.getElementById('tooltip');
+    tt.innerHTML = `
+      <div class="rt-title">${esc(nd.t)}</div>
+      <div class="rt-owner">${esc(nd.owner)}</div>
+      <div class="rt-stats">
+        <div class="rt-stat">↓ ${nd.inp.length} Inputs</div>
+        <div class="rt-stat">↑ ${nd.out.length} Outputs</div>
+      </div>
+      <div class="rt-stat">⏱ ${esc(nd.lt)}</div>
+      <div class="rt-click">Click for full detail →</div>
+    `;
+    tt.classList.add('show');
+    
+    // Position
+    const rect = g.getBoundingClientRect();
+    let top = rect.top - tt.offsetHeight - 10;
+    let left = rect.left + (rect.width/2) - (tt.offsetWidth/2);
+    if(top < 10) top = rect.bottom + 10;
+    if(left < 10) left = 10;
+    if(left + tt.offsetWidth > window.innerWidth - 10) left = window.innerWidth - tt.offsetWidth - 10;
+    
+    tt.style.top = top + 'px';
+    tt.style.left = left + 'px';
+  });
+  g.addEventListener('mouseleave', ()=>document.getElementById('tooltip').classList.remove('show'));
 });
 
+// Particles
+const particles = [];
+let playing = true;
+let lastSpawn = 0;
+
+function spawnParticle() {
+  if(!edgePaths.length || !playing) return;
+  const path = edgePaths[Math.floor(Math.random() * edgePaths.length)];
+  const isMat = path.dataset.type === 'm';
+  const c = el('circle', {
+    r: isMat ? 3 : 2.5,
+    fill: isMat ? '#00d4a8' : '#a78bfa',
+    filter: 'url(#particleGlow)',
+    opacity: 0
+  });
+  gParticles.appendChild(c);
+  particles.push({
+    el: c,
+    path: path,
+    len: path.getTotalLength(),
+    prog: 0,
+    speed: (isMat ? 1.5 : 2) + Math.random(),
+    life: 1
+  });
+}
+
+function updateParticles(t) {
+  if(t - lastSpawn > 600) {
+    spawnParticle();
+    lastSpawn = t;
+  }
+  for(let i=particles.length-1; i>=0; i--) {
+    const p = particles[i];
+    if(playing) p.prog += p.speed;
+    
+    if(p.prog >= p.len) {
+      p.el.remove();
+      particles.splice(i, 1);
+      continue;
+    }
+    
+    const pt = p.path.getPointAtLength(p.prog);
+    p.el.setAttribute('cx', pt.x);
+    p.el.setAttribute('cy', pt.y);
+    
+    // fade in/out
+    let op = 1;
+    if(p.prog < 20) op = p.prog/20;
+    else if(p.len - p.prog < 20) op = (p.len - p.prog)/20;
+    p.el.setAttribute('opacity', op);
+  }
+  requestAnimationFrame(updateParticles);
+}
+requestAnimationFrame(updateParticles);
+
 /* toolbar */
-let playing=true;
 const btnFlow=document.getElementById('btnFlow');
-btnFlow.onclick=()=>{playing=!playing;
+btnFlow.onclick=()=>{
+  playing=!playing;
   document.querySelectorAll('.flowline').forEach(p=>p.style.animationPlayState=playing?'running':'paused');
-  btnFlow.textContent=playing?'⏸ Pause flow':'▶ Play flow';btnFlow.classList.toggle('on',playing);};
-function filter(mode){
+  btnFlow.textContent=playing?'⏸ Pause flow':'▶ Play flow';
+  btnFlow.classList.toggle('on',playing);
+};
+
+function filterMap(mode){
   document.querySelectorAll('.edge,.elabel').forEach(p=>{
     const t=p.dataset.type||p.getAttribute('data-type');
     p.classList.toggle('dim',mode!=='all'&&t!==mode);
@@ -498,9 +740,174 @@ function filter(mode){
   [['btnMat','m'],['btnInfo','i'],['btnAll','all']].forEach(([b,m])=>
     document.getElementById(b).classList.toggle('on',mode===m));
 }
-document.getElementById('btnMat').onclick=()=>filter('m');
-document.getElementById('btnInfo').onclick=()=>filter('i');
-document.getElementById('btnAll').onclick=()=>filter('all');
+document.getElementById('btnMat').onclick=()=>filterMap('m');
+document.getElementById('btnInfo').onclick=()=>filterMap('i');
+document.getElementById('btnAll').onclick=()=>filterMap('all');
+
+/* Search */
+const searchInput = document.getElementById('searchInput');
+const searchBadge = document.getElementById('searchBadge');
+searchInput.addEventListener('input', e => {
+  const q = e.target.value.toLowerCase().trim();
+  if(!q) {
+    document.querySelectorAll('.node, .edge').forEach(x=>x.classList.remove('dim', 'sel', 'traced'));
+    searchBadge.style.display = 'none';
+    tracePath(null);
+    return;
+  }
+  let matches = 0;
+  document.querySelectorAll('.node').forEach(n => {
+    const data = byId[n.dataset.id];
+    const text = [data.t, data.s, data.owner, data.inp.join(' '), data.out.join(' '), data.risk].join(' ').toLowerCase();
+    if(text.includes(q)) {
+      n.classList.remove('dim');
+      n.classList.add('traced');
+      matches++;
+    } else {
+      n.classList.add('dim');
+      n.classList.remove('traced');
+    }
+  });
+  searchBadge.textContent = matches + ' matches';
+  searchBadge.style.display = 'inline-block';
+});
+
+/* Keyboard Navigation */
+document.addEventListener('keydown', e => {
+  if(e.key === '/') {
+    e.preventDefault();
+    searchInput.focus();
+  }
+  if(e.key === 'Escape') {
+    if(isWalkthrough) stopWalkthrough();
+    else { tracePath(null); searchInput.value = ''; searchInput.dispatchEvent(new Event('input')); }
+  }
+  if(e.key === ' ') {
+    if(isWalkthrough) { e.preventDefault(); wtPlayPause.click(); }
+  }
+  
+  // Arrow nav
+  const sel = document.querySelector('.node.sel');
+  if(sel && !isWalkthrough) {
+    const id = sel.dataset.id;
+    if(e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      const fwd = adjFwd[id];
+      if(fwd && fwd.length) {
+        show(fwd[0].to);
+        document.querySelector(`.node[data-id="${fwd[0].to}"]`).focus();
+      }
+    }
+    if(e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const bck = adjBck[id];
+      if(bck && bck.length) {
+        show(bck[0].from);
+        document.querySelector(`.node[data-id="${bck[0].from}"]`).focus();
+      }
+    }
+  }
+});
+
+/* Zoom controls */
+let vbX=0, vbY=0, vbW=1240, vbH=900;
+function updateViewBox() { svg.setAttribute('viewBox', `${vbX} ${vbY} ${vbW} ${vbH}`); }
+document.getElementById('btnZoomIn').onclick = () => {
+  vbX += vbW * 0.1; vbY += vbH * 0.1; vbW *= 0.8; vbH *= 0.8; updateViewBox();
+};
+document.getElementById('btnZoomOut').onclick = () => {
+  vbW *= 1.25; vbH *= 1.25; vbX -= (vbW - vbW/1.25)/2; vbY -= (vbH - vbH/1.25)/2; updateViewBox();
+};
+document.getElementById('btnZoomFit').onclick = () => {
+  vbX=0; vbY=0; vbW=1240; vbH=900; updateViewBox();
+};
+document.getElementById('btnFullscreen').onclick = () => {
+  const cw = document.getElementById('canvasWrap');
+  if(document.fullscreenElement) document.exitFullscreen();
+  else cw.requestFullscreen();
+};
+// Pan and wheel
+let isPanning = false, startX, startY;
+svg.addEventListener('mousedown', e => {
+  isPanning = true; startX = e.clientX; startY = e.clientY;
+});
+window.addEventListener('mouseup', () => isPanning = false);
+window.addEventListener('mousemove', e => {
+  if(!isPanning) return;
+  const dx = e.clientX - startX;
+  const dy = e.clientY - startY;
+  const scale = vbW / svg.clientWidth;
+  vbX -= dx * scale;
+  vbY -= dy * scale;
+  startX = e.clientX; startY = e.clientY;
+  updateViewBox();
+});
+svg.addEventListener('wheel', e => {
+  e.preventDefault();
+  const zoom = e.deltaY > 0 ? 1.1 : 0.9;
+  const rect = svg.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const scale = vbW / rect.width;
+  const sx = vbX + mx * scale, sy = vbY + my * scale;
+  vbW *= zoom; vbH *= zoom;
+  vbX = sx - mx * (vbW / rect.width);
+  vbY = sy - my * (vbH / rect.height);
+  updateViewBox();
+});
+
+/* Walkthrough Mode */
+const walkNodes = ['collect', 'consolidate', 'finalize', 'assess', 'gate', 'prodplan', 'requisition', 'reviewpo', 'polocal', 'pooverseas', 'followlocal', 'followoverseas', 'procpay', 'coordsupplier', 'coordff', 'eta', 'customs', 'logpay', 'arrival', 'qcgrn', 'availability', 'release', 'production', 'fgready', 'fgarrival', 'pickpack', 'delivery'];
+let wtIndex = 0, wtTimer = null, wtPlaying = true;
+const wtBar = document.getElementById('walkthroughBar');
+const pBar = document.getElementById('wtBar');
+const wtStepLbl = document.getElementById('wtStep');
+const wtPlayPause = document.getElementById('wtPlayPause');
+
+function stepWt() {
+  if(wtIndex >= walkNodes.length) { stopWalkthrough(); return; }
+  show(walkNodes[wtIndex]);
+  wtStepLbl.textContent = `${wtIndex + 1} / ${walkNodes.length}`;
+  pBar.style.width = ((wtIndex + 1) / walkNodes.length * 100) + '%';
+  document.querySelector('.panel').scrollIntoView({behavior:'smooth', block:'nearest'});
+  wtIndex++;
+  if(wtPlaying) wtTimer = setTimeout(stepWt, 4000);
+}
+
+function startWalkthrough() {
+  isWalkthrough = true;
+  wtIndex = 0;
+  wtPlaying = true;
+  wtPlayPause.textContent = '⏸ Pause';
+  wtBar.classList.add('active');
+  tracePath(null);
+  stepWt();
+}
+function stopWalkthrough() {
+  isWalkthrough = false;
+  clearTimeout(wtTimer);
+  wtBar.classList.remove('active');
+  tracePath(null);
+}
+document.getElementById('btnWalkthrough').onclick = startWalkthrough;
+document.getElementById('wtExit').onclick = stopWalkthrough;
+wtPlayPause.onclick = () => {
+  wtPlaying = !wtPlaying;
+  wtPlayPause.textContent = wtPlaying ? '⏸ Pause' : '▶ Play';
+  if(wtPlaying) stepWt();
+  else clearTimeout(wtTimer);
+};
+document.getElementById('wtPrev').onclick = () => {
+  clearTimeout(wtTimer);
+  wtIndex = Math.max(0, wtIndex - 2);
+  stepWt();
+  if(!wtPlaying) wtIndex--;
+};
+document.getElementById('wtNext').onclick = () => {
+  clearTimeout(wtTimer);
+  stepWt();
+  if(!wtPlaying) wtIndex--;
+};
+
 </script>
 </body>
 </html>
