@@ -1900,8 +1900,17 @@ footer::before{
   padding: 72px 24px;
   max-width: 900px;
 }
+/* text-shadow paints ABOVE the element's background. The gradient half of
+   every headline *is* a background — background-clip:text with a transparent
+   fill — so the dark shadow was being painted straight over the gradient.
+   That is why "Intelligence" rendered as a dark blur while the solid white
+   half beside it was fine: not a colour choice, a paint-order collision.
+   filter composites the finished element rather than painting into it, so it
+   is the only thing that can shadow gradient-clipped text. One filter on the
+   parent covers both halves and keeps them identical. */
 .plt-content .plt-headline {
-  text-shadow: 0 2px 30px rgba(4,2,14,.92), 0 2px 6px rgba(4,2,14,.80);
+  text-shadow: none;
+  filter: drop-shadow(0 2px 16px rgba(4,2,14,.90)) drop-shadow(0 1px 4px rgba(4,2,14,.80));
 }
 /* The gradient half of every headline is background-clip:text with a
    transparent fill, so text-shadow paints straight through it and does
@@ -1918,7 +1927,9 @@ footer::before{
   background-size: 220% 220% !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
-  filter: drop-shadow(0 2px 14px rgba(4,2,14,.85)) drop-shadow(0 1px 3px rgba(4,2,14,.7));
+  /* Both must stay off here — either one paints over the clipped gradient */
+  text-shadow: none !important;
+  filter: none !important;
 }
 .plt-content .plt-sub {
   color: rgba(240,244,255,.88);
