@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+  <title id="title">SupplyMind Signal Foundry monochrome mark</title>
+  <desc id="desc">Monochrome modular SupplyMind brand mark.</desc>
+  <g fill="#F4F6F3">
+    <rect x="70" y="70" width="105" height="105" rx="6"/>
+    <rect x="185" y="70" width="230" height="105" rx="6"/>
+    <rect x="425" y="70" width="105" height="105" rx="6"/>
+    <path d="M70 185H175V335L70 278Z"/>
+    <path d="M185 232L242 193L300 242L358 193L415 232V415H185Z"/>
+    <rect x="70" y="425" width="105" height="105" rx="6"/>
+    <rect x="185" y="425" width="230" height="105" rx="6"/>
+    <rect x="425" y="425" width="105" height="105" rx="6"/>
+    <rect x="425" y="300" width="105" height="115" rx="6"/>
+  </g>
+</svg>
