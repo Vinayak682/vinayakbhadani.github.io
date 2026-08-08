@@ -236,20 +236,20 @@ section{padding:96px 0;position:relative;}
 .tag:hover{border-color:rgba(192,132,252,.4);background:rgba(192,132,252,.1);color:#c084fc;}
 
 /* ═══════ BUTTONS — Aurora Edition ═══════ */
-.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:var(--r3);font-weight:700;font-size:.85rem;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none;letter-spacing:.02em;white-space:nowrap;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:10px;font-weight:700;font-size:.85rem;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none;letter-spacing:.02em;white-space:nowrap;}
 
 .btn-primary{
-  background:linear-gradient(135deg,#c084fc,#818cf8,#22d3ee);
-  background-size:200% 200%;
-  color:#04020e !important;
-  box-shadow:0 4px 24px rgba(192,132,252,.3),0 0 0 1px rgba(255,255,255,.08);
-  animation:btn-shimmer 4s ease infinite;
+  background:linear-gradient(135deg,#6d28d9,#4338ca);
+  color:#fff !important;
+  box-shadow:0 2px 10px rgba(67,56,202,.35),inset 0 0 0 1px rgba(255,255,255,.14);
 }
 .btn-primary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 40px rgba(192,132,252,.5),0 0 0 1px rgba(192,132,252,.3);
-  color:#04020e !important;
+  background:linear-gradient(135deg,#7c3aed,#4f46e5);
+  transform:translateY(-1px);
+  box-shadow:0 6px 20px rgba(67,56,202,.5),inset 0 0 0 1px rgba(255,255,255,.22);
+  color:#fff !important;
 }
+.btn-primary:focus-visible{outline:2px solid #a78bfa;outline-offset:3px;}
 @keyframes btn-shimmer{
   0%,100%{background-position:0% 50%;}
   50%{background-position:100% 50%;}
@@ -1600,16 +1600,7 @@ footer::before{
 }
 .skill-bar-pct{font-size:0.62rem;font-weight:700;color:#c084fc;width:30px;text-align:right;}
 
-/* ── Contact radar — aurora rings ── */
 #contact{position:relative;overflow:hidden;}
-.contact-radar{position:absolute;top:50%;right:-100px;transform:translateY(-50%);width:500px;height:500px;pointer-events:none;z-index:0;}
-.contact-radar-ring{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;
-  border:1px solid rgba(192,132,252,0.1);animation:radar-expand 4s ease-out infinite;
-}
-.contact-radar-ring:nth-child(2){animation-delay:1.3s;}
-.contact-radar-ring:nth-child(3){animation-delay:2.6s;}
-@keyframes radar-expand{0%{width:0;height:0;opacity:1}100%{width:500px;height:500px;opacity:0}}
 
 .avail-badge{
   display:inline-flex;align-items:center;gap:10px;padding:10px 20px;
@@ -5509,11 +5500,6 @@ function makeGameDecision(round, decision) {
   <div class="hud-corner hud-tr"></div>
   <div class="hud-corner hud-bl"></div>
   <div class="hud-corner hud-br"></div>
-  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;">
-  <div style="width:60px;height:60px;border-radius:50%;border:2px solid rgba(167,139,250,0.6);animation:avail-ring 2s ease-out infinite;position:absolute;"></div>
-  <div style="width:120px;height:120px;border-radius:50%;border:1px solid rgba(167,139,250,0.3);animation:avail-ring 2s ease-out infinite 0.5s;position:absolute;"></div>
-  <div style="width:200px;height:200px;border-radius:50%;border:1px solid rgba(167,139,250,0.15);animation:avail-ring 2s ease-out infinite 1s;position:absolute;"></div>
-</div>
   <div class="plt-content">
 
     <h2 class="plt-headline">Let's Build<br><span>Something Together</span></h2>
@@ -5525,11 +5511,6 @@ function makeGameDecision(round, decision) {
 <!-- ────────────────────────────────────────────────────── -->
 
 <section id="contact" aria-label="Contact">
-<div class="contact-radar" aria-hidden="true">
-  <div class="contact-radar-ring"></div>
-  <div class="contact-radar-ring"></div>
-  <div class="contact-radar-ring"></div>
-</div>
 
   <div class="wrap">
     <div style="text-align:center;margin-bottom:60px;">
