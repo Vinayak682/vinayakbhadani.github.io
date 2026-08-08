@@ -1740,8 +1740,8 @@ footer::before{
    ══════════════════════════════════════════════════════════════════ */
 .plt-section {
   --b: .52;            /* video brightness   */
-  --hue: 200deg;       /* colour grade       */
-  --sat: 1.35;
+  --hue: 0deg;         /* footage is content-matched — no fake grading */
+  --sat: 1.15;
   --con: 1.08;
   --mid: .40;          /* overlay mid-stop — lower = video dominates */
   --scrim: .80;        /* local darkening behind the copy only       */
@@ -2230,8 +2230,8 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
   </div>
 </section>
 
-<div class="plt-section plt-cinema" style="--b:0.62;--hue:200deg;--sat:1.35;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="8" data-vwindow="26">
-  <video class="plt-video" muted loop playsinline preload="metadata"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+<div class="plt-section plt-cinema" style="--b:0.62;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="2" data-vwindow="11">
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -2256,8 +2256,8 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
      Deliberately a different register so it never reads as a repeat:
      two-thirds height instead of full, warm grade against the opener's
      violet, and the camera pans east-to-west the way the route does. -->
-<div class="plt-section plt-major" style="--b:0.58;--hue:330deg;--sat:1.4;--sep:0.22;--mo:plt-pan-e;--dur:30s;" data-vstart="34" data-vwindow="22">
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+<div class="plt-section plt-major" style="--b:0.58;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pan-e;--dur:30s;" data-vstart="4" data-vwindow="24">
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/02-disruption-poster.jpg"><source src="assets/video/02-disruption.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -2306,7 +2306,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 <!-- VIDEO PRESENTATION -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-major" style="--b:0.6;--hue:20deg;--sat:1.5;--sep:0.35;--mo:plt-push;--dur:26s;" data-vstart="56" data-vwindow="20">
+<div class="plt-section plt-major" style="--b:0.6;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:26s;" data-vstart="56" data-vwindow="20">
   <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
@@ -2573,9 +2573,9 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 <!-- SKILLS -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-major" style="--b:0.54;--hue:180deg;--sat:1.8;--sep:0;--mo:plt-drift;--dur:32s;" data-vstart="76" data-vwindow="18">
+<div class="plt-section plt-major" style="--b:0.54;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:32s;" data-vstart="14" data-vwindow="11">
   <canvas id="neuralCanvas2" class="plt-neural"></canvas>
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -2700,9 +2700,9 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 <!-- EXPERIENCE -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-major" style="--b:0.55;--hue:150deg;--sat:1.6;--sep:0;--mo:plt-rise;--dur:30s;" data-vstart="94" data-vwindow="18">
+<div class="plt-section plt-major" style="--b:0.55;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-rise;--dur:30s;" data-vstart="3" data-vwindow="20">
   
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -2839,9 +2839,9 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 <!-- EDUCATION -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-minor" style="--b:0.5;--hue:250deg;--sat:1.5;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="112" data-vwindow="12">
+<div class="plt-section plt-minor" style="--b:0.5;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="26" data-vwindow="11">
   
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -2898,9 +2898,9 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 <!-- CERTIFICATIONS -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-minor" style="--b:0.5;--hue:25deg;--sat:1.5;--sep:0.4;--mo:plt-rise;--dur:30s;" data-vstart="124" data-vwindow="12">
+<div class="plt-section plt-minor" style="--b:0.5;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-rise;--dur:30s;" data-vstart="38" data-vwindow="11">
   
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -2942,9 +2942,9 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 <!-- PROJECTS -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-major" style="--b:0.58;--hue:300deg;--sat:1.4;--sep:0;--mo:plt-pan-e;--dur:28s;" data-vstart="136" data-vwindow="18">
+<div class="plt-section plt-major" style="--b:0.58;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pan-e;--dur:28s;" data-vstart="32" data-vwindow="24">
   
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/02-disruption-poster.jpg"><source src="assets/video/02-disruption.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -3199,8 +3199,8 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-minor" style="--b:0.5;--hue:170deg;--sat:1.6;--sep:0;--mo:plt-pull;--dur:32s;" data-vstart="154" data-vwindow="11">
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+<div class="plt-section plt-minor" style="--b:0.5;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pull;--dur:32s;" data-vstart="50" data-vwindow="11">
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -3313,8 +3313,8 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
       <!-- Card 1: Demand Forecasting -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-minor" style="--b:0.48;--hue:170deg;--sat:1.7;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="165" data-vwindow="10">
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+<div class="plt-section plt-minor" style="--b:0.48;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="24" data-vwindow="20">
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -3375,8 +3375,8 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
       <!-- Card 3: Risk Framework -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-minor" style="--b:0.46;--hue:330deg;--sat:1.9;--sep:0;--mo:plt-push;--dur:22s;" data-vstart="175" data-vwindow="10">
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+<div class="plt-section plt-minor" style="--b:0.46;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:22s;" data-vstart="60" data-vwindow="24">
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/02-disruption-poster.jpg"><source src="assets/video/02-disruption.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -3437,8 +3437,8 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
       <!-- Card 5: Supply Chain Scorecard -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-minor" style="--b:0.49;--hue:190deg;--sat:1.5;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="185" data-vwindow="10">
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+<div class="plt-section plt-minor" style="--b:0.49;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="45" data-vwindow="20">
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -3499,8 +3499,8 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
       <!-- Card 7: Calculator Hub — traffic driver -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-minor" style="--b:0.52;--hue:25deg;--sat:1.6;--sep:0.3;--mo:plt-pull;--dur:30s;" data-vstart="195" data-vwindow="10">
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+<div class="plt-section plt-minor" style="--b:0.52;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pull;--dur:30s;" data-vstart="4" data-vwindow="26">
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/04-gcc-strategy-poster.jpg"><source src="assets/video/04-gcc-strategy.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -3665,9 +3665,9 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 <!-- DEMAND PLANNING LIVE DEMO -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-major" style="--b:0.56;--hue:340deg;--sat:1.8;--sep:0.25;--mo:plt-push;--dur:24s;" data-vstart="205" data-vwindow="10">
+<div class="plt-section plt-major" style="--b:0.56;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:24s;" data-vstart="66" data-vwindow="20">
   
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -4859,9 +4859,9 @@ function makeGameDecision(round, decision) {
 <!-- TESTIMONIALS -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-minor" style="--b:0.5;--hue:180deg;--sat:1.6;--sep:0;--mo:plt-drift;--dur:32s;" data-vstart="4" data-vwindow="12">
+<div class="plt-section plt-minor" style="--b:0.5;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:32s;" data-vstart="62" data-vwindow="11">
   
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -5284,9 +5284,9 @@ function makeGameDecision(round, decision) {
 <!-- FAQ -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-minor" style="--b:0.5;--hue:220deg;--sat:1.4;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="24" data-vwindow="12">
+<div class="plt-section plt-minor" style="--b:0.5;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="74" data-vwindow="11">
   
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -5395,9 +5395,9 @@ function makeGameDecision(round, decision) {
 <!-- INSTAGRAM CHANNEL -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-minor" style="--b:0.52;--hue:340deg;--sat:1.5;--sep:0;--mo:plt-pan-w;--dur:30s;" data-vstart="46" data-vwindow="12">
+<div class="plt-section plt-minor" style="--b:0.52;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pan-w;--dur:30s;" data-vstart="34" data-vwindow="26">
   
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/04-gcc-strategy-poster.jpg"><source src="assets/video/04-gcc-strategy.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -5494,9 +5494,9 @@ function makeGameDecision(round, decision) {
 <!-- CONTACT -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-major" style="--b:0.64;--hue:270deg;--sat:1.35;--sep:0;--mo:plt-push;--dur:28s;" data-vstart="68" data-vwindow="20">
+<div class="plt-section plt-major" style="--b:0.64;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:28s;" data-vstart="64" data-vwindow="26">
   
-  <video class="plt-video" muted loop playsinline preload="none"><source src="vinayak-supply-chain-video.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/04-gcc-strategy-poster.jpg"><source src="assets/video/04-gcc-strategy.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
