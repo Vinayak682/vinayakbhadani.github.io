@@ -1848,6 +1848,146 @@ footer::before{
   .plt-cue i, .plt-rail i::after { animation: none; }
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   LIQUID GLASS — frosted panels over live footage
+   Legibility used to be bought by crushing the film: brightness down
+   to .27, a heavy wash and a dark radial behind the copy. The copy now
+   sits on its own frosted panel, so the footage can run bright and the
+   wash can come off. Per-band grading is preserved — brightness is
+   scaled, not replaced, so the director's relative values still hold.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Let the film through ── */
+.plt-video {
+  /* Lift curve, not a multiplier: the crushed bands (.27) roughly double
+     while the already-bright ones (.88) barely move, so nothing blows out. */
+  filter: brightness(calc(.30 + var(--b) * .85)) contrast(var(--con))
+          sepia(var(--sep, 0)) saturate(calc(var(--sat) * 1.1)) hue-rotate(var(--hue));
+}
+.plt-section          { --mid: .22; --scrim: .20; }
+.plt-section.plt-cinema { --mid: .13; }
+.plt-section.plt-major  { --mid: .17; }
+.plt-section.plt-minor  { --mid: .27; }
+
+/* Two kinds of footage, two grades. 01-network and 02-disruption are dark
+   live-action, so lifting brightness reveals them. 03-execution-void and
+   04-gcc-strategy are cream-paper illustration — the charts, spreadsheets
+   and maps. Grading those down turned white paper into mud, so they run
+   near their native brightness and lean on contrast instead. The tinted
+   panel is what keeps the copy readable over them. */
+.plt-lit .plt-video {
+  filter: brightness(calc(.55 + var(--b) * .62)) contrast(calc(var(--con) * 1.08))
+          sepia(var(--sep, 0)) saturate(calc(var(--sat) * 1.06)) hue-rotate(var(--hue));
+}
+.plt-lit { --mid: .10; --scrim: .10; }
+
+/* Edges stay dark so bands still blend into the sections above and below */
+.plt-overlay {
+  background: linear-gradient(to bottom,
+    rgba(4,2,14,.88) 0%,
+    rgba(4,2,14,var(--mid)) 26%,
+    rgba(4,2,14,var(--mid)) 74%,
+    rgba(4,2,14,.90) 100%);
+}
+
+/* ── 2. The glass ── */
+.plt-content {
+  padding: 42px 38px 40px;
+  /* Shrink-wrapped to the copy. At 860px the panel sat across the middle of
+     every frame — exactly where the charts and maps are — so the footage it
+     was meant to sit on was the footage it hid. */
+  max-width: 760px;
+  border-radius: 32px;
+  isolation: isolate;
+  /* Clear glass, not frosted. 30px of blur smeared the chart behind the panel
+     into porridge; 13px keeps it readable through the pane, which is the point
+     of putting the panel on chart footage at all. Tint drops with it, so the
+     legibility that was being bought by fill is bought by the type instead. */
+  background:
+    linear-gradient(157deg,
+      rgba(255,255,255,.07) 0%,
+      rgba(255,255,255,.022) 46%,
+      rgba(255,255,255,.05) 100%),
+    rgba(6,4,20,.15);
+  backdrop-filter: blur(13px) saturate(160%) brightness(1.02);
+  -webkit-backdrop-filter: blur(13px) saturate(160%) brightness(1.02);
+  /* Clear glass reads by its edge, so the rim and the lit top get brighter
+     as the fill gets weaker. */
+  border: 1px solid rgba(255,255,255,.30);
+  box-shadow:
+    0 34px 90px rgba(0,0,0,.50),
+    0 2px 10px rgba(0,0,0,.30),
+    inset 0 1px 0 rgba(255,255,255,.40),
+    inset 0 -1px 0 rgba(255,255,255,.08);
+}
+/* With less fill behind it the type has to carry itself */
+.plt-content .plt-headline { text-shadow: 0 2px 28px rgba(0,0,0,.9), 0 1px 4px rgba(0,0,0,.75); }
+.plt-content .plt-sub      { color: rgba(240,244,255,.82); text-shadow: 0 1px 10px rgba(0,0,0,.85); }
+.plt-content .plt-chip     { text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+/* Cream illustration footage is the hard case — white copy on near-white paper.
+   These bands keep a little more tint than the dark ones, and still land far
+   clearer than the .34 they were at. */
+.plt-lit .plt-content {
+  background:
+    linear-gradient(157deg,
+      rgba(255,255,255,.07) 0%,
+      rgba(255,255,255,.022) 46%,
+      rgba(255,255,255,.05) 100%),
+    rgba(6,4,20,.28);
+}
+/* Specular highlight — the thing that reads as glass rather than as a grey box */
+.plt-content::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit; pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 12% -12%, rgba(255,255,255,.22), transparent 58%),
+    radial-gradient(90% 65% at 92% 112%, rgba(150,185,255,.14), transparent 62%);
+}
+
+/* Chips deliberately overhung .plt-content to avoid orphaning; inside a
+   bordered panel that overhang reads as a bug, so it is pulled back in. */
+.plt-content .plt-chips { width: auto; margin-left: 0; margin-top: 26px; }
+/* Tightened so a four-chip row still lands on one line inside the panel */
+.plt-content .plt-chip { padding: 6px 11px; font-size: .665rem; letter-spacing: .02em; }
+
+/* ── 3. Badge and chips speak the same glass language ── */
+.plt-badge {
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.26), 0 6px 20px rgba(0,0,0,.28);
+}
+.plt-chip {
+  background: rgba(255,255,255,.075);
+  border-color: rgba(255,255,255,.18);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
+}
+.plt-chip:hover {
+  background: rgba(255,255,255,.14);
+  border-color: rgba(255,255,255,.34);
+}
+
+@media (max-width: 640px) {
+  .plt-section { --mid: .30; --scrim: .26; }
+  .plt-content {
+    padding: 30px 22px; border-radius: 24px;
+    backdrop-filter: blur(18px) saturate(170%);
+    -webkit-backdrop-filter: blur(18px) saturate(170%);
+  }
+}
+
+/* Frosting is decoration — never the thing that makes text readable */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .plt-content { background: rgba(8,6,22,.76); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .plt-content {
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+    background: rgba(8,6,22,.84);
+  }
+}
+
 /* Credential vault rings — aurora colors */
 @keyframes vault-spin-cw  { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
 @keyframes vault-spin-ccw { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(-360deg)} }
@@ -2712,7 +2852,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 <!-- EXPERIENCE -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-major" style="--con:1.28;--b:0.3;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-rise;--dur:30s;" data-vstart="3" data-vwindow="20">
+<div class="plt-section plt-lit plt-major" style="--con:1.28;--b:0.3;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-rise;--dur:30s;" data-vstart="3" data-vwindow="20">
   
   <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
@@ -2954,7 +3094,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 <!-- PROJECTS -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-major" style="--con:1.18;--b:0.35;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pan-e;--dur:28s;" data-vstart="32" data-vwindow="24">
+<div class="plt-section plt-major" style="--con:1.18;--b:0.35;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pan-e;--dur:28s;" data-vstart="36" data-vwindow="14">
   
   <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/02-disruption-poster.jpg"><source src="assets/video/02-disruption.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
@@ -3325,7 +3465,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
       <!-- Card 1: Demand Forecasting -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-minor" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="24" data-vwindow="20">
+<div class="plt-section plt-lit plt-minor" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="48" data-vwindow="14">
   <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
@@ -3387,7 +3527,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
       <!-- Card 3: Risk Framework -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-minor" style="--con:1.28;--b:0.3;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:22s;" data-vstart="52" data-vwindow="20">
+<div class="plt-section plt-minor" style="--con:1.28;--b:0.3;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:22s;" data-vstart="22" data-vwindow="10">
   <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/02-disruption-poster.jpg"><source src="assets/video/02-disruption.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
@@ -3449,7 +3589,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
       <!-- Card 5: Supply Chain Scorecard -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-minor" style="--con:1.28;--b:0.27;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="45" data-vwindow="20">
+<div class="plt-section plt-lit plt-minor" style="--con:1.28;--b:0.27;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="14" data-vwindow="14">
   <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
@@ -3511,7 +3651,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
       <!-- Card 7: Calculator Hub — traffic driver -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-minor" style="--con:1.18;--b:0.38;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pull;--dur:30s;" data-vstart="4" data-vwindow="26">
+<div class="plt-section plt-lit plt-minor" style="--con:1.18;--b:0.38;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pull;--dur:30s;" data-vstart="30" data-vwindow="14">
   <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/04-gcc-strategy-poster.jpg"><source src="assets/video/04-gcc-strategy.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
@@ -3677,7 +3817,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 <!-- DEMAND PLANNING LIVE DEMO -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-major" style="--con:1.28;--b:0.27;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:24s;" data-vstart="66" data-vwindow="20">
+<div class="plt-section plt-lit plt-major" style="--con:1.28;--b:0.27;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:24s;" data-vstart="71" data-vwindow="10">
   
   <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
@@ -5407,7 +5547,7 @@ function makeGameDecision(round, decision) {
 <!-- INSTAGRAM CHANNEL -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-minor" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pan-w;--dur:30s;" data-vstart="34" data-vwindow="26">
+<div class="plt-section plt-lit plt-minor" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pan-w;--dur:30s;" data-vstart="76" data-vwindow="8">
   
   <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/04-gcc-strategy-poster.jpg"><source src="assets/video/04-gcc-strategy.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
@@ -5506,7 +5646,7 @@ function makeGameDecision(round, decision) {
 <!-- CONTACT -->
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-major" style="--con:1.18;--b:0.39;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:28s;" data-vstart="64" data-vwindow="26">
+<div class="plt-section plt-lit plt-major" style="--con:1.18;--b:0.39;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:28s;" data-vstart="84" data-vwindow="10">
   
   <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/04-gcc-strategy-poster.jpg"><source src="assets/video/04-gcc-strategy.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
@@ -6535,7 +6675,23 @@ a:hover{color:#a8c3ff}
 #scrollProgress,#scroll-progress{background:linear-gradient(90deg,var(--sf-blue-dark),var(--sf-blue) 88%,var(--sf-red))!important;box-shadow:0 0 14px rgba(47,95,227,.48)!important}
 
 /* Navigation + system rail */
-#nav{background:rgba(8,11,19,.94)!important;border-bottom:1px solid rgba(124,166,255,.16)!important;backdrop-filter:blur(24px) saturate(1.08)!important}
+/* At .94 alpha the bar was an opaque slab — the blur behind it did nothing and
+   saturate(1.08) drained what colour got through. Opened up so it reads as a
+   sharp pane of glass: less fill, far more blur and saturation, a hairline that
+   is actually visible, and a lit top edge. */
+#nav{background:rgba(8,11,19,.62)!important;border-bottom:1px solid rgba(124,166,255,.30)!important;
+  backdrop-filter:blur(30px) saturate(190%) brightness(1.06)!important;
+  -webkit-backdrop-filter:blur(30px) saturate(190%) brightness(1.06)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 10px 34px rgba(0,0,0,.42)!important}
+.sf-nav-mark{filter:drop-shadow(0 0 14px rgba(47,95,227,.55))!important}
+/* Links were #aab4c6 at 600 — legible but soft. Brighter, tighter, heavier. */
+.nav-links a{color:#dbe4f5!important;font-weight:700!important;font-size:.75rem!important;letter-spacing:.045em!important}
+.nav-links a:hover,.nav-links a.active{color:#fff!important;background:rgba(47,95,227,.20)!important;
+  box-shadow:inset 0 -2px 0 var(--sf-blue-light)!important}
+.nav-logo-role{color:#c3ccdb!important;-webkit-text-fill-color:#c3ccdb!important}
+.sf-system-strip{background:rgba(6,8,14,.70)!important;
+  backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);
+  border-bottom-color:rgba(124,166,255,.22)!important;color:#8996ad!important}
 #nav::after{background:linear-gradient(90deg,transparent,var(--sf-blue),transparent)!important;animation:none!important;opacity:.65!important}
 .nav-logo{display:flex!important;flex-direction:row!important;align-items:center!important;gap:10px!important;margin-right:26px!important}
 .sf-nav-mark{width:33px;height:33px;flex:0 0 auto;filter:drop-shadow(0 0 12px rgba(47,95,227,.26))}
