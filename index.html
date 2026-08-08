@@ -1907,8 +1907,18 @@ footer::before{
    transparent fill, so text-shadow paints straight through it and does
    nothing. drop-shadow() filters the painted glyph instead, which is the
    only thing that actually holds it off busy footage. */
+/* The gradient half of every headline was #c084fc -> #818cf8 -> #22d3ee on a
+   200% background that aurora-shift slides across. At the far end of that
+   cycle the whole word sits in the dark indigo stop, so "Intelligence" went
+   murky navy over bright footage. Every stop is now high-luminance, so no
+   frame of the animation can land dark, and the palette matches the Signal
+   Foundry blue the rest of the site moved to. */
 .plt-content .plt-headline span {
-  filter: drop-shadow(0 2px 12px rgba(4,2,14,.95)) drop-shadow(0 1px 3px rgba(4,2,14,.85));
+  background: linear-gradient(120deg, #ffffff 0%, #cfe0ff 34%, #8fb6ff 64%, #eaf2ff 100%) !important;
+  background-size: 220% 220% !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 2px 14px rgba(4,2,14,.85)) drop-shadow(0 1px 3px rgba(4,2,14,.7));
 }
 .plt-content .plt-sub {
   color: rgba(240,244,255,.88);
