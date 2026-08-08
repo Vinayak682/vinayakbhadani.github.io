@@ -2166,13 +2166,6 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
   </div>
 </nav>
 
-<div class="sf-system-strip" aria-label="SupplyMind portfolio system status">
-  <span>SIGNAL FOUNDRY / SM-01</span>
-  <span>PLAN</span><span>FORECAST</span><span>INVENTORY</span>
-  <span class="sf-exception">EXCEPTIONS <i></i></span>
-  <span class="sf-system-state">SYSTEM ONLINE</span>
-</div>
-
 <!-- HERO -->
 <canvas id="heroConstellation" style="position:fixed;top:0;left:0;width:100%;height:100vh;pointer-events:none;z-index:0;opacity:0.35;"></canvas>
 <section id="home" style="position:relative;z-index:1;" aria-label="Hero introduction">
@@ -6347,7 +6340,7 @@ window.addEventListener('scroll', function() {
   links.forEach(function(l){var el=document.getElementById(l.getAttribute('href').slice(1));if(el)secs.push({el:el,link:l});});
   function up(){
     if(window.scrollY>50)nav&&nav.classList.add('scrolled');else nav&&nav.classList.remove('scrolled');
-    var pos=window.scrollY+120,ai=0;
+    var pos=window.scrollY+96,ai=0;   /* header is 68px now the system strip is gone, was 90px */
     secs.forEach(function(s,i){if(s.el.offsetTop<=pos)ai=i;});
     links.forEach(function(l){l.classList.remove('active');});
     if(secs[ai])secs[ai].link.classList.add('active');
@@ -6639,40 +6632,76 @@ a:hover{color:#a8c3ff}
 #scrollProgress,#scroll-progress{background:linear-gradient(90deg,var(--sf-blue-dark),var(--sf-blue) 88%,var(--sf-red))!important;box-shadow:0 0 14px rgba(47,95,227,.48)!important}
 
 /* Navigation + system rail */
-/* At .94 alpha the bar was an opaque slab — the blur behind it did nothing and
-   saturate(1.08) drained what colour got through. Opened up so it reads as a
-   sharp pane of glass: less fill, far more blur and saturation, a hairline that
-   is actually visible, and a lit top edge. */
 #nav{background:rgba(8,11,19,.62)!important;border-bottom:1px solid rgba(124,166,255,.30)!important;
   backdrop-filter:blur(30px) saturate(190%) brightness(1.06)!important;
   -webkit-backdrop-filter:blur(30px) saturate(190%) brightness(1.06)!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 10px 34px rgba(0,0,0,.42)!important}
 .sf-nav-mark{filter:drop-shadow(0 0 14px rgba(47,95,227,.55))!important}
-/* Links were #aab4c6 at 600 — legible but soft. Brighter, tighter, heavier. */
-.nav-links a{color:#dbe4f5!important;font-weight:700!important;font-size:.75rem!important;letter-spacing:.045em!important}
-.nav-links a:hover,.nav-links a.active{color:#fff!important;background:rgba(47,95,227,.20)!important;
-  box-shadow:inset 0 -2px 0 var(--sf-blue-light)!important}
-.nav-logo-role{color:#c3ccdb!important;-webkit-text-fill-color:#c3ccdb!important}
-.sf-system-strip{background:rgba(6,8,14,.70)!important;
-  backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);
-  border-bottom-color:rgba(124,166,255,.22)!important;color:#8996ad!important}
 #nav::after{background:linear-gradient(90deg,transparent,var(--sf-blue),transparent)!important;animation:none!important;opacity:.65!important}
 .nav-logo{display:flex!important;flex-direction:row!important;align-items:center!important;gap:10px!important;margin-right:26px!important}
 .sf-nav-mark{width:33px;height:33px;flex:0 0 auto;filter:drop-shadow(0 0 12px rgba(47,95,227,.26))}
 .sf-nav-copy{display:flex;flex-direction:column;line-height:1.05}
-.nav-logo-role{background:none!important;-webkit-text-fill-color:var(--sf-steel)!important;color:var(--sf-steel)!important;font-family:Monaco,monospace;font-size:.5rem!important;letter-spacing:.075em!important}
-.nav-links a{border-radius:2px!important;font-family:'Avenir Next Condensed','Outfit',sans-serif;letter-spacing:.035em}
-.nav-links a:hover,.nav-links a.active{color:var(--sf-blue-light)!important;background:rgba(47,95,227,.1)!important}
-.nav-links a.nav-tools-link{color:var(--sf-blue-light)!important}
 .nav-divider{background:rgba(124,166,255,.18)!important}
 .hbg span{background:var(--sf-steel)!important;border-radius:0!important}
-.sf-system-strip{position:fixed;top:62px;left:0;right:0;z-index:90;height:28px;padding:0 max(24px,calc((100vw - 1160px)/2));display:flex;align-items:center;gap:28px;background:rgba(6,8,14,.94);border-bottom:1px solid rgba(124,166,255,.12);font:500 .56rem/1 Monaco,monospace;letter-spacing:.08em;color:#64708a;white-space:nowrap;overflow:hidden}
-.sf-system-strip span:first-child{color:var(--sf-blue-light)}
-.sf-exception{color:var(--sf-red)!important;display:inline-flex;align-items:center;gap:7px}.sf-exception i{width:6px;height:6px;background:var(--sf-red);display:block}
-.sf-system-state{margin-left:auto!important;color:#8290aa!important}.sf-system-state::before{content:'';display:inline-block;width:6px;height:6px;background:var(--sf-blue);margin-right:8px;box-shadow:0 0 8px rgba(47,95,227,.75)}
+
+/* ══════════════════════════════════════════════════════════════════
+   NAV TYPE & STATES — single source of truth
+   Three rules were setting .nav-links a in sequence and the last one
+   won, so the brighter treatment added earlier never actually applied.
+   Consolidated here.
+
+   FONT: dropped 'Avenir Next Condensed'. It ships with macOS and
+   nowhere else, so every Windows, Android and Linux visitor silently
+   fell back to Outfit — which is not condensed. The nav rendered at a
+   different width and weight for most of the people looking at it.
+   Outfit is now named directly: one Google-hosted family, already
+   loaded, identical everywhere.
+   ══════════════════════════════════════════════════════════════════ */
+.nav-i{height:68px!important}          /* 62 was tight; the strip is gone, so spend it here */
+
+.nav-links{gap:2px!important}
+.nav-links a{
+  position:relative;
+  font-family:'Outfit',system-ui,sans-serif!important;
+  font-size:.83rem!important;
+  font-weight:600!important;
+  letter-spacing:.012em!important;
+  color:#c2d0e8!important;
+  padding:9px 13px!important;
+  border-radius:4px!important;
+  background:none!important;
+  transition:color .2s ease, background-color .2s ease!important;
+}
+/* Underline grows from the centre rather than a block of colour appearing */
+.nav-links a::after{
+  content:'';position:absolute;left:13px;right:13px;bottom:4px;height:2px;
+  background:var(--sf-blue-light);border-radius:2px;
+  transform:scaleX(0);transform-origin:center;
+  transition:transform .26s cubic-bezier(.4,0,.2,1);
+}
+.nav-links a:hover{color:#ffffff!important;background:rgba(47,95,227,.14)!important}
+.nav-links a:hover::after{transform:scaleX(.55)}
+.nav-links a.active{color:#ffffff!important;background:rgba(47,95,227,.16)!important}
+.nav-links a.active::after{transform:scaleX(1)}
+.nav-links a.nav-tools-link{color:var(--sf-blue-light)!important}
+.nav-links a.nav-tools-link:hover{color:#ffffff!important}
+
+/* The wordmark line was 8px Monaco — technically on-brand, practically unreadable */
+.nav-logo-role{
+  background:none!important;-webkit-text-fill-color:#b9c6db!important;color:#b9c6db!important;
+  font-family:Monaco,monospace;font-size:.575rem!important;letter-spacing:.1em!important;
+}
+.nav-logo:hover .nav-logo-role{-webkit-text-fill-color:#e4ecf9!important;color:#e4ecf9!important}
+
+@media(max-width:1080px){ .nav-links a{padding:9px 10px!important;font-size:.79rem!important} }
+@media(max-width:900px){
+  .nav-i{height:62px!important}
+  .nav-links a::after{display:none}
+  .nav-links.open a{padding:11px 14px!important;font-size:.88rem!important}
+}
 
 /* Hero */
-#home{padding-top:108px!important;min-height:100dvh!important;background-color:var(--sf-black)!important}
+#home{padding-top:82px!important;min-height:100dvh!important;background-color:var(--sf-black)!important}
 #home::before{inset:0!important;z-index:0!important;pointer-events:none;background:
   linear-gradient(90deg,rgba(8,11,19,.96) 0%,rgba(8,11,19,.85) 44%,rgba(8,11,19,.48) 72%,rgba(8,11,19,.16) 100%),
   url('assets/brand/signal-foundry-cobalt-background.png') center right/cover no-repeat!important;animation:none!important;opacity:1!important}
@@ -6745,11 +6774,10 @@ footer{background:var(--sf-black)!important;border-top-color:rgba(124,166,255,.1
 #btt{border-radius:3px!important;background:var(--sf-blue)!important;color:#fff!important;box-shadow:0 10px 28px rgba(29,63,158,.42)!important;animation:none!important}
 
 @media(max-width:900px){
-  .sf-system-strip{gap:18px;padding:0 18px}.sf-system-strip span:nth-child(n+4):not(.sf-system-state){display:none}.sf-system-state{margin-left:auto!important}
-  #home{padding-top:108px!important}.nav-links.open{top:62px!important;background:rgba(8,11,19,.99)!important}
+  #home{padding-top:78px!important}.nav-links.open{top:62px!important;background:rgba(8,11,19,.99)!important}
 }
 @media(max-width:600px){
-  .sf-system-strip{font-size:.49rem}.sf-system-state{display:none}.hero-name{font-size:clamp(2.55rem,15vw,4.6rem)!important}.hero-wrap{gap:42px!important}
+  .hero-name{font-size:clamp(2.55rem,15vw,4.6rem)!important}.hero-wrap{gap:42px!important}
   .footer-i{align-items:flex-start}.footer-links{width:100%;justify-content:flex-start;gap:12px 18px}
   .instagram-grid{grid-template-columns:1fr!important}
 }
