@@ -3259,6 +3259,10 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
       <button class="pj-ftab" onclick="filterPJ('tools',this)">🧮 Free Tools</button>
     </div>
 
+    <div id="pjEmpty" role="status" style="display:none;padding:28px 4px;color:#9aa4b2;font-size:.9rem;">
+      No projects in this category yet — <button type="button" onclick="filterPJ('all',document.querySelector('.pj-ftab'))" style="background:none;border:none;color:#a78bfa;font:inherit;cursor:pointer;text-decoration:underline;padding:0;">show all projects</button>.
+    </div>
+
     <!-- ── 6-CARD GRID ────────────────────────────────── -->
     <div class="pj-grid" id="pjGrid">
 
@@ -5827,18 +5831,44 @@ document.addEventListener('keydown',function(e){
 
 // ── Projects filter ─────────────────────────────────────────────────────────
 function filterPJ(cat, btn) {
-  document.querySelectorAll('.pj-ftab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.pj-ftab').forEach(function(t){
+    t.classList.remove('active');
+    t.setAttribute('aria-pressed','false');
+  });
   btn.classList.add('active');
+  btn.setAttribute('aria-pressed','true');
+
+  var shown = 0;
   document.querySelectorAll('#pjGrid .pf-card').forEach(function(card){
-    var cardCat = card.dataset.cat || '';
-    if(cat === 'all' || cardCat === cat){
+    // data-cat may hold several space-separated tags, e.g. "agentic saas"
+    var tags = (card.dataset.cat || '').trim().split(/\s+/);
+    var match = (cat === 'all') || tags.indexOf(cat) > -1;
+    if(match){
       card.style.display = '';
       card.classList.add('pj-visible');
+      shown++;
     } else {
       card.style.display = 'none';
     }
   });
+
+  // Category dividers duplicate the filter tabs — only meaningful on "All"
+  document.querySelectorAll('#pjGrid .plt-section').forEach(function(d){
+    d.style.display = (cat === 'all') ? '' : 'none';
+  });
+
+  var empty = document.getElementById('pjEmpty');
+  if(empty) empty.style.display = shown ? 'none' : 'block';
 }
+
+// Keep the "All" tab label honest with the real card count
+(function(){
+  var grid = document.getElementById('pjGrid');
+  var allTab = document.querySelector('.pj-ftab');
+  if(!grid || !allTab) return;
+  var n = grid.querySelectorAll('.pf-card').length;
+  allTab.textContent = 'All ' + n + ' Projects';
+})();
 
 // ── Animated counter for stats bar ──────────────────────────────────────────
 (function(){
