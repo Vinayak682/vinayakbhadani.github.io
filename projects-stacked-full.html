@@ -304,6 +304,82 @@ body{
 .stkCard[data-state="active"] .stkCard__main > *:nth-child(5){transition-delay:.16s;}
 .stkCard[data-state="active"] .stkCard__main > *:nth-child(6){transition-delay:.2s;}
 
+/* ════════════════════════════════════════════════════════════════
+   REVEAL PRIMITIVE — expo-out + defocus
+   The blur is the part that reads as expensive: motion decelerates
+   hard and focus snaps in right at the end.
+   ════════════════════════════════════════════════════════════════ */
+.reveal{
+  opacity:0;transform:translateY(38px);filter:blur(7px);
+  transition:opacity .85s cubic-bezier(.16,1,.3,1),
+             transform .85s cubic-bezier(.16,1,.3,1),
+             filter .85s cubic-bezier(.16,1,.3,1);
+  transition-delay:var(--reveal-delay,0s);
+}
+.reveal.is-visible{opacity:1;transform:none;filter:blur(0);}
+
+/* ════════════════════════════════════════════════════════════════
+   LIVE PREVIEW
+   The project page is framed at desktop width and scaled down, so
+   you read a real miniature instead of a squashed mobile layout.
+   width 430 / 1280 = .336 — keep the three numbers in sync.
+   ════════════════════════════════════════════════════════════════ */
+.stkCard.has-preview .stkCard__body{grid-template-columns:1fr 430px;}
+
+.stkCard__preview{
+  position:relative;z-index:1;overflow:hidden;
+  border-left:1px solid rgba(255,255,255,.06);
+  background:#0d0722;
+}
+.stkCard__screen{position:absolute;inset:0;overflow:hidden;background:#0d0722;}
+.stkCard__screen iframe{
+  width:1280px;height:1360px;border:0;display:block;
+  transform:scale(.336);transform-origin:0 0;
+  pointer-events:none;                 /* never traps the page scroll */
+  opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1);
+}
+.stkCard__screen iframe.is-loaded{opacity:1;}
+.stkCard__load{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-size:.56rem;font-weight:800;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(240,244,255,.32);background:#0d0722;
+  transition:opacity .6s cubic-bezier(.16,1,.3,1);
+}
+.stkCard__screen.is-ready .stkCard__load{opacity:0;}
+/* top-edge sheen so the miniature reads as a screen, not a screenshot */
+.stkCard__preview::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg, rgba(var(--c-rgb),.1), transparent 22%),
+             linear-gradient(0deg, rgba(11,6,32,.92), transparent 26%);
+}
+.stkCard__screenCta{
+  position:absolute;left:16px;right:16px;bottom:16px;z-index:2;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 16px;border-radius:11px;text-decoration:none;
+  font-size:.72rem;font-weight:800;letter-spacing:.04em;
+  color:rgb(var(--c-rgb));
+  background:rgba(11,6,32,.82);border:1px solid rgba(var(--c-rgb),.42);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transform:translateY(8px);opacity:0;
+  transition:transform .34s cubic-bezier(.16,1,.3,1),opacity .34s,background .2s;
+}
+.stkCard[data-state="active"] .stkCard__screenCta{transform:none;opacity:1;}
+.stkCard__screenCta:hover{background:rgba(var(--c-rgb),.16);}
+.stkCard__screenCta svg{width:12px;height:12px;fill:currentColor;}
+
+/* compact stat row for cards that gave their rail to a preview */
+.stkCard__inline{
+  list-style:none;margin:0 0 16px;padding:0;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden;
+  background:rgba(255,255,255,.025);
+}
+.stkCard__inline li{padding:11px 12px;text-align:center;border-right:1px solid rgba(255,255,255,.06);}
+.stkCard__inline li:last-child{border-right:0;}
+.stkCard__inline b{display:block;font-size:.98rem;font-weight:900;line-height:1.15;color:rgb(var(--c-rgb));margin-bottom:2px;}
+.stkCard__inline span{font-size:.54rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;font-weight:700;}
+.stkCard.has-preview .stkCard__desc{-webkit-line-clamp:3;}
+
 /* ── tablet / mobile: unstack into a plain list ───────────────── */
 @media (max-width:1023px){
   .stk{--cardH:auto;}
@@ -358,7 +434,7 @@ body{
 
     <section class="deck" id="ch-flagship" data-chapter="Flagship Platforms" data-color="#c084fc"
              style="--c-rgb:192,132,252" aria-labelledby="chh-flagship">
-      <header class="deck__intro">
+      <header class="deck__intro reveal">
         <span class="deck__num">01</span>
         <div>
           <span class="deck__kicker">Start here</span>
@@ -368,7 +444,8 @@ body{
         <span class="deck__count">2</span>
       </header>
       <div class="deck__stack">
-      <article class="stkCard" data-label="Gambit" data-color="#c084fc" style="--c-rgb:192,132,252">
+      <article class="stkCard has-preview" data-label="Gambit"
+               data-color="#c084fc" style="--c-rgb:192,132,252">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -377,16 +454,23 @@ body{
             <h3 class="stkCard__title">The GCC Planning Gambit</h3>
             <p class="stkCard__hook">Sixty disruptions. Six turns. Every move changes what becomes possible next.</p>
             <p class="stkCard__desc">A playable supply-chain strategy engine. Navigate randomised GCC and MENA disruptions across retail, quick commerce, FMCG, pharma, automotive and cold chain. Decisions move service, cash, inventory and risk, trigger control-room consequences, and close with a framework-based evaluation of how you actually plan.</p>
+            <ul class="stkCard__inline"><li><b>60</b><span>Business cases</span></li><li><b>10</b><span>Industry verticals</span></li><li><b>6</b><span>Strategy dimensions</span></li></ul>
             <div class="stkCard__tags"><i>S&amp;OP Strategy</i><i>Scenario Planning</i><i>Decision Evaluation</i><i>GCC Operations</i><i>Interactive Game</i></div>
             <a class="stkCard__cta" href="./gcc-nexus-control-tower.html" target="_blank" rel="noopener">Play the flagship game <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
-          <aside class="stkCard__rail" aria-hidden="true">
-            <div class="stkCard__glyph">♟</div>
-            <ul class="stkCard__stats"><li><b>60</b><span>Business cases</span></li><li><b>10</b><span>Industry verticals</span></li><li><b>6</b><span>Strategy dimensions</span></li></ul>
+          <aside class="stkCard__preview" data-src="./gcc-nexus-control-tower.html">
+            <div class="stkCard__screen">
+              <iframe title="The GCC Planning Gambit — live preview" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+              <span class="stkCard__load">Loading live view</span>
+            </div>
+            <a class="stkCard__screenCta" href="./gcc-nexus-control-tower.html" target="_blank" rel="noopener">
+              <span>Open it full size</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </a>
           </aside>
         </div>
       </article>
-      <article class="stkCard" data-label="Platform" data-color="#22d3ee" style="--c-rgb:34,211,238">
+      <article class="stkCard" data-label="Platform"
+               data-color="#22d3ee" style="--c-rgb:34,211,238">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -395,6 +479,7 @@ body{
             <h3 class="stkCard__title">AI Supply Chain Platform</h3>
             <p class="stkCard__hook">Real-time OTIF compliance copilot plus an exception brain — built for operations teams.</p>
             <p class="stkCard__desc">Two flagship modules on one platform. Compliance Shield tracks OTIF delivery in real time with AI root-cause analysis across 36K+ supply chain events. Neural Command is an exception brain that surfaces which disruptions actually need a human — ranked by revenue impact — before they escalate.</p>
+            
             <div class="stkCard__tags"><i>Claude API</i><i>Supabase</i><i>React</i><i>OTIF Compliance</i><i>Exception Brain</i></div>
             <a class="stkCard__cta" href="https://vinayak682.github.io/ai-supply-chain-platform/" target="_blank" rel="noopener">Open platform demo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
@@ -408,7 +493,7 @@ body{
     </section>
     <section class="deck" id="ch-saas" data-chapter="AI SaaS Products" data-color="#60a5fa"
              style="--c-rgb:96,165,250" aria-labelledby="chh-saas">
-      <header class="deck__intro">
+      <header class="deck__intro reveal">
         <span class="deck__num">02</span>
         <div>
           <span class="deck__kicker">Shipped &amp; live</span>
@@ -418,7 +503,8 @@ body{
         <span class="deck__count">2</span>
       </header>
       <div class="deck__stack">
-      <article class="stkCard" data-label="SupplyMind" data-color="#3b82f6" style="--c-rgb:59,130,246">
+      <article class="stkCard" data-label="SupplyMind"
+               data-color="#3b82f6" style="--c-rgb:59,130,246">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -427,6 +513,7 @@ body{
             <h3 class="stkCard__title">SupplyMind — AI S&amp;OP Copilot</h3>
             <p class="stkCard__hook">Runs Sunday night — delivers your Monday meeting brief before you wake up</p>
             <p class="stkCard__desc">AI-powered S&amp;OP briefing pack generator built for UAE/GCC manufacturers. Pulls live data from SAP B1, Zoho, and Excel. Delivers decisions needed, forecast variance, inventory alerts, and risk flags by email before the Monday 8 AM planning meeting — eliminating 3-hour meetings that produce nothing.</p>
+            
             <div class="stkCard__tags"><i>Claude API</i><i>Supabase</i><i>Next.js 16</i><i>S&amp;OP</i><i>TypeScript</i></div>
             <a class="stkCard__cta" href="https://sop-copilot.vercel.app" target="_blank" rel="noopener">Open Live App <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
@@ -436,7 +523,8 @@ body{
           </aside>
         </div>
       </article>
-      <article class="stkCard" data-label="Surge Planner" data-color="#10b981" style="--c-rgb:16,185,129">
+      <article class="stkCard" data-label="Surge Planner"
+               data-color="#10b981" style="--c-rgb:16,185,129">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -445,6 +533,7 @@ body{
             <h3 class="stkCard__title">GCC Event Surge Planner</h3>
             <p class="stkCard__hook">Ramadan shifts 11 days every year — generic tools miss the peak every time</p>
             <p class="stkCard__desc">AI demand forecasting engine built for GCC event volatility. Pre-seeded with Ramadan, Eid, Dubai Shopping Festival, White Friday, and UAE National Day data for 2025–2027 with proven surge multipliers. Delivers per-SKU demand forecasts with confidence bands and order date recommendations before each surge hits.</p>
+            
             <div class="stkCard__tags"><i>Claude API</i><i>Ramadan</i><i>GCC Events</i><i>Next.js 16</i><i>Supabase</i></div>
             <a class="stkCard__cta" href="https://event-surge-planner.vercel.app" target="_blank" rel="noopener">Open Live App <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
@@ -458,7 +547,7 @@ body{
     </section>
     <section class="deck" id="ch-agentic" data-chapter="Agentic AI" data-color="#a78bfa"
              style="--c-rgb:167,139,250" aria-labelledby="chh-agentic">
-      <header class="deck__intro">
+      <header class="deck__intro reveal">
         <span class="deck__num">03</span>
         <div>
           <span class="deck__kicker">Autonomous systems</span>
@@ -468,7 +557,8 @@ body{
         <span class="deck__count">2</span>
       </header>
       <div class="deck__stack">
-      <article class="stkCard" data-label="Portfolio Agent" data-color="#a78bfa" style="--c-rgb:167,139,250">
+      <article class="stkCard" data-label="Portfolio Agent"
+               data-color="#a78bfa" style="--c-rgb:167,139,250">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -477,6 +567,7 @@ body{
             <h3 class="stkCard__title">Portfolio Intelligence Agent</h3>
             <p class="stkCard__hook">Ask me anything about Vinayak — I&#x27;ll answer in seconds, grounded in real data</p>
             <p class="stkCard__desc">A stateful LangGraph agent (Claude claude-sonnet-4-6) that knows everything about this portfolio — projects, skills, experience, and GitHub activity. Recruiters can ask natural-language questions, request tailored cover letters for any JD, or get a gap analysis. Built with RAG over live portfolio + GitHub data, persistent memory via Mem0, and a FastAPI backend.</p>
+            
             <div class="stkCard__tags"><i>LangGraph</i><i>Claude API</i><i>FAISS</i><i>Mem0</i><i>FastAPI</i></div>
             <a class="stkCard__cta" href="https://github.com/Vinayak682" target="_blank" rel="noopener">View on GitHub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
@@ -486,7 +577,8 @@ body{
           </aside>
         </div>
       </article>
-      <article class="stkCard" data-label="ReAct Copilot" data-color="#f43f5e" style="--c-rgb:244,63,94">
+      <article class="stkCard has-preview" data-label="ReAct Copilot"
+               data-color="#f43f5e" style="--c-rgb:244,63,94">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -495,12 +587,18 @@ body{
             <h3 class="stkCard__title">AI Supply Chain Copilot (ReAct Agent)</h3>
             <p class="stkCard__hook">Your digital supply chain assistant — writing SQL queries and drafting POs in seconds</p>
             <p class="stkCard__desc">A simulated GenAI Copilot using a ReAct reasoning framework to solve complex supply chain queries. Watch the agent analyze stock databases, calculate EOQs, and auto-draft professional purchase orders ready to be exported.</p>
+            <ul class="stkCard__inline"><li><b>ReAct</b><span>LLM Framework</span></li><li><b>Auto</b><span>PO Drafting</span></li><li><b>SQL</b><span>Database Queries</span></li></ul>
             <div class="stkCard__tags"><i>GenAI Copilot</i><i>ReAct Agent</i><i>SQL Generator</i><i>EOQ Calculator</i></div>
             <a class="stkCard__cta" href="./ai-supply-chain-copilot.html" target="_blank" rel="noopener">Open AI Copilot <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
-          <aside class="stkCard__rail" aria-hidden="true">
-            <div class="stkCard__glyph">🤖</div>
-            <ul class="stkCard__stats"><li><b>ReAct</b><span>LLM Framework</span></li><li><b>Auto</b><span>PO Drafting</span></li><li><b>SQL</b><span>Database Queries</span></li></ul>
+          <aside class="stkCard__preview" data-src="./ai-supply-chain-copilot.html">
+            <div class="stkCard__screen">
+              <iframe title="AI Supply Chain Copilot (ReAct Agent) — live preview" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+              <span class="stkCard__load">Loading live view</span>
+            </div>
+            <a class="stkCard__screenCta" href="./ai-supply-chain-copilot.html" target="_blank" rel="noopener">
+              <span>Open it full size</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </a>
           </aside>
         </div>
       </article>
@@ -508,7 +606,7 @@ body{
     </section>
     <section class="deck" id="ch-analytics" data-chapter="Analytics &amp; Data" data-color="#22d3ee"
              style="--c-rgb:34,211,238" aria-labelledby="chh-analytics">
-      <header class="deck__intro">
+      <header class="deck__intro reveal">
         <span class="deck__num">04</span>
         <div>
           <span class="deck__kicker">Models &amp; pipelines</span>
@@ -518,7 +616,8 @@ body{
         <span class="deck__count">2</span>
       </header>
       <div class="deck__stack">
-      <article class="stkCard" data-label="ML Forecasting" data-color="#22d3ee" style="--c-rgb:34,211,238">
+      <article class="stkCard has-preview" data-label="ML Forecasting"
+               data-color="#22d3ee" style="--c-rgb:34,211,238">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -527,16 +626,23 @@ body{
             <h3 class="stkCard__title">ML Demand Forecasting Engine</h3>
             <p class="stkCard__hook">Traditional stats vs. dynamic ML featuring price elasticity and marketing spend</p>
             <p class="stkCard__desc">An interactive machine learning forecasting engine comparing Holt-Winters against XGBoost/Prophet. Models price elasticity, marketing budgets, and regional Ramadan peaks dynamically to reduce MAPE error.</p>
+            <ul class="stkCard__inline"><li><b>−50%</b><span>Forecast Error</span></li><li><b>7.4%</b><span>ML MAPE</span></li><li><b>XGBoost</b><span>Features</span></li></ul>
             <div class="stkCard__tags"><i>Prophet</i><i>XGBoost</i><i>Elasticity</i><i>Interactive</i></div>
             <a class="stkCard__cta" href="./ml-demand-forecasting.html" target="_blank" rel="noopener">Open Engine <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
-          <aside class="stkCard__rail" aria-hidden="true">
-            <div class="stkCard__glyph">🔮</div>
-            <ul class="stkCard__stats"><li><b>−50%</b><span>Forecast Error</span></li><li><b>7.4%</b><span>ML MAPE</span></li><li><b>XGBoost</b><span>Features</span></li></ul>
+          <aside class="stkCard__preview" data-src="./ml-demand-forecasting.html">
+            <div class="stkCard__screen">
+              <iframe title="ML Demand Forecasting Engine — live preview" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+              <span class="stkCard__load">Loading live view</span>
+            </div>
+            <a class="stkCard__screenCta" href="./ml-demand-forecasting.html" target="_blank" rel="noopener">
+              <span>Open it full size</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </a>
           </aside>
         </div>
       </article>
-      <article class="stkCard" data-label="ETL Pipeline" data-color="#a855f7" style="--c-rgb:168,85,247">
+      <article class="stkCard has-preview" data-label="ETL Pipeline"
+               data-color="#a855f7" style="--c-rgb:168,85,247">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -545,12 +651,18 @@ body{
             <h3 class="stkCard__title">Real-Time ERP/Shopify ETL Pipeline</h3>
             <p class="stkCard__hook">Automating data pipelines from ingestion to anomaly cleaning — with zero manual effort</p>
             <p class="stkCard__desc">A real-time ETL simulator capturing raw order data from ERP and Shopify systems, running automatic cleaning pipelines, detecting anomalies using statistical Z-score algorithms, and loading sanitized data into an interactive analytics warehouse.</p>
+            <ul class="stkCard__inline"><li><b>99.9%</b><span>Data Accuracy</span></li><li><b>Z-Score</b><span>Anomaly Engine</span></li><li><b>Real-Time</b><span>Ingestion Speed</span></li></ul>
             <div class="stkCard__tags"><i>ETL Pipelines</i><i>Data Quality</i><i>Z-Score Anomaly</i><i>Shopify Sync</i></div>
             <a class="stkCard__cta" href="./erp-shopify-etl-pipeline.html" target="_blank" rel="noopener">Open ETL Pipeline <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
-          <aside class="stkCard__rail" aria-hidden="true">
-            <div class="stkCard__glyph">🔄</div>
-            <ul class="stkCard__stats"><li><b>99.9%</b><span>Data Accuracy</span></li><li><b>Z-Score</b><span>Anomaly Engine</span></li><li><b>Real-Time</b><span>Ingestion Speed</span></li></ul>
+          <aside class="stkCard__preview" data-src="./erp-shopify-etl-pipeline.html">
+            <div class="stkCard__screen">
+              <iframe title="Real-Time ERP/Shopify ETL Pipeline — live preview" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+              <span class="stkCard__load">Loading live view</span>
+            </div>
+            <a class="stkCard__screenCta" href="./erp-shopify-etl-pipeline.html" target="_blank" rel="noopener">
+              <span>Open it full size</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </a>
           </aside>
         </div>
       </article>
@@ -558,7 +670,7 @@ body{
     </section>
     <section class="deck" id="ch-risk" data-chapter="Risk &amp; Geopolitics" data-color="#fb7185"
              style="--c-rgb:251,113,133" aria-labelledby="chh-risk">
-      <header class="deck__intro">
+      <header class="deck__intro reveal">
         <span class="deck__num">05</span>
         <div>
           <span class="deck__kicker">Exposure &amp; disruption</span>
@@ -568,7 +680,8 @@ body{
         <span class="deck__count">2</span>
       </header>
       <div class="deck__stack">
-      <article class="stkCard" data-label="Risk Radar" data-color="#ef4444" style="--c-rgb:239,68,68">
+      <article class="stkCard has-preview" data-label="Risk Radar"
+               data-color="#ef4444" style="--c-rgb:239,68,68">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -577,16 +690,23 @@ body{
             <h3 class="stkCard__title">Supply Chain Risk Assessment Framework</h3>
             <p class="stkCard__hook">An early-warning scorecard for every threat a supply chain faces</p>
             <p class="stkCard__desc">Scores 8 risk dimensions (political, currency, supplier, logistics) for any trade lane. Pre-loaded with China–UAE, India–UAE, and Europe–UAE profiles. Interactive sliders update the radar chart and mitigation actions live. Based on BCG 2024 GCC research.</p>
+            <ul class="stkCard__inline"><li><b>8</b><span>Risk Dimensions</span></li><li><b>3</b><span>Trade Lanes</span></li><li><b>BCG</b><span>2024 Framework</span></li></ul>
             <div class="stkCard__tags"><i>Radar Chart</i><i>Interactive</i><i>GCC Trade Lanes</i></div>
             <a class="stkCard__cta" href="./supply-chain-risk-framework.html" target="_blank" rel="noopener">Open Risk Tool <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
-          <aside class="stkCard__rail" aria-hidden="true">
-            <div class="stkCard__glyph">⚠️</div>
-            <ul class="stkCard__stats"><li><b>8</b><span>Risk Dimensions</span></li><li><b>3</b><span>Trade Lanes</span></li><li><b>BCG</b><span>2024 Framework</span></li></ul>
+          <aside class="stkCard__preview" data-src="./supply-chain-risk-framework.html">
+            <div class="stkCard__screen">
+              <iframe title="Supply Chain Risk Assessment Framework — live preview" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+              <span class="stkCard__load">Loading live view</span>
+            </div>
+            <a class="stkCard__screenCta" href="./supply-chain-risk-framework.html" target="_blank" rel="noopener">
+              <span>Open it full size</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </a>
           </aside>
         </div>
       </article>
-      <article class="stkCard" data-label="Conflict Impact" data-color="#fb7185" style="--c-rgb:251,113,133">
+      <article class="stkCard has-preview" data-label="Conflict Impact"
+               data-color="#fb7185" style="--c-rgb:251,113,133">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -595,12 +715,18 @@ body{
             <h3 class="stkCard__title">War &amp; Conflict: GCC Supply Chain Impact</h3>
             <p class="stkCard__hook">When wars start, supply chains feel it first — here&#x27;s the proof</p>
             <p class="stkCard__desc">Quantifies the exact supply chain impact of three real conflicts: Red Sea crisis (freight +323%), Ukraine war (wheat +70%), Strait of Hormuz risk. Uses real Drewry WCI data, FAO commodity prices, and builds a three-pillar resilience playbook for UAE operators.</p>
+            <ul class="stkCard__inline"><li><b>+323%</b><span>Freight Spike</span></li><li><b>+14 Days</b><span>Transit Added</span></li><li><b>3</b><span>Case Studies</span></li></ul>
             <div class="stkCard__tags"><i>Red Sea Crisis</i><i>Ukraine War</i><i>Hormuz</i></div>
             <a class="stkCard__cta" href="./war-conflict-supply-chain.html" target="_blank" rel="noopener">Read Analysis <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
-          <aside class="stkCard__rail" aria-hidden="true">
-            <div class="stkCard__glyph">🚢</div>
-            <ul class="stkCard__stats"><li><b>+323%</b><span>Freight Spike</span></li><li><b>+14 Days</b><span>Transit Added</span></li><li><b>3</b><span>Case Studies</span></li></ul>
+          <aside class="stkCard__preview" data-src="./war-conflict-supply-chain.html">
+            <div class="stkCard__screen">
+              <iframe title="War &amp; Conflict: GCC Supply Chain Impact — live preview" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+              <span class="stkCard__load">Loading live view</span>
+            </div>
+            <a class="stkCard__screenCta" href="./war-conflict-supply-chain.html" target="_blank" rel="noopener">
+              <span>Open it full size</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </a>
           </aside>
         </div>
       </article>
@@ -608,7 +734,7 @@ body{
     </section>
     <section class="deck" id="ch-strategy" data-chapter="Strategy &amp; Process" data-color="#34d399"
              style="--c-rgb:52,211,153" aria-labelledby="chh-strategy">
-      <header class="deck__intro">
+      <header class="deck__intro reveal">
         <span class="deck__num">06</span>
         <div>
           <span class="deck__kicker">How the work is run</span>
@@ -618,7 +744,8 @@ body{
         <span class="deck__count">4</span>
       </header>
       <div class="deck__stack">
-      <article class="stkCard" data-label="Scorecard" data-color="#38bdf8" style="--c-rgb:56,189,248">
+      <article class="stkCard has-preview" data-label="Scorecard"
+               data-color="#38bdf8" style="--c-rgb:56,189,248">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -627,16 +754,23 @@ body{
             <h3 class="stkCard__title">Supply Chain Scorecard</h3>
             <p class="stkCard__hook">A command-centre view of supply chain health — the way a Director sees the business</p>
             <p class="stkCard__desc">An executive-grade interactive scorecard covering all four supply chain dimensions: Demand Planning, Inventory Management, Supplier Performance, and Logistics. 24 live KPIs with GCC vs World Class benchmarks, radar performance profile, 6-month trend, and 5 prioritised strategic actions — each with quantified ROI impact.</p>
+            <ul class="stkCard__inline"><li><b>24</b><span>Live KPIs</span></li><li><b>4</b><span>Dimensions</span></li><li><b>AED 5M+</b><span>Actions Identified</span></li></ul>
             <div class="stkCard__tags"><i>Inventory</i><i>Supplier Mgmt</i><i>GCC Benchmarks</i><i>Interactive</i></div>
             <a class="stkCard__cta" href="./supply-chain-scorecard.html" target="_blank" rel="noopener">Open Scorecard <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
-          <aside class="stkCard__rail" aria-hidden="true">
-            <div class="stkCard__glyph">📊</div>
-            <ul class="stkCard__stats"><li><b>24</b><span>Live KPIs</span></li><li><b>4</b><span>Dimensions</span></li><li><b>AED 5M+</b><span>Actions Identified</span></li></ul>
+          <aside class="stkCard__preview" data-src="./supply-chain-scorecard.html">
+            <div class="stkCard__screen">
+              <iframe title="Supply Chain Scorecard — live preview" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+              <span class="stkCard__load">Loading live view</span>
+            </div>
+            <a class="stkCard__screenCta" href="./supply-chain-scorecard.html" target="_blank" rel="noopener">
+              <span>Open it full size</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </a>
           </aside>
         </div>
       </article>
-      <article class="stkCard" data-label="S&amp;OP Playbook" data-color="#22c55e" style="--c-rgb:34,197,94">
+      <article class="stkCard has-preview" data-label="S&amp;OP Playbook"
+               data-color="#22c55e" style="--c-rgb:34,197,94">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -645,16 +779,23 @@ body{
             <h3 class="stkCard__title">S&amp;OP Process Design Playbook</h3>
             <p class="stkCard__hook">The complete operating manual for running a world-class planning team</p>
             <p class="stkCard__desc">An interactive S&amp;OP process framework showing the complete system for aligning Sales, Finance, Procurement and Operations around one monthly plan. Explore the 4-week governance cycle, RACI matrix, 9 live KPI gauges, and 5-level maturity model — all built from the ANDS Dubai S&amp;OP implementation.</p>
+            <ul class="stkCard__inline"><li><b>9</b><span>Live KPI Gauges</span></li><li><b>4</b><span>Cycle Weeks</span></li><li><b>5</b><span>Maturity Levels</span></li></ul>
             <div class="stkCard__tags"><i>S&amp;OP Design</i><i>RACI Matrix</i><i>Governance</i><i>Interactive</i></div>
             <a class="stkCard__cta" href="./sop-process-playbook.html" target="_blank" rel="noopener">Open Interactive Playbook <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
-          <aside class="stkCard__rail" aria-hidden="true">
-            <div class="stkCard__glyph">📋</div>
-            <ul class="stkCard__stats"><li><b>9</b><span>Live KPI Gauges</span></li><li><b>4</b><span>Cycle Weeks</span></li><li><b>5</b><span>Maturity Levels</span></li></ul>
+          <aside class="stkCard__preview" data-src="./sop-process-playbook.html">
+            <div class="stkCard__screen">
+              <iframe title="S&amp;OP Process Design Playbook — live preview" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+              <span class="stkCard__load">Loading live view</span>
+            </div>
+            <a class="stkCard__screenCta" href="./sop-process-playbook.html" target="_blank" rel="noopener">
+              <span>Open it full size</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </a>
           </aside>
         </div>
       </article>
-      <article class="stkCard" data-label="Network Optimizer" data-color="#06b6d4" style="--c-rgb:6,182,212">
+      <article class="stkCard has-preview" data-label="Network Optimizer"
+               data-color="#06b6d4" style="--c-rgb:6,182,212">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -663,16 +804,23 @@ body{
             <h3 class="stkCard__title">Multi-Echelon Network Inventory Optimizer</h3>
             <p class="stkCard__hook">Balancing safety stocks across your entire supply chain network dynamically</p>
             <p class="stkCard__desc">An interactive network visualizer modeling a central JAFZA Hub in Dubai feeding multiple regional retail nodes. Compare centralized pooling policies against decentralized safety stock holding to optimize warehouse footprints and slash carrying costs.</p>
+            <ul class="stkCard__inline"><li><b>−25%</b><span>Carrying Cost</span></li><li><b>JAFZA</b><span>Central Hub</span></li><li><b>98%</b><span>Service Level</span></li></ul>
             <div class="stkCard__tags"><i>Multi-Echelon</i><i>Safety Stock</i><i>JAFZA Hub</i><i>Network Optimization</i></div>
             <a class="stkCard__cta" href="./multi-echelon-inventory-optimizer.html" target="_blank" rel="noopener">Open Optimizer <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
-          <aside class="stkCard__rail" aria-hidden="true">
-            <div class="stkCard__glyph">🌐</div>
-            <ul class="stkCard__stats"><li><b>−25%</b><span>Carrying Cost</span></li><li><b>JAFZA</b><span>Central Hub</span></li><li><b>98%</b><span>Service Level</span></li></ul>
+          <aside class="stkCard__preview" data-src="./multi-echelon-inventory-optimizer.html">
+            <div class="stkCard__screen">
+              <iframe title="Multi-Echelon Network Inventory Optimizer — live preview" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+              <span class="stkCard__load">Loading live view</span>
+            </div>
+            <a class="stkCard__screenCta" href="./multi-echelon-inventory-optimizer.html" target="_blank" rel="noopener">
+              <span>Open it full size</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </a>
           </aside>
         </div>
       </article>
-      <article class="stkCard" data-label="Perfume Sim" data-color="#f59e0b" style="--c-rgb:245,158,11">
+      <article class="stkCard has-preview" data-label="Perfume Sim"
+               data-color="#f59e0b" style="--c-rgb:245,158,11">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -681,12 +829,18 @@ body{
             <h3 class="stkCard__title">Global Perfume Supply Chain Simulator</h3>
             <p class="stkCard__hook">An executive operations console simulating China-to-UAE sourcing lanes and GCC retail flows</p>
             <p class="stkCard__desc">An interactive 30-day supply chain simulator tracking Guangzhou packaging procurement, Jebel Ali customs clearance, Al Quoz blending runs, and GCC store stockouts. Manage lead times and calculate actual cash ROI against port delays.</p>
+            <ul class="stkCard__inline"><li><b>OTIF</b><span>Service Target</span></li><li><b>Net P&amp;L</b><span>Operations Profit</span></li><li><b>Inbound</b><span>Lead Times</span></li></ul>
             <div class="stkCard__tags"><i>Global Sourcing</i><i>JAFZA Hub</i><i>Batch Production</i><i>Chart.js</i></div>
             <a class="stkCard__cta" href="./perfume-supply-chain-simulator.html" target="_blank" rel="noopener">Open Simulator <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
-          <aside class="stkCard__rail" aria-hidden="true">
-            <div class="stkCard__glyph">🧪</div>
-            <ul class="stkCard__stats"><li><b>OTIF</b><span>Service Target</span></li><li><b>Net P&amp;L</b><span>Operations Profit</span></li><li><b>Inbound</b><span>Lead Times</span></li></ul>
+          <aside class="stkCard__preview" data-src="./perfume-supply-chain-simulator.html">
+            <div class="stkCard__screen">
+              <iframe title="Global Perfume Supply Chain Simulator — live preview" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+              <span class="stkCard__load">Loading live view</span>
+            </div>
+            <a class="stkCard__screenCta" href="./perfume-supply-chain-simulator.html" target="_blank" rel="noopener">
+              <span>Open it full size</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </a>
           </aside>
         </div>
       </article>
@@ -694,7 +848,7 @@ body{
     </section>
     <section class="deck" id="ch-tools" data-chapter="Free Tools &amp; Downloads" data-color="#f59e0b"
              style="--c-rgb:245,158,11" aria-labelledby="chh-tools">
-      <header class="deck__intro">
+      <header class="deck__intro reveal">
         <span class="deck__num">07</span>
         <div>
           <span class="deck__kicker">Take it with you</span>
@@ -704,7 +858,8 @@ body{
         <span class="deck__count">2</span>
       </header>
       <div class="deck__stack">
-      <article class="stkCard" data-label="Calculators" data-color="#f97316" style="--c-rgb:249,115,22">
+      <article class="stkCard has-preview" data-label="Calculators"
+               data-color="#f97316" style="--c-rgb:249,115,22">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -713,16 +868,23 @@ body{
             <h3 class="stkCard__title">Supply Chain Calculator Hub</h3>
             <p class="stkCard__hook">Every formula a demand planner uses daily — free, instant, no sign-up</p>
             <p class="stkCard__desc">6 free, instant supply chain calculators: Safety Stock (with full demand + lead time variability), EOQ, Reorder Point, MAPE Forecast Accuracy, Inventory Turnover with GCC benchmarks, and Carrying Cost. Formula explanations and GCC-specific context built into every tool.</p>
+            <ul class="stkCard__inline"><li><b>6</b><span>Calculators</span></li><li><b>GCC</b><span>Benchmarks</span></li><li><b>Free</b><span>No Sign-Up</span></li></ul>
             <div class="stkCard__tags"><i>Safety Stock</i><i>EOQ</i><i>MAPE</i><i>Reorder Point</i></div>
             <a class="stkCard__cta" href="./supply-chain-calculators.html" target="_blank" rel="noopener">Open Calculator Hub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
-          <aside class="stkCard__rail" aria-hidden="true">
-            <div class="stkCard__glyph">🧮</div>
-            <ul class="stkCard__stats"><li><b>6</b><span>Calculators</span></li><li><b>GCC</b><span>Benchmarks</span></li><li><b>Free</b><span>No Sign-Up</span></li></ul>
+          <aside class="stkCard__preview" data-src="./supply-chain-calculators.html">
+            <div class="stkCard__screen">
+              <iframe title="Supply Chain Calculator Hub — live preview" tabindex="-1" scrolling="no" aria-hidden="true"></iframe>
+              <span class="stkCard__load">Loading live view</span>
+            </div>
+            <a class="stkCard__screenCta" href="./supply-chain-calculators.html" target="_blank" rel="noopener">
+              <span>Open it full size</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </a>
           </aside>
         </div>
       </article>
-      <article class="stkCard" data-label="ABC-XYZ" data-color="#f59e0b" style="--c-rgb:245,158,11">
+      <article class="stkCard" data-label="ABC-XYZ"
+               data-color="#f59e0b" style="--c-rgb:245,158,11">
         <div class="stkCard__body">
           <div class="stkCard__main">
             <div class="stkCard__meta">
@@ -731,6 +893,7 @@ body{
             <h3 class="stkCard__title">ABC-XYZ Inventory Classification</h3>
             <p class="stkCard__hook">A priority map that tells you which products deserve the most attention</p>
             <p class="stkCard__desc">A 5-sheet Excel workbook classifying 30 products into 9 management zones — identifying which items drive 70% of revenue (ABC) and which are erratically ordered (XYZ). Complete with reorder formulas and inventory policies per segment.</p>
+            
             <div class="stkCard__tags"><i>Excel</i><i>Pareto</i><i>Coeff. of Variation</i></div>
             <a class="stkCard__cta" href="./ABC-XYZ-Inventory-Analysis.xlsx" target="_blank" rel="noopener">Download Excel <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
           </div>
@@ -933,6 +1096,42 @@ body{
     });
 
     if(model[di]) history.replaceState(null, '', '#' + model[di].id);
+    syncPreviews(di, ci);
+  }
+
+  /* ── live previews ──────────────────────────────────────────────
+     Sixteen mounted iframes would be brutal, so at most two are ever
+     alive: the pinned card and the one queued behind it. Everything
+     else is torn down, which frees the embedded page's timers and
+     canvases — several of these dashboards animate continuously. */
+  function syncPreviews(di, ci){
+    var keep = [];
+    var d = model[di];
+    if(d){
+      keep.push(d.cards[ci]);
+      if(d.cards[ci+1]) keep.push(d.cards[ci+1]);
+    }
+    model.forEach(function(m){
+      m.cards.forEach(function(card){
+        var pv = card.querySelector('.stkCard__preview');
+        if(!pv) return;
+        var frame = pv.querySelector('.stkCard__screen');
+        var f = pv.querySelector('iframe');
+        if(keep.indexOf(card) !== -1){
+          if(!f.getAttribute('src')){
+            f.addEventListener('load', function(){
+              f.classList.add('is-loaded');
+              frame.classList.add('is-ready');
+            }, {once:true});
+            f.setAttribute('src', pv.dataset.src);
+          }
+        } else if(f.getAttribute('src')){
+          f.removeAttribute('src');
+          f.classList.remove('is-loaded');
+          frame.classList.remove('is-ready');
+        }
+      });
+    });
   }
 
   /* pure arithmetic against cached tops — safe to run every frame */
@@ -986,6 +1185,24 @@ body{
   addEventListener('resize', function(){ measure(); onScroll(); });
   if(document.fonts && document.fonts.ready){
     document.fonts.ready.then(function(){ measure(); onScroll(); });
+  }
+
+  /* reveal primitive — fires once, then stops observing */
+  if(!reduce){
+    var revealIO = new IntersectionObserver(function(entries, obs){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        e.target.classList.add('is-visible');
+        obs.unobserve(e.target);
+      });
+    }, { threshold:0.18, rootMargin:'0px 0px -8% 0px' });
+    [].slice.call(document.querySelectorAll('.reveal')).forEach(function(el){
+      revealIO.observe(el);
+    });
+  } else {
+    [].slice.call(document.querySelectorAll('.reveal')).forEach(function(el){
+      el.classList.add('is-visible');
+    });
   }
 
   /* deep link: /#ch-analytics opens on that chapter */
