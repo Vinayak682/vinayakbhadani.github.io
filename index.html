@@ -2392,6 +2392,479 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
   </div>
 </section>
 
+<!-- ══════════════════════════════════════════════════════════════════
+     THE STACK — one SKU, end to end.
+     The site had seven capabilities presented as unrelated cards. They are
+     one pipeline. This runs it: pick a demand profile, watch a real
+     replenishment decision get made stage by stage, with every number
+     computed in the browser from the series shown — nothing hard-coded.
+     ══════════════════════════════════════════════════════════════════ -->
+<section id="stack" aria-label="The demand planning stack, end to end">
+<style>
+#stack{padding:96px 0 88px;background:var(--bg1);position:relative}
+.stk-head{max-width:720px}
+.stk-lead{margin-top:14px;font-size:.94rem;line-height:1.65;color:var(--t2)}
+
+/* ── Profile picker ── */
+.stk-picker{display:flex;flex-wrap:wrap;gap:8px;margin:30px 0 10px}
+.stk-chip{min-height:44px;padding:10px 16px;border-radius:3px;cursor:pointer;
+  background:rgba(47,95,227,.08);border:1px solid rgba(124,166,255,.26);
+  color:var(--t2);font-family:'Outfit',system-ui,sans-serif;font-size:.79rem;font-weight:600;
+  letter-spacing:.02em;transition:background .2s ease,border-color .2s ease,color .2s ease}
+.stk-chip:hover{background:rgba(47,95,227,.16);color:#fff}
+.stk-chip[aria-pressed="true"]{background:var(--sf-blue);border-color:var(--sf-blue-light);color:#fff}
+.stk-chip:focus-visible{outline:2px solid var(--sf-blue-light);outline-offset:4px}
+.stk-picker-note{font-family:Monaco,monospace;font-size:.55rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--t3);margin-bottom:26px}
+
+/* ── The rail: one continuous line, seven nodes ──
+   The connector is drawn behind the nodes as a single 2px rule so the stages
+   read as one system. A second rule is scaled over it to show progress — the
+   thing that stops this being seven separate cards. */
+.stk-rail{position:relative;margin:0 0 30px;padding:0}
+.stk-rail ol{display:grid;grid-template-columns:repeat(7,1fr);gap:0;list-style:none;margin:0;padding:0;position:relative}
+.stk-rail::before,.stk-rail::after{content:'';position:absolute;top:19px;height:2px;border-radius:2px;pointer-events:none}
+.stk-rail::before{left:7%;right:7%;background:rgba(124,166,255,.18)}
+.stk-rail::after{left:7%;width:calc((86% / 6) * var(--stk-progress,0));
+  background:linear-gradient(90deg,var(--sf-blue),var(--sf-blue-light));
+  box-shadow:0 0 12px rgba(47,95,227,.5);transition:width .45s cubic-bezier(.4,0,.2,1)}
+.stk-node{display:flex;flex-direction:column;align-items:center;gap:9px;
+  min-height:44px;padding:6px 2px 0;background:none;border:none;cursor:pointer;width:100%}
+.stk-node:focus-visible{outline:2px solid var(--sf-blue-light);outline-offset:4px;border-radius:4px}
+.stk-dot{width:38px;height:38px;flex:0 0 auto;display:grid;place-items:center;border-radius:50%;
+  background:var(--bg1);border:2px solid rgba(124,166,255,.3);
+  font-family:Monaco,monospace;font-size:.62rem;font-weight:700;color:var(--t3);
+  transition:border-color .3s ease,color .3s ease,background .3s ease,transform .3s ease;z-index:1}
+.stk-label{font-family:Monaco,monospace;font-size:.53rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--t3);text-align:center;line-height:1.3;transition:color .3s ease}
+.stk-node[data-state="done"] .stk-dot{border-color:var(--sf-blue);color:var(--sf-blue-light);background:rgba(47,95,227,.16)}
+.stk-node[data-state="done"] .stk-label{color:var(--t2)}
+.stk-node[data-state="active"] .stk-dot{border-color:var(--sf-blue-light);background:var(--sf-blue);color:#fff;
+  transform:scale(1.14);box-shadow:0 0 0 5px rgba(47,95,227,.16)}
+.stk-node[data-state="active"] .stk-label{color:#fff}
+.stk-node:hover .stk-dot{border-color:var(--sf-blue-light)}
+
+/* ── Stage panel ── */
+.stk-panel{border:1px solid var(--brd2);border-radius:6px;background:rgba(8,11,19,.62);
+  padding:30px 30px 26px;min-height:330px}
+.stk-panel:focus{outline:none}
+.stk-panel:focus-visible{outline:2px solid var(--sf-blue-light);outline-offset:3px}
+.stk-p-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.stk-p-kicker{font-family:Monaco,monospace;font-size:.55rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--sf-blue-light)}
+.stk-p-title{font-family:'Outfit',system-ui,sans-serif;font-size:1.34rem;font-weight:700;
+  letter-spacing:-.01em;color:var(--t1);margin:7px 0 0}
+.stk-p-why{margin:12px 0 0;max-width:60ch;font-size:.86rem;line-height:1.66;color:var(--t2)}
+
+/* Provenance badge — quiet by default, legible on inspection */
+.stk-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:3px;
+  font-family:Monaco,monospace;font-size:.53rem;letter-spacing:.11em;text-transform:uppercase;
+  white-space:nowrap;border:1px solid}
+.stk-badge i{width:6px;height:6px;border-radius:50%;background:currentColor;flex:0 0 auto}
+.stk-badge[data-tier="open"]{color:#7ca6ff;border-color:rgba(124,166,255,.34);background:rgba(47,95,227,.09)}
+.stk-badge[data-tier="synthetic"]{color:#c9a227;border-color:rgba(201,162,39,.34);background:rgba(201,162,39,.08)}
+.stk-badge[data-tier="production"]{color:#4ac07a;border-color:rgba(74,192,122,.34);background:rgba(74,192,122,.08)}
+
+/* Readout — the computed values for this stage */
+.stk-readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  margin-top:24px;background:var(--brd2);border:1px solid var(--brd2);border-radius:4px;overflow:hidden}
+.stk-cell{background:var(--bg1);padding:14px 15px}
+.stk-k{font-family:Monaco,monospace;font-size:.53rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
+.stk-v{font-family:'Outfit',system-ui,sans-serif;font-size:1.16rem;font-weight:700;color:var(--t1);margin-top:5px;line-height:1.15}
+.stk-v small{display:block;font-size:.62rem;font-weight:500;color:var(--t3);margin-top:3px;letter-spacing:.02em}
+.stk-v.is-key{color:var(--sf-blue-light)}
+
+.stk-formula{margin-top:18px;padding:13px 15px;border-left:2px solid var(--sf-blue);
+  background:rgba(47,95,227,.06);font-family:Monaco,monospace;font-size:.68rem;
+  line-height:1.75;color:var(--t2);overflow-x:auto}
+.stk-formula b{color:var(--t1);font-weight:700}
+
+.stk-links{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+.stk-link{min-height:44px;display:inline-flex;align-items:center;gap:7px;padding:11px 15px;border-radius:3px;
+  border:1px solid rgba(124,166,255,.28);background:rgba(47,95,227,.07);color:var(--sf-blue-light);
+  text-decoration:none;font-family:'Outfit',system-ui,sans-serif;font-size:.76rem;font-weight:600;
+  transition:background .2s ease,border-color .2s ease}
+.stk-link:hover{background:rgba(47,95,227,.16);border-color:var(--sf-blue-light);color:#fff}
+.stk-link:focus-visible{outline:2px solid var(--sf-blue-light);outline-offset:4px}
+
+/* Sparkline of the demand series */
+.stk-spark{margin-top:22px;border:1px solid var(--brd2);border-radius:4px;background:rgba(4,7,12,.5);padding:12px}
+.stk-spark svg{display:block;width:100%;height:78px;overflow:visible}
+.stk-spark-cap{font-family:Monaco,monospace;font-size:.52rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--t3);margin-top:9px}
+
+.stk-nav{display:flex;gap:9px;margin-top:24px;align-items:center;flex-wrap:wrap}
+.stk-step{min-height:44px;min-width:44px;padding:11px 17px;border-radius:3px;cursor:pointer;
+  border:1px solid rgba(124,166,255,.28);background:rgba(47,95,227,.07);color:var(--t1);
+  font-family:'Outfit',system-ui,sans-serif;font-size:.77rem;font-weight:600}
+.stk-step:hover:not(:disabled){background:rgba(47,95,227,.18)}
+.stk-step:disabled{opacity:.34;cursor:not-allowed}
+.stk-step:focus-visible{outline:2px solid var(--sf-blue-light);outline-offset:4px}
+.stk-count{font-family:Monaco,monospace;font-size:.58rem;letter-spacing:.1em;color:var(--t3);margin-left:4px}
+
+@media(max-width:820px){
+  #stack{padding:72px 0 64px}
+  .stk-rail ol{grid-template-columns:repeat(4,1fr);gap:18px 0}
+  .stk-rail::before,.stk-rail::after{display:none}   /* a wrapped rail cannot draw one line honestly */
+  .stk-panel{padding:22px 18px 20px}
+}
+@media(prefers-reduced-motion:reduce){
+  .stk-rail::after{transition:none}
+  .stk-dot{transition:none}
+  .stk-node[data-state="active"] .stk-dot{transform:none}
+}
+</style>
+
+  <div class="wrap">
+    <div class="stk-head">
+      <div class="pj-eyebrow">The Stack</div>
+      <h2 class="sec-title">One SKU, <span>end to end</span></h2>
+      <p class="stk-lead">Seven repositories and six calculators are not seven projects — they are one pipeline, built in pieces. This runs it. Pick a demand profile and every number below is computed in your browser from the series shown; nothing is hard-coded, and each stage says whether it is production work, open source, or a demonstration.</p>
+    </div>
+
+    <div class="stk-picker" role="group" aria-label="Choose a demand profile">
+      <button type="button" class="stk-chip" data-profile="smooth"       aria-pressed="true">Smooth — fast mover</button>
+      <button type="button" class="stk-chip" data-profile="erratic"      aria-pressed="false">Erratic — jumpy sizes</button>
+      <button type="button" class="stk-chip" data-profile="intermittent" aria-pressed="false">Intermittent — sparse</button>
+      <button type="button" class="stk-chip" data-profile="lumpy"        aria-pressed="false">Lumpy — the C-class tail</button>
+    </div>
+    <p class="stk-picker-note" id="stk-series-note">104 weeks of history · synthetic, seeded</p>
+
+    <nav class="stk-rail" aria-label="Pipeline progression tracker">
+      <ol id="stk-rail-list"></ol>
+    </nav>
+
+    <div class="stk-panel" id="stk-panel" role="region" aria-live="polite" tabindex="-1"></div>
+
+    <div class="stk-nav">
+      <button type="button" class="stk-step" id="stk-prev">← Previous</button>
+      <button type="button" class="stk-step" id="stk-next">Next stage →</button>
+      <span class="stk-count" id="stk-count"></span>
+    </div>
+  </div>
+
+<script>
+(function(){
+  'use strict';
+  var panel = document.getElementById('stk-panel');
+  if (!panel) return;
+
+  /* ── Seeded RNG so the page is reproducible run to run ── */
+  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  function gauss(r){var u=1-r(),v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+
+  var WEEKS = 104, SEASON = 52, HORIZON = 4, LEAD = 3, SERVICE = 0.95, Z = 1.6449;
+
+  /* ── Demand generators, one per SBC quadrant ── */
+  function series(profile){
+    var r = mulberry32(20260809), y = [], i, base = 140, s, v;
+    for (i=0;i<WEEKS;i++){
+      s = 1 + 0.30*Math.sin(2*Math.PI*i/SEASON) + 0.16*Math.sin(2*Math.PI*(i+9)/26);
+      /* Sizes are lognormal for the two high-CV2 profiles. Additive gaussian
+         noise cannot push CV2 past the 0.49 cut without going negative and
+         being clipped to zero, which turns an 'erratic' series into an
+         intermittent one and lands it in the wrong quadrant. exp() keeps
+         every size strictly positive, so ADI stays honest while CV2 rises. */
+      if (profile==='smooth')            v = base*s*(1+0.10*gauss(r));
+      else if (profile==='erratic')      v = base*s*Math.exp(0.70*gauss(r));
+      else if (profile==='intermittent') v = (r()>0.62) ? base*0.42*s*(1+0.13*gauss(r)) : 0;
+      else                               v = (r()>0.70) ? base*0.60*s*Math.exp(0.92*gauss(r)) : 0;
+      y.push(Math.max(0, Math.round(v)));
+    }
+    return y;
+  }
+
+  /* ── Stage 2: Syntetos-Boylan-Croston classification ── */
+  function classify(y){
+    var nz = y.filter(function(v){return v>0;});
+    if (!nz.length) return {adi:Infinity, cv2:NaN, segment:'dead'};
+    var adi = y.length/nz.length;
+    var mean = nz.reduce(function(a,b){return a+b;},0)/nz.length;
+    var varc = nz.reduce(function(a,b){return a+(b-mean)*(b-mean);},0)/nz.length;
+    var cv2 = mean ? varc/(mean*mean) : 0;
+    var seg = adi < 1.32 ? (cv2 >= 0.49 ? 'erratic' : 'smooth')
+                         : (cv2 >= 0.49 ? 'lumpy'   : 'intermittent');
+    return {adi:adi, cv2:cv2, segment:seg};
+  }
+
+  var ROUTE = {smooth:'Holt-Winters', erratic:'Holt-Winters', intermittent:'Croston-SBA', lumpy:'TSB', dead:'Zero'};
+  var ROUTE_WHY = {
+    smooth:'Level, trend and season are all present and stable. Classical smoothing is cheap and hard to beat.',
+    erratic:'Timing is regular, only the sizes swing. Smoothing absorbs size noise; an intermittent method would be the wrong tool.',
+    intermittent:'The problem is timing, not size. Croston separates demand size from interval; SBA applies the debiasing factor Croston is missing.',
+    lumpy:'Rare and unpredictable when it lands. TSB updates demand probability every period, so a dying SKU decays instead of holding its last known rate forever.'
+  };
+
+  /* ── Stage 4: the four forecasters ── */
+  function fSES(y,a){var l=y[0],i;for(i=1;i<y.length;i++)l=a*y[i]+(1-a)*l;return l;}
+  function fHW(y){
+    if (y.length < 2*SEASON) return fSES(y,0.3);
+    var n=Math.floor(y.length/SEASON), seas=[], i, s, acc, k, lvl, tr, prev, idx;
+    for (s=0;s<SEASON;s++){acc=0;k=0;for(i=0;i<n;i++){if(i*SEASON+s<y.length){acc+=y[i*SEASON+s];k++;}}seas.push(k?acc/k:0);}
+    var sm=seas.reduce(function(a,b){return a+b;},0)/SEASON;
+    for(s=0;s<SEASON;s++) seas[s]-=sm;
+    lvl=0;for(i=0;i<SEASON;i++)lvl+=y[i];lvl/=SEASON;tr=0;
+    for(i=0;i<y.length;i++){idx=i%SEASON;prev=lvl;
+      lvl=0.25*(y[i]-seas[idx])+0.75*(lvl+tr);
+      tr=0.05*(lvl-prev)+0.95*tr;
+      seas[idx]=0.20*(y[i]-lvl)+0.80*seas[idx];}
+    return Math.max(0, lvl+tr+seas[y.length%SEASON]);
+  }
+  function fCrostonSBA(y,a){
+    var nz=[],i;for(i=0;i<y.length;i++) if(y[i]>0) nz.push(i);
+    if(!nz.length) return 0;
+    if(nz.length===1) return y[nz[0]]/y.length;
+    var size=y[nz[0]], intv=nz[0]+1;
+    for(i=1;i<nz.length;i++){size=a*y[nz[i]]+(1-a)*size;intv=a*(nz[i]-nz[i-1])+(1-a)*intv;}
+    return (1-a/2)*(size/Math.max(intv,1e-9));      /* SBA debiasing factor */
+  }
+  function fTSB(y,ad,ap){
+    var nz=[],i;for(i=0;i<y.length;i++) if(y[i]>0) nz.push(i);
+    if(!nz.length) return 0;
+    var size=y[nz[0]], p=1/(nz[0]+1);
+    for(i=0;i<y.length;i++){ if(y[i]>0){size=ad*y[i]+(1-ad)*size; p=ap+(1-ap)*p;} else {p=(1-ap)*p;} }
+    return size*p;
+  }
+  function forecast(method,y){
+    if(method==='Holt-Winters') return fHW(y);
+    if(method==='Croston-SBA')  return fCrostonSBA(y,0.12);
+    if(method==='TSB')          return fTSB(y,0.15,0.15);
+    return 0;
+  }
+
+  /* ── Stage 4b: rolling-origin backtest -> the error that drives stock ── */
+  function backtest(y, method){
+    var errs=[], origin, train, pred, actual, i, n=8;
+    for(i=n;i>0;i--){
+      origin = y.length - i;
+      train  = y.slice(0, origin);
+      if (train.length < SEASON+2) continue;
+      pred   = forecast(method, train);
+      actual = y[origin];
+      errs.push(actual - pred);
+    }
+    var m = errs.reduce(function(a,b){return a+b;},0)/(errs.length||1);
+    var sd = Math.sqrt(errs.reduce(function(a,b){return a+(b-m)*(b-m);},0)/Math.max(errs.length-1,1));
+    var mad = errs.reduce(function(a,b){return a+Math.abs(b);},0)/(errs.length||1);
+    var vol = y.slice(-8).reduce(function(a,b){return a+b;},0)/8;
+    return {sigma1:sd, bias:m, wape: vol? mad/vol : NaN, n:errs.length};
+  }
+
+  var state = {profile:'smooth', stage:0, d:null};
+
+  function compute(profile){
+    var y = series(profile);
+    var c = classify(y);
+    var method = ROUTE[c.segment];
+    var pt = forecast(method, y);
+    var bt = backtest(y, method);
+    var sigmaLT = bt.sigma1 * Math.sqrt(LEAD);
+    var ss  = Z * sigmaLT;
+    var dLT = pt * LEAD;
+    var rop = dLT + ss;
+    var onHand = Math.round(dLT * 0.55);
+    var order  = Math.max(0, Math.round(rop - onHand));
+    /* Hierarchy: this SKU sits in 3 stores -> 1 DC -> national */
+    var split = [0.46, 0.33, 0.21].map(function(w){return pt*w;});
+    var bottomUp = split.reduce(function(a,b){return a+b;},0);
+    return {y:y, c:c, method:method, pt:pt, bt:bt, sigma1:bt.sigma1, sigmaLT:sigmaLT,
+            ss:ss, dLT:dLT, rop:rop, onHand:onHand, order:order, split:split, bottomUp:bottomUp};
+  }
+
+  function n0(v){return isFinite(v)? Math.round(v).toLocaleString() : '—';}
+  function n1(v){return isFinite(v)? v.toFixed(1) : '—';}
+  function n2(v){return isFinite(v)? v.toFixed(2) : '—';}
+  function pct(v){return isFinite(v)? (v*100).toFixed(1)+'%' : '—';}
+
+  function sparkline(y){
+    var w=760,h=78,max=Math.max.apply(null,y)||1,i,pts=[];
+    for(i=0;i<y.length;i++) pts.push((i/(y.length-1)*w).toFixed(1)+','+(h-(y[i]/max)*h).toFixed(1));
+    return '<div class="stk-spark"><svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none" role="img" aria-label="Weekly demand history, '+y.length+' weeks">'+
+      '<polyline points="'+pts.join(' ')+'" fill="none" stroke="var(--sf-blue-light)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>'+
+      '</svg><div class="stk-spark-cap">104 weeks · peak '+n0(max)+' units · synthetic, seeded</div></div>';
+  }
+
+  function cell(k,v,sub,key){
+    return '<div class="stk-cell"><div class="stk-k">'+k+'</div><div class="stk-v'+(key?' is-key':'')+'">'+v+
+           (sub?'<small>'+sub+'</small>':'')+'</div></div>';
+  }
+  function badge(tier,txt){return '<span class="stk-badge" data-tier="'+tier+'"><i></i>'+txt+'</span>';}
+  function links(arr){
+    return '<div class="stk-links">'+arr.map(function(l){
+      return '<a class="stk-link" href="'+l[1]+'"'+(l[1].indexOf('http')===0?' target="_blank" rel="noopener"':'')+'>'+l[0]+' →</a>';
+    }).join('')+'</div>';
+  }
+
+  var STAGES = [
+    {id:'signal', label:'Signal', title:'The calendar is a regressor, not a footnote',
+     tier:['open','Open source'],
+     why:'Ramadan moves about eleven days earlier every Gregorian year, so a fixed 52-period seasonal index cannot hold it still. The dates have to enter the model as explicit regressors. That dataset is published, not hand-keyed per project.',
+     build:function(d){ return sparkline(d.y) +
+        '<div class="stk-readout">'+
+        cell('History','104 wk','weekly buckets')+
+        cell('Seasonality','52 wk','plus a 26-wk harmonic')+
+        cell('Moving events','Ramadan · Eid','Hijri-derived')+
+        cell('Peak week',n0(Math.max.apply(null,d.y)),'units')+
+        '</div>'+
+        links([['gcc-retail-calendar','https://github.com/Vinayak682/gcc-retail-calendar'],['Ramadan demand planning','ramadan-demand-planning-gcc.html']]); }},
+
+    {id:'classify', label:'Classify', title:'Two numbers decide how this SKU is treated',
+     tier:['open','Open source'],
+     why:'Average demand interval says how often demand arrives. The squared coefficient of variation of non-zero sizes says how wildly it swings when it does. Together they place the SKU in one of four quadrants at the published Syntetos-Boylan-Croston cut points — 1.32 and 0.49. Everything downstream follows from where it lands.',
+     build:function(d){ return '<div class="stk-readout">'+
+        cell('ADI',n2(d.c.adi),'cut at 1.32',true)+
+        cell('CV²',n2(d.c.cv2),'cut at 0.49',true)+
+        cell('Quadrant',d.c.segment.toUpperCase(),'SBC classification',true)+
+        cell('Zero weeks',n0(d.y.filter(function(v){return v===0;}).length),'of 104')+
+        '</div>'+
+        '<div class="stk-formula">ADI = periods ÷ non-zero periods &nbsp;→&nbsp; <b>'+n2(d.c.adi)+'</b><br>'+
+        'CV² = var(non-zero) ÷ mean(non-zero)² &nbsp;→&nbsp; <b>'+n2(d.c.cv2)+'</b><br>'+
+        'ADI '+(d.c.adi<1.32?'&lt;':'≥')+' 1.32 and CV² '+(d.c.cv2<0.49?'&lt;':'≥')+' 0.49 &nbsp;→&nbsp; <b>'+d.c.segment+'</b></div>'+
+        links([['Segmentation source','https://github.com/Vinayak682/gcc-demand-forecasting-benchmark'],['The C-Class Trap','abc-classification-seasonal-index-trap.html']]); }},
+
+    {id:'route', label:'Route', title:'The quadrant picks the method',
+     tier:['open','Open source'],
+     why:ROUTE_WHY.smooth,
+     build:function(d){ return '<div class="stk-readout">'+
+        cell('Segment',d.c.segment.toUpperCase(),'from stage 2')+
+        cell('Method',d.method,'selected',true)+
+        cell('Fallback','Seasonal naive','if unclassified')+
+        cell('Rejected',d.c.segment==='smooth'||d.c.segment==='erratic'?'Croston · TSB':'Holt-Winters','wrong tool here')+
+        '</div>'+
+        '<div class="stk-formula">'+ROUTE_WHY[d.c.segment]+'</div>'+
+        links([['sop-decision-engine','https://github.com/Vinayak682/sop-decision-engine'],['Benchmark that justifies this','https://github.com/Vinayak682/gcc-demand-forecasting-benchmark']]); }},
+
+    {id:'forecast', label:'Forecast', title:'Fit, then prove it beats doing nothing',
+     tier:['synthetic','Synthetic demo'],
+     why:'A forecast without a baseline is a number without a claim. The model is refit at eight rolling origins and scored against what actually happened, so the error below is measured out-of-sample rather than asserted.',
+     build:function(d){ return '<div class="stk-readout">'+
+        cell('Method',d.method,'routed')+
+        cell('Next-period forecast',n0(d.pt),'units',true)+
+        cell('WAPE',pct(d.bt.wape),'out-of-sample')+
+        cell('Bias',(d.bt.bias>=0?'+':'')+n1(d.bt.bias),'units per week')+
+        '</div>'+
+        '<div class="stk-formula">Rolling origin: <b>'+d.bt.n+'</b> refits, each forecasting one week it had never seen.<br>'+
+        'Bias is reported apart from magnitude — '+(Math.abs(d.bt.bias)<d.sigma1*0.35
+          ? 'this one is small relative to the noise, so the error is mostly variance.'
+          : 'this one is large relative to the noise, which means a systematic lean, not bad luck.')+'</div>'+
+        links([['Rolling-origin harness','https://github.com/Vinayak682/gcc-demand-forecasting-benchmark'],['Forecast accuracy calculator','supply-chain-calculators.html']]); }},
+
+    {id:'reconcile', label:'Reconcile', title:'Store, DC and national have to agree',
+     tier:['open','Open source'],
+     why:'Forecast each level independently and the numbers will not add up — the stores will not sum to the DC, and the DC will not sum to national. Somebody then reconciles it in a spreadsheet at month end. Coherence is structural: either the children sum to the parent or they do not.',
+     build:function(d){ return '<div class="stk-readout">'+
+        cell('Store A',n0(d.split[0]),'46% share')+
+        cell('Store B',n0(d.split[1]),'33% share')+
+        cell('Store C',n0(d.split[2]),'21% share')+
+        cell('Bottom-up total',n0(d.bottomUp),'= national',true)+
+        '</div>'+
+        '<div class="stk-formula">Σ store = <b>'+n0(d.bottomUp)+'</b> &nbsp;·&nbsp; national = <b>'+n0(d.pt)+'</b> &nbsp;→&nbsp; coherent to '+
+        Math.abs(d.bottomUp-d.pt).toFixed(6)+'<br>Bottom-up keeps detail and inherits bottom-level noise. MinT reconciles using the error covariance instead — measured, not assumed.</div>'+
+        links([['Reconciliation benchmark','https://github.com/Vinayak682/gcc-demand-forecasting-benchmark'],['Demand → delivery flow','demand-to-delivery-flow.html']]); }},
+
+    {id:'decide', label:'Decide', title:'Forecast error becomes safety stock',
+     tier:['open','Open source'],
+     why:'This is the stage most implementations get wrong. Safety stock covers what you failed to predict — so sigma must be the standard deviation of forecast error, not of demand. Demand variation you forecast correctly is not risk; you already ordered for it. Using demand sigma over-buys hardest on exactly the SKUs the model handles well.',
+     build:function(d){ return '<div class="stk-readout">'+
+        cell('σ per week',n1(d.sigma1),'of forecast error',true)+
+        cell('σ over lead time',n1(d.sigmaLT),'× √'+LEAD+' weeks')+
+        cell('Safety stock',n0(d.ss),'at 95% service',true)+
+        cell('Reorder point',n0(d.rop),'units',true)+
+        '</div>'+
+        '<div class="stk-formula">σ<sub>L</sub> = σ × √L = '+n1(d.sigma1)+' × √'+LEAD+' = <b>'+n1(d.sigmaLT)+'</b><br>'+
+        'SS = z × σ<sub>L</sub> = '+Z+' × '+n1(d.sigmaLT)+' = <b>'+n0(d.ss)+'</b><br>'+
+        'ROP = demand over lead time + SS = '+n0(d.dLT)+' + '+n0(d.ss)+' = <b>'+n0(d.rop)+'</b></div>'+
+        links([['Safety stock calculator','supply-chain-calculators.html'],['sop-decision-engine','https://github.com/Vinayak682/sop-decision-engine']]); }},
+
+    {id:'execute', label:'Execute', title:'A number somebody can act on and audit',
+     tier:['production','Production pattern'],
+     why:'The output of planning is not a forecast, it is a purchase order. Every figure here traces back through the stages that produced it — which is the difference between a recommendation a planner releases and one they quietly override.',
+     build:function(d){ return '<div class="stk-readout">'+
+        cell('On hand',n0(d.onHand),'units')+
+        cell('Reorder point',n0(d.rop),'trigger')+
+        cell('Order quantity',n0(d.order),'units',true)+
+        cell('Service level','95%','z = '+Z)+
+        '</div>'+
+        '<div class="stk-formula">On hand <b>'+n0(d.onHand)+'</b> '+(d.onHand<d.rop?'&lt;':'≥')+' ROP <b>'+n0(d.rop)+'</b> → '+
+        (d.onHand<d.rop?'<b>raise order for '+n0(d.order)+' units</b>':'<b>no action</b>')+'<br>'+
+        'Audit trail: '+d.c.segment+' → '+d.method+' → σ '+n1(d.sigma1)+' → SS '+n0(d.ss)+' → ROP '+n0(d.rop)+'</div>'+
+        links([['ai-supply-chain-platform','https://github.com/Vinayak682/ai-supply-chain-platform'],['retail-inventory-ops','https://vinayak682.github.io/retail-inventory-ops/'],['MRP & BOM planner','mrp-bom-planner.html']]); }}
+  ];
+
+  /* ── Rail ── */
+  var railList = document.getElementById('stk-rail-list');
+  STAGES.forEach(function(s,i){
+    var li=document.createElement('li');
+    li.innerHTML='<button type="button" class="stk-node" data-i="'+i+'">'+
+      '<span class="stk-dot" aria-hidden="true">'+(i+1)+'</span>'+
+      '<span class="stk-label">'+s.label+'</span></button>';
+    railList.appendChild(li);
+  });
+  var nodes = Array.prototype.slice.call(railList.querySelectorAll('.stk-node'));
+
+  function render(){
+    var s = STAGES[state.stage], d = state.d;
+    document.querySelector('.stk-rail').style.setProperty('--stk-progress', state.stage);
+    nodes.forEach(function(n,i){
+      n.setAttribute('data-state', i<state.stage?'done':(i===state.stage?'active':'todo'));
+      n.setAttribute('aria-current', i===state.stage?'step':'false');
+      n.setAttribute('aria-label','Stage '+(i+1)+' of '+STAGES.length+': '+STAGES[i].label);
+    });
+    panel.innerHTML =
+      '<div class="stk-p-top"><div><div class="stk-p-kicker">Stage '+(state.stage+1)+' / '+STAGES.length+' · '+s.label+'</div>'+
+      '<h3 class="stk-p-title">'+s.title+'</h3></div>'+badge(s.tier[0],s.tier[1])+'</div>'+
+      '<p class="stk-p-why">'+(s.id==='route'?ROUTE_WHY[d.c.segment]:s.why)+'</p>'+
+      s.build(d);
+    document.getElementById('stk-prev').disabled = state.stage===0;
+    document.getElementById('stk-next').disabled = state.stage===STAGES.length-1;
+    document.getElementById('stk-count').textContent = 'Stage '+(state.stage+1)+' of '+STAGES.length;
+  }
+
+  function go(i, focusPanel){
+    state.stage = Math.max(0, Math.min(STAGES.length-1, i));
+    render();
+    /* Activating a step moves focus into the panel it opened. */
+    if (focusPanel) panel.focus();
+  }
+
+  function setProfile(p){
+    state.profile = p;
+    state.d = compute(p);
+    document.querySelectorAll('.stk-chip').forEach(function(c){
+      c.setAttribute('aria-pressed', String(c.getAttribute('data-profile')===p));
+    });
+    document.getElementById('stk-series-note').textContent =
+      '104 weeks of history · synthetic, seeded · ' + state.d.y.filter(function(v){return v===0;}).length + ' zero-demand weeks';
+    render();
+  }
+
+  railList.addEventListener('click', function(e){
+    var b = e.target.closest('.stk-node'); if(!b) return;
+    go(parseInt(b.getAttribute('data-i'),10), true);
+  });
+  document.querySelector('.stk-picker').addEventListener('click', function(e){
+    var b = e.target.closest('.stk-chip'); if(!b) return;
+    setProfile(b.getAttribute('data-profile'));
+  });
+  document.getElementById('stk-prev').addEventListener('click', function(){ go(state.stage-1,false); });
+  document.getElementById('stk-next').addEventListener('click', function(){ go(state.stage+1,false); });
+
+  /* Arrow-key traversal of the rail, standard for a stepper */
+  railList.addEventListener('keydown', function(e){
+    if (e.key!=='ArrowRight' && e.key!=='ArrowLeft') return;
+    e.preventDefault();
+    var next = state.stage + (e.key==='ArrowRight'?1:-1);
+    if (next<0 || next>=STAGES.length) return;
+    go(next,false);
+    nodes[next].focus();
+  });
+
+  setProfile('smooth');
+})();
+</script>
+</section>
+
+
 <div class="plt-section plt-cinema" style="--con:1.08;--b:0.88;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="37" data-vwindow="11">
   <video class="plt-video" muted loop playsinline preload="none" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
