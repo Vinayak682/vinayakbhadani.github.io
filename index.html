@@ -3836,10 +3836,13 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
    --signal, --paper-soft, --muted, --radius) do not exist here, so every
    one is remapped onto this site's scale. */
 #build-log{padding:96px 0 88px;background:var(--bg1)}
-.bl-grid{display:grid;grid-template-columns:minmax(280px,4fr) minmax(0,7fr);gap:clamp(36px,5vw,72px);align-items:center;margin-top:44px}
+/* Portrait column widened 4fr -> 5fr. The ASCII is a 104-column grid drawn at
+   733px; squeezed into ~380px every glyph lands on under 4px and the whole
+   thing turns to grey mush. Contrast helps, width helps more. */
+.bl-grid{display:grid;grid-template-columns:minmax(320px,5fr) minmax(0,6fr);gap:clamp(32px,4vw,56px);align-items:center;margin-top:44px}
 
 /* ── ASCII portrait ── */
-.ascii-portrait{position:relative;display:block;max-width:520px;padding:7px;text-decoration:none;
+.ascii-portrait{position:relative;display:block;max-width:600px;padding:7px;text-decoration:none;
   border:1px solid var(--brd2);border-radius:10px;background:rgba(255,255,255,.035);
   box-shadow:0 30px 84px rgba(0,6,26,.42)}
 /* The source tilted this card -1.4deg, but .reveal animates transform to bring
@@ -3847,13 +3850,13 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
    geometry anyway. Kept flat; the hover lift survives. */
 .ascii-portrait:hover{transform:translateY(-6px)}
 .ascii-portrait:focus-visible{outline:2px solid var(--sf-blue-light);outline-offset:5px}
-.ascii-viewport{position:relative;display:block;width:100%;aspect-ratio:733/1155;border-radius:6px;background:#080a0b;overflow:hidden;isolation:isolate}
+.ascii-viewport{position:relative;display:block;width:100%;aspect-ratio:733/1155;border-radius:6px;background:#04070c;overflow:hidden;isolation:isolate}
 .ascii-fallback{display:block;width:100%;height:100%;object-fit:cover;object-position:top;border-radius:inherit;opacity:1;transition:opacity .16s ease}
 .ascii-live{position:absolute;z-index:1;inset:0;display:block;width:100%;height:100%;opacity:0;transition:opacity .16s ease}
 .ascii-ready.ascii-entered .ascii-fallback{opacity:0}
 .ascii-ready.ascii-entered .ascii-live{opacity:1}
 .ascii-live svg{position:absolute;inset:0;display:block;width:100%;height:100%}
-.ascii-live text{fill:#c9d1d9;font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;font-size:11px;white-space:pre}
+.ascii-live text{fill:#e8f0fc;text-rendering:geometricPrecision;font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;font-size:11px;white-space:pre}
 .ascii-live .github-ascii-row{clip-path:inset(-2px 101% -2px -2px)}
 .ascii-entered .ascii-live .github-ascii-row{animation:github-ascii-type .55s steps(104) forwards;animation-delay:var(--github-ascii-delay)}
 @keyframes github-ascii-type{to{clip-path:inset(-2px -2px -2px -2px)}}
@@ -3882,7 +3885,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 @media(max-width:900px){
   #build-log{padding:72px 0 64px}
   .bl-grid{grid-template-columns:1fr;gap:34px}
-  .ascii-portrait{max-width:340px;margin:0 auto}
+  .ascii-portrait{max-width:420px;margin:0 auto}
   .repo-feed a{grid-template-columns:1fr;gap:4px}
 }
 @media(prefers-reduced-motion:reduce){

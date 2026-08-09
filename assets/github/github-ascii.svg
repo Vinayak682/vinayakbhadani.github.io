@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="733" height="1155" viewBox="0 0 733 1155">
-<style>text{font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;font-size:11px;fill:#c9d1d9;white-space:pre}@keyframes type{from{clip-path:inset(-2px 101% -2px -2px)}to{clip-path:inset(-2px -2px -2px -2px)}}.r{clip-path:inset(-2px 101% -2px -2px);animation:type 0.55s steps(104) forwards}</style>
-<rect width="733" height="1155" rx="12" fill="#0d1117" stroke="#30363d"/>
+<style>text{font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;font-size:11px;fill:#e8f0fc;white-space:pre;text-rendering:geometricPrecision}@keyframes type{from{clip-path:inset(-2px 101% -2px -2px)}to{clip-path:inset(-2px -2px -2px -2px)}}.r{clip-path:inset(-2px 101% -2px -2px);animation:type 0.55s steps(104) forwards}</style>
+<rect width="733" height="1155" rx="12" fill="#04070c" stroke="#26303f"/>
 <text x="22" y="33.0" class="r" style="animation-delay:0.000s">                                                                  ...</text>
 <text x="22" y="44.2" class="r" style="animation-delay:0.055s">                                                           ....::::::::-:::::..</text>
 <text x="22" y="55.4" class="r" style="animation-delay:0.110s">                                                      ......:::::----:--::-----::::</text>
