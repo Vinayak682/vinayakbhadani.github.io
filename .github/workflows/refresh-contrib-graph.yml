@@ -1,0 +1,45 @@
+name: Refresh contribution graph
+
+# The build-log heatmap used to be a hand-exported snapshot, so it froze on the
+# day it was taken. This redraws it from live GitHub data every Monday and
+# commits only when the image actually changed.
+
+on:
+  schedule:
+    - cron: '17 4 * * 1'   # 04:17 UTC Monday — off the hour, cron is busiest there
+  workflow_dispatch:        # so it can be run by hand after a busy week
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-contrib-graph
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Redraw the heatmap
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_USER: Vinayak682
+        run: python3 scripts/build-contrib-svg.py
+
+      - name: Commit if the graph moved
+        run: |
+          if git diff --quiet -- assets/github/github-contrib.svg; then
+            echo "No change this week — nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/github/github-contrib.svg
+          git commit -m "chore: refresh contribution graph"
+          git push

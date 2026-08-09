@@ -1898,8 +1898,19 @@ footer::before{
    over the whole band, so the charts and maps either side stay clean. */
 .plt-content {
   padding: 72px 24px;
-  max-width: 900px;
+  /* min() not a bare 900px: these bands are also used as interstitials inside
+     the projects grid, where the container is a ~357px cell. A fixed max-width
+     let the content lay out at 548px inside it and .plt-section's overflow:hidden
+     then clipped the headline symmetrically — the word looked chopped at both
+     ends rather than wrapped. */
+  max-width: min(900px, 100%);
 }
+/* Four bands are grid children of #pjGrid. They are full-width dividers between
+   project rows, not cards, so they must span every column — in a single cell
+   the headline is sized off the viewport and cannot fit. */
+#pjGrid > .plt-section { grid-column: 1 / -1; }
+/* Last line of defence: a long word must wrap rather than be cut off. */
+.plt-headline, .plt-sub { overflow-wrap: break-word; }
 /* text-shadow paints ABOVE the element's background. The gradient half of
    every headline *is* a background — background-clip:text with a transparent
    fill — so the dark shadow was being painted straight over the gradient.
@@ -1941,13 +1952,23 @@ footer::before{
    copy on near-white paper has nothing to hold on to without it. The scrim
    is a centred ellipse, so paying for legibility here costs the middle of
    the frame only; the spreadsheet and the map either side stay untouched. */
-.plt-section { --scrim: .52; }
-.plt-lit     { --mid: .16; --scrim: .82; }
-.plt-lit .plt-scrim {
-  background: radial-gradient(ellipse 68% 54% at 50% 48%,
-    rgba(4,2,14,var(--scrim)) 0%,
-    rgba(4,2,14,calc(var(--scrim) * .74)) 48%,
-    transparent 80%);
+.plt-section { --scrim: .50; }
+.plt-lit     { --mid: .12; --scrim: .70; }
+
+/* The scrim was a centred ellipse. Over dark live-action you never notice it,
+   but over cream illustration it reads as a dark oval smudge sitting on the
+   paper — the eye finds the edge of the shape and calls it a stain.
+   A full-width horizontal band has no visible left/right edge to find, so the
+   same darkening reads as a deliberate grade instead of a mark. Top and bottom
+   of the frame stay clear, which is where the footage does its work anyway. */
+.plt-scrim {
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(4,2,14,calc(var(--scrim) * .38)) 18%,
+    rgba(4,2,14,var(--scrim)) 40%,
+    rgba(4,2,14,var(--scrim)) 62%,
+    rgba(4,2,14,calc(var(--scrim) * .38)) 82%,
+    transparent 100%) !important;
 }
 
 @media (max-width: 640px) {
@@ -3872,7 +3893,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
   <div class="wrap">
     <div class="pj-eyebrow">Build Log</div>
     <h2 class="sec-title">The build log is <span>public</span></h2>
-    <p class="sec-sub">Every claim above ends in a repository. The commit history, the experiments and the things that did not work are all open — nothing here is a screenshot.</p>
+    <p class="sec-sub">Every claim above ends in a repository. The code is open and the commit history is public — nothing here is a screenshot.</p>
 
     <div class="bl-grid">
       <a class="ascii-portrait" href="https://github.com/Vinayak682" target="_blank" rel="noopener" aria-label="Open Vinayak Bhadani's GitHub profile">
