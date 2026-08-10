@@ -1,3 +1,12 @@
+# NOTE: this file is served at
+#   https://vinayak682.github.io/vinayakbhadani.github.io/robots.txt
+# Crawlers never fetch robots.txt from a subdirectory - only from the domain
+# root - so nothing here is read by Google or Bing today. The file that is
+# actually honoured lives in the Vinayak682/vinayak682.github.io repo at
+#   https://vinayak682.github.io/robots.txt
+# Keep the two in sync. After the domain migration this file becomes the
+# live one again, because the site will then sit at the domain root.
+
 User-agent: *
 Allow: /
 
