@@ -7,7 +7,7 @@ lastmod comes from git (last commit touching the file), or today's date if the
 file has uncommitted changes. index.html is deliberately excluded — the site
 root "/" already covers it, and listing both creates a duplicate.
 """
-import subprocess, datetime, glob, os, sys
+import subprocess, datetime, glob, os, re, sys
 
 BASE = "https://vinayak682.github.io/vinayakbhadani.github.io/"
 # After the domain migration (T-0.3), change the line above to:
@@ -19,6 +19,7 @@ TODAY = datetime.date.today().isoformat()
 DEFAULT = (0.6, "monthly")
 RULES = {
     # Hubs and tools — the organic-traffic engine
+    "hire.html": (0.9, "weekly"),
     "insights.html": (0.9, "weekly"),
     "supply-chain-calculators.html": (0.9, "weekly"),
     "mrp-bom-planner.html": (0.9, "weekly"),
@@ -58,6 +59,18 @@ RULES = {
 # Pages that exist but should never be indexed.
 EXCLUDE = {"index.html", "404.html"}
 
+NOINDEX_RE = re.compile(r'<meta\s+name="robots"[^>]*noindex', re.I)
+
+
+def is_noindex(fname):
+    """A page carrying a noindex robots meta must never be submitted in the sitemap.
+    Google reports those as 'Submitted URL marked noindex'. Detecting it here means
+    prototype pages can never leak into the sitemap by being forgotten in EXCLUDE."""
+    try:
+        return bool(NOINDEX_RE.search(open(fname, encoding="utf-8").read()))
+    except OSError:
+        return False
+
 
 def sh(cmd):
     return subprocess.run(cmd, shell=True, capture_output=True, text=True).stdout.strip()
@@ -78,7 +91,8 @@ def main():
 
     entries = [(BASE, lastmod("index.html"), 1.0, "weekly")]
     for f in sorted(glob.glob("*.html")):
-        if f in EXCLUDE:
+        # Leading underscore marks a local draft/prototype - never ship it.
+        if f in EXCLUDE or f.startswith("_") or is_noindex(f):
             continue
         pri, freq = RULES.get(f, DEFAULT)
         entries.append((BASE + f, lastmod(f), pri, freq))
@@ -96,8 +110,13 @@ def main():
 
     open("sitemap.xml", "w", encoding="utf-8").write("\n".join(out) + "\n")
 
-    unlisted = [f for f in sorted(glob.glob("*.html")) if f not in EXCLUDE and f not in RULES]
+    unlisted = [f for f in sorted(glob.glob("*.html"))
+                if f not in EXCLUDE and not f.startswith("_")
+                and f not in RULES and not is_noindex(f)]
+    skipped = [f for f in sorted(glob.glob("*.html")) if f not in EXCLUDE and is_noindex(f)]
     print(f"sitemap.xml written — {len(entries)} URLs")
+    if skipped:
+        print(f"  skipped (noindex): {skipped}")
     if unlisted:
         print(f"  note: no priority rule for {unlisted} (used default {DEFAULT})")
 
