@@ -108,7 +108,21 @@ def main():
                 "  </url>"]
     out.append("</urlset>")
 
-    open("sitemap.xml", "w", encoding="utf-8").write("\n".join(out) + "\n")
+    xml = "\n".join(out) + "\n"
+    open("sitemap.xml", "w", encoding="utf-8").write(xml)
+
+    # Mirror to the host-root repo when it is checked out alongside this one.
+    # Search Console and crawlers look for /sitemap.xml at the domain root, but
+    # this site is served from a subdirectory, so the root repo needs the same
+    # file. Writing it here means the two can never drift apart.
+    root_repo = os.path.join(os.path.dirname(repo), "root-repo")
+    root_sitemap = os.path.join(root_repo, "sitemap.xml")
+    if os.path.isdir(os.path.join(root_repo, ".git")):
+        open(root_sitemap, "w", encoding="utf-8").write(xml)
+        print(f"  mirrored to {root_sitemap} — commit and push that repo too")
+    else:
+        print("  note: root-repo not checked out alongside; "
+              "remember to copy sitemap.xml to the vinayak682.github.io repo")
 
     unlisted = [f for f in sorted(glob.glob("*.html"))
                 if f not in EXCLUDE and not f.startswith("_")
