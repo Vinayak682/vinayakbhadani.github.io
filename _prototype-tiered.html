@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projects — tiered layout prototype</title>
+<style>
+:root{
+  --bg:#07040f; --panel:#0f0a1f; --panel2:#140d29;
+  --line:rgba(167,139,250,.16);
+  --txt:#e8e6f0; --mut:#9a93ad; --dim:#6f6883;
+  --purple:#a78bfa; --cyan:#22d3ee; --grad:linear-gradient(135deg,#6d28d9,#4338ca);
+  --amber:#f59e0b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);
+  font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+a{color:inherit}
+
+.note{background:#1c1406;border:1px solid rgba(245,158,11,.35);border-left:3px solid var(--amber);
+  padding:14px 18px;border-radius:8px;margin:28px 0;font-size:.85rem;color:#f8d9a0}
+.note b{color:#fcd34d}
+
+header{padding:56px 0 12px}
+.eyebrow{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);font-weight:700}
+h1{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.1;margin:.3em 0 .35em;letter-spacing:-.02em}
+.sub{color:var(--mut);max-width:60ch;font-size:1.02rem}
+
+.tierhead{display:flex;align-items:baseline;gap:14px;margin:64px 0 22px;
+  padding-bottom:12px;border-bottom:1px solid var(--line)}
+.tierhead h2{font-size:1.22rem;margin:0;letter-spacing:-.01em}
+.tiernum{font-size:.68rem;font-weight:700;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.tierwhy{margin-left:auto;font-size:.76rem;color:var(--dim);font-style:italic}
+
+/* type badge */
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:.66rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:5px;
+  border:1px solid;white-space:nowrap}
+.b-live{color:#34d399;border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.09)}
+.b-int{color:var(--cyan);border-color:rgba(34,211,238,.35);background:rgba(34,211,238,.08)}
+.b-dl{color:#fbbf24;border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.08)}
+.b-code{color:var(--purple);border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08)}
+
+/* TIER 1 — heroes */
+.hero{display:grid;grid-template-columns:1fr 300px;gap:34px;background:var(--panel);
+  border:1px solid var(--line);border-radius:14px;padding:30px 32px;margin-bottom:18px;
+  transition:border-color .2s,transform .2s}
+.hero:hover{border-color:rgba(167,139,250,.4);transform:translateY(-2px)}
+.hero h3{font-size:1.34rem;margin:.35em 0 .5em;letter-spacing:-.015em}
+.par{display:grid;gap:11px;margin:18px 0 0}
+.par div{display:grid;grid-template-columns:74px 1fr;gap:14px;align-items:start;font-size:.9rem}
+.par span{font-size:.63rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--dim);padding-top:4px}
+.par p{margin:0;color:#cfc9dd}
+.heroside{border-left:1px solid var(--line);padding-left:26px;display:flex;flex-direction:column;gap:16px}
+.metric{background:var(--panel2);border:1px dashed rgba(245,158,11,.45);border-radius:9px;padding:14px}
+.metric .val{font-size:1.5rem;font-weight:800;color:var(--amber);letter-spacing:-.02em}
+.metric .lbl{font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.09em;margin-top:3px}
+.stack{font-size:.74rem;color:var(--dim);line-height:1.7}
+.stack b{display:block;font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mut);margin-bottom:5px}
+.cta{display:inline-block;background:var(--grad);color:#fff;text-decoration:none;
+  font-weight:700;font-size:.82rem;padding:11px 20px;border-radius:10px;text-align:center;
+  box-shadow:0 2px 10px rgba(67,56,202,.35),inset 0 0 0 1px rgba(255,255,255,.14)}
+.cta:hover{filter:brightness(1.12)}
+
+/* TIER 2 — outcome groups */
+.grp{margin-bottom:34px}
+.grptitle{display:flex;align-items:center;gap:11px;font-size:.94rem;font-weight:700;margin-bottom:14px}
+.grptitle i{width:7px;height:7px;border-radius:50%;background:var(--purple);flex:0 0 auto}
+.grptitle em{font-style:normal;font-weight:400;color:var(--dim);font-size:.79rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:19px 21px;
+  transition:border-color .2s,transform .2s;text-decoration:none;display:block}
+.card:hover{border-color:rgba(167,139,250,.4);transform:translateY(-2px)}
+.cardtop{display:flex;justify-content:space-between;gap:10px;align-items:start;margin-bottom:9px}
+.card h4{font-size:.98rem;margin:0;letter-spacing:-.01em;line-height:1.35}
+.card p{margin:0;font-size:.84rem;color:var(--mut);line-height:1.55}
+.cardmetric{margin-top:12px;font-size:.75rem;color:var(--amber);
+  border-top:1px dashed rgba(245,158,11,.28);padding-top:9px}
+
+/* TIER 3 — index */
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th{text-align:left;font-size:.65rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--dim);font-weight:700;padding:0 12px 11px;border-bottom:1px solid var(--line)}
+td{padding:13px 12px;border-bottom:1px solid rgba(167,139,250,.07);vertical-align:middle}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:rgba(167,139,250,.05)}
+td a{color:var(--txt);text-decoration:none;font-weight:600}
+td a:hover{color:var(--purple)}
+.tstack{color:var(--dim);font-size:.78rem}
+.scroller{overflow-x:auto}
+
+.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:26px 0 10px}
+.cmp{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.cmp .n{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.cmp .n.good{color:#34d399}.cmp .n.bad{color:#f87171}
+.cmp .l{font-size:.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:.09em;margin-top:4px}
+footer{padding:60px 0 80px;color:var(--dim);font-size:.8rem}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.heroside{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Prototype · not committed</div>
+  <h1>Projects, restructured by tier</h1>
+  <p class="sub">Same 14 projects as your live site — reorganised so a visitor gets the value in 30 seconds instead of scrolling seven screens of identical cards.</p>
+</header>
+
+<div class="note">
+  <b>Placeholder numbers.</b> None of your 14 projects currently carries a quantified result — every description is a tagline. The amber dashed slots below are where a real number goes. They are deliberately empty rather than invented; fill them with your actual figures.
+</div>
+
+<div class="compare">
+  <div class="cmp"><div class="n bad">6,620px</div><div class="l">Current #projects — measured</div></div>
+  <div class="cmp"><div class="n good">~2,000px</div><div class="l">This layout — estimate only</div></div>
+  <div class="cmp"><div class="n bad">4</div><div class="l">Competing presentations today</div></div>
+  <div class="cmp"><div class="n good">3</div><div class="l">Clear tiers here</div></div>
+</div>
+
+<!-- ══ TIER 1 ══ -->
+<div class="tierhead">
+  <span class="tiernum">Tier 1</span>
+  <h2>Flagship — told properly</h2>
+  <span class="tierwhy">3 projects · the only ones most visitors will read</span>
+</div>
+
+<article class="hero">
+  <div>
+    <span class="badge b-live">● Live app</span>
+    <h3>SupplyMind — AI S&amp;OP Copilot</h3>
+    <div class="par">
+      <div><span>Problem</span><p>S&amp;OP prep swallowed a full day every cycle — pulling numbers from four systems before anyone could discuss them.</p></div>
+      <div><span>Action</span><p>Built an agent that ingests the week's demand, supply and inventory positions and drafts the meeting brief overnight.</p></div>
+      <div><span>Result</span><p>The Monday brief is ready before the team logs in.</p></div>
+    </div>
+  </div>
+  <div class="heroside">
+    <div class="metric"><div class="val">— hrs</div><div class="lbl">Prep time saved / cycle</div></div>
+    <div class="stack"><b>Stack</b>Claude API · Supabase · Next.js 16 · TypeScript</div>
+    <a class="cta" href="https://sop-copilot.vercel.app" target="_blank" rel="noopener">Open the live app →</a>
+  </div>
+</article>
+
+<article class="hero">
+  <div>
+    <span class="badge b-live">● Live app</span>
+    <h3>GCC Event Surge Planner</h3>
+    <div class="par">
+      <div><span>Problem</span><p>Ramadan moves ~11 days earlier each year, so off-the-shelf forecasting tools miss the demand peak every single time.</p></div>
+      <div><span>Action</span><p>Encoded the GCC event calendar — Ramadan, Eid, National Day, school terms — into a surge model tuned to regional retail.</p></div>
+      <div><span>Result</span><p>Peak weeks are planned against the actual calendar rather than last year's dates.</p></div>
+    </div>
+  </div>
+  <div class="heroside">
+    <div class="metric"><div class="val">— %</div><div class="lbl">Peak-week forecast gain</div></div>
+    <div class="stack"><b>Stack</b>Claude API · Next.js 16 · Supabase · GCC event data</div>
+    <a class="cta" href="https://event-surge-planner.vercel.app" target="_blank" rel="noopener">Open the live app →</a>
+  </div>
+</article>
+
+<article class="hero">
+  <div>
+    <span class="badge b-int">◆ Interactive</span>
+    <h3>ML Demand Forecasting Engine</h3>
+    <div class="par">
+      <div><span>Problem</span><p>Classical statistical forecasts ignore price moves and marketing spend — the two levers that actually shift GCC retail demand.</p></div>
+      <div><span>Action</span><p>Built a side-by-side engine comparing Prophet and XGBoost with price elasticity and spend as live features.</p></div>
+      <div><span>Result</span><p>You can see exactly where ML beats the statistical baseline, and where it doesn't.</p></div>
+    </div>
+  </div>
+  <div class="heroside">
+    <div class="metric"><div class="val">— %</div><div class="lbl">MAPE improvement vs baseline</div></div>
+    <div class="stack"><b>Stack</b>Prophet · XGBoost · Elasticity modelling</div>
+    <a class="cta" href="./ml-demand-forecasting.html">Explore the model →</a>
+  </div>
+</article>
+
+<!-- ══ TIER 2 ══ -->
+<div class="tierhead">
+  <span class="tiernum">Tier 2</span>
+  <h2>Supporting work — grouped by outcome</h2>
+  <span class="tierwhy">6 projects · grouped by the problem they solve, not the tech</span>
+</div>
+
+<div class="grp">
+  <div class="grptitle"><i></i>Free up working capital <em>— stop cash sitting in the wrong stock</em></div>
+  <div class="cards">
+    <a class="card" href="./ABC-XYZ-Inventory-Analysis.xlsx">
+      <div class="cardtop"><h4>ABC-XYZ Inventory Classification</h4><span class="badge b-dl">↓ XLSX</span></div>
+      <p>A priority map showing which SKUs deserve attention and which are quietly tying up cash.</p>
+      <div class="cardmetric">— % of capital freed <span style="color:var(--dim)">· add your figure</span></div>
+    </a>
+    <a class="card" href="./multi-echelon-inventory-optimizer.html">
+      <div class="cardtop"><h4>Multi-Echelon Network Optimizer</h4><span class="badge b-int">◆ Interactive</span></div>
+      <p>Balances safety stock across the whole network instead of node by node, hub included.</p>
+      <div class="cardmetric">— % safety-stock reduction <span style="color:var(--dim)">· add your figure</span></div>
+    </a>
+  </div>
+</div>
+
+<div class="grp">
+  <div class="grptitle"><i></i>See risk before it lands <em>— know which lane breaks next</em></div>
+  <div class="cards">
+    <a class="card" href="./supply-chain-risk-framework.html">
+      <div class="cardtop"><h4>Risk Assessment Framework</h4><span class="badge b-int">◆ Interactive</span></div>
+      <p>Scores eight risk dimensions per trade lane — political, currency, supplier, logistics.</p>
+      <div class="cardmetric">8 dimensions · China–UAE, India–UAE, Europe–UAE</div>
+    </a>
+    <a class="card" href="./war-conflict-supply-chain.html">
+      <div class="cardtop"><h4>War &amp; Conflict: GCC Impact</h4><span class="badge b-int">◆ Interactive</span></div>
+      <p>What the Red Sea crisis, Ukraine and Hormuz actually did to GCC lead times and freight.</p>
+      <div class="cardmetric">3 live disruption case studies</div>
+    </a>
+  </div>
+</div>
+
+<div class="grp">
+  <div class="grptitle"><i></i>Run a tighter S&amp;OP <em>— governance that survives contact with reality</em></div>
+  <div class="cards">
+    <a class="card" href="./supply-chain-scorecard.html">
+      <div class="cardtop"><h4>Supply Chain Scorecard</h4><span class="badge b-int">◆ Interactive</span></div>
+      <p>24 live KPIs across demand, inventory, supplier and logistics, benchmarked GCC vs world class.</p>
+      <div class="cardmetric">24 KPIs · 4 dimensions · GCC benchmarks</div>
+    </a>
+    <a class="card" href="./sop-process-playbook.html">
+      <div class="cardtop"><h4>S&amp;OP Process Design Playbook</h4><span class="badge b-int">◆ Interactive</span></div>
+      <p>The operating manual — cadence, RACI and governance for a planning team that actually runs.</p>
+      <div class="cardmetric">Full RACI + monthly cadence design</div>
+    </a>
+  </div>
+</div>
+
+<!-- ══ TIER 3 ══ -->
+<div class="tierhead">
+  <span class="tiernum">Tier 3</span>
+  <h2>Everything else</h2>
+  <span class="tierwhy">5 projects · one screen instead of three</span>
+</div>
+
+<div class="scroller">
+<table>
+  <thead><tr><th>Project</th><th>What it does</th><th>Stack</th><th>Type</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><a href="./supply-chain-calculators.html">Supply Chain Calculator Hub</a></td>
+      <td class="tstack">Every daily planner formula — free, instant, no sign-up</td>
+      <td class="tstack">Safety Stock · EOQ · MAPE · ROP</td>
+      <td><span class="badge b-int">◆ Interactive</span></td>
+    </tr>
+    <tr>
+      <td><a href="./erp-shopify-etl-pipeline.html">Real-Time ERP/Shopify ETL</a></td>
+      <td class="tstack">Ingestion through anomaly cleaning with no manual effort</td>
+      <td class="tstack">ETL · Z-Score · Shopify Sync</td>
+      <td><span class="badge b-int">◆ Interactive</span></td>
+    </tr>
+    <tr>
+      <td><a href="./ai-supply-chain-copilot.html">AI Supply Chain Copilot</a></td>
+      <td class="tstack">Writes SQL and drafts POs from a plain-English ask</td>
+      <td class="tstack">ReAct Agent · GenAI · SQL</td>
+      <td><span class="badge b-int">◆ Interactive</span></td>
+    </tr>
+    <tr>
+      <td><a href="./perfume-supply-chain-simulator.html">Global Perfume Simulator</a></td>
+      <td class="tstack">China-to-UAE sourcing lanes and GCC retail flow console</td>
+      <td class="tstack">JAFZA Hub · Batch · Chart.js</td>
+      <td><span class="badge b-int">◆ Interactive</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/Vinayak682" target="_blank" rel="noopener">Portfolio Intelligence Agent</a></td>
+      <td class="tstack">Answers anything about Vinayak, grounded in real data</td>
+      <td class="tstack">LangGraph · FAISS · Mem0 · FastAPI</td>
+      <td><span class="badge b-code">◇ Code</span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<footer>
+  14 of 14 projects accounted for — 3 flagship, 6 supporting, 5 indexed. Nothing hidden behind a filter.
+</footer>
+
+</div>
+</body>
+</html>
