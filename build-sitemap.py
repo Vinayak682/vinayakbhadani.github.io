@@ -19,6 +19,7 @@ TODAY = datetime.date.today().isoformat()
 DEFAULT = (0.6, "monthly")
 RULES = {
     # Hubs and tools — the organic-traffic engine
+    "hire.html": (0.9, "weekly"),
     "insights.html": (0.9, "weekly"),
     "supply-chain-calculators.html": (0.9, "weekly"),
     "mrp-bom-planner.html": (0.9, "weekly"),
