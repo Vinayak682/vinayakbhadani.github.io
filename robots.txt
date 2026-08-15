@@ -1,16 +1,11 @@
-# NOTE: this file is served at
-#   https://vinayak682.github.io/vinayakbhadani.github.io/robots.txt
-# Crawlers never fetch robots.txt from a subdirectory - only from the domain
-# root - so nothing here is read by Google or Bing today. The file that is
-# actually honoured lives in the Vinayak682/vinayak682.github.io repo at
-#   https://vinayak682.github.io/robots.txt
-# Keep the two in sync. After the domain migration this file becomes the
-# live one again, because the site will then sit at the domain root.
+# This is the LIVE robots.txt, served at the domain root:
+#   https://vinayakbhadani.com/robots.txt
+# Custom domain went live 15 Aug 2026 (CNAME on this repo's main branch), so
+# the site now sits at the root and crawlers read this file directly.
+# The legacy copy in the Vinayak682/vinayak682.github.io repo is no longer
+# authoritative for this site - it only governs https://vinayak682.github.io/.
 
 User-agent: *
 Allow: /
 
-Sitemap: https://vinayak682.github.io/vinayakbhadani.github.io/sitemap.xml
-
-# NOTE: Once vinayakbhadani.com is registered, change Sitemap to:
-# Sitemap: https://vinayakbhadani.com/sitemap.xml
+Sitemap: https://vinayakbhadani.com/sitemap.xml

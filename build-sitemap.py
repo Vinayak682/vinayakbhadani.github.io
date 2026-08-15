@@ -9,7 +9,7 @@ root "/" already covers it, and listing both creates a duplicate.
 """
 import subprocess, datetime, glob, os, re, sys
 
-BASE = "https://vinayak682.github.io/vinayakbhadani.github.io/"
+BASE = "https://vinayakbhadani.com/"
 # After the domain migration (T-0.3), change the line above to:
 # BASE = "https://vinayakbhadani.com/"
 
