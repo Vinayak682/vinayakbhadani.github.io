@@ -6927,23 +6927,57 @@ window.addEventListener('scroll', function() {
   </div>
 </div>
 <script>
-// SPLASH
+// TOUCH / MOTION ENVIRONMENT — shared by splash, cursor and constellation.
+// Phones have no cursor and no patience: 25% of traffic was arriving on mobile
+// and leaving at 33s with zero interaction events. Everything decorative is
+// gated on these two flags.
+var SF_COARSE = (window.matchMedia && (window.matchMedia('(pointer: coarse)').matches ||
+                 window.matchMedia('(hover: none)').matches)) || window.innerWidth < 768;
+var SF_STILL  = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// SPLASH — desktop only, once per session, always escapable.
 (function(){
   var s=document.getElementById('splash'),n=document.getElementById('splashName'),
       r=document.getElementById('splashRole'),l=document.getElementById('splashLine');
   if(!s)return;
+
+  var seen=false;
+  try{seen=sessionStorage.getItem('sf_splash')==='1';}catch(e){}
+
+  // Skip outright on touch, for reduced-motion, and on every visit after the
+  // first in a session. Never lock scroll in these cases.
+  if(SF_COARSE||SF_STILL||seen){s.style.display='none';return;}
+  try{sessionStorage.setItem('sf_splash','1');}catch(e){}
+
+  var done=false;
+  function dismiss(){
+    if(done)return;done=true;
+    s.style.opacity='0';s.style.transform='scale(1.04)';
+    document.body.style.overflow='';
+    setTimeout(function(){s.style.display='none';},800);
+  }
+
   document.body.style.overflow='hidden';
   setTimeout(function(){n.style.opacity='1';n.style.transform='translateY(0)';},120);
   setTimeout(function(){r.style.opacity='1';},520);
   setTimeout(function(){l.style.opacity='1';},720);
-  setTimeout(function(){s.style.opacity='0';s.style.transform='scale(1.04)';
-    document.body.style.overflow='';setTimeout(function(){s.style.display='none';},800);},1700);
+  setTimeout(dismiss,1700);
+
+  // Escape hatches. Any intent to interact ends the splash immediately, and the
+  // failsafe guarantees scroll is restored even if something above throws.
+  s.addEventListener('click',dismiss);
+  window.addEventListener('keydown',dismiss,{once:true});
+  window.addEventListener('wheel',dismiss,{once:true,passive:true});
+  setTimeout(dismiss,4000);
 })();
 
-// CURSOR
+// CURSOR — pointer devices only.
 (function(){
   var dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
   if(!dot||!ring)return;
+  // On touch there is no cursor to follow, so the elements were stranded at 0,0
+  // while an rAF loop ran every frame for the life of the page. Bail before it starts.
+  if(SF_COARSE){dot.style.display='none';ring.style.display='none';return;}
   var mx=0,my=0,rx=0,ry=0;
   document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
   (function anim(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
@@ -6986,9 +7020,14 @@ window.addEventListener('scroll', function() {
 // HERO CONSTELLATION
 (function(){
   var c=document.getElementById('heroConstellation');if(!c)return;
+  // 55 points linked pairwise is ~1,485 distance checks per frame. Fine on a
+  // MacBook, brutal on a phone. Halve the points on touch — that quarters the
+  // pair count — and skip the whole thing for reduced-motion.
+  if(SF_STILL){c.style.display='none';return;}
+  var COUNT = SF_COARSE ? 26 : 55;
   var ctx=c.getContext('2d'),pts=[];
   function resize(){c.width=window.innerWidth;c.height=window.innerHeight;
-    pts=Array.from({length:55},function(){return{x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3};});}
+    pts=Array.from({length:COUNT},function(){return{x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3};});}
   resize();window.addEventListener('resize',resize);
   function draw(){ctx.clearRect(0,0,c.width,c.height);
     pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>c.width)p.vx*=-1;if(p.y<0||p.y>c.height)p.vy*=-1;
