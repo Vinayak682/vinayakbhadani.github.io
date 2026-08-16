@@ -25,6 +25,9 @@ RULES = {
     "mrp-bom-planner.html": (0.9, "weekly"),
     "demand-to-delivery-flow.html": (0.9, "weekly"),
     "the-corridor.html": (0.9, "weekly"),
+    # Seasonal lead magnet — time-critical until the Oct 2026 PO deadline passes,
+    # then drop it to (0.7, "monthly") until the next Ramadan cycle.
+    "ramadan-pack.html": (0.9, "weekly"),
     # 2026-08 articles
     "abc-classification-seasonal-index-trap.html": (0.8, "monthly"),
     "ramadan-demand-planning-gcc.html": (0.8, "monthly"),
