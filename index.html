@@ -2665,6 +2665,253 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('bf-op
 </script>
 <!-- ═══════ /60-SECOND BRIEFS ═══════ -->
 
+<!-- ═══════ WATCH IT RUN — live tool demos ═══════ -->
+<style>
+#demos{padding:84px 0 80px;position:relative}
+#demos .dm-label{
+  font-size:.68rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  background:linear-gradient(90deg,#22d3ee,#34d399);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:inline-block;margin-bottom:13px;
+}
+#demos .dm-title{font-size:clamp(1.8rem,4.2vw,2.85rem);font-weight:900;letter-spacing:-.028em;line-height:1.12;margin-bottom:17px;color:#f0f4ff}
+#demos .dm-title span{
+  background:linear-gradient(130deg,#22d3ee 0%,#818cf8 50%,#c084fc 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+#demos .dm-deck{color:#8b9dc0;font-size:.95rem;max-width:660px;line-height:1.8}
+#demos .dm-head{display:flex;align-items:flex-end;justify-content:space-between;gap:26px;flex-wrap:wrap;margin-bottom:34px}
+
+#demos .dm-railwrap{position:relative;margin:0 -24px}
+#demos .dm-rail{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 24px 28px;scrollbar-width:none}
+#demos .dm-rail::-webkit-scrollbar{display:none}
+
+#demos .dm-card{
+  flex:0 0 clamp(300px,42vw,486px);scroll-snap-align:start;
+  position:relative;border:none;padding:0;background:none;
+  cursor:pointer;text-align:left;font:inherit;color:inherit;
+  transition:transform .34s cubic-bezier(.4,0,.2,1);
+}
+#demos .dm-card:hover,#demos .dm-card:focus-visible{transform:translateY(-8px)}
+#demos .dm-card:focus-visible{outline:2px solid #22d3ee;outline-offset:6px;border-radius:16px}
+#demos .dm-media{
+  display:block;position:relative;aspect-ratio:16/9;border-radius:15px;overflow:hidden;
+  background:#0e091f;border:1px solid rgba(255,255,255,.09);
+  transition:border-color .34s,box-shadow .34s;
+}
+#demos .dm-card:hover .dm-media{border-color:rgba(34,211,238,.5);box-shadow:0 22px 58px rgba(0,0,0,.6),0 0 0 1px rgba(34,211,238,.2)}
+#demos .dm-media img,#demos .dm-media video{width:100%;height:100%;object-fit:cover;display:block}
+#demos .dm-media video{position:absolute;inset:0;opacity:0;transition:opacity .4s}
+#demos .dm-card.dm-on .dm-media video{opacity:1}
+#demos .dm-scrim{display:block;position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(4,2,14,.9) 0%,rgba(4,2,14,.18) 42%,transparent 66%)}
+#demos .dm-live{
+  display:flex;align-items:center;gap:6px;position:absolute;top:12px;left:12px;z-index:2;
+  font-size:.58rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;
+  padding:6px 11px;border-radius:50px;color:#34d399;
+  background:rgba(4,2,14,.76);border:1px solid rgba(52,211,153,.35);backdrop-filter:blur(8px);
+}
+#demos .dm-dot{width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399}
+#demos .dm-dur{
+  display:block;position:absolute;top:12px;right:12px;z-index:2;font-size:.62rem;font-weight:700;
+  color:rgba(255,255,255,.82);padding:5px 9px;border-radius:7px;background:rgba(4,2,14,.72);backdrop-filter:blur(8px);
+}
+#demos .dm-play{
+  display:grid;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;
+  width:60px;height:60px;border-radius:50%;place-items:center;
+  background:rgba(4,2,14,.55);border:1.5px solid rgba(255,255,255,.35);
+  backdrop-filter:blur(10px);transition:opacity .3s,transform .34s;
+}
+#demos .dm-card:hover .dm-play{transform:translate(-50%,-50%) scale(1.09);border-color:#22d3ee}
+#demos .dm-card.dm-on .dm-play{opacity:0}
+#demos .dm-play svg{margin-left:3px}
+#demos .dm-cap{display:block;position:absolute;left:0;right:0;bottom:0;z-index:2;padding:16px 16px 15px}
+#demos .dm-claim{display:block;font-size:1.02rem;font-weight:800;line-height:1.3;letter-spacing:-.014em;margin:0 0 6px;color:#f0f4ff}
+#demos .dm-proof{display:block;font-size:.68rem;font-weight:700;color:#22d3ee;white-space:nowrap}
+
+#demos .dm-nav{display:flex;gap:9px;align-items:center}
+#demos .dm-arrow{
+  width:41px;height:41px;border-radius:11px;display:grid;place-items:center;
+  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);
+  color:#f0f4ff;cursor:pointer;transition:all .34s;
+}
+#demos .dm-arrow:hover:not(:disabled){background:rgba(34,211,238,.14);border-color:rgba(34,211,238,.42);transform:translateY(-2px)}
+#demos .dm-arrow:disabled{opacity:.26;cursor:default}
+#demos .dm-hint{font-size:.71rem;color:#3e5474;font-weight:600;letter-spacing:.04em}
+
+#dm-theater{position:fixed;inset:0;z-index:99991;display:none;background:rgba(2,1,7,.92);backdrop-filter:blur(22px);padding:30px 24px;overflow-y:auto}
+#dm-theater.dm-open{display:grid;place-items:center}
+#dm-theater .dm-tin{max-width:1120px;width:100%;animation:dmRise .42s cubic-bezier(.2,.9,.3,1)}
+@keyframes dmRise{from{opacity:0;transform:translateY(24px) scale(.985)}to{opacity:1;transform:none}}
+#dm-theater video{width:100%;aspect-ratio:16/9;border-radius:16px;display:block;background:#000;border:1px solid rgba(255,255,255,.16);box-shadow:0 40px 105px rgba(0,0,0,.75)}
+#dm-theater .dm-tbody{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);gap:38px;margin-top:26px;align-items:start}
+#dm-theater .dm-teyebrow{font-size:.65rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#22d3ee;margin-bottom:11px;display:block}
+#dm-theater .dm-ttitle{font-size:clamp(1.3rem,3vw,1.85rem);font-weight:900;letter-spacing:-.026em;line-height:1.2;margin-bottom:16px;color:#f0f4ff}
+#dm-theater .dm-take{list-style:none;margin:0;padding:0}
+#dm-theater .dm-take li{position:relative;padding-left:25px;margin-bottom:11px;color:#8b9dc0;font-size:.885rem;line-height:1.66}
+#dm-theater .dm-take li::before{content:'';position:absolute;left:0;top:.62em;width:11px;height:2.5px;border-radius:2px;background:linear-gradient(90deg,#22d3ee,#34d399)}
+#dm-theater .dm-take strong{color:#f0f4ff;font-weight:700}
+#dm-theater .dm-side{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px}
+#dm-theater .dm-sidelbl{font-size:.6rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#3e5474;margin-bottom:12px;display:block}
+#dm-theater .dm-tcta{
+  display:inline-flex;align-items:center;gap:9px;padding:14px 24px;border-radius:11px;width:100%;
+  justify-content:center;font-weight:800;font-size:.85rem;text-decoration:none;color:#04020e;
+  background:linear-gradient(135deg,#22d3ee,#34d399);transition:all .34s;
+}
+#dm-theater .dm-tcta:hover{transform:translateY(-2px);color:#04020e;box-shadow:0 10px 26px rgba(34,211,238,.35)}
+#dm-theater .dm-tnote{font-size:.75rem;color:#3e5474;line-height:1.6;margin-top:14px}
+#dm-theater .dm-tclose{
+  position:fixed;top:22px;right:24px;width:45px;height:45px;border-radius:12px;
+  display:grid;place-items:center;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.16);color:#f0f4ff;cursor:pointer;transition:all .34s;
+}
+#dm-theater .dm-tclose:hover{background:rgba(244,63,94,.18);border-color:rgba(244,63,94,.45)}
+@media(max-width:860px){
+  #dm-theater .dm-tbody{grid-template-columns:1fr;gap:22px}
+  #dm-theater{place-items:start center;padding-top:64px}
+}
+@media(prefers-reduced-motion:reduce){#demos *,#dm-theater *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+
+<section id="demos" aria-label="Live tool demonstrations">
+  <div class="wrap">
+    <div class="dm-head">
+      <div>
+        <p class="dm-label">Watch it run</p>
+        <h2 class="dm-title">Not a slide about the tool. <span>The tool, running.</span></h2>
+        <p class="dm-deck">Every number in these recordings was computed live, in the browser, by the tools on this site — nothing is mocked and nothing is edited. Scripted so they can be re-recorded the moment a model changes.</p>
+      </div>
+      <div class="dm-nav">
+        <span class="dm-hint">Drag or use →</span>
+        <button class="dm-arrow" id="dm-prev" aria-label="Previous demos"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button class="dm-arrow" id="dm-next" aria-label="More demos"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M9 18l6-6-6-6"/></svg></button>
+      </div>
+    </div>
+    <div class="dm-railwrap"><div class="dm-rail" id="dm-rail"></div></div>
+  </div>
+</section>
+
+<div id="dm-theater" role="dialog" aria-modal="true" aria-labelledby="dm-ttitle">
+  <button class="dm-tclose" id="dm-tclose" aria-label="Close"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <div class="dm-tin">
+    <video id="dm-tvid" controls playsinline preload="none"></video>
+    <div class="dm-tbody">
+      <div>
+        <span class="dm-teyebrow" id="dm-teyebrow"></span>
+        <h3 class="dm-ttitle" id="dm-ttitle"></h3>
+        <ul class="dm-take" id="dm-take"></ul>
+      </div>
+      <div class="dm-side">
+        <span class="dm-sidelbl">Run it yourself</span>
+        <a class="dm-tcta" id="dm-tcta" href="#"><span id="dm-tctatext">Open the tool</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <p class="dm-tnote">Free, no sign-up, runs entirely in your browser. Put your own numbers in and it will disagree with me if I'm wrong.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+const BASE="assets/demos/";
+const D=[
+ {id:"safety-stock",d:"1:03",e:"Safety Stock",c:"One field changed the buffer by 4.6×",
+  t:"The term everyone drops",pr:"Run the calculator",h:"supply-chain-calculators.html",cta:"Open the calculator",
+  k:["The full formula is <strong>Z × √(LT·σ<sub>d</sub>² + D²·σ<sub>LT</sub>²)</strong>. Most planning systems only ever populate the first term.",
+     "With lead-time variability set to zero — the assumption baked into most systems — the calculator returns <strong>879 units</strong>.",
+     "Set it to the six days that lane actually swings, and the same inputs return <strong>4,056 units</strong>. Days of cover go 2.2 → 10.1.",
+     "Same service level, same demand. <strong>Reducing lead-time variance cuts safety stock faster than reducing lead time itself.</strong>"]},
+ {id:"risk-pooling",d:"0:53",e:"Network Design",c:"Six buffers, or one",
+  t:"Risk pooling, priced",pr:"Open the optimizer",h:"multi-echelon-inventory-optimizer.html",cta:"Open the optimizer",
+  k:["Decentralised, every node buffers against the full 30-day China lead time on its own: <strong>97 units, AED 4,365</strong> of capital.",
+     "Nobody is wrong individually — each node protects itself correctly. They are just all protecting against the same variability, separately.",
+     "Pool it into the JAFZA hub and the network needs <strong>83 units, AED 3,735</strong>.",
+     "Service level never moves. Pooling scales with the <strong>square root of the number of locations</strong>, not the count."]},
+ {id:"demand-to-delivery",d:"0:55",e:"Process Architecture",c:"27 steps, 8 functions, 3 that break",
+  t:"Demand to delivery, drawn",pr:"Open the flow map",h:"demand-to-delivery-flow.html",cta:"Open the flow map",
+  k:["Ask five people to name your demand-to-delivery chain and you get five different chains. That <em>is</em> the root cause of most escalations.",
+     "Every one of the 27 steps carries its owner, inputs, outputs, lead time, and <strong>how it fails</strong>.",
+     "On “Finalise Demand Plan” the failure mode reads: a plan agreed but not binding — <strong>if it can be overridden downstream without a decision log, everything after it is theatre.</strong>",
+     "You cannot fix a process you have never drawn."]},
+ {id:"ml-forecasting",d:"1:00",e:"Forecasting",c:"Demand is a function of decisions",
+  t:"Price, media, calendar — as features",pr:"Open the engine",h:"ml-demand-forecasting.html",cta:"Open the forecasting engine",
+  k:["The engine reads <strong>price elasticity, marketing spend and the GCC seasonal calendar</strong> as live features rather than extrapolating history.",
+     "Put a <strong>25% discount</strong> on the line and elasticity moves volume — a statistical forecast trained on history alone cannot see a commercial decision coming.",
+     "Add <strong>AED 20K</strong> of media and land it in <strong>Ramadan</strong>, and three commercial levers are moving at once.",
+     "Error rises as the scenario gets more volatile, and that is honest: the model is pricing uncertainty it can actually name."]},
+];
+
+const rail=document.getElementById('dm-rail');
+if(!rail) return;
+rail.innerHTML=D.map((b,i)=>`
+  <button class="dm-card" data-i="${i}" aria-label="Play demo: ${b.t}">
+    <span class="dm-media">
+      <img src="${BASE}${b.id}.jpg" alt="" loading="lazy" width="960" height="540">
+      <video muted loop playsinline preload="none" data-src="${BASE}${b.id}.mp4"></video>
+      <span class="dm-scrim"></span>
+      <span class="dm-live"><span class="dm-dot"></span>Live tool</span>
+      <span class="dm-dur">${b.d}</span>
+      <span class="dm-play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+      <span class="dm-cap">
+        <span class="dm-claim">${b.c}</span>
+        <span class="dm-proof">${b.pr} →</span>
+      </span>
+    </span>
+  </button>`).join('');
+
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  let cur=null;
+  const stop=c=>{const v=c.querySelector('video');v.pause();c.classList.remove('dm-on')};
+  rail.querySelectorAll('.dm-card').forEach(card=>{
+    const v=card.querySelector('video');
+    const go=()=>{
+      if(cur&&cur!==card)stop(cur);
+      if(!v.src)v.src=v.dataset.src;
+      v.currentTime=0;v.play().then(()=>card.classList.add('dm-on')).catch(()=>{});
+      cur=card;
+    };
+    card.addEventListener('mouseenter',go);
+    card.addEventListener('focus',go);
+    card.addEventListener('mouseleave',()=>stop(card));
+    card.addEventListener('blur',()=>stop(card));
+  });
+}
+
+const prev=document.getElementById('dm-prev'),next=document.getElementById('dm-next');
+const step=()=>(rail.querySelector('.dm-card')?.offsetWidth||420)+20;
+prev.onclick=()=>rail.scrollBy({left:-step(),behavior:'smooth'});
+next.onclick=()=>rail.scrollBy({left:step(),behavior:'smooth'});
+const sync=()=>{prev.disabled=rail.scrollLeft<8;next.disabled=rail.scrollLeft>rail.scrollWidth-rail.clientWidth-8};
+rail.addEventListener('scroll',sync,{passive:true});sync();
+
+const th=document.getElementById('dm-theater'),tv=document.getElementById('dm-tvid');
+let last=null;
+function open(i){
+  const b=D[i];last=document.activeElement;
+  tv.src=BASE+b.id+'.mp4';tv.poster=BASE+b.id+'.jpg';
+  document.getElementById('dm-teyebrow').textContent=b.e;
+  document.getElementById('dm-ttitle').textContent=b.t;
+  document.getElementById('dm-take').innerHTML=b.k.map(x=>`<li>${x}</li>`).join('');
+  const cta=document.getElementById('dm-tcta');
+  cta.href=b.h;document.getElementById('dm-tctatext').textContent=b.cta;
+  th.classList.add('dm-open');document.body.style.overflow='hidden';
+  tv.play().catch(()=>{});document.getElementById('dm-tclose').focus();
+  if(window.gtag)gtag('event','demo_open',{event_category:'engagement',event_label:b.t});
+}
+function close(){
+  th.classList.remove('dm-open');tv.pause();tv.removeAttribute('src');tv.load();
+  document.body.style.overflow='';if(last)last.focus();
+}
+rail.addEventListener('click',e=>{const c=e.target.closest('.dm-card');if(c)open(+c.dataset.i)});
+document.getElementById('dm-tclose').onclick=close;
+th.addEventListener('click',e=>{if(e.target===th)close()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-open'))close()});
+})();
+</script>
+<!-- ═══════ /WATCH IT RUN ═══════ -->
+
+
+
 
 
 <!-- ══════════════════════════════════════════════════════════════════
