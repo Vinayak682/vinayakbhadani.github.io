@@ -2506,13 +2506,13 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 @media(prefers-reduced-motion:reduce){#briefs *,#bf-theater *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
-<section id="briefs" aria-label="60-Second Briefs">
+<section id="briefs" aria-label="Planning Briefs">
   <div class="wrap">
     <div class="bf-head">
       <div>
-        <p class="bf-label">60-Second Briefs</p>
-        <h2 class="bf-title">One planning problem. <span>Sixty seconds. Then the tool.</span></h2>
-        <p class="bf-deck">Ten briefs on the failures that quietly cost money — ABC blind spots, lead-time variance, half a safety stock formula, exception triage. Each one ends where the thinking is already built: a live tool or a written breakdown you can open right now.</p>
+        <p class="bf-label">Planning Briefs</p>
+        <h2 class="bf-title">One planning problem. <span>Argued to the end. Then the tool.</span></h2>
+        <p class="bf-deck">Ten briefs on the failures that quietly cost money — ABC blind spots, lead-time variance, half a safety stock formula, exception triage. Each runs a minute and a half to two minutes, long enough to carry the problem, the maths and the fix without cutting the answer. Each one ends where the thinking is already built: a live tool or a written breakdown you can open right now.</p>
       </div>
       <div class="bf-nav">
         <span class="bf-hint">Drag or use →</span>
@@ -2543,52 +2543,52 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
 (function(){
 const BASE="assets/briefs/";
 const B=[
- {id:"01-c-class-trap",p:"Inventory",c:"Your ABC analysis is hiding your best product",t:"The C-Class Trap",pr:"Read the breakdown",h:"abc-classification-seasonal-index-trap.html",cta:"Read the full breakdown",
+ {id:"01-c-class-trap",d:"1:57",p:"Inventory",c:"Your ABC analysis is hiding your best product",t:"The C-Class Trap",pr:"Read the breakdown",h:"abc-classification-seasonal-index-trap.html",cta:"Read the full breakdown",
   k:["ABC ranks by <strong>annual revenue volume</strong>. It is completely blind to demand <strong>pattern</strong> — that is what XYZ measures.",
      "A high-value SKU selling 1–2 units a month gets classed C, then sells 18 in National Day week. Half its annual demand, invisible to a flat seasonal index.",
      "<strong>CZ is the most dangerous quadrant in the matrix</strong> — high variability, low revenue rank, almost never managed separately.",
      "Fix: segment on ABC <em>and</em> XYZ. Nine zones, event-driven replenishment on the GCC calendar."]},
- {id:"03-red-sea-math",p:"Supply Chain Risk",c:"+14 days is not a delay",t:"The Red Sea Math",pr:"Read the breakdown",h:"red-sea-rerouting-planning-math.html",cta:"Read the full breakdown",
+ {id:"03-red-sea-math",d:"2:16",p:"Supply Chain Risk",c:"+14 days is not a delay",t:"The Red Sea Math",pr:"Read the breakdown",h:"red-sea-rerouting-planning-math.html",cta:"Read the full breakdown",
   k:["Rates rose ~323% and Cape routing added ~14 days — but the transit time is not the expensive part.",
      "14 extra days is <strong>14 days of inventory permanently on water</strong>. Cash converted to floating stock, not returned while the routing holds.",
      "Safety stock scales with the <strong>standard deviation</strong> of lead time, not the mean. A lane swinging 38–52 days costs more buffer than a stable 52-day lane.",
      "<strong>Slow and predictable beats fast and erratic.</strong> Chase consistency before speed."]},
- {id:"04-state-your-level",p:"Forecast Accuracy",c:"“95% accuracy” — ask one question",t:"State Your Level",pr:"Run the MAPE calculator",h:"supply-chain-calculators.html",cta:"Run the MAPE calculator",
+ {id:"04-state-your-level",d:"1:29",p:"Forecast Accuracy",c:"“95% accuracy” — ask one question",t:"State Your Level",pr:"Run the MAPE calculator",h:"supply-chain-calculators.html",cta:"Run the MAPE calculator",
   k:["Accuracy is 100 − MAPE, and <strong>MAPE at category-month is structurally better than at SKU-week</strong> — item noise cancels when you aggregate.",
      "Same business, same data, wildly different number. Without the level, the claim means nothing.",
      "A <strong>30-point gain</strong> on the accuracy scale is not a <strong>30% reduction</strong> in error. Those get blurred constantly.",
      "State three things every time: the metric, the aggregation level, the time bucket."]},
- {id:"05-sop-meeting",p:"S&OP Process",c:"A 3-hour meeting with no decision isn’t a meeting",t:"Fix the S&OP Cycle",pr:"Open the playbook",h:"sop-process-playbook.html",cta:"Open the S&OP playbook",
+ {id:"05-sop-meeting",d:"1:47",p:"S&OP Process",c:"A 3-hour meeting with no decision isn’t a meeting",t:"Fix the S&OP Cycle",pr:"Open the playbook",h:"sop-process-playbook.html",cta:"Open the S&OP playbook",
   k:["Most S&amp;OP cycles fail on one thing: <strong>the pack arrives in the room instead of before it</strong>.",
      "So 90 minutes get burned aligning on what the numbers are, and there is no energy left to decide anything.",
      "The 4-week cycle: data &amp; demand → supply review → <strong>pre-S&amp;OP reconciliation where gaps close</strong> → executive S&amp;OP, decisions only.",
      "The executive meeting exists to decide what pre-S&amp;OP could not close. Everything else is a failure of the prior three weeks."]},
- {id:"06-safety-stock",p:"Safety Stock",c:"9 of 10 safety stock numbers are wrong",t:"Half a Formula",pr:"Run the calculator",h:"supply-chain-calculators.html",cta:"Run the safety stock calculator",
+ {id:"06-safety-stock",d:"1:42",p:"Safety Stock",c:"9 of 10 safety stock numbers are wrong",t:"Half a Formula",pr:"Run the calculator",h:"supply-chain-calculators.html",cta:"Run the safety stock calculator",
   k:["Most teams use <strong>Z × σ<sub>demand</sub> × √LT</strong> — which quietly assumes lead time is constant.",
      "On a China → Jebel Ali lane, lead time is the least constant thing you own.",
      "The full formula needs both terms: demand variability during lead time <strong>and</strong> demand × lead-time variability.",
      "The lever nobody pulls: <strong>reducing lead-time variance cuts safety stock faster than reducing the average</strong>."]},
- {id:"07-ai-exceptions",p:"AI × Supply Chain",c:"AI won’t replace planners. It deletes 6 hours a day.",t:"The Exception Brain",pr:"Open the copilot",h:"ai-supply-chain-copilot.html",cta:"Open the AI copilot",
+ {id:"07-ai-exceptions",d:"2:05",p:"AI × Supply Chain",c:"AI won’t replace planners. It deletes 6 hours a day.",t:"The Exception Brain",pr:"Open the copilot",h:"ai-supply-chain-copilot.html",cta:"Open the AI copilot",
   k:["Planners are paid to <strong>decide</strong> exceptions, not find them — yet finding them consumes the day.",
      "Tens of thousands of events a month means teams triage by <strong>whoever shouts loudest</strong>, not by cost.",
      "An exception brain reads every event and <strong>ranks disruptions by revenue impact</strong>. Five things that matter, not five thousand that might.",
      "Human supervises agents: the agent detects and ranks, the human judges and negotiates. The boring half gets deleted."]},
- {id:"08-six-warehouses",p:"Network Design",c:"6 warehouses, same safety stock — you paid 6 times",t:"Risk Pooling",pr:"Open the optimizer",h:"multi-echelon-inventory-optimizer.html",cta:"Open the network optimizer",
+ {id:"08-six-warehouses",d:"1:57",p:"Network Design",c:"6 warehouses, same safety stock — you paid 6 times",t:"Risk Pooling",pr:"Open the optimizer",h:"multi-echelon-inventory-optimizer.html",cta:"Open the network optimizer",
   k:["Centralise and the demand variability of independent locations <strong>partially cancels</strong>.",
      "Network buffer scales with the <strong>square root of the number of locations</strong>, not the count. Six locations need about 2.45 buffers, not six.",
      "But centralising adds outbound lead time to the store — it is a two-dial decision, not a slogan.",
      "GCC answer: <strong>central JAFZA hub holds the pooled buffer</strong>, regional nodes hold cycle stock plus thin cover. ~25% lower carrying cost at 98% service."]},
- {id:"09-seven-vendors",p:"Cost Reduction",c:"We didn’t negotiate harder",t:"7 Vendors Became 3",pr:"Open the scorecard",h:"supply-chain-scorecard.html",cta:"Open the supply chain scorecard",
+ {id:"09-seven-vendors",d:"2:10",p:"Cost Reduction",c:"We didn’t negotiate harder",t:"7 Vendors Became 3",pr:"Open the scorecard",h:"supply-chain-scorecard.html",cta:"Open the supply chain scorecard",
   k:["Seven partners on China → MENA/GCC lanes meant every one got a slice too small to earn a real rate.",
      "<strong>Consolidate to three</strong> — volume per partner triples, rates move, and accountability finally has a name.",
      "<strong>Most air freight is not urgent. It is late.</strong> Fix the planning horizon and much of it moves to sea without touching service.",
      "Scorecards where performance affects next quarter’s allocation. Result: <strong>−30% air freight cost, +25% relative OTD</strong>."]},
- {id:"10-build-the-thing",p:"Career",c:"The hiring gap isn’t planners who know Excel",t:"Build the Thing",pr:"See all 17 projects",h:"#projects",cta:"See all 17 live projects",
+ {id:"10-build-the-thing",d:"2:10",p:"Career",c:"The hiring gap isn’t planners who know Excel",t:"Build the Thing",pr:"See all 17 projects",h:"#projects",cta:"See all 17 live projects",
   k:["The old split: domain people who cannot build, engineers who do not know what safety stock protects against. Both ship half a solution.",
      "You no longer need a data team to ship a planning tool. <strong>One planner who understands S&amp;OP and can wire an API</strong> ships it in a week.",
      "Seventeen live projects — S&amp;OP copilot, GCC surge forecaster, multi-echelon optimiser, OTIF platform on 36K+ events, ReAct agent.",
      "<strong>Domain depth + build capability</strong> is the combination nobody is hiring for yet."]},
- {id:"11-27-steps",p:"Process Architecture",c:"27 steps. 3 always break.",t:"Demand to Delivery",pr:"Open the flow map",h:"demand-to-delivery-flow.html",cta:"Open the 27-step flow",
+ {id:"11-27-steps",d:"1:46",p:"Process Architecture",c:"27 steps. 3 always break.",t:"Demand to Delivery",pr:"Open the flow map",h:"demand-to-delivery-flow.html",cta:"Open the 27-step flow",
   k:["Ask five people to name your demand-to-delivery chain and you get five different chains. That <em>is</em> the root cause.",
      "<strong>Break 1</strong> — forecast to supply plan. The number changes and nobody logs who or why. Forecast accountability dies there.",
      "<strong>Break 2</strong> — customs. 98% document accuracy sounds fine until you realise the 2% is holding a container.",
@@ -2604,7 +2604,7 @@ rail.innerHTML=B.map((b,i)=>`
       <video muted loop playsinline preload="none" data-src="${BASE}${b.id}.mp4"></video>
       <span class="bf-scrim"></span>
       <span class="bf-pill">${b.p}</span>
-      <span class="bf-dur">0:58</span>
+      <span class="bf-dur">${b.d}</span>
       <span class="bf-play"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
       <span class="bf-cap">
         <span class="bf-claim" style="display:block">${b.c}</span>
