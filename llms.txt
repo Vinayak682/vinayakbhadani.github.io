@@ -1,0 +1,31 @@
+# Vinayak Bhadani
+
+> Demand planning and supply chain operator in Dubai who also builds and deploys
+> agentic AI systems. Currently Demand Planning Executive at Emirates Pride Perfumes.
+
+## What I do
+- Demand planning, S&OP, inventory and replenishment across UAE retail and GCC distribution
+- Agentic AI engineering: multi-agent systems, RAG, knowledge graphs, deployment on live data
+- 14+ free interactive supply chain tools, no signup
+
+## Flagship AI work
+- [AlphaOS](https://vinayak682.github.io/alphaos/): agentic multi-market trading platform.
+  Four research agents on Supabase Edge Functions, AI signal pipeline, client-side
+  backtesting engine, portfolio backtester. Notable for publishing its own negative
+  result: walk-forward testing showed the strategies do NOT beat buy-and-hold
+  out-of-sample (in-sample +0.27 Sharpe, out-of-sample -0.10, replicated on crypto
+  at +0.09 -> -0.21). Drawdown reduction of roughly half did hold across every
+  variant and both asset classes.
+- [AI Supply Chain Copilot](https://vinayakbhadani.com/ai-supply-chain-copilot.html)
+
+## Key pages
+- [Home](https://vinayakbhadani.com/)
+- [Hire](https://vinayakbhadani.com/hire.html)
+- [Insights](https://vinayakbhadani.com/insights.html)
+- [Supply Chain Calculators](https://vinayakbhadani.com/supply-chain-calculators.html)
+- [Resume](https://vinayakbhadani.com/Vinayak-Bhadani-Resume-Demand-Planning-AI-Supply-Chain.pdf)
+
+## Contact
+- Email: vinayakbhadani@zohomail.in
+- LinkedIn: https://www.linkedin.com/in/vinayakbhadani/
+- GitHub: https://github.com/Vinayak682

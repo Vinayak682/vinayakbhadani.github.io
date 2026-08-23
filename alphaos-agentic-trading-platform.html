@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AlphaOS — Agentic Trading Platform | Vinayak Bhadani</title>
+<meta name="description" content="An agentic multi-market trading platform with walk-forward validated backtesting. The strategies do not beat buy-and-hold out-of-sample — and the platform publishes that result."/>
+<meta name="author" content="Vinayak Bhadani"/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://vinayakbhadani.com/alphaos-agentic-trading-platform.html"/>
+<meta property="og:site_name" content="Vinayak Bhadani"/>
+<meta property="og:locale" content="en_GB"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="AlphaOS — strategies that halve drawdown and still lose to buy-and-hold"/>
+<meta property="og:description" content="Multi-agent research, AI signal generation, client-side backtesting. Walk-forward testing across equities and crypto showed the strategies do not beat buy-and-hold. Drawdown reduction did hold."/>
+<meta property="og:url" content="https://vinayakbhadani.com/alphaos-agentic-trading-platform.html"/>
+<meta property="og:image" content="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=630&fit=crop&auto=format&q=80"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=630&fit=crop&auto=format&q=80"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-08JD9489HY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-08JD9489HY');</script>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AlphaOS","applicationCategory":"FinanceApplication","operatingSystem":"Web","url":"https://vinayak682.github.io/alphaos/","author":{"@type":"Person","name":"Vinayak Bhadani","url":"https://vinayakbhadani.com/"},"description":"Agentic multi-market trading platform with multi-agent research, AI signal generation and walk-forward validated backtesting across US equities, India, UAE and crypto.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"AlphaOS — an agentic trading platform that publishes its own negative result","description":"Walk-forward validation across US equities and crypto showed the platform's strategies do not beat buy-and-hold out-of-sample. Drawdown reduction of roughly half did generalise.","author":{"@type":"Person","name":"Vinayak Bhadani","url":"https://vinayakbhadani.com/"},"datePublished":"2026-08-23","proficiencyLevel":"Expert","about":["Walk-forward analysis","Backtest overfitting","Agentic AI systems","Algorithmic trading"],"mainEntityOfPage":"https://vinayakbhadani.com/alphaos-agentic-trading-platform.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Why do backtests fail out of sample?","acceptedAnswer":{"@type":"Answer","text":"Because the strategy was selected using the same data it is evaluated on. In AlphaOS, five portfolio variants were ranked on a tuning window and the winner showed a +0.27 Sharpe edge. Run once on data it had never seen, that edge became -0.10. The correlation between in-sample and out-of-sample ranking was +0.19 — essentially noise."}},
+{"@type":"Question","name":"Does trend following beat buy and hold?","acceptedAnswer":{"@type":"Answer","text":"Not on this evidence. Across 75 strategy-symbol runs on US equities, only 12 beat buy-and-hold and just 6 did so in a rising market. Replicated on crypto, zero of five variants held a positive out-of-sample edge. What did hold in both asset classes was drawdown reduction of roughly half."}},
+{"@type":"Question","name":"What is walk-forward validation?","acceptedAnswer":{"@type":"Answer","text":"Choosing strategy parameters on one time window, then running the chosen strategy exactly once on a later window that was never used during selection, and accepting whatever result comes out. It is the minimum honest test for any trading strategy, because it is the only one that cannot be tuned."}}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://vinayakbhadani.com/"},{"@type":"ListItem","position":2,"name":"AlphaOS — Agentic Trading Platform","item":"https://vinayakbhadani.com/alphaos-agentic-trading-platform.html"}]}
+</script>
+
+<style>
+:root{
+  --bg0:#07100c;--bg1:#0b1712;--bg2:#0f2019;--bg3:#14291f;
+  --ink:#e8f0ea;--ink2:#a7b8ae;--ink3:#71857a;
+  --edge:rgba(255,255,255,.08);
+  --amber:#f5b301;--amber-g:rgba(245,179,1,.10);
+  --jade:#3fbf87;--jade-g:rgba(63,191,135,.10);
+  --brick:#e0704f;--brick-g:rgba(224,112,79,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg0);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.68;-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding:0 24px}
+a{color:var(--jade)}
+.mono{font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+
+.nav{border-bottom:1px solid var(--edge);padding:18px 0;position:sticky;top:0;background:rgba(7,16,12,.9);backdrop-filter:blur(10px);z-index:50}
+.nav .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.nav a{color:var(--ink2);text-decoration:none;font-size:.88rem;font-weight:500}
+.nav a:hover{color:var(--ink)}
+
+header{padding:72px 0 56px;border-bottom:1px solid var(--edge)}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:18px}
+h1{font-family:Outfit,sans-serif;font-weight:800;font-size:clamp(2.1rem,5.6vw,3.5rem);line-height:1.05;letter-spacing:-.025em;margin:0 0 20px;text-wrap:balance}
+.lede{font-size:clamp(1.02rem,2.2vw,1.18rem);color:var(--ink2);max-width:62ch;margin:0}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:8px;font-weight:600;font-size:.9rem;text-decoration:none;border:1px solid}
+.btn-p{background:var(--jade-g);border-color:rgba(63,191,135,.4);color:var(--jade)}
+.btn-s{background:transparent;border-color:var(--edge);color:var(--ink2)}
+.btn:hover{transform:translateY(-1px)}
+
+section{padding:56px 0;border-bottom:1px solid var(--edge)}
+h2{font-family:Outfit,sans-serif;font-weight:700;font-size:clamp(1.5rem,3.4vw,2rem);letter-spacing:-.018em;margin:0 0 8px;text-wrap:balance}
+.sub{color:var(--ink3);font-size:.92rem;margin:0 0 26px}
+h3{font-family:"JetBrains Mono",monospace;font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:30px 0 12px}
+p{max-width:66ch;margin:0 0 16px;color:var(--ink2)}
+p strong,li strong{color:var(--ink);font-weight:600}
+ul{max-width:66ch;padding-left:20px;margin:0 0 16px;color:var(--ink2)}
+li{margin-bottom:8px}
+
+.finding{background:var(--brick-g);border:1px solid rgba(224,112,79,.3);border-left:3px solid var(--brick);border-radius:0 10px 10px 0;padding:22px 24px;margin:0 0 26px}
+.finding .lbl{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brick);display:block;margin-bottom:10px;font-weight:600}
+.finding p{color:var(--ink);font-size:1.02rem;margin-bottom:0}
+
+.scroll{overflow-x:auto;border:1px solid var(--edge);border-radius:10px;background:var(--bg1);margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:.87rem;min-width:520px}
+th{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);padding:12px 14px;border-bottom:1px solid var(--edge);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--ink2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.n{font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.up{color:var(--jade);font-weight:600}
+.dn{color:var(--brick);font-weight:600}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:22px}
+.cell{background:var(--bg1);border:1px solid var(--edge);border-radius:10px;padding:18px}
+.cell h4{font-family:Outfit,sans-serif;font-size:1rem;font-weight:700;margin:0 0 6px;color:var(--ink)}
+.cell p{font-size:.87rem;margin:0;color:var(--ink3)}
+
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:26px}
+.stat div{background:var(--bg1);border:1px solid var(--edge);border-radius:10px;padding:16px}
+.stat .k{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);display:block;margin-bottom:6px}
+.stat .v{font-family:Outfit,sans-serif;font-size:1.55rem;font-weight:800;line-height:1;color:var(--amber);font-variant-numeric:tabular-nums}
+.stat .s{font-size:.74rem;color:var(--ink3);display:block;margin-top:5px}
+
+footer{padding:44px 0 64px;color:var(--ink3);font-size:.85rem}
+footer a{color:var(--ink2)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap">
+  <a href="index.html">← Vinayak Bhadani</a>
+  <a href="https://vinayak682.github.io/alphaos/" target="_blank" rel="noopener">Open AlphaOS ↗</a>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="eyebrow">Agentic AI Engineering · Case Study</div>
+  <h1>The trading platform that publishes its own negative result</h1>
+  <p class="lede">Four research agents, live data across four markets, a verified backtesting engine. Then a walk-forward test: the strategies cut drawdown roughly in half, and still lost to buy-and-hold on risk-adjusted return. Both halves of that result are printed on the platform's front page.</p>
+  <div class="hero-cta">
+    <a class="btn btn-p" href="https://vinayak682.github.io/alphaos/" target="_blank" rel="noopener">Open the live platform ↗</a>
+    <a class="btn btn-s" href="https://github.com/Vinayak682/alphaos" target="_blank" rel="noopener">Read the code ↗</a>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <h2>The finding</h2>
+  <p class="sub">Walk-forward validation, run once, on data the strategies had never seen.</p>
+
+  <div class="finding">
+    <span class="lbl">What the test showed</span>
+    <p>Five portfolio variants were ranked on a tuning window. The winner showed a <strong>+0.27 Sharpe edge</strong> over buy-and-hold. Run once on a later window it had never touched, that edge became <strong class="dn">−0.10</strong>. Replicated independently on crypto: <strong>+0.09 → −0.21</strong>, with <strong>zero of five variants</strong> holding any edge at all.</p>
+  </div>
+
+  <div class="scroll"><table>
+    <thead><tr><th>Universe</th><th>Tuned on</th><th>Tested on</th><th class="n">In-sample edge</th><th class="n">Out-of-sample</th><th class="n">Drawdown saved</th></tr></thead>
+    <tbody>
+      <tr><td>10 US equities</td><td class="mono">2006–2015</td><td class="mono">2016–2026</td><td class="n up">+0.27</td><td class="n dn">−0.10</td><td class="n up">+38.3pp</td></tr>
+      <tr><td>7 crypto pairs</td><td class="mono">2018–2022</td><td class="mono">2023–2026</td><td class="n up">+0.09</td><td class="n dn">−0.21</td><td class="n up">+16.7pp</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>The correlation between in-sample and out-of-sample edge across all variants was <strong class="mono">+0.19</strong> — essentially noise. In-sample ranking carried almost no information about which strategy would perform next. That is what overfitting looks like when you measure it instead of assuming it away.</p>
+
+  <h3>What did generalise</h3>
+  <p><strong>Drawdown reduction, without exception.</strong> Every variant roughly halved it in both asset classes — 4.6–23.7% against buy-and-hold's 50.0% on equities, 16.0–36.4% against 53.1% on crypto. The strategies are a risk-management tool. They are not an alpha source, and any single-window backtest suggesting otherwise is measuring its own tuning data.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Why this is the interesting part</h2>
+  <p>There are thousands of AI trading projects. Nearly all publish a win rate that was never measured, or one measured on the same data used to build the strategy. Mine started that way too — the first backtest returned <strong>+220% on AAPL</strong> and looked excellent.</p>
+  <p>I didn't believe it, because it came from the same window I'd spent hours tuning against. So I defined the walk-forward protocol first, ran it once, and published what came back. The platform's strategies page now leads with that result rather than the flattering one.</p>
+  <p>Engineering judgement is mostly about which numbers you're willing to trust. That's the capability this project is evidence of — not the trading.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>What's actually built</h2>
+  <p class="sub">Next.js 16 · Supabase · Groq · deployed and live</p>
+
+  <div class="stat">
+    <div><span class="k">TypeScript</span><span class="v">18,030</span><span class="s">lines</span></div>
+    <div><span class="k">Routes</span><span class="v">22</span><span class="s">app screens</span></div>
+    <div><span class="k">Edge Functions</span><span class="v">4</span><span class="s">Supabase Deno</span></div>
+    <div><span class="k">Backtests</span><span class="v">75</span><span class="s">verified runs</span></div>
+  </div>
+
+  <div class="grid">
+    <div class="cell"><h4>Multi-agent research</h4><p>Four agents — news, technical, smart-money, risk — run on a Supabase Edge Function and synthesise a market view with an LLM fallback chain.</p></div>
+    <div class="cell"><h4>AI signal pipeline</h4><p>Live OHLCV → RSI/MACD/EMA/ATR computed in pure TypeScript → Finnhub news → LLM → structured JSON signal persisted to Postgres.</p></div>
+    <div class="cell"><h4>Backtesting engine</h4><p>Client-side, CORS-safe, runs in the browser. Verified against an independent implementation to the cent before any result was trusted.</p></div>
+    <div class="cell"><h4>Portfolio backtester</h4><p>Equal-weight basket, each sleeve trend-gated, per-sleeve P&amp;L attribution, benchmarked against equal-weight buy-and-hold on the identical window.</p></div>
+    <div class="cell"><h4>Live market data</h4><p>US, India, UAE and crypto via an Edge Function proxy — Finnhub, Yahoo and Binance — sidestepping CORS and centralising rate limits.</p></div>
+    <div class="cell"><h4>Commodities layer</h4><p>Real dollars-per-barrel WTI and Brent series back to 1986, gold spot with technicals, 19 live oil and gold instruments.</p></div>
+  </div>
+
+  <h3>Engineering decisions worth naming</h3>
+  <ul>
+    <li><strong>Every "LIVE" badge derives from data arriving</strong>, never from which page is selected. An earlier version showed a pulsing LIVE indicator over prices that were four times wrong.</li>
+    <li><strong>Costs are charged both sides</strong> — 5bps commission plus 5bps slippage. A zero-cost backtest flatters every result, short-holding strategies most of all.</li>
+    <li><strong>Postgres NUMERIC arrives as a string</strong> over PostgREST. Coerce before arithmetic, or concatenation silently produces a plausible-looking wrong number.</li>
+    <li><strong>Strategy rules that price data cannot express are listed, not approximated silently</strong> — EPS growth, RS rating, mutual-fund accumulation. Each spec names what it drops.</li>
+  </ul>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Same skill, different market</h2>
+  <p>The forecasting stack under AlphaOS is the one I use in demand planning: build a signal from noisy live data, quantify the uncertainty honestly, and separate what you measured from what you assumed. A trading strategy that looks profitable on its tuning window is the same failure as a forecast that looks accurate on the history it was fitted to.</p>
+  <p>The reason I built it in markets is that markets are unforgiving. A demand forecast can be wrong for a quarter before anyone notices. A trading backtest lies immediately and convincingly, and only a protocol you commit to in advance catches it.</p>
+  <p><a href="ai-supply-chain-copilot.html">See the same approach applied to supply chain →</a></p>
+</div></section>
+
+<footer><div class="wrap">
+  <p>Built by <a href="index.html">Vinayak Bhadani</a> · Dubai · <a href="https://github.com/Vinayak682/alphaos" target="_blank" rel="noopener">Source on GitHub</a> · <a href="https://vinayak682.github.io/alphaos/" target="_blank" rel="noopener">Live platform</a></p>
+</div></footer>
+
+</body>
+</html>
