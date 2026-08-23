@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Why Backtests Fail Out of Sample | Vinayak Bhadani</title>
+<meta name="description" content="I ranked five trading strategies on one window and ran the winner once on unseen data. The in-sample edge of +0.27 Sharpe became −0.10. Replicated on crypto. Full numbers and method."/>
+<meta name="author" content="Vinayak Bhadani"/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://vinayakbhadani.com/walk-forward-validation-trading-strategies.html"/>
+<meta property="og:site_name" content="Vinayak Bhadani"/>
+<meta property="og:locale" content="en_GB"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="My strategies looked great. Then I tested them on data I hadn't touched."/>
+<meta property="og:description" content="Five variants ranked on a tuning window. The winner's +0.27 Sharpe edge became −0.10 out of sample. Replicated independently on crypto. What survived was drawdown reduction, not alpha."/>
+<meta property="og:url" content="https://vinayakbhadani.com/walk-forward-validation-trading-strategies.html"/>
+<meta property="og:image" content="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=630&fit=crop&auto=format&q=80"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=630&fit=crop&auto=format&q=80"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-08JD9489HY"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-08JD9489HY');</script>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Why backtests fail out of sample — a walk-forward test that killed my own strategies","description":"Five portfolio strategy variants ranked on a tuning window, the winner run once on unseen data. The in-sample edge of +0.27 Sharpe became -0.10 out of sample, replicated independently on crypto. Drawdown reduction generalised; the return edge did not.","author":{"@type":"Person","name":"Vinayak Bhadani","url":"https://vinayakbhadani.com/"},"datePublished":"2026-08-23","proficiencyLevel":"Expert","dependencies":"Basic familiarity with backtesting and Sharpe ratio","about":["Walk-forward analysis","Backtest overfitting","Out-of-sample testing","Trend following","Algorithmic trading"],"mainEntityOfPage":"https://vinayakbhadani.com/walk-forward-validation-trading-strategies.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Why do backtests fail out of sample?","acceptedAnswer":{"@type":"Answer","text":"Because the strategy is chosen using the same data it is then scored on. Every choice you make while looking at a result — which exit rule, which stop, which parameters — fits the strategy a little more tightly to that specific window. In this test, in-sample edge and out-of-sample edge correlated at just +0.26 across ten variant runs, so in-sample ranking carried almost no information about future performance."}},
+{"@type":"Question","name":"What is walk-forward validation?","acceptedAnswer":{"@type":"Answer","text":"You split history into a tuning window and a test window. You do all selection and parameter fitting on the tuning window only. Then you run the chosen configuration exactly once on the test window and accept whatever comes out. It is the minimum honest test for a trading strategy because it is the only one that cannot be tuned after the fact."}},
+{"@type":"Question","name":"Does trend following beat buy and hold?","acceptedAnswer":{"@type":"Answer","text":"Not in this test. On 10 US equities the walk-forward winner returned 121.2% against buy-and-hold's 3,587.6%, with a Sharpe of 1.07 against 1.17. On 7 crypto pairs the winner returned 52.0% against 159.7%, Sharpe 0.51 against 0.71. What did hold in both was drawdown: 11.7% versus 50.0% on equities and 36.4% versus 53.1% on crypto."}},
+{"@type":"Question","name":"How much history do you need for a walk-forward test?","acceptedAnswer":{"@type":"Answer","text":"Enough that both windows contain more than one market regime. This test used 2007-2015 for tuning and 2015-2026 for testing on equities, so the tuning window contained the global financial crisis and the test window contained a long bull run plus the 2020 and 2022 drawdowns. A tuning window containing only one regime will select a strategy fitted to that regime."}}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://vinayakbhadani.com/"},{"@type":"ListItem","position":2,"name":"AlphaOS","item":"https://vinayakbhadani.com/alphaos-agentic-trading-platform.html"},{"@type":"ListItem","position":3,"name":"Why backtests fail out of sample","item":"https://vinayakbhadani.com/walk-forward-validation-trading-strategies.html"}]}
+</script>
+
+<style>
+:root{
+  --bg0:#07100c;--bg1:#0b1712;--bg2:#0f2019;
+  --ink:#e8f0ea;--ink2:#a7b8ae;--ink3:#71857a;
+  --edge:rgba(255,255,255,.08);
+  --amber:#f5b301;--jade:#3fbf87;--jade-g:rgba(63,191,135,.10);
+  --brick:#e0704f;--brick-g:rgba(224,112,79,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg0);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+.wide{max-width:920px;margin:0 auto;padding:0 24px}
+a{color:var(--jade)}
+.mono{font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+
+.nav{border-bottom:1px solid var(--edge);padding:18px 0;position:sticky;top:0;background:rgba(7,16,12,.92);backdrop-filter:blur(10px);z-index:50}
+.nav .wrap{display:flex;justify-content:space-between;gap:16px}
+.nav a{color:var(--ink2);text-decoration:none;font-size:.88rem;font-weight:500}
+.nav a:hover{color:var(--ink)}
+
+header{padding:76px 0 48px}
+.kicker{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:18px}
+h1{font-family:Outfit,sans-serif;font-weight:800;font-size:clamp(2.1rem,5.4vw,3.4rem);line-height:1.06;letter-spacing:-.026em;margin:0 0 22px;text-wrap:balance}
+.lede{font-size:clamp(1.04rem,2.2vw,1.2rem);color:var(--ink2);margin:0}
+.byline{margin-top:26px;padding-top:20px;border-top:1px solid var(--edge);font-size:.84rem;color:var(--ink3);font-family:"JetBrains Mono",monospace}
+
+section{padding:14px 0 40px}
+h2{font-family:Outfit,sans-serif;font-weight:700;font-size:clamp(1.4rem,3.2vw,1.85rem);letter-spacing:-.018em;margin:44px 0 14px;text-wrap:balance}
+h3{font-family:"JetBrains Mono",monospace;font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:32px 0 10px}
+p{margin:0 0 18px;color:var(--ink2)}
+p strong,li strong{color:var(--ink);font-weight:600}
+ul,ol{padding-left:20px;margin:0 0 18px;color:var(--ink2)}
+li{margin-bottom:9px}
+blockquote{margin:0 0 20px;padding:2px 0 2px 20px;border-left:2px solid var(--jade);color:var(--ink);font-size:1.05rem}
+code{font-family:"JetBrains Mono",monospace;font-size:.88em;background:var(--bg2);padding:.12em .4em;border-radius:3px;color:var(--ink)}
+
+.pull{background:var(--brick-g);border:1px solid rgba(224,112,79,.3);border-left:3px solid var(--brick);border-radius:0 10px 10px 0;padding:20px 24px;margin:0 0 24px}
+.pull .l{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brick);display:block;margin-bottom:9px;font-weight:600}
+.pull p{color:var(--ink);margin:0;font-size:1.02rem}
+.pull p+p{margin-top:10px}
+
+.ok{background:var(--jade-g);border-left:3px solid var(--jade);border-radius:0 10px 10px 0;padding:20px 24px;margin:0 0 24px}
+.ok .l{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--jade);display:block;margin-bottom:9px;font-weight:600}
+.ok p{color:var(--ink);margin:0}
+
+.scroll{overflow-x:auto;border:1px solid var(--edge);border-radius:10px;background:var(--bg1);margin:0 0 10px}
+table{border-collapse:collapse;width:100%;font-size:.85rem;min-width:560px}
+th{text-align:left;font-family:"JetBrains Mono",monospace;font-size:.66rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);padding:11px 13px;border-bottom:1px solid var(--edge);white-space:nowrap}
+td{padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--ink2)}
+tr:last-child td{border-bottom:none}
+td.n{font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.up{color:var(--jade);font-weight:600}
+.dn{color:var(--brick);font-weight:600}
+tr.pick td{background:rgba(245,179,1,.06)}
+tr.pick td:first-child::after{content:" ← picked";font-family:"JetBrains Mono",monospace;font-size:.64rem;color:var(--amber);letter-spacing:.04em}
+.cap{font-size:.78rem;color:var(--ink3);margin:0 0 26px;font-family:"JetBrains Mono",monospace}
+
+footer{padding:44px 0 70px;border-top:1px solid var(--edge);margin-top:40px;color:var(--ink3);font-size:.85rem}
+footer a{color:var(--ink2)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap">
+  <a href="index.html">← Vinayak Bhadani</a>
+  <a href="alphaos-agentic-trading-platform.html">AlphaOS →</a>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="kicker">Backtesting · Walk-forward validation</div>
+  <h1>My strategies looked great. Then I tested them on data I hadn't touched.</h1>
+  <p class="lede">The first backtest returned +220% on AAPL. I didn't believe it, because it came from the same window I'd spent the afternoon tuning against. So I wrote down a protocol, ran it once, and published what came back — including the part that made my own platform look bad.</p>
+  <p class="byline">Vinayak Bhadani · 23 August 2026 · ~9 min read</p>
+</div></header>
+
+<section><div class="wrap">
+
+<h2>The setup</h2>
+<p>I'd built a backtesting engine inside <a href="alphaos-agentic-trading-platform.html">AlphaOS</a>, an agentic multi-market trading platform. Real OHLCV, costs charged on both sides at 5bps commission plus 5bps slippage, daily mark-to-market equity, and a buy-and-hold benchmark computed over the identical window.</p>
+<p>Before trusting a single number from it, I reimplemented one strategy independently in Python and compared. Total return 27.70% versus 27.70%, end equity $12,769.95 versus $12,770, 3 trades, 66.7% win rate, −11.1% max drawdown. Both implementations agreed to the cent. The engine was sound.</p>
+<p>Then I started improving the strategies, and this is where it gets interesting — because the engine being correct is not the same as the results being meaningful.</p>
+
+<h2>The number that should have made me suspicious</h2>
+<p>The baseline golden-cross rule on AAPL returned <strong>+27.70%</strong> over 7.2 years. Buy-and-hold returned <strong>+531.45%</strong>. That's a bad strategy, clearly.</p>
+<p>So I tried variants. An ATR trailing stop instead of a fixed one. A slower exit on the 200-day rather than the 50-day. Scaled position sizing — 100% / 50% / 0% instead of all-or-nothing. That last one took AAPL from +27.70% to <strong>+220.18%</strong>, with a lower drawdown than buy-and-hold and a Sharpe of 0.88 against the baseline's 0.53.</p>
+<p>An eight-fold improvement. It felt like progress.</p>
+
+<div class="pull">
+  <span class="l">The problem</span>
+  <p>I had tested four variants on the same data and kept the two that scored best. That is not research. That is <strong>selection on the evaluation set</strong> — and every choice I made while looking at a result fitted the strategy a little more tightly to that specific window.</p>
+  <p>The engine was measuring correctly. It was measuring the wrong thing: how well a rule I had chosen <em>because</em> it fit this data, fits this data.</p>
+</div>
+
+<h2>What walk-forward actually means</h2>
+<p>Split history into two windows. Do all selection and fitting on the first. Then run the chosen configuration <strong>exactly once</strong> on the second, and accept whatever comes out.</p>
+<p>The discipline is in the word <em>once</em>. If you look at the out-of-sample result and then adjust anything, the second window has become a tuning window too, and you've quietly spent your only honest test.</p>
+<p>So I wrote the protocol down before running it:</p>
+<blockquote>Rank five portfolio variants on 2006–2015 by Sharpe ratio. Take the highest. Run it once on 2016–2026. Report that number regardless of what it says.</blockquote>
+<p>Ten US equities, equal-weighted, each sleeve gated by its own trend signal, costs applied to every rebalance. The tuning window contains the global financial crisis; the test window contains a long bull run plus the 2020 and 2022 drawdowns. Both contain more than one regime, which matters — a tuning window with only one regime selects a strategy fitted to that regime.</p>
+
+<h2>In-sample: the winner</h2>
+</div>
+
+<div class="wide"><div class="scroll"><table>
+  <thead><tr><th>Variant</th><th class="n">Sharpe</th><th class="n">Buy &amp; hold</th><th class="n">Edge</th></tr></thead>
+  <tbody>
+    <tr><td>base — binary in/out</td><td class="n">0.57</td><td class="n">0.60</td><td class="n dn">−0.03</td></tr>
+    <tr><td>ATR trailing stop</td><td class="n">0.52</td><td class="n">0.60</td><td class="n dn">−0.08</td></tr>
+    <tr class="pick"><td>slow exit — SMA200</td><td class="n">0.87</td><td class="n">0.60</td><td class="n up">+0.27</td></tr>
+    <tr><td>scaled 100/50/0</td><td class="n">0.56</td><td class="n">0.60</td><td class="n dn">−0.04</td></tr>
+    <tr><td>scaled 100/75/50/0</td><td class="n">0.55</td><td class="n">0.60</td><td class="n dn">−0.05</td></tr>
+  </tbody>
+</table></div>
+<p class="cap">10 US equities · tuning window 2007-07 → 2015-12 · costs 5bps/side</p></div>
+
+<div class="wrap">
+<p>Clear result. The slow-exit variant beat buy-and-hold by <strong>+0.27 Sharpe</strong> and was the only one above the benchmark at all. If I'd stopped here — as most published backtests do — I'd have written a confident post about how exiting on the 200-day rather than the 50-day avoids whipsaws and adds real risk-adjusted return.</p>
+
+<h2>Out-of-sample: run once</h2>
+</div>
+
+<div class="wide"><div class="scroll"><table>
+  <thead><tr><th></th><th class="n">Return</th><th class="n">Max drawdown</th><th class="n">Sharpe</th></tr></thead>
+  <tbody>
+    <tr><td>slow exit — the chosen variant</td><td class="n">121.2%</td><td class="n up">11.7%</td><td class="n">1.07</td></tr>
+    <tr><td>Buy &amp; hold</td><td class="n">3,587.6%</td><td class="n dn">50.0%</td><td class="n">1.17</td></tr>
+  </tbody>
+</table></div>
+<p class="cap">Same 10 equities · test window 2015-10 → 2026-08 · never used for selection</p></div>
+
+<div class="wrap">
+<div class="pull">
+  <span class="l">The result</span>
+  <p>In-sample edge <strong class="up">+0.27</strong>. Out-of-sample edge <strong class="dn">−0.10</strong>. The advantage didn't shrink — it inverted. The strategy that most clearly beat the benchmark on the tuning window <em>lost</em> to it on data it hadn't seen.</p>
+</div>
+
+<h2>Then I ran it again on crypto</h2>
+<p>One failed walk-forward could be an unlucky split. So I did the whole thing again on a different asset class, different decade, different volatility regime, no shared data: seven crypto pairs, tuned on 2018–2022 — a full cycle including two crashes — and tested on 2023–2026.</p>
+<p>In-sample winner: the scaled variant, Sharpe 1.19 against buy-and-hold's 1.10, edge <strong class="up">+0.09</strong>.</p>
+<p>Out-of-sample: Sharpe 0.51 against 0.71. Edge <strong class="dn">−0.21</strong>. Worse than equities. <strong>Zero of five</strong> crypto variants held a positive out-of-sample edge — not one.</p>
+</div>
+
+<div class="wide"><div class="scroll"><table>
+  <thead><tr><th>Universe</th><th>Tuned</th><th>Tested</th><th class="n">In-sample edge</th><th class="n">Out-of-sample</th><th class="n">Drawdown saved</th></tr></thead>
+  <tbody>
+    <tr><td>10 US equities</td><td class="mono">2007–2015</td><td class="mono">2015–2026</td><td class="n up">+0.27</td><td class="n dn">−0.10</td><td class="n up">38.3pp</td></tr>
+    <tr><td>7 crypto pairs</td><td class="mono">2018–2022</td><td class="mono">2022–2026</td><td class="n up">+0.09</td><td class="n dn">−0.21</td><td class="n up">16.7pp</td></tr>
+  </tbody>
+</table></div>
+<p class="cap">Two independent asset classes, same protocol, same outcome</p></div>
+
+<div class="wrap">
+<h2>The detail that actually stings</h2>
+<p>Look at what in-sample selection <em>rejected</em> on the equities run. The two scaled variants scored −0.04 and −0.05 in-sample — below the benchmark, so I discarded them.</p>
+<p>Out of sample they scored <strong class="up">+0.04</strong> and <strong class="up">+0.06</strong>: the only two variants of the five with a genuine positive edge.</p>
+
+<div class="pull">
+  <span class="l">In-sample ranking was worse than useless</span>
+  <p>It didn't merely fail to identify the best strategy. It <strong>actively selected against it</strong> — picking the one variant whose apparent edge was an artifact, and rejecting both that generalised.</p>
+  <p>Across all ten variant-runs, the correlation between in-sample edge and out-of-sample edge was <strong class="mono">+0.26</strong>. Close enough to noise that in-sample ranking told me almost nothing about which strategy would work next.</p>
+</div>
+
+<h2>What did survive</h2>
+<p>One thing generalised, without a single exception, in both asset classes and every variant: <strong>drawdown reduction</strong>.</p>
+<p>On equities, out-of-sample drawdowns ran 4.6% to 23.7% against buy-and-hold's 50.0%. On crypto, 16.0% to 36.4% against 53.1%. The chosen variant cut equity drawdown from 50.0% to 11.7% — a 38.3 percentage point reduction that held on data it had never seen.</p>
+
+<div class="ok">
+  <span class="l">The honest conclusion</span>
+  <p>These rules are a <strong>risk-management tool, not an alpha source</strong>. They reliably cut drawdown roughly in half. They do not reliably beat buy-and-hold on risk-adjusted return, and every backtest of mine that suggested otherwise was measuring its own tuning window.</p>
+</div>
+
+<p>That's a narrower claim than the one I started with. It's also the only one that survived a test I couldn't tune.</p>
+
+<h2>What I'd tell anyone shipping a strategy</h2>
+<ol>
+  <li><strong>Write the protocol down before you run it.</strong> Not as ceremony — as a commitment device. Once the out-of-sample number exists, the temptation to "just check one more variant" is enormous, and yielding to it destroys the only honest measurement you have.</li>
+  <li><strong>Count your degrees of freedom.</strong> I tested four variants and kept two. That's mild by most standards, and it was already enough to produce a +0.27 Sharpe mirage.</li>
+  <li><strong>Put the benchmark next to every number.</strong> I nearly reported "32% max drawdown" as a weakness before computing that buy-and-hold's was 60%. A metric without its benchmark isn't a finding, it's a number.</li>
+  <li><strong>Separate what generalised from what didn't.</strong> "The strategies don't work" would be as sloppy as the original overclaim. The drawdown reduction is real, replicated, and useful — for a leveraged or income-drawing account it may matter more than the return gap.</li>
+  <li><strong>A negative result is a result.</strong> Knowing these rules are risk tools rather than alpha is worth more than a confident number I'd have to walk back later.</li>
+</ol>
+
+<h2>Method, so you can check it</h2>
+<ul>
+  <li><strong>Data:</strong> Twelve Data daily bars (equities, back to 2006), Binance daily klines (crypto, back to 2017, paginated — the API caps at 1,000 bars per call).</li>
+  <li><strong>Costs:</strong> 5bps commission + 5bps slippage per side, applied to every rebalance. Zero-cost backtests flatter every result, short-holding strategies most of all.</li>
+  <li><strong>Portfolio:</strong> equal weight, 1/N per sleeve scaled by that sleeve's signal, rebalanced inside a 1% no-trade band.</li>
+  <li><strong>Benchmark:</strong> equal-weight buy-and-hold of the identical basket over the identical window, bought once at the warm-up bar.</li>
+  <li><strong>Warm-up:</strong> 200 bars before any signal, so the SMA200 is defined and no look-ahead is possible.</li>
+  <li><strong>Verification:</strong> the engine was cross-checked against an independent Python implementation before any result was trusted — agreement to the cent on total return, end equity, trade count, win rate and max drawdown.</li>
+</ul>
+<p>The engine runs client-side. You can <a href="https://vinayak682.github.io/alphaos/strategies/" target="_blank" rel="noopener">run these backtests yourself in the browser</a> — pick a strategy, a symbol and a period, or sweep all 15 symbols at once. The walk-forward result is printed at the top of that page, above every single-window number it produces.</p>
+
+<p>Source is on <a href="https://github.com/Vinayak682/alphaos" target="_blank" rel="noopener">GitHub</a>.</p>
+
+<h2>Why this is on a supply chain portfolio</h2>
+<p>Because it's the same failure mode. A demand forecast tuned until it fits last year's history looks excellent and tells you nothing about next quarter. The difference is that a bad forecast takes a quarter to embarrass you, while a bad backtest lies immediately and convincingly.</p>
+<p>Markets are the harsher teacher. That's why I built here.</p>
+</div>
+</section>
+
+<footer><div class="wrap">
+  <p><a href="alphaos-agentic-trading-platform.html">AlphaOS case study</a> · <a href="https://vinayak682.github.io/alphaos/" target="_blank" rel="noopener">Live platform</a> · <a href="https://github.com/Vinayak682/alphaos" target="_blank" rel="noopener">Source</a> · <a href="index.html">Vinayak Bhadani</a></p>
+</div></footer>
+
+</body>
+</html>
