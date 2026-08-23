@@ -1273,20 +1273,6 @@ footer::before{
 .footer-links a:hover{color:#c084fc;}
 
 /* ═══════ BACK TO TOP — Aurora ═══════ */
-#btt{
-  position:fixed;bottom:28px;right:28px;width:46px;height:46px;border-radius:50%;
-  background:linear-gradient(135deg,#c084fc,#818cf8,#22d3ee);
-  background-size:200% 200%;
-  animation:btn-shimmer 3s ease infinite;
-  color:#04020e;border:none;cursor:pointer;font-size:1.1rem;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 24px rgba(192,132,252,.4);
-  opacity:0;transform:translateY(20px);
-  transition:opacity var(--tr),transform var(--tr),box-shadow var(--tr);
-  z-index:99;font-weight:700;
-}
-#btt.visible{opacity:1;transform:translateY(0);}
-#btt:hover{transform:translateY(-4px);box-shadow:0 10px 36px rgba(192,132,252,.6);}
 
 /* RESPONSIVE */
 @media(max-width:1020px){
@@ -6449,30 +6435,6 @@ function makeGameDecision(round, decision) {
   </div>
 </footer>
 
-<!-- STICKY MOBILE CTA — mobile is 25% of traffic and previously converted almost
-     nothing: the only WhatsApp link on the whole site sat on /hire, which gets
-     single-digit views. This puts both primary actions permanently in reach. -->
-<style>
-#mcta{display:none}
-@media(max-width:768px){
-  /* The fixed two-button tray obscured every mobile viewport. Resume access
-     remains in the navigation menu and WhatsApp remains in Contact. */
-  #mcta{display:none!important}
-  body{padding-bottom:0}
-}
-</style>
-<div id="mcta" role="group" aria-label="Quick contact">
-  <a class="m-wa" href="https://wa.me/971556270561?text=Hi%20Vinayak%20-%20I%20came%20across%20your%20portfolio%20and%20wanted%20to%20ask%20about%20" target="_blank" rel="noopener">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.21 8.21 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
-    WhatsApp
-  </a>
-  <a class="m-cv" id="mobile-cv-btn" href="Vinayak-Bhadani-Resume-Demand-Planning-AI-Supply-Chain.pdf" download>
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    Download CV
-  </a>
-</div>
-
-<button id="btt" aria-label="Back to top">↑</button>
 
 <!-- CV DOWNLOAD — embedded PDF as data URI so it always works -->
 <!-- CV blob embed removed: all CV buttons now use the real PDF file on the server -->
@@ -6495,12 +6457,6 @@ document.querySelectorAll('.nav-links a').forEach(function(a){
   a.addEventListener('click',function(){navLinks.classList.remove('open');});
 });
 
-// Back to top
-var btt=document.getElementById('btt');
-window.addEventListener('scroll',function(){
-  btt.classList.toggle('visible',window.scrollY>400);
-},{passive:true});
-btt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
 
 // FAQ accordion
 document.querySelectorAll('.faq-q').forEach(function(btn){
@@ -7594,7 +7550,6 @@ section:nth-of-type(even):not(#home){background-color:#0a0e17!important}
 .faq-q:hover,.faq-icon,.ci-val a:hover,.footer-links a:hover{color:var(--sf-blue-light)!important}
 footer{background:var(--sf-black)!important;border-top-color:rgba(124,166,255,.14)!important}footer::before{background:linear-gradient(90deg,transparent,var(--sf-blue),var(--sf-red),transparent)!important}
 .footer-links{flex-wrap:wrap;justify-content:flex-end}
-#btt{border-radius:3px!important;background:var(--sf-blue)!important;color:#fff!important;box-shadow:0 10px 28px rgba(29,63,158,.42)!important;animation:none!important}
 
 @media(max-width:900px){
   #home{padding-top:78px!important}.nav-links.open{top:62px!important;background:rgba(8,11,19,.99)!important}
