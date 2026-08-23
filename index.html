@@ -603,8 +603,7 @@ section{padding:96px 0;position:relative;}
 @media(prefers-reduced-motion:reduce){
   .ticker{animation-play-state:paused;}
   .profile-frame{animation:none;}
-  .hero-badge::before,.profile-nametag-dot,.btn-watch-dot,.pj-eyebrow::before,.flagship-label::before{animation:none;}
-  .fcard-icon,.fcard-scan{animation:none;}
+  .hero-badge::before,.profile-nametag-dot,.btn-watch-dot,.pj-eyebrow::before{animation:none;}
 }
 
 /* ═══════ SECTION BACKGROUNDS — Aurora Layered ═══════ */
@@ -839,11 +838,9 @@ section{padding:96px 0;position:relative;}
 /* ═══════════════════════════════════════════════════════
    PROJECTS — Aurora Showcase
 ═══════════════════════════════════════════════════════ */
-@keyframes borderSpin{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 @keyframes shimmerSwipe{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
 @keyframes pulseVal{0%,100%{opacity:1}50%{opacity:.7}}
 @keyframes cardEntrance{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
-@keyframes featEntrance{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes lineGrow{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
 @keyframes barGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 
@@ -870,36 +867,6 @@ section{padding:96px 0;position:relative;}
   border-radius:50%;animation:pulseVal 2s infinite;
 }
 
-/* ── Featured hero card — aurora border ─────────────── */
-.pf-hero{
-  position:relative;display:grid;grid-template-columns:1fr 380px;gap:0;
-  background:rgba(255,255,255,.02);
-  border:1px solid rgba(192,132,252,.18);
-  border-radius:20px;overflow:hidden;margin-bottom:28px;
-  transition:transform .3s,box-shadow .3s;perspective:1000px;
-  animation:featEntrance .8s ease both;
-  backdrop-filter:blur(8px);
-}
-.pf-hero::before{
-  content:'';position:absolute;inset:-2px;border-radius:22px;
-  background:linear-gradient(135deg,rgba(192,132,252,.3),rgba(129,140,248,.2),rgba(34,211,238,.2),rgba(192,132,252,.15));
-  background-size:300% 300%;animation:borderSpin 6s linear infinite;z-index:-1;
-}
-.pf-hero:hover{
-  transform:translateY(-6px);
-  box-shadow:0 32px 100px rgba(0,0,0,.5),0 0 60px rgba(192,132,252,.1),0 0 0 1px rgba(192,132,252,.25);
-}
-.pf-hero-left{padding:40px 40px 36px;display:flex;flex-direction:column;}
-.pf-hero-right{
-  background:linear-gradient(135deg,rgba(192,132,252,.05),rgba(14,9,31,.92));
-  border-left:1px solid rgba(192,132,252,.1);
-  display:flex;align-items:center;justify-content:center;padding:24px;
-  position:relative;overflow:hidden;
-}
-.pf-hero-right::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at 70% 30%,rgba(192,132,252,.1),transparent 60%);
-}
 .pf-feat-badge{
   display:inline-flex;align-items:center;gap:6px;
   background:linear-gradient(90deg,rgba(192,132,252,.15),rgba(34,211,238,.1));
@@ -915,7 +882,7 @@ section{padding:96px 0;position:relative;}
   background:rgba(192,132,252,.06);
   transition:transform .3s;
 }
-.pf-hero:hover .pj-icon,.pf-card:hover .pj-icon{transform:scale(1.12) rotate(-3deg);}
+.pf-card:hover .pj-icon{transform:scale(1.12) rotate(-3deg);}
 .pj-type-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
 .pj-type{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:12px;border:1px solid;}
 .pj-live{font-size:.6rem;font-weight:700;padding:3px 9px;border-radius:10px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#4ade80;letter-spacing:.06em;text-transform:uppercase;}
@@ -952,7 +919,6 @@ section{padding:96px 0;position:relative;}
 .pj-cta:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.4);}
 .pj-cta svg{width:14px;height:14px;fill:currentColor;transition:transform .2s;}
 .pj-cta:hover svg{transform:translate(3px,-2px);}
-.pf-hero .pj-cta{padding:13px 28px;font-size:.88rem;}
 
 /* ── Stats bar — aurora glass ─────────────────────── */
 .pj-stats{
@@ -1005,93 +971,9 @@ section{padding:96px 0;position:relative;}
 .pj-note-txt{font-size:.82rem;color:var(--t2);line-height:1.5;}
 .pj-note-txt strong{color:var(--t1);}
 
-/* ═══════════════════════════════════════════════
-   FLAGSHIP AI PLATFORMS — Special Showcase
-   ═══════════════════════════════════════════════ */
-.flagship-wrap{margin-bottom:56px;}
-.flagship-label{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,rgba(245,158,11,.1),rgba(34,211,238,.08));border:1px solid rgba(245,158,11,.3);border-radius:20px;padding:6px 18px;font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#f59e0b;margin-bottom:22px;}
-.flagship-label::before{content:'';width:7px;height:7px;background:#f59e0b;border-radius:50%;animation:flagPulse 1.8s ease-in-out infinite;}
-@keyframes flagPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.6);opacity:1}50%{box-shadow:0 0 0 8px rgba(245,158,11,0);opacity:.8}}
-.flagship-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:24px;margin-bottom:0;}
 /* Non-supply-chain work hidden for now. Remove this rule (or the .nonsc-hidden
    class on the element) to bring it back. */
 .nonsc-hidden{display:none !important;}
-/* Base flagship card */
-.fcard{position:relative;border-radius:22px;overflow:hidden;display:flex;flex-direction:column;background:rgba(8,20,40,.7);backdrop-filter:blur(16px);transition:transform .4s cubic-bezier(.25,.8,.25,1),box-shadow .4s;}
-.fcard:hover{transform:translateY(-8px);}
-/* Animated gradient border via pseudo */
-.fcard::before{content:'';position:absolute;inset:-1.5px;border-radius:23px;z-index:0;background-size:300% 300%;animation:borderCycle 5s linear infinite;}
-/* Card inner */
-.fcard-inner{position:relative;z-index:1;background:rgba(5,16,35,.92);border-radius:21px;height:100%;display:flex;flex-direction:column;}
-/* Canvas particle background */
-.fcard-canvas{position:absolute;inset:0;border-radius:21px;opacity:.45;pointer-events:none;}
-/* Top scanline */
-.fcard-scan{position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px;opacity:.7;animation:scanMove 3.5s ease-in-out infinite;}
-@keyframes scanMove{0%,100%{transform:translateY(0);opacity:.7}50%{transform:translateY(260px);opacity:.3}}
-/* Content */
-.fcard-body{padding:32px 32px 28px;display:flex;flex-direction:column;flex:1;position:relative;z-index:2;}
-.fcard-status{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
-.fcard-live-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;animation:liveGlow 2s ease-in-out infinite;}
-@keyframes liveGlow{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
-.fcard-badge{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 11px;border-radius:12px;border:1px solid;}
-.fcard-platform{font-size:.6rem;font-weight:600;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;}
-.fcard-icon{font-size:2.6rem;margin-bottom:14px;display:block;filter:drop-shadow(0 4px 16px rgba(0,0,0,.4));animation:iconBob 4s ease-in-out infinite;}
-@keyframes iconBob{0%,100%{transform:translateY(0) rotate(0deg)}30%{transform:translateY(-5px) rotate(-2deg)}70%{transform:translateY(-3px) rotate(1deg)}}
-.fcard-title{font-size:1.55rem;font-weight:900;line-height:1.18;letter-spacing:-.025em;margin-bottom:8px;}
-.fcard-hook{font-size:.85rem;font-weight:600;font-style:italic;opacity:.85;margin-bottom:14px;}
-.fcard-desc{font-size:.85rem;color:var(--t2);line-height:1.72;flex:1;margin-bottom:20px;}
-/* Sub-products strip (for AI Supply Chain) */
-.fcard-subs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
-.fcard-sub{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:10px;border:1px solid;font-size:.72rem;font-weight:700;}
-/* Metric row */
-.fcard-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-radius:12px;border:1px solid rgba(255,255,255,.07);overflow:hidden;margin-bottom:18px;background:rgba(255,255,255,.02);}
-.fcard-metric{padding:14px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.06);}
-.fcard-metric:last-child{border-right:none;}
-.fcard-metric-val{font-size:1.3rem;font-weight:900;line-height:1;margin-bottom:3px;}
-.fcard-metric-lbl{font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;}
-/* Tags */
-.fcard-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:22px;}
-.fcard-tag{font-size:.65rem;padding:3px 9px;border-radius:9px;background:rgba(255,255,255,.05);color:var(--t2);border:1px solid rgba(255,255,255,.07);font-weight:600;}
-/* CTA */
-.fcard-cta{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:12px;font-size:.88rem;font-weight:700;text-decoration:none;border:1px solid;transition:all .25s;align-self:flex-start;position:relative;overflow:hidden;}
-.fcard-cta::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transform:skewX(-20deg);}
-.fcard-cta:hover::after{animation:shimmerSwipe .6s ease forwards;}
-.fcard-cta:hover{transform:translateY(-2px);}
-.fcard-cta svg{width:15px;height:15px;fill:currentColor;transition:transform .25s;}
-.fcard-cta:hover svg{transform:translate(3px,-3px);}
-/* SVG mockup area */
-.fcard-viz{padding:0 24px 28px;position:relative;z-index:2;}
-/* Orbiting particles */
-.fcard-orb{position:absolute;border-radius:50%;pointer-events:none;}
-.fcard-orb-1{width:120px;height:120px;top:-30px;right:-30px;border:1px solid;opacity:.12;animation:orbSpin 12s linear infinite;}
-.fcard-orb-2{width:200px;height:200px;top:-80px;right:-80px;border:1px solid;opacity:.06;animation:orbSpin 20s linear infinite reverse;}
-.fcard-orb-3{width:60px;height:60px;bottom:40px;left:-20px;border:1px solid;opacity:.1;animation:orbSpin 8s linear infinite;}
-@keyframes orbSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-/* AlphaOS color theme — gold/amber */
-.fcard-alphaos::before{background:linear-gradient(135deg,#f59e0b,#fb923c,#f59e0b,#fbbf24,#f59e0b);}
-.fcard-alphaos:hover{box-shadow:0 32px 80px rgba(245,158,11,.18),0 0 0 1px rgba(245,158,11,.3);}
-.fcard-alphaos .fcard-scan{background:linear-gradient(90deg,transparent,#f59e0b,transparent);}
-.fcard-alphaos .fcard-live-dot{background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,.6);}
-.fcard-alphaos .fcard-hook{color:#fbbf24;}
-.fcard-alphaos .fcard-title{background:linear-gradient(130deg,#f59e0b,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.fcard-alphaos .fcard-orb-1,.fcard-alphaos .fcard-orb-2,.fcard-alphaos .fcard-orb-3{border-color:#f59e0b;}
-/* AI Supply Chain color theme — teal/rose dual */
-.fcard-aisc::before{background:linear-gradient(135deg,var(--teal),#f43f5e,var(--indigo),var(--teal),#f43f5e);}
-.fcard-aisc:hover{box-shadow:0 32px 80px rgba(167,139,250,.14),0 0 0 1px rgba(167,139,250,.25);}
-.fcard-aisc .fcard-scan{background:linear-gradient(90deg,transparent,var(--teal),transparent);}
-.fcard-aisc .fcard-live-dot{background:var(--teal);box-shadow:0 0 8px rgba(167,139,250,.6);}
-.fcard-aisc .fcard-hook{color:var(--teal);}
-.fcard-aisc .fcard-title{background:linear-gradient(130deg,var(--teal),var(--indigo));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.fcard-aisc .fcard-orb-1,.fcard-aisc .fcard-orb-2,.fcard-aisc .fcard-orb-3{border-color:var(--teal);}
-@keyframes borderCycle{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-/* Floating ticker inside cards */
-.fcard-ticker{overflow:hidden;border-top:1px solid rgba(255,255,255,.06);padding:8px 24px;display:flex;gap:0;background:rgba(0,0,0,.2);position:relative;z-index:2;}
-.fcard-ticker-inner{display:flex;gap:32px;animation:tickerRoll 12s linear infinite;white-space:nowrap;}
-.fcard-ticker-item{font-size:.65rem;font-weight:700;letter-spacing:.08em;display:flex;align-items:center;gap:5px;}
-@keyframes tickerRoll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-/* Responsive */
-@media(max-width:900px){.flagship-grid{grid-template-columns:1fr;}}
-@media(max-width:600px){.fcard-metrics{grid-template-columns:repeat(2,1fr);}.fcard-body{padding:24px 20px 20px;}.fcard-title{font-size:1.3rem;}}
 
 /* Responsive */
 @media(max-width:1020px){
@@ -3697,242 +3579,451 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 
 <section id="projects" aria-label="Portfolio Projects">
   <div class="wrap">
-    <div class="pj-eyebrow">Portfolio</div>
-    <h2 class="sec-title"><span>Live Projects</span></h2>
-    <p class="sec-sub">Every project below is something you can open, interact with, and explore — built to demonstrate the skills that supply chain leadership roles demand. Not a supply chain expert? Each card explains exactly what was built and why it matters, in plain language.</p>
+    <!-- ══════════════════════════════════════════════════════════════
+         EVIDENCE GRID — projects section front
+         Replaces the two flagship platform cards and the standalone
+         GCC hero. Six cards, no emoji, the recording lives *inside*
+         the card. Every colour, radius and shadow below resolves
+         through the Signal Foundry cobalt tokens, so this block
+         re-themes with the rest of the page rather than beside it.
+         ══════════════════════════════════════════════════════════════ -->
+    <style id="vb-evidence-grid">
+    .vb-projects{
+      --vb-card-bg:rgba(13,17,28,.82);
+      --vb-brd:rgba(124,166,255,.13);
+      --vb-brd-hi:rgba(124,166,255,.36);
+      --vb-ink:var(--t1);
+      --vb-ink2:var(--t2);
+      --vb-ink3:var(--t3);
+      --vb-blue:var(--sf-blue,#2f5fe3);
+      --vb-blue-lt:var(--sf-blue-light,#7ca6ff);
+      --vb-scrim:rgba(8,11,19,.78);
+      --vb-tr:.28s cubic-bezier(.4,0,.2,1);
+      --vb-mono:Monaco,"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+      display:flex;flex-direction:column;gap:34px;
+    }
+    .vb-projects *{box-sizing:border-box}
 
-    <!-- ══════════════════════════════════════════════════
-         FLAGSHIP AI PLATFORMS — Top Showcase
-         ══════════════════════════════════════════════════ -->
-    <div class="flagship-wrap" id="flagshipWrap">
-      <div class="flagship-label">Flagship AI Products</div>
+    /* ── header ──────────────────────────────────────────────── */
+    .vb-head{display:flex;flex-direction:column}
+    /* Title takes the full measure — it is set in the site's condensed
+       display face and needs the room. The lede and the category chips
+       then share the row underneath. */
+    .vb-head__row{display:flex;justify-content:space-between;align-items:flex-end;gap:18px 40px;flex-wrap:wrap}
+    .vb-head__row .sec-sub{flex:1 1 480px}
+    .vb-kicker{
+      display:inline-flex;align-items:center;gap:9px;margin:0 0 14px;
+      font-family:var(--vb-mono);font-size:.7rem;font-weight:700;
+      letter-spacing:.2em;text-transform:uppercase;color:var(--vb-blue-lt);
+    }
+    .vb-kicker img{display:block;width:17px;height:17px;opacity:.9;filter:drop-shadow(0 0 10px rgba(47,95,227,.45))}
+    .vb-head .sec-title{margin-bottom:14px}
+    .vb-head .sec-sub{margin-bottom:0}
+    .vb-filters{display:flex;gap:7px;flex-wrap:wrap}
+    .vb-chip{
+      font-family:var(--vb-mono);font-size:.66rem;font-weight:700;letter-spacing:.12em;
+      color:#8292ad;border:1px solid rgba(124,166,255,.16);
+      background:rgba(47,95,227,.035);padding:9px 15px;border-radius:2px;
+      cursor:pointer;transition:color var(--vb-tr),border-color var(--vb-tr),background var(--vb-tr);
+    }
+    .vb-chip:hover{color:var(--vb-blue-lt);border-color:rgba(124,166,255,.46);background:rgba(47,95,227,.11)}
+    .vb-chip[aria-pressed="true"]{
+      background:rgba(47,95,227,.16);color:var(--vb-blue-lt);
+      border-color:rgba(124,166,255,.55);
+      box-shadow:inset 0 0 0 1px rgba(47,95,227,.18);
+    }
+    .vb-chip:focus-visible{outline:2px solid var(--vb-blue);outline-offset:2px}
 
-      <div class="flagship-grid">
+    /* ── grid ────────────────────────────────────────────────── */
+    .vb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media (max-width:1000px){.vb-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:660px){.vb-grid{grid-template-columns:1fr}}
 
-        <!-- ── AlphaOS ─────────────────────────────────────
-             Restored 2026-08-23 and repositioned: the differentiator is not
-             the platform, it is the walk-forward result published on it.
-             ─────────────────────────────────────────────── -->
-        <div class="fcard fcard-alphaos" id="fcAlphaOS">
-          <!-- Orbiting rings -->
-          <div class="fcard-orb fcard-orb-1"></div>
-          <div class="fcard-orb fcard-orb-2"></div>
-          <div class="fcard-orb fcard-orb-3"></div>
-          <div class="fcard-inner">
-            <canvas class="fcard-canvas" id="canvasAlpha"></canvas>
-            <div class="fcard-scan"></div>
-            <div class="fcard-body">
-              <div class="fcard-status">
-                <span class="fcard-live-dot"></span>
-                <span class="fcard-badge" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4);color:#f59e0b">Live Platform</span>
-                <span class="fcard-platform">Multi-Market · Algorithmic Trading</span>
-              </div>
-              <span class="fcard-icon">📈</span>
-              <h3 class="fcard-title">AlphaOS</h3>
-              <p class="fcard-hook">"Its strategies cut drawdown in half and still lose to buy-and-hold — measured out-of-sample, printed on the platform's own front page"</p>
-              <p class="fcard-desc">AlphaOS is an <strong>agentic</strong> multi-market platform: four research agents (news, technical, smart-money, risk) run on a Supabase Edge Function, an AI signal pipeline turns live OHLCV into structured BUY/SELL calls with rationale, and a client-side backtesting engine validates them. Live data across US equities, Indian NSE/BSE, UAE DFM/ADX and crypto, plus a commodities layer carrying real $/barrel series back to 1986.<br><br><strong>What makes it worth showing:</strong> I ran a walk-forward test — tune on one window, test <em>once</em> on data never touched. The strategies' apparent edge did not survive: <strong>in-sample +0.27 Sharpe, out-of-sample −0.10</strong>, replicated independently on crypto (+0.09 → −0.21). What did hold, in every variant and both asset classes, was drawdown reduction of roughly half. That finding is published on the platform's own front page. Most trading portfolios show a win rate that was never measured; this one shows the test that falsified it.</p>
-              <div class="fcard-metrics">
-                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#f59e0b" data-target="18" data-suffix="k">0</div><div class="fcard-metric-lbl">Lines TypeScript</div></div>
-                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#fb923c" data-target="4" data-suffix=" Markets">0</div><div class="fcard-metric-lbl">Asset Classes</div></div>
-                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#fbbf24" data-target="75" data-suffix=" runs">0</div><div class="fcard-metric-lbl">Backtests Verified</div></div>
-              </div>
-              
-              <div class="fcard-tags">
-                <span class="fcard-tag">Next.js 16</span><span class="fcard-tag">Supabase Edge Functions</span><span class="fcard-tag">Multi-Agent</span><span class="fcard-tag">Walk-Forward Validated</span><span class="fcard-tag">US · India · UAE · Crypto</span><span class="fcard-tag">Groq LLM</span>
-              </div>
-              <a href="https://vinayak682.github.io/alphaos/" target="_blank" class="fcard-cta" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.45);color:#f59e0b">
-                Open AlphaOS
-                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
-              </a>
-            </div>
-            <!-- Animated candlestick SVG mockup -->
-            <div class="fcard-viz">
-              <svg viewBox="0 0 380 120" width="100%" height="100" style="filter:drop-shadow(0 2px 12px rgba(245,158,11,.12))">
-                <!-- Grid lines -->
-                <line x1="0" y1="30" x2="380" y2="30" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
-                <line x1="0" y1="60" x2="380" y2="60" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
-                <line x1="0" y1="90" x2="380" y2="90" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
-                <!-- Candle 1 red -->
-                <line x1="24" y1="18" x2="24" y2="95" stroke="#f43f5e" stroke-width="1.5"/>
-                <rect x="18" y="42" width="12" height="28" rx="2" fill="#f43f5e" opacity=".9"/>
-                <!-- Candle 2 green -->
-                <line x1="52" y1="22" x2="52" y2="82" stroke="#22c55e" stroke-width="1.5"/>
-                <rect x="46" y="30" width="12" height="34" rx="2" fill="#22c55e" opacity=".9"/>
-                <!-- Candle 3 red -->
-                <line x1="80" y1="28" x2="80" y2="88" stroke="#f43f5e" stroke-width="1.5"/>
-                <rect x="74" y="48" width="12" height="22" rx="2" fill="#f43f5e" opacity=".9"/>
-                <!-- Candle 4 green -->
-                <line x1="108" y1="20" x2="108" y2="76" stroke="#22c55e" stroke-width="1.5"/>
-                <rect x="102" y="28" width="12" height="30" rx="2" fill="#22c55e" opacity=".9"/>
-                <!-- Candle 5 green -->
-                <line x1="136" y1="14" x2="136" y2="68" stroke="#22c55e" stroke-width="1.5"/>
-                <rect x="130" y="22" width="12" height="28" rx="2" fill="#22c55e" opacity=".9"/>
-                <!-- Candle 6 red -->
-                <line x1="164" y1="24" x2="164" y2="80" stroke="#f43f5e" stroke-width="1.5"/>
-                <rect x="158" y="40" width="12" height="26" rx="2" fill="#f43f5e" opacity=".9"/>
-                <!-- Candle 7 green large -->
-                <line x1="192" y1="10" x2="192" y2="72" stroke="#22c55e" stroke-width="1.5"/>
-                <rect x="186" y="18" width="12" height="36" rx="2" fill="#22c55e" opacity=".9"/>
-                <!-- Candle 8 green -->
-                <line x1="220" y1="8" x2="220" y2="60" stroke="#22c55e" stroke-width="1.5"/>
-                <rect x="214" y="14" width="12" height="28" rx="2" fill="#22c55e" opacity=".9"/>
-                <!-- Candle 9 red -->
-                <line x1="248" y1="16" x2="248" y2="70" stroke="#f43f5e" stroke-width="1.5"/>
-                <rect x="242" y="32" width="12" height="20" rx="2" fill="#f43f5e" opacity=".9"/>
-                <!-- Candle 10 green big -->
-                <line x1="276" y1="6" x2="276" y2="58" stroke="#22c55e" stroke-width="1.5"/>
-                <rect x="270" y="12" width="12" height="30" rx="2" fill="#22c55e" opacity=".9"/>
-                <!-- Candle 11 green -->
-                <line x1="304" y1="4" x2="304" y2="52" stroke="#22c55e" stroke-width="1.5"/>
-                <rect x="298" y="10" width="12" height="24" rx="2" fill="#22c55e" opacity=".9"/>
-                <!-- Candle 12 green latest -->
-                <line x1="332" y1="2" x2="332" y2="48" stroke="#f59e0b" stroke-width="1.5"/>
-                <rect x="326" y="8" width="12" height="22" rx="2" fill="#f59e0b" opacity=".95"/>
-                <!-- Price line -->
-                <polyline points="24,56 52,44 80,59 108,43 136,36 164,53 192,36 220,28 248,42 276,26 304,21 332,18" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2,2" opacity=".6"/>
-                <!-- Trailing glow on last candle -->
-                <circle cx="332" cy="8" r="4" fill="#f59e0b" opacity=".8"><animate attributeName="r" values="4;7;4" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;.3;.8" dur="1.5s" repeatCount="indefinite"/></circle>
-                <!-- Market labels -->
-                <text x="4" y="115" fill="rgba(245,158,11,.5)" font-size="8" font-family="system-ui" font-weight="700">US</text>
-                <text x="104" y="115" fill="rgba(245,158,11,.5)" font-size="8" font-family="system-ui" font-weight="700">India NSE</text>
-                <text x="210" y="115" fill="rgba(245,158,11,.5)" font-size="8" font-family="system-ui" font-weight="700">UAE DFM</text>
-                <text x="318" y="115" fill="rgba(245,158,11,.5)" font-size="8" font-family="system-ui" font-weight="700">Crypto</text>
-                <line x1="96" y1="108" x2="96" y2="98" stroke="rgba(245,158,11,.2)" stroke-width="1"/>
-                <line x1="204" y1="108" x2="204" y2="98" stroke="rgba(245,158,11,.2)" stroke-width="1"/>
-                <line x1="312" y1="108" x2="312" y2="98" stroke="rgba(245,158,11,.2)" stroke-width="1"/>
-              </svg>
-            </div>
-            <!-- Live ticker -->
-            <div class="fcard-ticker">
-              <div class="fcard-ticker-inner">
-                <span class="fcard-ticker-item" style="color:#22c55e">▲ AAPL +2.3%</span>
-                <span class="fcard-ticker-item" style="color:#22c55e">▲ RELIANCE +1.8%</span>
-                <span class="fcard-ticker-item" style="color:#f43f5e">▼ BTC −0.9%</span>
-                <span class="fcard-ticker-item" style="color:#22c55e">▲ EMAAR +3.1%</span>
-                <span class="fcard-ticker-item" style="color:#f59e0b">◆ NIFTY 22,450</span>
-                <span class="fcard-ticker-item" style="color:#22c55e">▲ ETH +4.2%</span>
-                <span class="fcard-ticker-item" style="color:#22c55e">▲ ADNOC +1.5%</span>
-                <!-- duplicate for seamless loop -->
-                <span class="fcard-ticker-item" style="color:#22c55e">▲ AAPL +2.3%</span>
-                <span class="fcard-ticker-item" style="color:#22c55e">▲ RELIANCE +1.8%</span>
-                <span class="fcard-ticker-item" style="color:#f43f5e">▼ BTC −0.9%</span>
-                <span class="fcard-ticker-item" style="color:#22c55e">▲ EMAAR +3.1%</span>
-                <span class="fcard-ticker-item" style="color:#f59e0b">◆ NIFTY 22,450</span>
-                <span class="fcard-ticker-item" style="color:#22c55e">▲ ETH +4.2%</span>
-                <span class="fcard-ticker-item" style="color:#22c55e">▲ ADNOC +1.5%</span>
-              </div>
-            </div>
+    .vb-card{
+      --rx:0deg;--ry:0deg;--mx:50%;--my:50%;--lift:0px;
+      position:relative;display:flex;flex-direction:column;
+      background:var(--vb-card-bg);
+      border:1px solid var(--vb-brd);border-radius:5px;
+      text-decoration:none;color:inherit;
+      box-shadow:0 18px 46px rgba(0,6,24,.2);
+      transform-style:preserve-3d;
+      transform:perspective(1500px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift));
+      transition:transform .55s cubic-bezier(.22,1,.36,1),border-color var(--vb-tr),box-shadow var(--vb-tr);
+    }
+    .vb-card.is-tilting{transition:transform .09s linear,border-color var(--vb-tr),box-shadow var(--vb-tr)}
+    .vb-card:hover,.vb-card:focus-visible{
+      --lift:-5px;
+      border-color:var(--vb-brd-hi);
+      box-shadow:0 24px 64px rgba(0,6,26,.38),0 0 0 1px rgba(47,95,227,.14);
+    }
+    .vb-card:focus-visible{outline:2px solid var(--vb-blue);outline-offset:3px}
+    .vb-card[hidden]{display:none}
+
+    /* depth layers — these ride above the card plane as it tilts */
+    .vb-card__media{position:relative;aspect-ratio:16/9;transform-style:preserve-3d}
+    .vb-tag,.vb-live{transform:translateZ(38px);z-index:3}
+    .vb-card__name{transform:translateZ(24px)}
+    .vb-card__go{transform:translateZ(16px)}
+
+    .vb-card__clip{
+      position:absolute;inset:0;overflow:hidden;
+      background:var(--bg0,#080b13);border-radius:4px 4px 0 0;
+    }
+    .vb-card__clip video{
+      width:100%;height:100%;object-fit:cover;display:block;
+      opacity:.78;filter:saturate(.82) contrast(1.06);
+      transition:opacity var(--vb-tr),transform .7s cubic-bezier(.22,1,.36,1);
+    }
+    .vb-card:hover .vb-card__clip video,
+    .vb-card:focus-visible .vb-card__clip video{opacity:1;transform:scale(1.045)}
+    .vb-card__clip::after{
+      content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+      background:linear-gradient(180deg,rgba(8,11,19,.42) 0%,transparent 42%,rgba(8,11,19,.72) 100%);
+    }
+    /* specular sheen that tracks the pointer */
+    .vb-card__clip::before{
+      content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+      background:radial-gradient(400px circle at var(--mx) var(--my),rgba(124,166,255,.16),transparent 62%);
+      opacity:0;transition:opacity var(--vb-tr);
+    }
+    .vb-card:hover .vb-card__clip::before,
+    .vb-card:focus-visible .vb-card__clip::before{opacity:1}
+
+    .vb-tag,.vb-live{
+      position:absolute;top:11px;
+      font-family:var(--vb-mono);font-size:.6rem;font-weight:700;
+      background:var(--vb-scrim);padding:5px 9px;border-radius:2px;
+      border:1px solid rgba(124,166,255,.16);
+      backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    }
+    .vb-tag{left:11px;letter-spacing:.14em;color:var(--vb-ink)}
+    .vb-live{right:11px;display:flex;align-items:center;gap:6px;letter-spacing:.1em;color:var(--vb-blue-lt)}
+    .vb-live i{width:5px;height:5px;border-radius:50%;background:currentColor;display:block;box-shadow:0 0 8px currentColor;animation:vbPulse 2s ease-in-out infinite}
+    @keyframes vbPulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+    .vb-card__body{padding:20px 20px 22px;display:flex;flex-direction:column;gap:9px;flex:1}
+    .vb-card__name{font-family:'Outfit',system-ui,sans-serif;font-size:1.12rem;font-weight:800;letter-spacing:-.02em;line-height:1.2;color:var(--vb-ink)}
+    .vb-card__desc{font-size:.83rem;line-height:1.68;color:var(--vb-ink2);flex:1;text-wrap:pretty;margin:0}
+    .vb-card__foot{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding-top:11px;margin-top:3px;border-top:1px solid rgba(124,166,255,.1);
+      font-family:var(--vb-mono);font-size:.62rem;font-weight:700;letter-spacing:.09em;
+    }
+    .vb-card__stack{color:var(--vb-ink3)}
+    .vb-card__go{color:var(--vb-blue-lt);transition:transform var(--vb-tr)}
+    .vb-card:hover .vb-card__go{transform:translateZ(16px) translateX(3px)}
+
+    /* ── core objective + values ─────────────────────────────── */
+    .vb-core{border-top:1px solid rgba(124,166,255,.11);padding-top:34px;display:flex;flex-direction:column;gap:28px}
+    .vb-core__lead{display:flex;gap:44px;align-items:flex-end;flex-wrap:wrap}
+    .vb-core__label{
+      font-family:var(--vb-mono);font-size:.7rem;font-weight:700;letter-spacing:.2em;
+      color:var(--vb-blue-lt);text-transform:uppercase;margin:0 0 12px;
+    }
+    .vb-core__stmt{
+      font-family:'Outfit',system-ui,sans-serif;font-weight:800;
+      font-size:clamp(1.25rem,2.5vw,1.75rem);line-height:1.24;letter-spacing:-.028em;
+      margin:0;max-width:22ch;text-wrap:balance;color:var(--vb-ink);
+    }
+    .vb-core__stmt em{font-style:normal;color:var(--vb-blue-lt)}
+    .vb-core__note{font-size:.86rem;line-height:1.75;color:var(--vb-ink2);margin:0;max-width:42ch;flex:1;min-width:260px;text-wrap:pretty}
+    .vb-values{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media (max-width:820px){.vb-values{grid-template-columns:1fr}}
+    .vb-value{
+      background:var(--vb-card-bg);border:1px solid var(--vb-brd);
+      border-radius:5px;padding:22px 22px 24px;
+      display:flex;flex-direction:column;gap:12px;
+      transition:border-color var(--vb-tr),background var(--vb-tr);
+    }
+    .vb-value:hover{border-color:var(--vb-brd-hi);background:rgba(19,25,39,.9)}
+    .vb-value svg{display:block;color:var(--vb-blue)}
+    .vb-value h3{font-family:'Outfit',system-ui,sans-serif;font-size:.98rem;font-weight:800;letter-spacing:-.015em;margin:0;color:var(--vb-ink)}
+    .vb-value p{font-size:.82rem;line-height:1.68;color:var(--vb-ink2);margin:0;text-wrap:pretty}
+    .vb-value__n{font-family:var(--vb-mono);font-size:.6rem;font-weight:700;letter-spacing:.18em;color:var(--vb-ink3)}
+
+    /* ── foot strip ──────────────────────────────────────────── */
+    .vb-foot{display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap}
+    .vb-foot p{font-size:.85rem;color:var(--vb-ink2);margin:0}
+    .vb-btn{
+      display:inline-flex;align-items:center;gap:9px;
+      font-family:var(--vb-mono);font-size:.7rem;font-weight:700;letter-spacing:.1em;
+      color:var(--vb-blue-lt);border:1px solid rgba(124,166,255,.28);
+      background:rgba(47,95,227,.07);padding:12px 20px;border-radius:2px;
+      text-decoration:none;transition:border-color var(--vb-tr),background var(--vb-tr),color var(--vb-tr);
+    }
+    .vb-btn:hover{border-color:rgba(124,166,255,.6);background:rgba(47,95,227,.15);color:#a8c3ff}
+
+    @media (max-width:900px){
+      .vb-head{gap:26px}
+      .vb-core__lead{gap:24px}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .vb-card,.vb-card__clip video,.vb-card__go{transition:none}
+      .vb-card,.vb-card:hover{transform:none}
+      .vb-card__clip video{transform:none}
+      .vb-live i{animation:none}
+    }
+    </style>
+
+    <div class="vb-projects">
+
+      <header class="vb-head">
+        <p class="vb-kicker">
+          <img src="assets/brand/signal-foundry-mark-white.svg" alt="" width="17" height="17" loading="lazy" decoding="async">
+          Selected work
+        </p>
+        <h2 class="sec-title"><span>Six systems, running live</span></h2>
+        <div class="vb-head__row">
+          <p class="sec-sub">Open any of them in a browser and put your own numbers in. Every figure in these recordings was computed live by the tool itself — nothing is mocked and nothing is edited.</p>
+          <div class="vb-filters" role="group" aria-label="Filter selected work by category">
+            <button class="vb-chip" type="button" data-filter="all" aria-pressed="true">ALL</button>
+            <button class="vb-chip" type="button" data-filter="sop" aria-pressed="false">S&amp;OP</button>
+            <button class="vb-chip" type="button" data-filter="agentic" aria-pressed="false">AGENTIC AI</button>
+            <button class="vb-chip" type="button" data-filter="simulation" aria-pressed="false">SIMULATION</button>
+            <button class="vb-chip" type="button" data-filter="inventory" aria-pressed="false">INVENTORY</button>
+            <button class="vb-chip" type="button" data-filter="forecasting" aria-pressed="false">FORECASTING</button>
           </div>
         </div>
+      </header>
 
-        <!-- ── AI Supply Chain Platform ─────────────────── -->
-        <div class="fcard fcard-aisc" id="fcAISC">
-          <div class="fcard-orb fcard-orb-1"></div>
-          <div class="fcard-orb fcard-orb-2"></div>
-          <div class="fcard-orb fcard-orb-3"></div>
-          <div class="fcard-inner">
-            <canvas class="fcard-canvas" id="canvasAISC"></canvas>
-            <div class="fcard-scan"></div>
-            <div class="fcard-body">
-              <div class="fcard-status">
-                <span class="fcard-live-dot"></span>
-                <span class="fcard-badge" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.4);color:#a78bfa">In Build · Live Demo</span>
-                <span class="fcard-platform">UAE/GCC + US · Enterprise SaaS</span>
-              </div>
-              <span class="fcard-icon">🧠</span>
-              <h3 class="fcard-title">AI Supply Chain Platform</h3>
-              <p class="fcard-hook">"Real-time OTIF compliance copilot + exception intelligence brain — built for operations teams"</p>
-              <!-- Sub-products -->
-              <div class="fcard-subs">
-                <div class="fcard-sub" style="background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.3);color:#a78bfa">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                  Compliance Shield
-                </div>
-                <div class="fcard-sub" style="background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.3);color:#818cf8">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"/></svg>
-                  Neural Command
-                </div>
-              </div>
-              <p class="fcard-desc">Two flagship modules on a single platform. Compliance Shield tracks OTIF delivery in real-time with AI root-cause analysis across 36K+ supply chain events. Neural Command is an exception brain that surfaces which disruptions need human attention — ranked by revenue impact — before they escalate.</p>
-              <div class="fcard-metrics">
-                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#a78bfa" data-target="21" data-suffix="">0</div><div class="fcard-metric-lbl">DB Tables</div></div>
-                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#818cf8" data-target="36" data-suffix="K+">0</div><div class="fcard-metric-lbl">Data Rows</div></div>
-                <div class="fcard-metric"><div class="fcard-metric-val" style="color:#34d399" data-target="2" data-suffix=" Modules">0</div><div class="fcard-metric-lbl">AI Engines</div></div>
-              </div>
-              <div class="fcard-tags">
-                <span class="fcard-tag">Claude API</span><span class="fcard-tag">Supabase</span><span class="fcard-tag">React</span><span class="fcard-tag">OTIF Compliance</span><span class="fcard-tag">Exception Brain</span><span class="fcard-tag">UAE/GCC · US</span>
-              </div>
-              <a href="https://vinayak682.github.io/ai-supply-chain-platform/" target="_blank" class="fcard-cta" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.4);color:#a78bfa">
-                Open Platform Demo
-                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
-              </a>
-            </div>
-            <!-- Neural network SVG -->
-            <div class="fcard-viz">
-              <svg viewBox="0 0 380 110" width="100%" height="95" style="filter:drop-shadow(0 2px 12px rgba(167,139,250,.1))">
-                <!-- Neural connections -->
-                <line x1="40" y1="30" x2="130" y2="20" stroke="rgba(167,139,250,.2)" stroke-width="1"/><line x1="40" y1="30" x2="130" y2="55" stroke="rgba(167,139,250,.2)" stroke-width="1"/><line x1="40" y1="30" x2="130" y2="88" stroke="rgba(167,139,250,.15)" stroke-width="1"/>
-                <line x1="40" y1="80" x2="130" y2="20" stroke="rgba(34,211,238,.2)" stroke-width="1"/><line x1="40" y1="80" x2="130" y2="55" stroke="rgba(34,211,238,.2)" stroke-width="1"/><line x1="40" y1="80" x2="130" y2="88" stroke="rgba(34,211,238,.15)" stroke-width="1"/>
-                <line x1="130" y1="20" x2="220" y2="35" stroke="rgba(167,139,250,.25)" stroke-width="1.2"/><line x1="130" y1="55" x2="220" y2="35" stroke="rgba(167,139,250,.25)" stroke-width="1.2"/><line x1="130" y1="88" x2="220" y2="35" stroke="rgba(167,139,250,.2)" stroke-width="1.2"/>
-                <line x1="130" y1="20" x2="220" y2="75" stroke="rgba(34,211,238,.2)" stroke-width="1"/><line x1="130" y1="55" x2="220" y2="75" stroke="rgba(34,211,238,.25)" stroke-width="1.2"/><line x1="130" y1="88" x2="220" y2="75" stroke="rgba(34,211,238,.2)" stroke-width="1"/>
-                <line x1="220" y1="35" x2="310" y2="55" stroke="rgba(167,139,250,.35)" stroke-width="1.5"/><line x1="220" y1="75" x2="310" y2="55" stroke="rgba(34,211,238,.35)" stroke-width="1.5"/>
-                <!-- Output line to label -->
-                <line x1="310" y1="55" x2="360" y2="55" stroke="rgba(167,139,250,.5)" stroke-width="2"/>
-                <!-- Layer 1 nodes -->
-                <circle cx="40" cy="30" r="8" fill="rgba(34,211,238,.15)" stroke="#22d3ee" stroke-width="1.5"/>
-                <circle cx="40" cy="80" r="8" fill="rgba(34,211,238,.15)" stroke="#22d3ee" stroke-width="1.5"/>
-                <!-- Layer 2 nodes -->
-                <circle cx="130" cy="20" r="7" fill="rgba(167,139,250,.1)" stroke="#a78bfa" stroke-width="1.5"/>
-                <circle cx="130" cy="55" r="7" fill="rgba(167,139,250,.15)" stroke="#a78bfa" stroke-width="1.5"/>
-                <circle cx="130" cy="88" r="7" fill="rgba(167,139,250,.1)" stroke="#a78bfa" stroke-width="1.5"/>
-                <!-- Layer 3 nodes -->
-                <circle cx="220" cy="35" r="9" fill="rgba(167,139,250,.15)" stroke="#a78bfa" stroke-width="2"/>
-                <circle cx="220" cy="75" r="9" fill="rgba(34,211,238,.15)" stroke="#22d3ee" stroke-width="2"/>
-                <!-- Output node animated -->
-                <circle cx="310" cy="55" r="11" fill="rgba(167,139,250,.12)" stroke="#a78bfa" stroke-width="2"><animate attributeName="stroke-opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/></circle>
-                <circle cx="310" cy="55" r="18" fill="none" stroke="#a78bfa" stroke-width="1" opacity=".2"><animate attributeName="r" values="11;22;11" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".4;0;.4" dur="2s" repeatCount="indefinite"/></circle>
-                <!-- OTIF gauge mini -->
-                <path d="M 348 90 A 20 20 0 0 1 372 90" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="4" stroke-linecap="round"/>
-                <path d="M 348 90 A 20 20 0 0 1 371 83" fill="none" stroke="#a78bfa" stroke-width="4" stroke-linecap="round" opacity=".9"/>
-                <text x="360" y="85" fill="#a78bfa" font-size="9" font-weight="bold" font-family="system-ui" text-anchor="middle">96%</text>
-                <text x="360" y="100" fill="rgba(136,146,176,.5)" font-size="6" font-family="system-ui" text-anchor="middle">OTIF</text>
-                <!-- Labels -->
-                <text x="28" y="12" fill="rgba(34,211,238,.6)" font-size="7" font-family="system-ui">Input</text>
-                <text x="118" y="10" fill="rgba(167,139,250,.6)" font-size="7" font-family="system-ui">Features</text>
-                <text x="206" y="22" fill="rgba(167,139,250,.6)" font-size="7" font-family="system-ui">Hidden</text>
-                <text x="296" y="42" fill="rgba(167,139,250,.6)" font-size="7" font-family="system-ui">Output</text>
-                <!-- Exception alert badge -->
-                <rect x="6" y="95" width="90" height="14" rx="4" fill="rgba(244,63,94,.08)" stroke="rgba(244,63,94,.25)" stroke-width="1"/>
-                <text x="51" y="105" fill="#f43f5e" font-size="7" font-weight="700" font-family="system-ui" text-anchor="middle">3 Exceptions Flagged</text>
-              </svg>
-            </div>
-            <!-- Live ticker -->
-            <div class="fcard-ticker">
-              <div class="fcard-ticker-inner">
-                <span class="fcard-ticker-item" style="color:#a78bfa">✓ OTIF 96.1%</span>
-                <span class="fcard-ticker-item" style="color:#f43f5e">⚠ PO-4821 Delayed 2d</span>
-                <span class="fcard-ticker-item" style="color:#818cf8">⬆ Ramadan Surge +47%</span>
-                <span class="fcard-ticker-item" style="color:#a78bfa">✓ 36K Events Indexed</span>
-                <span class="fcard-ticker-item" style="color:#f59e0b">◆ Compliance Score 94/100</span>
-                <span class="fcard-ticker-item" style="color:#a78bfa">✓ Neural Command Active</span>
-                <!-- duplicate -->
-                <span class="fcard-ticker-item" style="color:#a78bfa">✓ OTIF 96.1%</span>
-                <span class="fcard-ticker-item" style="color:#f43f5e">⚠ PO-4821 Delayed 2d</span>
-                <span class="fcard-ticker-item" style="color:#818cf8">⬆ Ramadan Surge +47%</span>
-                <span class="fcard-ticker-item" style="color:#a78bfa">✓ 36K Events Indexed</span>
-                <span class="fcard-ticker-item" style="color:#f59e0b">◆ Compliance Score 94/100</span>
-                <span class="fcard-ticker-item" style="color:#a78bfa">✓ Neural Command Active</span>
-              </div>
+      <div class="vb-grid" id="vbGrid">
+
+        <a class="vb-card" data-cat="sop" href="https://sop-copilot.vercel.app" target="_blank" rel="noopener">
+          <div class="vb-card__media">
+            <span class="vb-tag">01 · S&amp;OP</span>
+            <span class="vb-live"><i></i>LIVE</span>
+            <div class="vb-card__clip">
+              <video src="assets/video/cards/01-supplymind.mp4" poster="assets/video/cards/01-supplymind.jpg" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
             </div>
           </div>
+          <div class="vb-card__body">
+            <div class="vb-card__name">SupplyMind — AI S&amp;OP Copilot</div>
+            <p class="vb-card__desc">Runs Sunday night and delivers the Monday meeting brief before you wake up. Pulls from SAP B1, Zoho or Excel; built for UAE and GCC manufacturers.</p>
+            <div class="vb-card__foot"><span class="vb-card__stack">CLAUDE API · NEXT.JS 16</span><span class="vb-card__go">OPEN →</span></div>
+          </div>
+        </a>
+
+        <a class="vb-card" data-cat="agentic" href="./alphaos/" target="_blank" rel="noopener">
+          <div class="vb-card__media">
+            <span class="vb-tag">02 · AGENTIC AI</span>
+            <span class="vb-live"><i></i>LIVE</span>
+            <div class="vb-card__clip">
+              <video src="assets/video/cards/02-alphaos.mp4" poster="assets/video/cards/02-alphaos.jpg" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+            </div>
+          </div>
+          <div class="vb-card__body">
+            <div class="vb-card__name">AlphaOS</div>
+            <p class="vb-card__desc">Four research agents across US, India, UAE and crypto. Walk-forward tested: the apparent edge did not survive out-of-sample, the halved drawdown did — and that result is published on its own front page.</p>
+            <div class="vb-card__foot"><span class="vb-card__stack">WALK-FORWARD · 4 MARKETS</span><span class="vb-card__go">OPEN →</span></div>
+          </div>
+        </a>
+
+        <a class="vb-card" data-cat="agentic" href="https://vinayak682.github.io/ai-supply-chain-platform/" target="_blank" rel="noopener">
+          <div class="vb-card__media">
+            <span class="vb-tag">03 · AGENTIC AI</span>
+            <span class="vb-live"><i></i>LIVE</span>
+            <div class="vb-card__clip">
+              <video src="assets/video/cards/03-aisc.mp4" poster="assets/video/cards/03-aisc.jpg" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+            </div>
+          </div>
+          <div class="vb-card__body">
+            <div class="vb-card__name">AI Supply Chain Platform</div>
+            <p class="vb-card__desc">A real-time OTIF compliance copilot and an exception brain that ranks disruptions by revenue impact before they escalate.</p>
+            <div class="vb-card__foot"><span class="vb-card__stack">36K EVENTS · 21 TABLES</span><span class="vb-card__go">OPEN →</span></div>
+          </div>
+        </a>
+
+        <a class="vb-card" data-cat="simulation" href="./gcc-nexus-control-tower.html" target="_blank" rel="noopener">
+          <div class="vb-card__media">
+            <span class="vb-tag">04 · SIMULATION</span>
+            <span class="vb-live"><i></i>LIVE</span>
+            <div class="vb-card__clip">
+              <video src="assets/video/cards/04-gambit.mp4" poster="assets/video/cards/04-gambit.jpg" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+            </div>
+          </div>
+          <div class="vb-card__body">
+            <div class="vb-card__name">The GCC Planning Gambit</div>
+            <p class="vb-card__desc">Sixty disruption scenarios across ten verticals, six turns each. Every move changes what becomes possible next, and the run ends in a scored strategy evaluation.</p>
+            <div class="vb-card__foot"><span class="vb-card__stack">60 CASES · 10 VERTICALS</span><span class="vb-card__go">OPEN →</span></div>
+          </div>
+        </a>
+
+        <a class="vb-card" data-cat="inventory" href="./multi-echelon-inventory-optimizer.html" target="_blank" rel="noopener">
+          <div class="vb-card__media">
+            <span class="vb-tag">05 · INVENTORY</span>
+            <span class="vb-live"><i></i>LIVE</span>
+            <div class="vb-card__clip">
+              <video src="assets/video/cards/05-meio.mp4" poster="assets/video/cards/05-meio.jpg" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+            </div>
+          </div>
+          <div class="vb-card__body">
+            <div class="vb-card__name">Multi-Echelon Inventory Optimizer</div>
+            <p class="vb-card__desc">A live stock register across plant, hub and store. Move the service level and watch the capital tied up move with it.</p>
+            <div class="vb-card__foot"><span class="vb-card__stack">MEIO · 3 ECHELONS</span><span class="vb-card__go">OPEN →</span></div>
+          </div>
+        </a>
+
+        <a class="vb-card" data-cat="forecasting" href="./ml-demand-forecasting.html" target="_blank" rel="noopener">
+          <div class="vb-card__media">
+            <span class="vb-tag">06 · FORECASTING</span>
+            <span class="vb-live"><i></i>LIVE</span>
+            <div class="vb-card__clip">
+              <video src="assets/video/cards/06-forecast.mp4" poster="assets/video/cards/06-forecast.jpg" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+            </div>
+          </div>
+          <div class="vb-card__body">
+            <div class="vb-card__name">ML Demand Forecasting Engine</div>
+            <p class="vb-card__desc">Holt-Winters against XGBoost and Prophet, with price elasticity and regional Ramadan peaks modelled in.</p>
+            <div class="vb-card__foot"><span class="vb-card__stack">MAPE 7.4%</span><span class="vb-card__go">OPEN →</span></div>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="vb-core" role="region" aria-labelledby="vb-core-h">
+        <div class="vb-core__lead">
+          <div>
+            <p class="vb-core__label" id="vb-core-h">Core objective</p>
+            <p class="vb-core__stmt">Make supply chain decisions <em>provable</em> before they are expensive.</p>
+          </div>
+          <p class="vb-core__note">Planning arguments are usually won on confidence. Every tool above exists so the argument can be settled on numbers instead — in the meeting, on the spot, with the client's own data.</p>
         </div>
 
-      </div><!-- /flagship-grid -->
-    </div><!-- /flagship-wrap -->
+        <div class="vb-values">
+          <article class="vb-value">
+            <svg width="32" height="32" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+              <path d="M3 25.5 L13 15 L20 21 L31 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="13" cy="15" r="2.2" fill="currentColor"/>
+              <circle cx="20" cy="21" r="2.2" fill="currentColor"/>
+              <path d="M3 30.5h28" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".3"/>
+            </svg>
+            <span class="vb-value__n">01</span>
+            <h3>Numbers before narrative</h3>
+            <p>Forecast error, OTIF, cost-to-serve, capital tied up. If a plan cannot be measured, it is not yet a plan.</p>
+          </article>
+
+          <article class="vb-value">
+            <svg width="32" height="32" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+              <rect x="3.5" y="7.5" width="19" height="19" rx="2.5" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M22.5 14 L31 9.5 v15 L22.5 20 z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+              <path d="M10 17h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".45"/>
+            </svg>
+            <span class="vb-value__n">02</span>
+            <h3>Ship the tool, not the slide</h3>
+            <p>Every claim on this page opens in a browser and runs on your own numbers. Nothing here is a mockup of a system that does not exist.</p>
+          </article>
+
+          <article class="vb-value">
+            <svg width="32" height="32" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+              <path d="M4 22c6-13 20-13 26 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M4 28c6-13 20-13 26 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".35"/>
+              <circle cx="17" cy="15.4" r="2.6" fill="currentColor"/>
+            </svg>
+            <span class="vb-value__n">03</span>
+            <h3>Built for this region</h3>
+            <p>Ramadan peaks, Red Sea reroutes, GCC lead times and UAE customs reality. Modelled from the start, never assumed away.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="vb-foot">
+        <!-- No count in this copy on purpose: the "All N Projects" tab below
+             recomputes itself from the grid, and a second hardcoded number
+             here would drift out of sync with it the first time a card moves. -->
+        <p>Calculators, dashboards, models and simulators — the full list sits below.</p>
+        <a class="vb-btn" href="#all-projects">SEE THE FULL LIST →</a>
+      </div>
+
+    </div>
+
+    <script>
+    /* Evidence grid — silent clips, category chips, pointer tilt and
+       viewport-gated playback. Everything is scoped to .vb-projects.
+       Clips carry preload="none" and no autoplay attribute: the poster
+       holds the frame until the card is actually on screen, so the
+       section costs nothing on load. */
+    (function () {
+      var root = document.querySelector('.vb-projects');
+      if (!root) return;
+
+      var cards = Array.prototype.slice.call(root.querySelectorAll('.vb-card'));
+      var vids  = Array.prototype.slice.call(root.querySelectorAll('video'));
+      var calm  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var fine  = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+      /* Each card has its own 9-second cut in assets/video/cards/, taken from
+         a different scene of the four source films and matched to its poster
+         frame — so no card ever shows the same footage as its neighbour, and
+         nothing has to seek into a 90-second file to get there. Six cuts
+         together weigh about 2.6 MB against 21 MB of source. */
+      vids.forEach(function (v) { v.muted = true; v.defaultMuted = true; v.volume = 0; });
+
+      function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+
+      /* 1 — play only what is on screen and not filtered out.
+             Reduced-motion visitors keep the poster frame instead. */
+      if (!calm) {
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              var v = e.target;
+              var card = v.closest('.vb-card');
+              if (e.isIntersecting && card && !card.hidden) { play(v); } else { v.pause(); }
+            });
+          }, { threshold: 0.25 });
+          vids.forEach(function (v) { io.observe(v); });
+        } else {
+          vids.forEach(play);
+        }
+      }
+
+      /* 2 — category filter */
+      var chips = Array.prototype.slice.call(root.querySelectorAll('.vb-chip'));
+      chips.forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          var want = chip.dataset.filter;
+          chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c === chip)); });
+          cards.forEach(function (card) {
+            var show = want === 'all' || card.dataset.cat === want;
+            card.hidden = !show;
+            var v = card.querySelector('video');
+            if (!v || calm) return;
+            if (show) { play(v); } else { v.pause(); }
+          });
+        });
+      });
+
+      /* 3 — pointer tilt. Skipped on touch and for reduced-motion visitors. */
+      if (calm || !fine) return;
+      var MAX = 6.5;
+      cards.forEach(function (card) {
+        var frame = null;
+        card.addEventListener('pointermove', function (ev) {
+          if (frame) return;
+          frame = requestAnimationFrame(function () {
+            frame = null;
+            var r = card.getBoundingClientRect();
+            var px = (ev.clientX - r.left) / r.width;
+            var py = (ev.clientY - r.top) / r.height;
+            card.classList.add('is-tilting');
+            card.style.setProperty('--ry', ((px - 0.5) * 2 * MAX).toFixed(2) + 'deg');
+            card.style.setProperty('--rx', ((0.5 - py) * 2 * MAX).toFixed(2) + 'deg');
+            card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+            card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+          });
+        });
+        card.addEventListener('pointerleave', function () {
+          card.classList.remove('is-tilting');
+          card.style.setProperty('--rx', '0deg');
+          card.style.setProperty('--ry', '0deg');
+        });
+      });
+    }());
+    </script>
 
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
-<div class="plt-section plt-minor" style="--con:1.08;--b:0.75;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pull;--dur:32s;" data-vstart="50" data-vwindow="11">
+<div class="plt-section plt-minor" id="all-projects" style="--con:1.08;--b:0.75;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pull;--dur:32s;" data-vstart="50" data-vwindow="11">
   <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
@@ -3950,27 +4041,6 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 </div>
 <!-- ────────────────────────────────────────────────────── -->
 
-    <!-- ── FLAGSHIP PROJECT ───────────────────────────── -->
-    <article class="pf-hero" id="pfHero" aria-label="Flagship Project" style="border-color:rgba(176,107,255,.28);box-shadow:0 28px 90px rgba(124,58,237,.14);">
-      <div class="pf-hero-left">
-        <span class="pf-feat-badge" style="color:#22d3ee;border-color:rgba(34,211,238,.32);background:rgba(34,211,238,.07)">Flagship Interactive Project</span>
-        <div class="pj-icon" style="background:linear-gradient(135deg,rgba(176,107,255,.18),rgba(34,211,238,.1));border-color:rgba(176,107,255,.3)">♟</div>
-        <div class="pj-type-row"><span class="pj-type" style="background:rgba(176,107,255,.1);border-color:rgba(176,107,255,.3);color:#c084fc">Strategy Simulation · GCC/MENA</span><span class="pj-live">● 60-case game engine</span></div>
-        <h3 class="pj-title" style="font-size:clamp(1.65rem,3vw,2.45rem)">The GCC Planning Gambit</h3>
-        <p class="pj-hook">"Sixty disruptions. Six turns. Every move changes what becomes possible next."</p>
-        <p class="pj-desc">My flagship supply-chain strategy experience. Navigate randomized GCC and MENA disruptions across retail, e-commerce, quick commerce, FMCG, manufacturing, pharma, automotive, luxury, construction and cold chain. Decisions alter service, cash, inventory and risk, trigger control-room consequences, and finish with an interactive framework-based strategy evaluation.</p>
-        <div class="pj-outcomes"><div class="pj-outcome"><span class="pj-out-val" style="color:#c084fc">60</span><span class="pj-out-lbl">Business Cases</span></div><div class="pj-outcome"><span class="pj-out-val" style="color:#22d3ee">10</span><span class="pj-out-lbl">Industry Verticals</span></div><div class="pj-outcome"><span class="pj-out-val" style="color:#34d399">6</span><span class="pj-out-lbl">Strategy Dimensions</span></div><div class="pj-outcome"><span class="pj-out-val" style="color:#f59e0b">∞</span><span class="pj-out-lbl">Decision Paths</span></div></div>
-        <div class="pj-tags"><span class="pj-tag">S&amp;OP Strategy</span><span class="pj-tag">Scenario Planning</span><span class="pj-tag">Decision Evaluation</span><span class="pj-tag">GCC Operations</span><span class="pj-tag">Interactive Game</span></div>
-        <a href="./gcc-nexus-control-tower.html" target="_blank" class="pj-cta" style="background:linear-gradient(90deg,rgba(124,58,237,.24),rgba(34,211,238,.14));border-color:rgba(176,107,255,.45);color:#f0f4ff">Play the Flagship Game <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg></a>
-      </div>
-      <div class="pf-hero-right" aria-hidden="true" style="background:radial-gradient(circle at 50% 45%,rgba(124,58,237,.18),transparent 58%)">
-        <div style="width:82%;max-width:360px;padding:22px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(4,2,14,.76);box-shadow:0 24px 70px rgba(0,0,0,.45)">
-          <div style="display:flex;justify-content:space-between;font-size:.58rem;color:#22d3ee;font-weight:800;letter-spacing:.1em"><span>STRATEGY SCORECARD</span><span>76/100</span></div>
-          <div style="margin-top:18px;display:grid;gap:13px"><div><div style="display:flex;justify-content:space-between;font-size:.63rem;color:#8b9dc0"><span>Service orientation</span><b style="color:#34d399">84</b></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:6px"><i style="display:block;width:84%;height:100%;background:#34d399;border-radius:4px;box-shadow:0 0 12px #34d39955"></i></div></div><div><div style="display:flex;justify-content:space-between;font-size:.63rem;color:#8b9dc0"><span>Financial discipline</span><b style="color:#f59e0b">68</b></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:6px"><i style="display:block;width:68%;height:100%;background:#f59e0b;border-radius:4px;box-shadow:0 0 12px #f59e0b55"></i></div></div><div><div style="display:flex;justify-content:space-between;font-size:.63rem;color:#8b9dc0"><span>Network resilience</span><b style="color:#22d3ee">79</b></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:6px"><i style="display:block;width:79%;height:100%;background:#22d3ee;border-radius:4px;box-shadow:0 0 12px #22d3ee55"></i></div></div><div><div style="display:flex;justify-content:space-between;font-size:.63rem;color:#8b9dc0"><span>Strategic optionality</span><b style="color:#c084fc">73</b></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:6px"><i style="display:block;width:73%;height:100%;background:#c084fc;border-radius:4px;box-shadow:0 0 12px #c084fc55"></i></div></div><div><div style="display:flex;justify-content:space-between;font-size:.63rem;color:#8b9dc0"><span>Planning segmentation</span><b style="color:#34d399">82</b></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:6px"><i style="display:block;width:82%;height:100%;background:#34d399;border-radius:4px;box-shadow:0 0 12px #34d39955"></i></div></div><div><div style="display:flex;justify-content:space-between;font-size:.63rem;color:#8b9dc0"><span>Decision governance</span><b style="color:#818cf8">71</b></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:6px"><i style="display:block;width:71%;height:100%;background:#818cf8;border-radius:4px;box-shadow:0 0 12px #818cf855"></i></div></div></div>
-          <div style="margin-top:18px;padding:10px;border-left:2px solid #c084fc;background:rgba(176,107,255,.06);font-size:.62rem;line-height:1.5;color:#8b9dc0"><b style="color:#f0f4ff">Consequence-led planner</b><br>Strong cross-market segmentation with improving financial discipline.</div>
-        </div>
-      </div>
-    </article>
 
     <!-- ── ACHIEVEMENT STATS ──────────────────────────── -->
     <div class="pj-stats" id="pjStats">
