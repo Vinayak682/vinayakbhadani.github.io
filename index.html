@@ -943,6 +943,9 @@ section{padding:96px 0;position:relative;}
 
 /* ── Card grid ─────────────────────────────────────── */
 .pj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+/* Desktop shows the whole grid; the control below only exists for phones. */
+#pjToggle{display:none;width:100%;min-height:48px;margin-top:20px;padding:14px 20px;border-radius:30px;border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--t1);font:inherit;font-weight:600;font-size:.9rem;letter-spacing:.02em;cursor:pointer;transition:border-color .22s,background .22s;}
+#pjToggle:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.03);}
 .pf-card{position:relative;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:0;display:flex;flex-direction:column;overflow:hidden;transition:transform .28s cubic-bezier(.25,.8,.25,1),box-shadow .28s,border-color .28s;perspective:800px;}
 .pf-card.pj-visible{animation:cardEntrance .55s ease both;}
 .pf-card.pj-hidden{display:none!important;}
@@ -991,6 +994,20 @@ section{padding:96px 0;position:relative;}
   .pj-grid{grid-template-columns:1fr;}
   .pj-stats{grid-template-columns:repeat(2,1fr);}
   .pf-hero-left{padding:28px 22px;}
+  /* In one column this grid ran to roughly thirteen phone screens, which put
+     everything below it out of reach of a visitor who stays under a minute.
+     Collapse it to a taste of the work behind a control. The cards stay in
+     the DOM in both states, so every link to a project page stays crawlable. */
+  /* --pj-clamp is measured in script to land on a card boundary; the fallback
+     covers the case where that measurement has not run yet. Declaring it here
+     rather than inline keeps the clamp from following the grid to desktop. */
+  #pjGrid.pj-collapsed{position:relative;max-height:var(--pj-clamp,1500px);overflow:hidden;}
+  #pjGrid.pj-collapsed::after{content:"";position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(to bottom,transparent,var(--bg0));pointer-events:none;}
+  #pjToggle{display:block;}
+  /* Set when a filter trims the grid short enough that there is nothing to
+     open. Never an inline style: that would outrank this media query and
+     leak the control onto desktop. */
+  #pjToggle.pj-hide{display:none;}
 }
 
 /* ═══════ TESTIMONIALS — Aurora Glass ═══════ */
@@ -4631,6 +4648,9 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       </article>
 
     </div><!-- /pj-grid -->
+
+    <button type="button" id="pjToggle" aria-controls="pjGrid" aria-expanded="false">Show all projects</button>
+
     <div style="text-align:center;margin-top:48px">
       <a href="https://github.com/Vinayak682" target="_blank" rel="noopener"
          style="display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:14px;font-weight:700;font-size:15px;text-decoration:none;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.45);color:#a78bfa;transition:transform .2s ease,box-shadow .2s ease"
@@ -7080,6 +7100,10 @@ function filterPJ(cat, btn) {
 
   var empty = document.getElementById('pjEmpty');
   if(empty) empty.style.display = shown ? 'none' : 'block';
+
+  // Re-collapse for the newly filtered set, so the control's count stays true
+  // and a filter always drops the reader at the top of what they asked for.
+  if(window.__pjSync) window.__pjSync(true);
 }
 
 // Keep the "All" tab label honest with the real card count
@@ -7089,6 +7113,77 @@ function filterPJ(cat, btn) {
   if(!grid || !allTab) return;
   var n = grid.querySelectorAll('.pf-card').length;
   allTab.textContent = 'All ' + n + ' Projects';
+})();
+
+/* Phones only. One column of fourteen cards ran to about thirteen screens,
+   which pushed the sections below the grid past any realistic mobile session.
+   Collapsed, the grid shows a couple of cards and a control that opens the
+   rest; desktop is untouched, since a three-column grid costs nothing there.
+   Collapsing hides with CSS rather than removing nodes, so the links to each
+   project page stay in the DOM for crawlers in both states. */
+(function(){
+  var grid = document.getElementById('pjGrid');
+  var btn  = document.getElementById('pjToggle');
+  if(!grid || !btn) return;
+  var mq = window.matchMedia('(max-width:600px)');
+  var COLLAPSED_PX = 1500;
+  var expanded = false;
+
+  // Clip on a card boundary rather than mid-element. Children keep their
+  // geometry under overflow:hidden, so this measures correctly even while
+  // the grid is already collapsed.
+  function clampHeight(){
+    var top = grid.getBoundingClientRect().top;
+    var kids = grid.children;
+    for(var i=0;i<kids.length;i++){
+      var r = kids[i].getBoundingClientRect();
+      if(!r.height) continue;
+      var bottom = r.bottom - top;
+      if(bottom >= COLLAPSED_PX) return Math.round(bottom);
+    }
+    return 0;
+  }
+
+  function shownCards(){
+    return Array.prototype.filter.call(
+      grid.querySelectorAll('.pf-card'),
+      function(c){ return c.style.display !== 'none'; }
+    ).length;
+  }
+
+  function sync(reset){
+    if(reset) expanded = false;
+    if(!mq.matches){
+      grid.classList.remove('pj-collapsed');
+      return; // the stylesheet keeps the control off desktop on its own
+    }
+    // scrollHeight reports full content height even while clamped, so this
+    // stays honest once the grid is already collapsed.
+    var overflows = grid.scrollHeight > COLLAPSED_PX;
+    if(!expanded && overflows){
+      var h = clampHeight();
+      if(h) grid.style.setProperty('--pj-clamp', h + 'px');
+    }
+    grid.classList.toggle('pj-collapsed', !expanded && overflows);
+    // A filter that trims the grid short needs no control at all.
+    btn.classList.toggle('pj-hide', !(expanded || overflows));
+    btn.textContent = expanded ? 'Show fewer projects'
+                               : 'Show all ' + shownCards() + ' projects';
+    btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+  }
+
+  btn.addEventListener('click', function(){
+    expanded = !expanded;
+    // Closing from the foot of an open grid would otherwise strand the reader
+    // several screens below the section they were looking at.
+    if(!expanded) grid.scrollIntoView({block:'start'});
+    sync();
+  });
+
+  window.__pjSync = sync;
+  if(mq.addEventListener) mq.addEventListener('change', function(){ sync(); });
+  else if(mq.addListener) mq.addListener(function(){ sync(); });
+  sync();
 })();
 
 // ── Animated counter for stats bar ──────────────────────────────────────────
