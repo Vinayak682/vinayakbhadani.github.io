@@ -20,6 +20,8 @@ DEFAULT = (0.6, "monthly")
 RULES = {
     # Hubs and tools — the organic-traffic engine
     "hire.html": (0.9, "weekly"),
+    # The other half of the hire/engage split — same priority, different intent
+    "work-with-me.html": (0.9, "weekly"),
     # AI engineering pillar — hub for the walk-forward / backtesting cluster
     "alphaos-agentic-trading-platform.html": (0.9, "weekly"),
     "walk-forward-validation-trading-strategies.html": (0.8, "monthly"),
