@@ -6694,7 +6694,7 @@ function openVidModal(){
   }
   modal.classList.add('vid-modal-open');
   document.body.style.overflow='hidden';
-  mp.pause();mp.currentTime=0;
+  mp.pause();mp.currentTime=0;mp.__played=false;
   document.getElementById('vidModalClose').focus();
   if(typeof gtag!=='undefined') gtag('event','video_modal_open',{event_category:'engagement',event_label:'hero_watch_btn'});
 }
@@ -6715,6 +6715,25 @@ document.getElementById('vidModalClose').addEventListener('click',closeVidModal)
 document.getElementById('vidModal').addEventListener('click',function(e){
   if(e.target===this) closeVidModal();
 });
+
+/* The modal player reports the same two events as the inline player above and
+   is told apart by event_label, so the hero funnel — video_modal_open, then
+   video_play — finally compares one player against itself. Until now only the
+   open was instrumented, and every play recorded against the hero button was
+   really the inline player further down the page. video_play fires once per
+   open: the native controls raise 'play' again on each unpause and seek, which
+   would otherwise report a play rate above 100%. */
+(function(){
+  var mp=document.getElementById('vidModalPlayer');
+  mp.addEventListener('play',function(){
+    if(mp.__played)return;
+    mp.__played=true;
+    if(typeof gtag!=='undefined') gtag('event','video_play',{event_category:'engagement',event_label:'portfolio_video_modal'});
+  });
+  mp.addEventListener('ended',function(){
+    if(typeof gtag!=='undefined') gtag('event','video_complete',{event_category:'engagement',event_label:'portfolio_video_modal'});
+  });
+})();
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape') closeVidModal();
   if(e.key==='Tab'){
