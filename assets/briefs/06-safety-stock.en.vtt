@@ -1,0 +1,131 @@
+WEBVTT
+Kind: captions
+Language: en
+
+1
+00:00:00.000 --> 00:00:03.000
+Okay, let's dive into this explainer with a hard truth.
+
+2
+00:00:03.000 --> 00:00:07.000
+9 out of 10 safety stock numbers I see, they're completely wrong.
+
+3
+00:00:07.000 --> 00:00:10.000
+And honestly, it's always for the exact same reason.
+
+4
+00:00:10.000 --> 00:00:14.000
+Most teams are literally only using half the formula.
+
+5
+00:00:14.000 --> 00:00:17.000
+They calculate their buffer based on demand variability alone.
+
+6
+00:00:17.000 --> 00:00:21.000
+You know, z times sigma, demand times the root of lead time.
+
+7
+00:00:21.000 --> 00:00:24.000
+But that assumes your lead time basically never changes.
+
+8
+00:00:24.000 --> 00:00:26.000
+And if you're on GCC import lanes,
+
+9
+00:00:26.000 --> 00:00:30.000
+lead time is the absolute least constant thing you have.
+
+10
+00:00:30.000 --> 00:00:31.000
+To get the full equation,
+
+11
+00:00:31.000 --> 00:00:35.000
+you've got to use Grizzly's combined model and include both terms.
+
+12
+00:00:35.000 --> 00:00:39.000
+You must add your average demand multiplied by your lead time variability.
+
+13
+00:00:39.000 --> 00:00:43.000
+If you drop that second half on a volatile China to Jebla Alley lane,
+
+14
+00:00:43.000 --> 00:00:46.000
+you are going to under buffer every single time.
+
+15
+00:00:46.000 --> 00:00:48.000
+The intuition here is actually pretty simple.
+
+16
+00:00:48.000 --> 00:00:51.000
+If your supplier is reliable, you protect against demand.
+
+17
+00:00:51.000 --> 00:00:54.000
+If your demand is steady, but the port is a total mess,
+
+18
+00:00:54.000 --> 00:00:55.000
+you protect against the lane.
+
+19
+00:00:55.000 --> 00:00:58.000
+In the real world, you almost always have to do both.
+
+20
+00:00:58.000 --> 00:01:04.000
+And this brings us to a massive lever that basically nobody pulls.
+
+21
+00:01:04.000 --> 00:01:07.000
+You will actually cut your safety stock way faster
+
+22
+00:01:07.000 --> 00:01:09.000
+by reducing lead time variance
+
+23
+00:01:09.000 --> 00:01:12.000
+rather than just shrinking your lead time average.
+
+24
+00:01:12.000 --> 00:01:16.000
+Seriously, chase consistency before you chase speed.
+
+25
+00:01:16.000 --> 00:01:19.000
+So stop guessing and run the real math for yourself.
+
+26
+00:01:19.000 --> 00:01:21.000
+There is a free safety stock calculator out there
+
+27
+00:01:21.000 --> 00:01:24.000
+that includes both full demand and lead time variance.
+
+28
+00:01:24.000 --> 00:01:27.000
+And yeah, absolutely zero sign up required.
+
+29
+00:01:27.000 --> 00:01:30.000
+It was built by Vinayak Bhadani in Dubai.
+
+30
+00:01:30.000 --> 00:01:32.000
+Go grab it right now and ask yourself,
+
+31
+00:01:32.000 --> 00:01:36.000
+is your incomplete half formula quietly setting you up
+
+32
+00:01:36.000 --> 00:01:38.000
+for your next massive stock out?

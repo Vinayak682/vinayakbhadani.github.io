@@ -1,0 +1,139 @@
+WEBVTT
+Kind: captions
+Language: en
+
+1
+00:00:00.000 --> 00:00:04.600
+When the Red Sea shipping crisis hit, supply chains absolutely panicked.
+
+2
+00:00:04.600 --> 00:00:10.520
+But honestly, most operators completely missed the true, hidden cost of all that rerouting.
+
+3
+00:00:10.520 --> 00:00:14.880
+In this quick explainer, we're going to dive into exactly what everyone missed.
+
+4
+00:00:14.880 --> 00:00:19.000
+You see, everyone out there was quoting the massive freight rate spike, but almost nobody
+
+5
+00:00:19.000 --> 00:00:22.200
+stopped to actually do the inventory math.
+
+6
+00:00:22.200 --> 00:00:25.440
+Yes, Drury container rates exploded.
+
+7
+00:00:25.440 --> 00:00:29.440
+We're talking an eye-watering 323% jump.
+
+8
+00:00:29.440 --> 00:00:32.360
+And sure, that was the big headline everywhere.
+
+9
+00:00:32.360 --> 00:00:38.140
+And yeah, rerouting those vessels way down around the Cape of Good Hope added roughly 14 days
+
+10
+00:00:38.140 --> 00:00:40.000
+of transit time.
+
+11
+00:00:40.000 --> 00:00:41.840
+Sounds like just a standard delay, right?
+
+12
+00:00:41.840 --> 00:00:44.400
+Well, here's the real paradigm shift.
+
+13
+00:00:44.400 --> 00:00:50.800
+14 extra days of transit is not just a delay, it is a permanent working capital transfer.
+
+14
+00:00:50.800 --> 00:00:56.280
+That is literally your cash permanently converted into floating stock out on the water that
+
+15
+00:00:56.280 --> 00:00:59.600
+you simply won't get back as long as this routing holds.
+
+16
+00:00:59.600 --> 00:01:03.400
+But wait, here is the actual supply chain science behind it.
+
+17
+00:01:03.400 --> 00:01:06.200
+It is not the mean lead time that hurts you the most.
+
+18
+00:01:06.200 --> 00:01:09.040
+It's the variance, the unpredictability.
+
+19
+00:01:09.040 --> 00:01:10.640
+Think about it like this.
+
+20
+00:01:10.640 --> 00:01:15.080
+Safety stock scales with the standard deviation of your lead time, not just the average.
+
+21
+00:01:15.080 --> 00:01:21.080
+So a fluctuating, unpredictable lane that randomly takes anywhere from 38 to 52 days,
+
+22
+00:01:21.080 --> 00:01:26.200
+that drains way more cash in buffer stock than a nice stable 52-day lane ever would.
+
+23
+00:01:26.200 --> 00:01:29.920
+Okay, so here is your actionable operator fix.
+
+24
+00:01:29.920 --> 00:01:35.680
+You need to rebaseline your lead time mean and sigma per lane, then recompute your safety
+
+25
+00:01:35.680 --> 00:01:36.680
+stock.
+
+26
+00:01:36.680 --> 00:01:41.120
+Finally, price that working capital hit into your mode shift decisions right now before
+
+27
+00:01:41.120 --> 00:01:43.600
+your finance team finds the gap.
+
+28
+00:01:43.600 --> 00:01:46.760
+And look, this isn't just supply chain theory.
+
+29
+00:01:46.760 --> 00:01:52.160
+Using this exact math actually drove a massive 30% reduction in air freight costs in the real
+
+30
+00:01:52.160 --> 00:01:56.960
+world, just by using smart 3PL consolidation and C-mode shifting.
+
+31
+00:01:56.960 --> 00:02:01.400
+This whole explainer is based on the proven operational playbooks of the Nayak Bhadani
+
+32
+00:02:01.400 --> 00:02:04.940
+and incredible demand planning and AI specialist at a Dubai.
+
+33
+00:02:04.940 --> 00:02:09.160
+The math is absolutely clear here, but the real question is, are you actually
+
+34
+00:02:09.160 --> 00:02:11.320
+calculating your true cost of variance?

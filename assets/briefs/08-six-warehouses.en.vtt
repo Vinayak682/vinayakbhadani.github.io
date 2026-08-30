@@ -1,0 +1,187 @@
+WEBVTT
+Kind: captions
+Language: en
+
+1
+00:00:00.000 --> 00:00:02.760
+Six warehouses, same exact product,
+
+2
+00:00:02.760 --> 00:00:04.360
+and the exact same safety stock
+
+3
+00:00:04.360 --> 00:00:06.560
+sitting in every single one of them.
+
+4
+00:00:06.560 --> 00:00:08.560
+Listen, you basically just paid
+
+5
+00:00:08.560 --> 00:00:11.640
+for the exact same protection six times over.
+
+6
+00:00:11.640 --> 00:00:14.040
+Holding localized safety stock everywhere like that,
+
+7
+00:00:14.040 --> 00:00:15.920
+well, you're essentially just funding
+
+8
+00:00:15.920 --> 00:00:17.840
+your competitor's growth at that point.
+
+9
+00:00:17.840 --> 00:00:19.320
+So how do we fix it?
+
+10
+00:00:19.320 --> 00:00:21.560
+It all comes down to this brilliant concept
+
+11
+00:00:21.560 --> 00:00:23.160
+called risk pooling.
+
+12
+00:00:23.160 --> 00:00:25.760
+The idea is when you centralize your inventory,
+
+13
+00:00:25.760 --> 00:00:28.840
+the demand variability of all those independent locations
+
+14
+00:00:28.840 --> 00:00:31.680
+kind of just partially cancels each other out.
+
+15
+00:00:31.680 --> 00:00:34.040
+The math here is absolutely crucial.
+
+16
+00:00:34.040 --> 00:00:35.960
+The total buffer you need for the whole network
+
+17
+00:00:35.960 --> 00:00:40.320
+is actually way less than the sum of those isolated locations.
+
+18
+00:00:40.320 --> 00:00:41.160
+Why?
+
+19
+00:00:41.160 --> 00:00:43.120
+Because it scales with the square root,
+
+20
+00:00:43.120 --> 00:00:44.360
+not the literal count.
+
+21
+00:00:44.360 --> 00:00:46.120
+It's a real game changer.
+
+22
+00:00:46.120 --> 00:00:47.640
+Now, I'm not saying central
+
+23
+00:00:47.640 --> 00:00:50.240
+is always automatically better.
+
+24
+00:00:50.240 --> 00:00:52.280
+It's a strategic trade-off.
+
+25
+00:00:52.280 --> 00:00:55.280
+Think of it like a control panel with two dials.
+
+26
+00:00:55.280 --> 00:00:57.680
+On one hand, centralizing dramatically
+
+27
+00:00:57.680 --> 00:00:59.520
+slashes your carrying costs,
+
+28
+00:00:59.520 --> 00:01:04.000
+but yeah, it does add outbound lead time to the store.
+
+29
+00:01:04.000 --> 00:01:08.120
+So what's the practical GCC answer to this exact trade-off?
+
+30
+00:01:08.120 --> 00:01:11.840
+You hold that pooled buffer in a central Jopsa hub, right?
+
+31
+00:01:11.840 --> 00:01:14.520
+Then you use it to feed regional retail nodes
+
+32
+00:01:14.520 --> 00:01:16.200
+that hold only cycle stock
+
+33
+00:01:16.200 --> 00:01:18.880
+plus a super thin local cover.
+
+34
+00:01:18.880 --> 00:01:20.560
+That way, you get the pooling benefit
+
+35
+00:01:20.560 --> 00:01:22.680
+without ever starving the shelf.
+
+36
+00:01:22.680 --> 00:01:23.880
+And the payoff?
+
+37
+00:01:23.880 --> 00:01:25.440
+If you model this correctly,
+
+38
+00:01:25.440 --> 00:01:29.120
+this framework yields roughly a 25% lower carrying cost,
+
+39
+00:01:29.120 --> 00:01:33.240
+all while maintaining a gold standard 98% service level,
+
+40
+00:01:33.240 --> 00:01:35.160
+literally the exact same service,
+
+41
+00:01:35.160 --> 00:01:37.800
+but with way less cash tied up.
+
+42
+00:01:37.800 --> 00:01:40.920
+So for those of you actually signing the inventory budgets,
+
+43
+00:01:40.920 --> 00:01:42.440
+please model this out
+
+44
+00:01:42.440 --> 00:01:46.160
+before you even think about signing that next warehouse lease.
+
+45
+00:01:46.160 --> 00:01:49.600
+Stop bleeding cash on redundant inventory.
+
+46
+00:01:49.600 --> 00:01:53.080
+I'm Badiak Bhadani, demand planning and AI Dubai.

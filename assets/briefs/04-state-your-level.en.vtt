@@ -1,0 +1,111 @@
+WEBVTT
+Kind: captions
+Language: en
+
+1
+00:00:00.000 --> 00:00:04.000
+Most people quote forecast accuracy completely wrong.
+
+2
+00:00:04.000 --> 00:00:09.000
+If someone claims they're hitting 95%, don't just blindly trust them.
+
+3
+00:00:09.000 --> 00:00:12.000
+You need to hit them with one crucial question.
+
+4
+00:00:12.000 --> 00:00:13.000
+At what level?
+
+5
+00:00:13.000 --> 00:00:14.000
+Because here's the trap.
+
+6
+00:00:14.000 --> 00:00:17.000
+Accuracy is basically 100 minus MAPE.
+
+7
+00:00:17.000 --> 00:00:23.000
+But MAPE at the category month level is always structurally higher than at the SQ week level.
+
+8
+00:00:23.000 --> 00:00:24.000
+Why?
+
+9
+00:00:24.000 --> 00:00:28.000
+Because all that messy item level noise just cancels out when you aggregate.
+
+10
+00:00:28.000 --> 00:00:32.000
+It's the exact same business, the exact same data, but a wildly different number.
+
+11
+00:00:32.000 --> 00:00:34.000
+Now, don't get me wrong here.
+
+12
+00:00:34.000 --> 00:00:42.000
+An honest 30 point accuracy gain measured at the category month level is a massive, very real operational result.
+
+13
+00:00:42.000 --> 00:00:47.000
+But it's simply not comparable to an item level number, so you should never present it as one.
+
+14
+00:00:47.000 --> 00:00:49.000
+Plus, here is the second trap.
+
+15
+00:00:49.000 --> 00:00:53.000
+A 30 point gain on the accuracy scale is not a 30% reduction in error.
+
+16
+00:00:53.000 --> 00:00:55.000
+People blur those two things constantly.
+
+17
+00:00:56.000 --> 00:00:58.000
+So here is your iron cloud rule.
+
+18
+00:00:58.000 --> 00:01:00.000
+You always have to state three things.
+
+19
+00:01:00.000 --> 00:01:03.000
+The metric, the aggregation level, and the time bucket.
+
+20
+00:01:03.000 --> 00:01:05.000
+No level, no claim.
+
+21
+00:01:05.000 --> 00:01:06.000
+It's that simple.
+
+22
+00:01:06.000 --> 00:01:10.000
+Planners who actually state their level get believed.
+
+23
+00:01:10.000 --> 00:01:14.000
+Planners who just quote a naked percentage, well, they get audited.
+
+24
+00:01:14.000 --> 00:01:19.000
+Huge shout out to supply chain pro Vinayak Bhadani for this framework.
+
+25
+00:01:19.000 --> 00:01:21.000
+So go check your own dashboard right now.
+
+26
+00:01:21.000 --> 00:01:24.000
+What is your true SKU week accuracy?
+
+27
+00:01:25.000 --> 00:01:27.000
+Thank you very much.

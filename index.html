@@ -2263,56 +2263,80 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
   color:var(--sf-blue-light,#7ca6ff);
 }
 #briefs .bf-deck{color:var(--t2);font-size:.95rem;max-width:650px;line-height:1.68}
-#briefs .bf-head{display:flex;align-items:flex-end;justify-content:space-between;gap:26px;flex-wrap:wrap;margin-bottom:30px}
+#briefs .bf-head{margin-bottom:30px}
+#briefs .bf-count{
+  display:block;margin-top:16px;font-family:Monaco,monospace;font-size:.6rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--t3);
+}
 
-#briefs .bf-railwrap{position:relative;margin:0 -24px}
-#briefs .bf-rail{display:flex;gap:19px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 24px 28px;scrollbar-width:none}
-#briefs .bf-rail::-webkit-scrollbar{display:none}
+/* ── The index ──────────────────────────────────────────────
+   Ten positions, not three thumbnails. The argument is the
+   primary content; the film is a secondary affordance inside
+   the open row. A list scales to any number of briefs and has
+   no empty gutter to explain. */
+#briefs .ev-index{border-top:1px solid rgba(255,255,255,.09)}
+#briefs .ev-row{border-bottom:1px solid rgba(255,255,255,.09);transition:background .3s}
+#briefs .ev-row:hover{background:rgba(124,166,255,.028)}
+#briefs .ev-row.ev-open{background:rgba(47,95,227,.05)}
 
-#briefs .bf-card{
-  flex:0 0 clamp(224px,24vw,258px);scroll-snap-align:start;
-  position:relative;border:none;padding:0;background:none;
-  cursor:pointer;text-align:left;font:inherit;color:inherit;
-  transition:transform .34s cubic-bezier(.4,0,.2,1);
+#briefs .ev-head{
+  width:100%;display:grid;grid-template-columns:158px minmax(0,1fr) 26px;
+  gap:22px;align-items:baseline;
+  padding:22px 14px;border:none;background:none;color:inherit;font:inherit;
+  text-align:left;cursor:pointer;
 }
-#briefs .bf-card:hover,#briefs .bf-card:focus-visible{transform:translateY(-8px)}
-#briefs .bf-card:focus-visible{outline:2px solid var(--sf-blue-light,#7ca6ff);outline-offset:6px;border-radius:5px}
-#briefs .bf-media{
-  display:block;position:relative;aspect-ratio:9/16;border-radius:5px;overflow:hidden;
-  background:#0e091f;border:1px solid rgba(255,255,255,.09);
-  transition:border-color .34s,box-shadow .34s;
+#briefs .ev-head:focus-visible{outline:2px solid var(--sf-blue-light,#7ca6ff);outline-offset:-3px;border-radius:4px}
+#briefs .ev-slug{
+  font-family:Monaco,monospace;font-size:.58rem;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--sf-blue-light,#7ca6ff);line-height:1.7;
 }
-#briefs .bf-card:hover .bf-media{border-color:rgba(124,166,255,.46);box-shadow:0 22px 58px rgba(0,6,24,.55),0 0 0 1px rgba(47,95,227,.18)}
-#briefs .bf-media img,#briefs .bf-media video{width:100%;height:100%;object-fit:cover;display:block}
-#briefs .bf-media video{position:absolute;inset:0;opacity:0;transition:opacity .4s}
-#briefs .bf-card.bf-on .bf-media video{opacity:1}
-#briefs .bf-dur{
-  display:block;position:absolute;top:11px;right:11px;z-index:2;font-size:.62rem;font-weight:700;
-  color:rgba(255,255,255,.9);padding:5px 9px;border-radius:3px;background:rgba(8,11,19,.82);backdrop-filter:blur(8px);
+#briefs .ev-slug b{display:block;font-weight:700;color:var(--t3);letter-spacing:.1em}
+/* These are spans nested inside a grid item, so they are not blockified for
+   us the way the grid's own children are. Without this they run together on
+   one line and the margin is dropped. */
+#briefs .ev-claim{
+  display:block;
+  font-size:clamp(1rem,1.7vw,1.22rem);font-weight:800;line-height:1.34;
+  letter-spacing:-.018em;color:#f0f4ff;margin:0 0 8px;
 }
-#briefs .bf-play{
-  display:grid;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;
-  width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
-  background:rgba(8,11,19,.66);border:1.5px solid rgba(255,255,255,.42);
-  backdrop-filter:blur(10px);transition:opacity .3s,transform .34s;
+#briefs .ev-row.ev-open .ev-claim{color:var(--sf-blue-light,#7ca6ff)}
+#briefs .ev-thesis{display:block;margin:0;color:var(--t2);font-size:.855rem;line-height:1.62;max-width:62ch}
+#briefs .ev-thesis strong{color:#cbd7ef;font-weight:700}
+#briefs .ev-chev{
+  justify-self:end;width:26px;height:26px;display:grid;place-items:center;
+  color:var(--t3);transition:transform .34s cubic-bezier(.4,0,.2,1),color .3s;
 }
-#briefs .bf-card:hover .bf-play{transform:translate(-50%,-50%) scale(1.07);border-color:var(--sf-blue-light,#7ca6ff)}
-#briefs .bf-card.bf-on .bf-play{opacity:0}
-#briefs .bf-play svg{margin-left:3px}
-#briefs .bf-meta{display:block;padding:14px 2px 0}
-#briefs .bf-topic{display:block;margin-bottom:7px;font-family:Monaco,monospace;font-size:.58rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--sf-blue-light,#7ca6ff)}
-#briefs .bf-claim{display:block;font-size:.9rem;font-weight:800;line-height:1.36;letter-spacing:-.012em;margin:0 0 7px;color:var(--t1)}
-#briefs .bf-proof{display:block;font-size:.68rem;font-weight:700;color:var(--sf-blue-light,#7ca6ff);white-space:nowrap}
-#briefs .bf-status{display:inline-flex;margin:10px 0 0;padding:5px 8px;border:1px solid rgba(124,166,255,.3);border-radius:999px;background:rgba(47,95,227,.1);color:#b9ccff;font:700 .57rem/1.2 Monaco,monospace;letter-spacing:.08em;text-transform:uppercase}
+#briefs .ev-row.ev-open .ev-chev{transform:rotate(180deg);color:var(--sf-blue-light,#7ca6ff)}
 
-#briefs .bf-nav{display:flex;gap:9px;align-items:center}
-#briefs .bf-arrow{
-  width:41px;height:41px;border-radius:4px;display:grid;place-items:center;
-  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);
-  color:#f0f4ff;cursor:pointer;transition:all .34s;
+/* Height is driven from JS rather than the 0fr/1fr grid trick: overflow:hidden
+   zeroes the item's automatic minimum, so the fr had nothing to resolve
+   against and the row stayed collapsed. */
+#briefs .ev-panel{height:0;overflow:hidden;transition:height .42s cubic-bezier(.3,0,.2,1)}
+#briefs .ev-panelin{display:block}
+#briefs .ev-inner{padding:2px 14px 28px;margin-left:180px}
+#briefs .ev-take{list-style:none;margin:0 0 20px;padding:0;max-width:70ch}
+#briefs .ev-take li{position:relative;padding-left:24px;margin-bottom:11px;color:#8b9dc0;font-size:.87rem;line-height:1.66}
+#briefs .ev-take li::before{content:'';position:absolute;left:0;top:.62em;width:11px;height:2.5px;border-radius:2px;background:var(--sf-blue,#2f5fe3)}
+#briefs .ev-take strong{color:#f0f4ff;font-weight:700}
+#briefs .ev-note{
+  margin:0 0 20px;padding:13px 15px;max-width:70ch;
+  border-left:3px solid var(--sf-blue-light,#7ca6ff);border-radius:4px;
+  background:rgba(47,95,227,.1);color:#bdc9df;font-size:.78rem;line-height:1.6;
 }
-#briefs .bf-arrow:hover:not(:disabled){background:rgba(47,95,227,.14);border-color:rgba(124,166,255,.42);transform:translateY(-2px)}
-#briefs .bf-arrow:disabled{opacity:.26;cursor:default}
+#briefs .ev-acts{display:flex;gap:11px;flex-wrap:wrap}
+#briefs .ev-watch,#briefs .ev-open-tool{
+  display:inline-flex;align-items:center;gap:8px;padding:11px 19px;border-radius:3px;
+  font-weight:800;font-size:.79rem;text-decoration:none;cursor:pointer;transition:all .3s;
+}
+#briefs .ev-watch{background:var(--sf-blue,#2f5fe3);color:#fff;border:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
+#briefs .ev-watch:hover{transform:translateY(-2px);box-shadow:0 9px 24px rgba(29,63,158,.5),inset 0 0 0 1px rgba(255,255,255,.24)}
+#briefs .ev-open-tool{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:#dbe4f7}
+#briefs .ev-open-tool:hover{border-color:rgba(124,166,255,.45);background:rgba(47,95,227,.12);color:#fff;transform:translateY(-2px)}
+#briefs .ev-status{
+  display:inline-flex;margin-top:9px;padding:5px 9px;border:1px solid rgba(124,166,255,.3);
+  border-radius:999px;background:rgba(47,95,227,.1);color:#b9ccff;
+  font:700 .55rem/1.2 Monaco,monospace;letter-spacing:.08em;text-transform:uppercase;
+}
 
 #bf-theater{position:fixed;inset:0;z-index:99990;display:none;background:rgba(2,1,7,.9);backdrop-filter:blur(22px);padding:32px 24px;overflow-y:auto}
 #bf-theater.bf-open{display:grid;place-items:center}
@@ -2348,7 +2372,13 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
   #bf-theater .bf-tin{grid-template-columns:1fr;gap:24px;max-width:390px}
   #bf-theater{place-items:start center;padding:64px 20px 30px}
   #bf-theater video{width:auto;max-width:100%;height:min(52dvh,440px);aspect-ratio:9/16;margin:0 auto;object-fit:contain}
-  #briefs .bf-card{flex-basis:min(76vw,248px)}
+  /* The slug column folds above the claim rather than squeezing it. */
+  #briefs .ev-head{grid-template-columns:minmax(0,1fr) 22px;gap:12px;padding:20px 4px}
+  #briefs .ev-slug{grid-column:1/-1;margin-bottom:2px}
+  #briefs .ev-slug b{display:inline;margin-left:9px;color:var(--t3)}
+  #briefs .ev-slug b::before{content:'· '}
+  #briefs .ev-inner{margin-left:0;padding:2px 4px 26px}
+  #briefs .ev-chev{grid-row:2}
 }
 @media(prefers-reduced-motion:reduce){#briefs *,#bf-theater *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -2428,64 +2458,84 @@ const B=[
      "<strong>Break 3</strong> — last mile. Stock is “in the network” and still not sellable. Availability is measured at the shelf."]}
 ];
 
-/* The three requested films remain visible. Each carries an explicit evidence
-   label so method, target design and resume-backed outcomes are not blurred. */
-const FEATURED_BRIEF_IDS=["05-sop-meeting","06-safety-stock","09-seven-vendors"];
-const featuredBriefs=FEATURED_BRIEF_IDS.map(id=>B.find(brief=>brief.id===id)).filter(Boolean);
+/* Every brief is listed, in the order above. Those carrying a target design
+   or a technical demonstration rather than a live operating outcome declare
+   it through `status` and `note`. */
 
-const rail=document.getElementById('bf-rail');
+const rail=document.getElementById('ev-index');
 if(!rail) return;
-rail.innerHTML=featuredBriefs.map((b,i)=>`
-  <button type="button" class="bf-card" data-i="${i}" aria-label="Watch ${b.d} planning brief: ${b.t}" aria-haspopup="dialog" aria-controls="bf-theater" aria-expanded="false">
-    <span class="bf-media">
-      <img src="${BASE}${b.id}.jpg" alt="" loading="lazy" width="540" height="960">
-      <video muted loop playsinline preload="none" data-src="${BASE}${b.id}.mp4" aria-hidden="true"></video>
-      <span class="bf-dur">${b.d}</span>
-      <span class="bf-play" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-    </span>
-    <span class="bf-meta">
-      <span class="bf-topic">${b.p}</span>
-      <span class="bf-claim">${b.c}</span>
-      <span class="bf-proof">Watch the brief</span>
-      <span class="bf-status">${b.status}</span>
-    </span>
-  </button>`).join('');
 
-/* Hover previews are delayed and desktop-only. Keyboard focus and quick
-   pointer flyovers keep the poster still and avoid unnecessary downloads. */
-const connection=navigator.connection||{};
-const canPreview=matchMedia('(hover:hover) and (pointer:fine)').matches &&
-  !matchMedia('(prefers-reduced-motion: reduce)').matches &&
-  connection.saveData!==true && !/^(slow-2g|2g|3g)$/.test(connection.effectiveType||'');
-if(canPreview){
-  let cur=null,timer=null;
-  const stop=c=>{const v=c.querySelector('video');v.pause();c.classList.remove('bf-on')};
-  rail.querySelectorAll('.bf-card').forEach(card=>{
-    const v=card.querySelector('video');
-    const go=()=>{
-      if(cur&&cur!==card)stop(cur);
-      if(!v.src)v.src=v.dataset.src;
-      v.currentTime=0;v.play().then(()=>card.classList.add('bf-on')).catch(()=>{});
-      cur=card;
-    };
-    card.addEventListener('mouseenter',()=>{clearTimeout(timer);timer=setTimeout(go,260)});
-    card.addEventListener('mouseleave',()=>{clearTimeout(timer);stop(card);if(cur===card)cur=null});
-  });
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+/* Every brief is listed. The three-card rail hid seven of these behind
+   arrows that had nothing to scroll, and the posters only repeated the
+   claim already written beneath them. */
+rail.innerHTML=B.map((b,i)=>`
+  <article class="ev-row" data-i="${i}">
+    <h3 style="margin:0">
+      <button type="button" class="ev-head" id="ev-head-${i}"
+              aria-expanded="false" aria-controls="ev-panel-${i}">
+        <span class="ev-slug">${esc(b.p)}<b>${esc(b.d)}</b></span>
+        <span>
+          <span class="ev-claim">${esc(b.c)}</span>
+          <span class="ev-thesis">${b.k[0]}</span>
+          ${b.status?`<span class="ev-status">${esc(b.status)}</span>`:''}
+        </span>
+        <span class="ev-chev" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+    </h3>
+    <div class="ev-panel" id="ev-panel-${i}" role="region" aria-labelledby="ev-head-${i}">
+      <div class="ev-panelin"><div class="ev-inner">
+        <ul class="ev-take">${b.k.slice(1).map(x=>`<li>${x}</li>`).join('')}</ul>
+        ${b.note?`<p class="ev-note">${esc(b.note)}</p>`:''}
+        <div class="ev-acts">
+          <button type="button" class="ev-watch" data-watch="${i}"
+                  aria-haspopup="dialog" aria-controls="bf-theater">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Watch the ${esc(b.d)} film
+          </button>
+          <a class="ev-open-tool" href="${esc(b.h)}">${esc(b.cta)}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div></div>
+    </div>
+  </article>`).join('');
+
+document.getElementById('bf-count').textContent=
+  B.length+' positions · '+B.filter(b=>b.status).length+' carry an evidence label';
+
+/* One row open at a time: a long list where everything expands turns into
+   a wall no one reads. */
+function setRow(row,on){
+  const p=row.querySelector('.ev-panel'),inner=row.querySelector('.ev-inner');
+  row.classList.toggle('ev-open',on);
+  row.querySelector('.ev-head').setAttribute('aria-expanded',on?'true':'false');
+  if(on){
+    p.style.height=inner.getBoundingClientRect().height+'px';
+    p.addEventListener('transitionend',function done(e){
+      if(e.propertyName!=='height')return;
+      p.removeEventListener('transitionend',done);
+      /* Guarded: if this row was closed again before the open transition
+         finished, the late event must not spring it back open. */
+      if(row.classList.contains('ev-open'))p.style.height='auto';
+    });
+  }else{
+    p.style.height=p.getBoundingClientRect().height+'px';
+    requestAnimationFrame(()=>{p.style.height='0px'});
+  }
 }
-
-const prev=document.getElementById('bf-prev'),next=document.getElementById('bf-next');
-const nav=document.getElementById('bf-nav');
-const step=()=>(rail.querySelector('.bf-card')?.offsetWidth||250)+19;
-prev.onclick=()=>rail.scrollBy({left:-step()*2,behavior:'smooth'});
-next.onclick=()=>rail.scrollBy({left:step()*2,behavior:'smooth'});
-const sync=()=>{
-  const overflow=rail.scrollWidth>rail.clientWidth+8;
-  nav.hidden=!overflow;
-  prev.disabled=rail.scrollLeft<8;
-  next.disabled=rail.scrollLeft>rail.scrollWidth-rail.clientWidth-8;
-};
-rail.addEventListener('scroll',sync,{passive:true});
-addEventListener('resize',sync,{passive:true});sync();
+rail.addEventListener('click',e=>{
+  const head=e.target.closest('.ev-head');
+  if(!head)return;
+  const row=head.closest('.ev-row'),wasOpen=row.classList.contains('ev-open');
+  rail.querySelectorAll('.ev-row.ev-open').forEach(r=>setRow(r,false));
+  if(!wasOpen){
+    setRow(row,true);
+    if(window.gtag)gtag('event','brief_expand',{event_category:'engagement',event_label:B[+row.dataset.i].t});
+  }
+});
 
 const th=document.getElementById('bf-theater'),tv=document.getElementById('bf-tvid');
 let last=null,inerted=[];
@@ -2511,18 +2561,20 @@ th.addEventListener('keydown',e=>{
   else if(!e.shiftKey&&document.activeElement===lastItem){e.preventDefault();first.focus()}
 });
 function open(i){
-  const b=featuredBriefs[i];last=document.activeElement;
+  const b=B[i];last=document.activeElement;
   document.getElementById('bf-track').src=BASE+b.id+'.en.vtt';
   tv.src=BASE+b.id+'.mp4';tv.poster=BASE+b.id+'.jpg';tv.load();
   tv.setAttribute('aria-label',b.t+' planning brief');
   document.getElementById('bf-teyebrow').textContent=b.p+' brief';
   document.getElementById('bf-ttitle').textContent=b.t;
-  document.getElementById('bf-evidence').textContent=b.note;
+  /* Only the briefs carrying a target design or a technical demonstration
+     have a note. The rest must not render an empty evidence rule. */
+  const ev=document.getElementById('bf-evidence');
+  ev.textContent=b.note||'';ev.hidden=!b.note;
   document.getElementById('bf-take').innerHTML=b.k.map(x=>`<li>${x}</li>`).join('');
   const cta=document.getElementById('bf-tcta');
   cta.href=b.h;document.getElementById('bf-tctatext').textContent=b.cta;
   th.classList.add('bf-open');document.body.style.overflow='hidden';isolatePage(true);
-  if(last&&last.classList.contains('bf-card'))last.setAttribute('aria-expanded','true');
   tv.play().catch(()=>{});document.getElementById('bf-tclose').focus();
   if(window.gtag)gtag('event','brief_open',{event_category:'engagement',event_label:b.t});
 }
@@ -2530,10 +2582,12 @@ function close(){
   if(!th.classList.contains('bf-open'))return;
   th.classList.remove('bf-open');tv.pause();tv.removeAttribute('src');tv.load();
   document.body.style.overflow='';isolatePage(false);
-  if(last&&last.classList.contains('bf-card'))last.setAttribute('aria-expanded','false');
   if(last)last.focus();
 }
-rail.addEventListener('click',e=>{const c=e.target.closest('.bf-card');if(c)open(+c.dataset.i)});
+rail.addEventListener('click',e=>{
+  const w=e.target.closest('[data-watch]');
+  if(w)open(+w.getAttribute('data-watch'));
+});
 document.getElementById('bf-tclose').onclick=close;
 document.getElementById('bf-tcta').addEventListener('click',close);
 th.addEventListener('click',e=>{if(e.target===th)close()});
@@ -3433,20 +3487,15 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 </section>
 
 <!-- Recruiter chronology: establish verified experience before the supporting video proofs. -->
-<section id="briefs" aria-label="Short planning video briefs">
+<section id="briefs" aria-label="Planning positions, with films and tools">
   <div class="wrap">
     <div class="bf-head">
-      <div>
-        <p class="bf-label">Evidence studio</p>
-        <h2 class="bf-title">Three field notes. <span>Context included.</span></h2>
-        <p class="bf-deck">Watch the method, then read the evidence label. Illustrative targets, technical models and resume-backed outcomes are kept visibly separate.</p>
-      </div>
-      <div class="bf-nav" id="bf-nav" aria-label="Brief carousel controls">
-        <button class="bf-arrow" id="bf-prev" aria-label="Previous briefs"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M15 18l-6-6 6-6"/></svg></button>
-        <button class="bf-arrow" id="bf-next" aria-label="More briefs"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M9 18l6-6-6-6"/></svg></button>
-      </div>
+      <p class="bf-label">Evidence studio</p>
+      <h2 class="bf-title">Positions I'll <span>defend.</span></h2>
+      <p class="bf-deck">Ten arguments about how planning actually breaks, each ending in a working tool or a written breakdown. Open one to read it; watch the film if you'd rather hear it. Where a claim is a target design or a technical demonstration rather than a live operating outcome, it says so.</p>
+      <span class="bf-count" id="bf-count"></span>
     </div>
-    <div class="bf-railwrap"><div class="bf-rail" id="bf-rail"></div></div>
+    <div class="ev-index" id="ev-index"></div>
   </div>
 </section>
 
