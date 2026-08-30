@@ -3217,7 +3217,10 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
     <div class="vid-player-wrap" id="vidWrap">
       <video id="vidPlayer" controls preload="metadata" poster="./three-layer-operating-system-poster.jpg" playsinline aria-label="The Three-Layer Supply Chain Operating System, presented by Vinayak Bhadani" aria-describedby="vid-summary">
         <source src="./three-layer-supply-chain-operating-system.mp4" type="video/mp4"/>
-        <track kind="captions" srclang="en" label="English" src="./three-layer-supply-chain-operating-system.en.vtt" default/>
+        <!-- src and default are set by the film picker below. Hard-coding them
+             here makes phones fetch the landscape captions before the script
+             can swap in the vertical cut, which burns them into the picture. -->
+        <track kind="captions" srclang="en" label="English"/>
         Your browser does not support the video tag.
       </video>
  
@@ -3365,7 +3368,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
     <p class="vid-modal-context"><strong>The Three-Layer Supply Chain Operating System:</strong> physical logistics, digital forecasting and executive governance resolved into one operating plan. Live operating outcomes are labelled separately from portfolio case studies.</p>
     <video id="vidModalPlayer" controls preload="none" poster="./three-layer-operating-system-poster.jpg" playsinline aria-label="The Three-Layer Supply Chain Operating System, presented by Vinayak Bhadani">
       <source src="./three-layer-supply-chain-operating-system.mp4" type="video/mp4"/>
-      <track kind="captions" srclang="en" label="English" src="./three-layer-supply-chain-operating-system.en.vtt" default/>
+      <track kind="captions" srclang="en" label="English"/>
     </video>
   </div>
 </div>
@@ -6792,10 +6795,19 @@ if('IntersectionObserver' in window){
   vid.setAttribute('poster',FILM.poster);
   vid.setAttribute('aria-label',FILM.title+', presented by Vinayak Bhadani');
   wrap.style.aspectRatio=FILM.ratio;
-  if(trackEl){
-    if(FILM.vtt)trackEl.setAttribute('src',FILM.vtt);
-    else trackEl.remove();      // burned-in captions would otherwise double up
+  /* The markup ships the track bare, so the caption file is only ever
+     requested once the film is decided - and never on a phone. */
+  function dressTrack(t){
+    if(!t)return;
+    if(!FILM.vtt){t.remove();return}  // burned-in captions would otherwise double up
+    t.setAttribute('src',FILM.vtt);
+    /* default only counts while the parser is building the element, so a track
+       dressed this late stays disabled and never loads its cues. Turning the
+       mode on is what the attribute used to do for us. */
+    t.setAttribute('default','');
+    if(t.track)t.track.mode='showing';
   }
+  dressTrack(trackEl);
   /* The hero button opens the modal, so it has to follow the same rule -
      otherwise a phone gets the landscape film there after all. */
   var mp=document.getElementById('vidModalPlayer');
@@ -6804,7 +6816,7 @@ if('IntersectionObserver' in window){
     if(ms)ms.setAttribute('src',FILM.src);
     mp.setAttribute('poster',FILM.poster);
     mp.setAttribute('aria-label',FILM.title+', presented by Vinayak Bhadani');
-    if(mt){ if(FILM.vtt)mt.setAttribute('src',FILM.vtt); else mt.remove(); }
+    dressTrack(mt);
   }
 
   var durEl=document.getElementById('vidDur'); if(durEl)durEl.textContent=FILM.dur;
