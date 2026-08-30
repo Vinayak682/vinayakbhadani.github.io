@@ -3131,6 +3131,23 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
     #vidWrap .vid-zone:hover .vz-lab,
     #vidWrap .vid-zone:focus-visible .vz-lab{opacity:1}
 
+    #vidWrap .vid-soundhint{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.94);
+      z-index:5;pointer-events:none;
+      display:inline-flex;align-items:center;gap:7px;
+      padding:9px 15px;border-radius:20px;
+      font:700 .68rem/1 inherit;color:#fff;
+      background:rgba(4,2,14,.66);border:1px solid rgba(255,255,255,.24);
+      backdrop-filter:blur(10px);
+      opacity:0;transition:opacity .28s ease,transform .28s ease;
+    }
+    #vidWrap.vid-previewing .vid-soundhint{opacity:1;transform:translate(-50%,-50%) scale(1)}
+    #vidWrap.vid-committed .vid-soundhint,
+    #vidWrap.vid-sound-unlocked .vid-soundhint{opacity:0}
+    /* Touch never previews - a tap goes straight to sound - so the hint
+       would only ever be a lie sitting over the chapter menu. */
+    @media (hover:none),(pointer:coarse){#vidWrap .vid-soundhint{display:none}}
+
     .vid-exit{
       position:absolute;top:18px;right:18px;z-index:6;
       display:inline-flex;align-items:center;gap:6px;cursor:pointer;
@@ -3225,6 +3242,13 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
              Built from the chapter list below so there is one source of truth. -->
         <div class="vid-deck" id="vidDeck" role="group"
              aria-label="Chapters. Hover a chapter to preview it silently, or activate it to watch from there with sound."></div>
+
+        <!-- Says out loud that the preview is silent, so nobody reads a muted
+             preview as broken audio. Only shown while previewing. -->
+        <span class="vid-soundhint" id="vidSoundHint" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M23 9l-6 6M17 9l6 6"/></svg>
+          Silent preview — click for sound
+        </span>
         <!-- Bottom title bar -->
         <div class="vid-bottom-bar">
           <div class="vid-title">The Three-Layer Supply Chain Operating System</div>
@@ -6712,7 +6736,7 @@ if('IntersectionObserver' in window){
   vid.muted=true;
 
   var HOVER=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-  var committed=false, hoverTimer=null;
+  var committed=false, hoverTimer=null, unlocked=false;
 
   /* One source of truth: the deck is built from the chapter list, so the
      two can never drift apart. */
@@ -6737,9 +6761,17 @@ if('IntersectionObserver' in window){
   function preview(t){
     if(committed)return;
     if(t!=null&&isFinite(t)){try{vid.currentTime=t;}catch(e){}}
-    vid.muted=true;
     wrap.classList.add('vid-previewing');
-    vid.play().catch(function(){});
+    /* Once they have committed once, the browser has a gesture on record and
+       will usually allow sound, so later previews are not needlessly silent.
+       If the policy still refuses, fall back to muted - a silent preview
+       beats play() rejecting and nothing happening at all. */
+    vid.muted=!unlocked;
+    vid.play().catch(function(){
+      vid.muted=true;
+      wrap.classList.remove('vid-sound-unlocked');
+      vid.play().catch(function(){});
+    });
   }
   function unpreview(){
     if(committed)return;
@@ -6750,8 +6782,8 @@ if('IntersectionObserver' in window){
      native controls - that pair is what used to take two clicks. */
   function commit(t){
     if(t!=null&&isFinite(t)){try{vid.currentTime=t;}catch(e){}}
-    committed=true;
-    wrap.classList.add('vid-committed');
+    committed=true; unlocked=true;
+    wrap.classList.add('vid-committed','vid-sound-unlocked');
     wrap.classList.remove('vid-previewing');
     hideOverlay();
     vid.muted=false; vid.controls=true; exitBtn.hidden=false;
