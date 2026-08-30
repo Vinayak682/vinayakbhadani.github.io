@@ -3089,6 +3089,83 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
     .transcript-body::-webkit-scrollbar-thumb:hover {
       background: var(--sf-blue-light, #7ca6ff);
     }
+    /* ── Chapter deck ────────────────────────────────────────
+       Replaces the play button. Hovering a band previews that chapter
+       silently; activating one starts it with sound. Browsers refuse
+       audible playback that a click did not start, so the preview has
+       to be muted and the click that gives sound is the same click
+       that commits - which is what removes the old play-then-pause
+       pair. */
+    #vidWrap .vid-deck{
+      position:absolute;inset:0;display:flex;z-index:2;
+      opacity:0;transition:opacity .34s ease;
+    }
+    #vidWrap:hover .vid-deck,
+    #vidWrap.vid-previewing .vid-deck,
+    #vidWrap .vid-deck:focus-within{opacity:1}
+    #vidWrap.vid-committed .vid-deck{opacity:0;pointer-events:none}
+    #vidWrap .vid-zone{
+      flex:1;min-width:0;position:relative;cursor:pointer;
+      border:none;border-right:1px solid rgba(255,255,255,.16);
+      background:transparent;padding:0;font:inherit;color:inherit;
+      transition:background .25s ease;
+    }
+    #vidWrap .vid-zone:last-child{border-right:none}
+    #vidWrap .vid-zone:hover{background:rgba(47,95,227,.24)}
+    #vidWrap .vid-zone:focus-visible{
+      outline:2px solid var(--sf-blue-light,#7ca6ff);outline-offset:-4px;
+      background:rgba(47,95,227,.24);
+    }
+    #vidWrap .vz-num{
+      position:absolute;left:0;right:0;top:46px;text-align:center;
+      font:700 .58rem/1 Monaco,monospace;color:var(--sf-blue-light,#7ca6ff);
+      opacity:.6;transition:opacity .25s;
+    }
+    #vidWrap .vid-zone:hover .vz-num,
+    #vidWrap .vid-zone:focus-visible .vz-num{opacity:1}
+    #vidWrap .vz-lab{
+      position:absolute;left:0;right:0;bottom:64px;padding:0 9px;text-align:center;
+      font:700 .66rem/1.34 inherit;color:#fff;opacity:.42;
+      text-shadow:0 2px 10px rgba(0,0,0,.9);transition:opacity .25s;
+    }
+    #vidWrap .vid-zone:hover .vz-lab,
+    #vidWrap .vid-zone:focus-visible .vz-lab{opacity:1}
+
+    .vid-exit{
+      position:absolute;top:18px;right:18px;z-index:6;
+      display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+      padding:8px 14px;border-radius:20px;
+      font:700 .66rem/1 inherit;color:#eaf1ff;
+      background:rgba(4,2,14,.72);border:1px solid rgba(255,255,255,.22);
+      backdrop-filter:blur(10px);transition:all .25s ease;
+    }
+    .vid-exit:hover{background:rgba(47,95,227,.5);border-color:rgba(124,166,255,.6)}
+    .vid-exit[hidden]{display:none}
+
+    /* No hover on touch, so a hover-revealed deck would be an invisible
+       one sitting over the frame taking taps. Here it shows itself as a
+       two-column menu with finger-sized targets. */
+    @media (hover:none),(pointer:coarse){
+      #vidWrap .vid-deck{
+        opacity:1;display:grid;grid-template-columns:1fr 1fr;
+        background:rgba(4,2,14,.6);
+      }
+      #vidWrap .vid-zone{
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        gap:4px;padding:6px;border-bottom:1px solid rgba(255,255,255,.14);
+      }
+      #vidWrap .vid-zone:nth-child(2n){border-right:none}
+      #vidWrap .vid-zone:nth-last-child(-n+2){border-bottom:none}
+      #vidWrap .vz-num,#vidWrap .vz-lab{
+        position:static;opacity:.95;text-align:center;padding:0;bottom:auto;top:auto;
+      }
+      #vidWrap .vz-lab{font-size:.6rem;line-height:1.25}
+      #vidWrap.vid-committed .vid-deck{opacity:0;pointer-events:none}
+    }
+    @media(prefers-reduced-motion:reduce){
+      #vidWrap .vid-deck,#vidWrap .vid-zone,#vidWrap .vz-num,#vidWrap .vz-lab{transition:none}
+    }
+
     @media(max-width: 768px) {
       .vid-context-panel { grid-template-columns:1fr; }
       .vid-proof-grid { grid-template-columns:1fr; }
@@ -3144,16 +3221,24 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
           <span class="vid-badge">Portfolio Film · Evidence Labelled</span>
           <span class="vid-dur">2 min 28 sec</span>
         </div>
-        <!-- Central play button -->
-        <button type="button" class="vid-play-btn" id="vidPlayBtn" aria-label="Play The Three-Layer Supply Chain Operating System">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
-        </button>
+        <!-- The poster is the table of contents: one band per chapter.
+             Built from the chapter list below so there is one source of truth. -->
+        <div class="vid-deck" id="vidDeck" role="group"
+             aria-label="Chapters. Hover a chapter to preview it silently, or activate it to watch from there with sound."></div>
         <!-- Bottom title bar -->
         <div class="vid-bottom-bar">
           <div class="vid-title">The Three-Layer Supply Chain Operating System</div>
           <div class="vid-subtitle">Vinayak Bhadani &nbsp;·&nbsp; Physical, digital and governance layers into one operating plan</div>
         </div>
       </div>
+
+      <!-- Sits outside the overlay so it survives when the overlay hides.
+           This is the mouse route back out of a committed watch - Escape
+           does the same thing, but nothing here is keyboard-only. -->
+      <button type="button" class="vid-exit" id="vidExit" hidden>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M15 18l-6-6 6-6"/></svg>
+        Chapters
+      </button>
     </div>
  
     <!-- INTERACTIVE CHAPTERS & TRANSCRIPT UPGRADE -->
@@ -6612,33 +6697,111 @@ if('IntersectionObserver' in window){
 (function(){
   var vid=document.getElementById('vidPlayer');
   var overlay=document.getElementById('vidOverlay');
-  var playBtn=document.getElementById('vidPlayBtn');
   var wrap=document.getElementById('vidWrap');
+  var deck=document.getElementById('vidDeck');
+  var exitBtn=document.getElementById('vidExit');
+  var chapterBtns = document.querySelectorAll('.chapter-btn');
+  var transcriptLines = document.querySelectorAll('.transcript-line');
+  var transcriptBody = document.getElementById('transcriptBody');
+  if(!vid||!deck) return;
 
-  function showOverlay(){
-    overlay.classList.remove('vid-hidden');
-    playBtn.style.display='flex';
-  }
-  function hideOverlay(){
-    if(!vid.paused) overlay.classList.add('vid-hidden');
-  }
+  /* Progressive enhancement: the markup ships with native controls, so with
+     no JS this is still an ordinary, working video. We take them off only
+     once we can offer the deck instead. */
+  vid.controls=false;
+  vid.muted=true;
 
-  /* The presentation is user-initiated. Native controls handle pause, seek,
-     volume, captions and fullscreen after this accessible play button. */
-  playBtn.addEventListener('click',function(e){
-    e.stopPropagation();
-    vid.muted=false;
+  var HOVER=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var committed=false, hoverTimer=null;
+
+  /* One source of truth: the deck is built from the chapter list, so the
+     two can never drift apart. */
+  var chapters=[].map.call(chapterBtns,function(b){
+    return {t:parseFloat(b.getAttribute('data-time'))||0,
+            time:((b.querySelector('.ch-time')||{}).textContent||'').trim(),
+            label:((b.querySelector('.ch-label')||{}).textContent||'').trim()};
+  });
+  deck.innerHTML=chapters.map(function(c,i){
+    return '<button type="button" class="vid-zone" data-t="'+c.t+'" aria-label="Chapter '+
+      (i+1)+', '+c.time+', '+c.label+'. Watch from here with sound.">'+
+      '<span class="vz-num">'+c.time+'</span>'+
+      '<span class="vz-lab">'+c.label+'</span></button>';
+  }).join('');
+
+  function showOverlay(){overlay.classList.remove('vid-hidden');}
+  function hideOverlay(){overlay.classList.add('vid-hidden');}
+
+  /* Preview is muted by necessity - browsers block audible playback that a
+     click did not start. Pausing leaves currentTime alone, so returning
+     continues instead of restarting. */
+  function preview(t){
+    if(committed)return;
+    if(t!=null&&isFinite(t)){try{vid.currentTime=t;}catch(e){}}
+    vid.muted=true;
+    wrap.classList.add('vid-previewing');
+    vid.play().catch(function(){});
+  }
+  function unpreview(){
+    if(committed)return;
+    wrap.classList.remove('vid-previewing');
+    vid.pause();
+  }
+  /* The single click that gives sound is the same one that hands over to
+     native controls - that pair is what used to take two clicks. */
+  function commit(t){
+    if(t!=null&&isFinite(t)){try{vid.currentTime=t;}catch(e){}}
+    committed=true;
+    wrap.classList.add('vid-committed');
+    wrap.classList.remove('vid-previewing');
+    hideOverlay();
+    vid.muted=false; vid.controls=true; exitBtn.hidden=false;
     vid.play().catch(function(){});
     if(typeof gtag!=='undefined') gtag('event','video_play',{event_category:'engagement',event_label:'portfolio_video'});
+  }
+  function release(){
+    if(!committed)return;
+    committed=false;
+    wrap.classList.remove('vid-committed');
+    vid.controls=false; vid.muted=true; vid.pause();
+    exitBtn.hidden=true;
+    showOverlay();
+  }
+
+  /* ── Deck: hover previews, activate commits ── */
+  deck.addEventListener('click',function(e){
+    var z=e.target.closest('.vid-zone'); if(!z)return;
+    e.stopPropagation(); commit(parseFloat(z.getAttribute('data-t')));
+  });
+  if(HOVER){
+    deck.addEventListener('mouseover',function(e){
+      var z=e.target.closest('.vid-zone'); if(!z||committed)return;
+      clearTimeout(hoverTimer);
+      var t=parseFloat(z.getAttribute('data-t'));
+      hoverTimer=setTimeout(function(){preview(t);},110);   // sweeping must not thrash seeks
+    });
+    deck.addEventListener('mouseleave',function(){clearTimeout(hoverTimer);unpreview();});
+  }
+  /* Keyboard mirrors hover, so tabbing gives the same preview a mouse gets. */
+  deck.addEventListener('focusin',function(e){
+    var z=e.target.closest('.vid-zone'); if(!z||committed)return;
+    preview(parseFloat(z.getAttribute('data-t')));
+  });
+  deck.addEventListener('focusout',function(e){
+    if(!deck.contains(e.relatedTarget))unpreview();
   });
 
-  vid.addEventListener('play',function(){
-    hideOverlay();
+  /* Every action has a mouse route: the chip is the pointer equivalent of
+     Escape, so a mouse user is never stranded inside a committed watch. */
+  exitBtn.addEventListener('click',function(e){e.stopPropagation();release();});
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape'||!committed)return;
+    var m=document.getElementById('vidModal');
+    if(m&&!m.hidden)return;              // Escape belongs to the modal when it is open
+    release();
   });
-  vid.addEventListener('pause',function(){showOverlay();});
+
   vid.addEventListener('ended',function(){
-    overlay.classList.remove('vid-hidden');
-    playBtn.style.display='flex';
+    release();
     if(typeof gtag!=='undefined') gtag('event','video_complete',{event_category:'engagement',event_label:'portfolio_video'});
   });
 
@@ -6649,33 +6812,19 @@ if('IntersectionObserver' in window){
     });
   }, { threshold: 0.15 });
   visibilityObserver.observe(wrap);
- 
-  /* Interactive Chapters and Transcript Logic */
-  var chapterBtns = document.querySelectorAll('.chapter-btn');
-  var transcriptLines = document.querySelectorAll('.transcript-line');
-  var transcriptBody = document.getElementById('transcriptBody');
- 
-  // Jump to time in video when clicking a chapter
+
+  /* The sidebar and the transcript are deliberate choices, so they go
+     straight to a committed watch rather than a silent preview. */
   chapterBtns.forEach(function(btn) {
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
-      var seconds = parseInt(btn.getAttribute('data-time'));
-      vid.currentTime = seconds;
-      vid.muted = false; // unmute
-      vid.play();
-      hideOverlay();
+      commit(parseInt(btn.getAttribute('data-time')));
     });
   });
- 
-  // Jump to time in video when clicking a transcript line
   transcriptLines.forEach(function(line) {
     line.addEventListener('click', function(e) {
       e.stopPropagation();
-      var seconds = parseInt(line.getAttribute('data-time'));
-      vid.currentTime = seconds;
-      vid.muted = false; // unmute
-      vid.play();
-      hideOverlay();
+      commit(parseInt(line.getAttribute('data-time')));
     });
   });
  
