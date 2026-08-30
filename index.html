@@ -1223,15 +1223,6 @@ footer::before{
   transition:opacity .35s ease;z-index:2;
 }
 .vid-overlay.vid-hidden{opacity:0;pointer-events:none;}
-.vid-play-btn{
-  width:82px;height:82px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.42);padding:0;
-  background:rgba(47,95,227,.94);backdrop-filter:blur(4px);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all .25s ease;
-}
-.vid-play-btn:hover{background:#3c6bef;transform:scale(1.06);box-shadow:0 0 0 5px rgba(124,166,255,.2);}
-.vid-play-btn svg{width:30px;height:30px;fill:#fff;margin-left:5px;}
 .vid-top-bar{
   position:absolute;top:20px;left:20px;right:20px;
   display:flex;align-items:center;justify-content:space-between;
@@ -1288,8 +1279,6 @@ footer::before{
 }
 .vid-modal-close:hover{background:rgba(47,95,227,.9);}
 @media(max-width:480px){
-  .vid-play-btn{width:62px;height:62px;}
-  .vid-play-btn svg{width:22px;height:22px;}
   .hero-ctas-row{flex-wrap:wrap;}
   .hero-ctas-row .btn{flex:1;min-width:120px;justify-content:center;}
 }
@@ -1884,25 +1873,6 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
     radial-gradient(ellipse 70% 50% at 50% 50%, rgba(192,132,252,.05) 0%, transparent 55%),
     linear-gradient(180deg,var(--bg0) 0%,var(--bg1) 45%,var(--bg0) 100%);
   position:relative;overflow:hidden;
-}
-.vid-play-btn{
-  width:82px;height:82px;border-radius:50%;
-  background:linear-gradient(135deg,rgba(192,132,252,.85),rgba(129,140,248,.85));
-  backdrop-filter:blur(8px);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all .25s ease;
-  animation:vidpulse 2.6s ease infinite;
-}
-.vid-play-btn:hover{
-  background:linear-gradient(135deg,#c084fc,#22d3ee);
-  transform:scale(1.12);
-  box-shadow:0 0 0 6px rgba(192,132,252,.2),0 0 40px rgba(192,132,252,.3);
-}
-.vid-play-btn svg{width:30px;height:30px;fill:#04020e;margin-left:5px;}
-@keyframes vidpulse{
-  0%{box-shadow:0 0 0 0 rgba(192,132,252,.6);}
-  65%{box-shadow:0 0 0 24px rgba(192,132,252,0);}
-  100%{box-shadow:0 0 0 0 rgba(192,132,252,0);}
 }
 .vid-player-wrap{
   position:relative;border-radius:18px;overflow:hidden;background:#000;
