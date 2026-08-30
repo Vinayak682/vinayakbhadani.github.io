@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Video player — hover-to-play design options</title>
+<style>
+:root{
+  --bg0:#07060f; --bg1:#0c0a1a; --brd:rgba(255,255,255,.09);
+  --t1:#f0f4ff; --t2:#8b9dc0; --t3:#61708d;
+  --blue:#2f5fe3; --blue-l:#7ca6ff;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg0);color:var(--t1);
+  font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  padding:44px 22px 90px}
+.wrap{max-width:940px;margin:0 auto}
+h1{font-size:1.75rem;letter-spacing:-.02em;margin:0 0 8px}
+.sub{color:var(--t2);margin:0 0 12px;max-width:70ch;font-size:.93rem}
+.warn{margin:0 0 40px;padding:12px 15px;border-left:3px solid #fbbf24;
+  background:rgba(251,191,36,.09);color:#e6d9b8;font-size:.83rem;max-width:70ch}
+.variant{margin:0 0 60px;padding-top:26px;border-top:1px solid var(--brd)}
+.vh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.vtag{font:700 .6rem/1 Monaco,monospace;letter-spacing:.16em;color:var(--blue-l);
+  border:1px solid rgba(124,166,255,.34);border-radius:999px;padding:6px 10px}
+.vh h2{font-size:1.16rem;margin:0;letter-spacing:-.015em}
+.vnote{color:var(--t2);font-size:.86rem;margin:0 0 18px;max-width:72ch}
+.state{font:700 .62rem/1 Monaco,monospace;letter-spacing:.1em;color:var(--t3);
+  margin-top:10px;text-transform:uppercase}
+.state b{color:var(--blue-l);font-weight:700}
+
+/* ── shared player shell ───────────────────────────────── */
+.pw{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;
+  background:#000;border:1px solid var(--brd);cursor:pointer;
+  box-shadow:0 24px 60px rgba(0,4,20,.5)}
+.pw:focus-visible{outline:2px solid var(--blue-l);outline-offset:3px}
+.pw video{width:100%;height:100%;display:block;object-fit:cover;background:#000}
+.pw video.native{cursor:auto}
+
+/* top-left/right chrome */
+.bar{position:absolute;left:0;right:0;display:flex;justify-content:space-between;
+  align-items:center;padding:14px 16px;pointer-events:none;z-index:3;
+  transition:opacity .3s}
+.bar.top{top:0;background:linear-gradient(to bottom,rgba(4,2,14,.72),transparent)}
+.bar.bot{bottom:0;background:linear-gradient(to top,rgba(4,2,14,.82),transparent);
+  flex-direction:column;align-items:flex-start;gap:2px;padding-bottom:18px}
+.badge{font:700 .58rem/1 Monaco,monospace;letter-spacing:.12em;text-transform:uppercase;
+  color:#cfe0ff;background:rgba(8,11,19,.6);border:1px solid rgba(255,255,255,.16);
+  border-radius:999px;padding:6px 11px;backdrop-filter:blur(8px)}
+.dur{font:700 .68rem/1 Monaco,monospace;color:#dfe8fb;background:rgba(8,11,19,.72);
+  border-radius:4px;padding:6px 9px;backdrop-filter:blur(8px)}
+.ttl{font-weight:800;font-size:.98rem;letter-spacing:-.01em;text-shadow:0 2px 12px rgba(0,0,0,.7)}
+.sub2{font-size:.72rem;color:#b9c6de;text-shadow:0 2px 10px rgba(0,0,0,.7)}
+
+/* the sound affordance replaces the play button */
+.hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.94);
+  z-index:4;display:flex;align-items:center;gap:9px;
+  padding:11px 18px;border-radius:999px;pointer-events:none;
+  background:rgba(8,11,19,.62);border:1px solid rgba(255,255,255,.26);
+  backdrop-filter:blur(12px);color:#fff;font-weight:700;font-size:.8rem;
+  opacity:0;transition:opacity .28s,transform .28s}
+.pw.previewing .hint{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.pw.committed .hint{opacity:0}
+
+/* idle prompt: what a viewer sees before touching anything */
+.idle{position:absolute;left:50%;bottom:58px;transform:translateX(-50%);z-index:4;
+  font:700 .68rem/1 Monaco,monospace;letter-spacing:.13em;text-transform:uppercase;
+  color:#cfe0ff;background:rgba(8,11,19,.55);border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;padding:8px 14px;backdrop-filter:blur(10px);
+  opacity:1;transition:opacity .3s;pointer-events:none}
+.pw.previewing .idle,.pw.committed .idle{opacity:0}
+
+/* progress hairline */
+.prog{position:absolute;left:0;bottom:0;height:3px;width:100%;z-index:5;
+  background:rgba(255,255,255,.14)}
+.prog i{display:block;height:100%;width:0;background:var(--blue-l);
+  box-shadow:0 0 10px rgba(124,166,255,.8)}
+.pw.committed .prog{opacity:0}
+
+/* ── B: scrub rail ─────────────────────────────────────── */
+.rail{position:absolute;left:0;right:0;bottom:0;height:56px;z-index:6;
+  display:flex;align-items:flex-end;
+  background:linear-gradient(to top,rgba(4,2,14,.9),transparent);
+  opacity:0;transition:opacity .3s}
+.pw.previewing .rail,.pw.scrubbing .rail{opacity:1}
+.rail .track{position:absolute;left:14px;right:14px;bottom:16px;height:4px;
+  background:rgba(255,255,255,.2);border-radius:2px}
+.rail .track i{display:block;height:100%;width:0;background:var(--blue-l);border-radius:2px}
+.rail .ticks{position:absolute;left:14px;right:14px;bottom:16px;height:4px}
+.rail .ticks span{position:absolute;top:-2px;width:2px;height:8px;background:rgba(255,255,255,.5)}
+.rail .head{position:absolute;bottom:12px;width:12px;height:12px;border-radius:50%;
+  background:#fff;box-shadow:0 0 0 3px rgba(47,95,227,.6);transform:translateX(-50%);
+  transition:transform .06s}
+.chip{position:absolute;bottom:34px;transform:translateX(-50%);
+  background:rgba(8,11,19,.9);border:1px solid rgba(124,166,255,.4);border-radius:5px;
+  padding:6px 10px;font:700 .68rem/1.2 -apple-system,sans-serif;color:#eaf1ff;
+  white-space:nowrap;pointer-events:none;backdrop-filter:blur(8px)}
+.chip em{display:block;font-style:normal;font:700 .58rem/1.4 Monaco,monospace;color:var(--blue-l)}
+
+/* ── C: chapter deck ───────────────────────────────────── */
+.deck{position:absolute;inset:0;z-index:6;display:flex;opacity:0;transition:opacity .3s}
+.pw.previewing .deck{opacity:1}
+.deck .z{flex:1;border-right:1px solid rgba(255,255,255,.16);position:relative;
+  transition:background .25s}
+.deck .z:last-child{border-right:none}
+.deck .z:hover{background:rgba(47,95,227,.24)}
+.deck .z .lab{position:absolute;left:0;right:0;bottom:18px;padding:0 8px;text-align:center;
+  font:700 .63rem/1.35 -apple-system,sans-serif;color:#fff;opacity:.34;
+  text-shadow:0 2px 10px rgba(0,0,0,.85);transition:opacity .25s}
+.deck .z:hover .lab{opacity:1}
+.deck .z .num{position:absolute;left:0;right:0;top:14px;text-align:center;
+  font:700 .58rem/1 Monaco,monospace;color:var(--blue-l);opacity:.55}
+.deck .z:hover .num{opacity:1}
+
+.legend{margin-top:14px;color:var(--t3);font-size:.78rem}
+kbd{background:rgba(255,255,255,.08);border:1px solid var(--brd);border-radius:3px;
+  padding:1px 6px;font:600 .72rem Monaco,monospace;color:#cfe0ff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Hover-to-play: three ways</h1>
+  <p class="sub">Same film, same chapters, no play button in any of them. Hover to preview, move away to pause on the exact frame, hover back to resume. One click commits to watching with sound.</p>
+  <p class="warn"><strong>Why hover-play is muted:</strong> browsers block audible playback that a click didn't start — hovering doesn't count as a gesture. So hover gives a silent preview, and the single click that unmutes is also the click that hands you real controls. That is what removes the old play-then-pause double click.</p>
+
+  <!-- ══ A ══ -->
+  <section class="variant">
+    <div class="vh"><span class="vtag">A</span><h2>Preview &amp; Commit</h2></div>
+    <p class="vnote">The literal version of what you asked for. Hover plays, leaving pauses and holds the frame (no poster flash), returning resumes. Click anywhere unmutes and switches to native controls — after that, moving the mouse away no longer pauses it.</p>
+    <div class="pw" id="A" tabindex="0" role="button" aria-label="Preview the film. Click to watch with sound.">
+      <video preload="metadata" playsinline muted
+             poster="three-layer-operating-system-poster.jpg"
+             src="three-layer-supply-chain-operating-system.mp4"></video>
+      <div class="bar top"><span class="badge">Portfolio film</span><span class="dur">2:28</span></div>
+      <div class="bar bot"><span class="ttl">The Three-Layer Supply Chain Operating System</span>
+        <span class="sub2">Vinayak Bhadani</span></div>
+      <span class="idle">Hover to preview</span>
+      <span class="hint">🔊 Click for sound</span>
+      <div class="prog"><i></i></div>
+    </div>
+    <div class="state" id="As">state: <b>idle</b></div>
+  </section>
+
+  <!-- ══ B ══ -->
+  <section class="variant">
+    <div class="vh"><span class="vtag">B</span><h2>Scrub Rail</h2></div>
+    <p class="vnote">A, plus the "play around in it" part. A rail appears along the bottom while previewing: sweep across it and you scrub the whole 2:28 by cursor position, with the chapter under your cursor named as you go. Ticks mark chapter boundaries. Leave the rail and the preview resumes from wherever you landed.</p>
+    <div class="pw" id="B" tabindex="0" role="button" aria-label="Preview the film. Click to watch with sound.">
+      <video preload="metadata" playsinline muted
+             poster="three-layer-operating-system-poster.jpg"
+             src="three-layer-supply-chain-operating-system.mp4"></video>
+      <div class="bar top"><span class="badge">Portfolio film</span><span class="dur">2:28</span></div>
+      <div class="bar bot"><span class="ttl">The Three-Layer Supply Chain Operating System</span>
+        <span class="sub2">Vinayak Bhadani</span></div>
+      <span class="idle">Hover to preview · sweep the rail to scrub</span>
+      <span class="hint">🔊 Click for sound</span>
+      <div class="rail"><div class="ticks"></div><div class="track"><i></i></div><div class="head"></div></div>
+      <div class="prog"><i></i></div>
+    </div>
+    <div class="state" id="Bs">state: <b>idle</b></div>
+  </section>
+
+  <!-- ══ C ══ -->
+  <section class="variant">
+    <div class="vh"><span class="vtag">C</span><h2>Chapter Deck</h2></div>
+    <p class="vnote">The frame splits into the six chapters the film already has. Hovering a band jumps to that chapter and previews it; the band you're over is named. Click enters that chapter with sound. This turns the whole poster into a table of contents rather than a single play target.</p>
+    <div class="pw" id="C" tabindex="0" role="button" aria-label="Preview the film by chapter. Click to watch with sound.">
+      <video preload="metadata" playsinline muted
+             poster="three-layer-operating-system-poster.jpg"
+             src="three-layer-supply-chain-operating-system.mp4"></video>
+      <div class="bar top"><span class="badge">Portfolio film</span><span class="dur">2:28</span></div>
+      <div class="bar bot"><span class="ttl">The Three-Layer Supply Chain Operating System</span>
+        <span class="sub2">Vinayak Bhadani</span></div>
+      <span class="idle">Hover a chapter</span>
+      <span class="hint">🔊 Click for sound</span>
+      <div class="deck"></div>
+      <div class="prog"><i></i></div>
+    </div>
+    <div class="state" id="Cs">state: <b>idle</b></div>
+  </section>
+
+  <p class="legend">Keyboard: <kbd>Tab</kbd> to a player to preview it, <kbd>Enter</kbd> to commit to sound, <kbd>Esc</kbd> to step back out. Touch devices get a tap-to-play fallback, since there is no hover.</p>
+</div>
+
+<script>
+const CH=[
+ {t:0,  l:'Two domains, one operator'},
+ {t:12, l:'The three-layer stack'},
+ {t:28, l:'Emirates Pride scope'},
+ {t:41, l:'ANDS volume & freight mix'},
+ {t:64, l:'Results & risk radar'},
+ {t:94, l:'S&OP cadence & proof discipline'}
+];
+const DUR=147.6;
+const HOVERABLE=matchMedia('(hover:hover) and (pointer:fine)').matches;
+const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+const chapterAt=t=>{let c=CH[0];for(const x of CH){if(t>=x.t)c=x}return c};
+
+function build(id,opts){
+  const pw=document.getElementById(id);
+  const v=pw.querySelector('video');
+  const prog=pw.querySelector('.prog i');
+  const st=document.getElementById(id+'s');
+  let committed=false, scrubbing=false;
+  const say=s=>st.innerHTML='state: <b>'+s+'</b>';
+
+  /* Preview = muted, and it never rewinds: pausing leaves currentTime where
+     it was, so coming back continues rather than restarting. */
+  function preview(){
+    if(committed)return;
+    pw.classList.add('previewing');
+    v.muted=true;
+    v.play().then(()=>say('previewing (muted) · '+fmt(v.currentTime))).catch(()=>{});
+  }
+  function unpreview(){
+    if(committed||scrubbing)return;
+    pw.classList.remove('previewing');
+    v.pause();                       // holds the frame; no poster flash
+    say('paused at '+fmt(v.currentTime)+' — hover to resume');
+  }
+  /* One click does the whole job: sound on, real controls, and the mouse
+     leaving no longer stops it. This is the double-click we are removing. */
+  function commit(){
+    if(committed)return;
+    committed=true;
+    pw.classList.remove('previewing'); pw.classList.add('committed');
+    v.muted=false; v.controls=true; v.classList.add('native');
+    v.play().catch(()=>{});
+    say('watching with sound');
+  }
+  function release(){
+    if(!committed)return;
+    committed=false;
+    pw.classList.remove('committed');
+    v.controls=false; v.muted=true; v.classList.remove('native'); v.pause();
+    say('back to preview · paused at '+fmt(v.currentTime));
+  }
+
+  if(HOVERABLE){
+    pw.addEventListener('mouseenter',preview);
+    pw.addEventListener('mouseleave',unpreview);
+  }else{
+    // No hover: tapping is the only gesture, so it goes straight to sound.
+    pw.querySelector('.idle').textContent='Tap to play';
+  }
+  pw.addEventListener('click',e=>{if(!e.target.closest('.rail'))commit()});
+  /* Not gated on hover: a keyboard user tabbing here deserves the same
+     preview a mouse user gets, whatever the pointer hardware reports. */
+  pw.addEventListener('focus',preview);
+  pw.addEventListener('blur',unpreview);
+  pw.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();commit()}
+    if(e.key==='Escape')release();
+  });
+  v.addEventListener('timeupdate',()=>{
+    prog.style.width=(v.currentTime/(v.duration||DUR)*100)+'%';
+    if(opts.rail)railSync();
+    if(pw.classList.contains('previewing')&&!scrubbing)
+      say('previewing (muted) · '+fmt(v.currentTime));
+  });
+
+  /* ── B: scrub by cursor X across the rail ── */
+  let railEl,trackFill,head,chip;
+  function railSync(){
+    if(!trackFill)return;
+    const p=v.currentTime/(v.duration||DUR);
+    trackFill.style.width=(p*100)+'%';
+    head.style.left=`calc(14px + ${p} * (100% - 28px))`;
+  }
+  if(opts.rail){
+    railEl=pw.querySelector('.rail');
+    trackFill=railEl.querySelector('.track i');
+    head=railEl.querySelector('.head');
+    const ticks=railEl.querySelector('.ticks');
+    CH.forEach(c=>{const s=document.createElement('span');
+      s.style.left=(c.t/DUR*100)+'%';ticks.appendChild(s)});
+    chip=document.createElement('div');chip.className='chip';chip.style.display='none';
+    railEl.appendChild(chip);
+
+    const seekFromX=x=>{
+      const r=railEl.getBoundingClientRect();
+      const p=Math.min(1,Math.max(0,(x-r.left-14)/(r.width-28)));
+      const t=p*(v.duration||DUR);
+      v.currentTime=t;
+      const c=chapterAt(t);
+      chip.style.display='block';
+      chip.style.left=Math.min(r.width-60,Math.max(60,x-r.left))+'px';
+      chip.innerHTML='<em>'+fmt(t)+'</em>'+c.l;
+      say('scrubbing · '+fmt(t)+' · '+c.l);
+      railSync();
+    };
+    railEl.addEventListener('mouseenter',()=>{scrubbing=true;pw.classList.add('scrubbing');v.pause()});
+    railEl.addEventListener('mousemove',e=>seekFromX(e.clientX));
+    railEl.addEventListener('mouseleave',()=>{
+      scrubbing=false;pw.classList.remove('scrubbing');chip.style.display='none';
+      if(!committed)preview();
+    });
+    railEl.addEventListener('click',e=>{e.stopPropagation();seekFromX(e.clientX);commit()});
+  }
+
+  /* ── C: six chapter zones ── */
+  if(opts.deck){
+    const deck=pw.querySelector('.deck');
+    CH.forEach((c,i)=>{
+      const z=document.createElement('div');z.className='z';
+      z.innerHTML='<span class="num">'+fmt(c.t)+'</span><span class="lab">'+c.l+'</span>';
+      let tmr;
+      z.addEventListener('mouseenter',()=>{
+        clearTimeout(tmr);
+        tmr=setTimeout(()=>{           // debounce: sweeping across should not thrash seeks
+          if(committed)return;
+          v.currentTime=c.t;preview();
+          say('previewing ch'+(i+1)+' · '+c.l);
+        },110);
+      });
+      z.addEventListener('mouseleave',()=>clearTimeout(tmr));
+      z.addEventListener('click',e=>{e.stopPropagation();v.currentTime=c.t;commit()});
+      deck.appendChild(z);
+    });
+  }
+  say('idle');
+  return {pw,v,commit,release,preview,unpreview,isCommitted:()=>committed};
+}
+
+window.P={
+  A:build('A',{}),
+  B:build('B',{rail:true}),
+  C:build('C',{deck:true})
+};
+</script>
+</body>
+</html>
