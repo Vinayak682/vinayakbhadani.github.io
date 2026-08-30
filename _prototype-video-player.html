@@ -113,6 +113,32 @@ h1{font-size:1.75rem;letter-spacing:-.02em;margin:0 0 8px}
   font:700 .58rem/1 Monaco,monospace;color:var(--blue-l);opacity:.55}
 .deck .z:hover .num{opacity:1}
 
+/* ── touch ─────────────────────────────────────────────────
+   There is no hover here, so an affordance revealed by hover is an
+   invisible one. Worse for the deck: opacity 0 with pointer-events auto
+   left six unlabelled bands capturing taps, so tapping the middle of the
+   poster to play jumped into chapter 5. On touch these either show
+   themselves or stop taking taps. */
+@media (hover:none),(pointer:coarse){
+  .pw .idle{bottom:auto;top:50%;transform:translate(-50%,-50%)}
+
+  .pw .rail{opacity:1}
+  .rail .head{width:16px;height:16px}          /* draggable at finger size */
+
+  .pw .deck{opacity:1;display:grid;grid-template-columns:1fr 1fr;
+    background:rgba(4,2,14,.62);backdrop-filter:blur(2px)}
+  .deck .z{border-right:1px solid rgba(255,255,255,.14);
+    border-bottom:1px solid rgba(255,255,255,.14);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    padding:4px}
+  .deck .z:nth-child(2n){border-right:none}
+  .deck .z:nth-last-child(-n+2){border-bottom:none}
+  .deck .z .num,.deck .z .lab{position:static;opacity:.95;text-align:center}
+  .deck .z .lab{font-size:.58rem;line-height:1.25;padding:0}
+  .pw.committed .deck,.pw.committed .rail{opacity:0;pointer-events:none}
+  /* C's chapter grid is the whole point on touch, so hide the play prompt */
+  #C .idle{display:none}
+}
 .legend{margin-top:14px;color:var(--t3);font-size:.78rem}
 kbd{background:rgba(255,255,255,.08);border:1px solid var(--brd);border-radius:3px;
   padding:1px 6px;font:600 .72rem Monaco,monospace;color:#cfe0ff}
@@ -297,6 +323,25 @@ function build(id,opts){
       if(!committed)preview();
     });
     railEl.addEventListener('click',e=>{e.stopPropagation();seekFromX(e.clientX);commit()});
+
+    /* Touch equivalent: drag the rail to scrub. preventDefault stops the
+       page scrolling under the finger and stops the drag becoming a tap
+       that would commit the moment you let go. */
+    const tx=e=>e.touches&&e.touches[0]?e.touches[0].clientX:null;
+    railEl.addEventListener('touchstart',e=>{
+      const x=tx(e);if(x==null)return;
+      e.preventDefault();e.stopPropagation();
+      scrubbing=true;pw.classList.add('scrubbing');v.pause();seekFromX(x);
+    },{passive:false});
+    railEl.addEventListener('touchmove',e=>{
+      const x=tx(e);if(x==null)return;
+      e.preventDefault();e.stopPropagation();seekFromX(x);
+    },{passive:false});
+    railEl.addEventListener('touchend',e=>{
+      e.stopPropagation();
+      scrubbing=false;pw.classList.remove('scrubbing');chip.style.display='none';
+      say('paused at '+fmt(v.currentTime)+' — tap the frame to play with sound');
+    });
   }
 
   /* ── C: six chapter zones ── */
