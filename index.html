@@ -27,6 +27,8 @@
   gtag('js',new Date());gtag('config','G-08JD9489HY');
   document.addEventListener('click',function(e){
     if(e.target.closest('[id$="-cv-btn"]'))gtag('event','cv_download',{event_category:'engagement'});
+    var _c=e.target.closest&&e.target.closest('[data-cta]');
+    if(_c)gtag('event','engagement_enquiry',{event_category:'conversion',event_label:_c.dataset.cta});
     if(e.target.href&&e.target.href.includes('linkedin'))gtag('event','linkedin_click',{event_category:'engagement'});
     if(e.target.closest&&e.target.closest('a[href^="mailto:"]'))gtag('event','email_click',{event_category:'engagement'});
     if(e.target.closest&&e.target.closest('a[href*="wa.me"],a[href*="whatsapp"]'))gtag('event','whatsapp_click',{event_category:'engagement'});
@@ -47,7 +49,7 @@
 {"@context":"https://schema.org","@type":"Person","@id":"https://vinayakbhadani.com/#person","name":"Vinayak Bhadani","jobTitle":"Demand Planning Executive","worksFor":{"@type":"Organization","name":"Emirates Pride Perfumes"},"url":"https://vinayakbhadani.com/","email":"vinayakbhadani@zohomail.in","telephone":"+971556270561","address":{"@type":"PostalAddress","addressLocality":"Dubai","addressCountry":"AE"},"sameAs":["https://www.linkedin.com/in/vinayakbhadani/","https://github.com/Vinayak682","https://www.instagram.com/nextgensupplychain.ai"],"alumniOf":[{"@type":"EducationalOrganization","name":"SP Jain School of Global Management"},{"@type":"EducationalOrganization","name":"Sri Venkateshwara College of Engineering"}],"knowsAbout":["Demand Planning","Supply Chain Management","S&OP","Inventory Management","3PL Operations"]}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why should I hire Vinayak over other supply chain candidates?","acceptedAnswer":{"@type":"Answer","text":"Vinayak combines current demand planning experience across 28 UAE retail stores and 11 fragrance brands with prior responsibility for about 100,000 units per month across China, MENA and GCC. At ANDS, his documented outcomes include 20% fewer freight errors and 25% better on-time delivery."}},{"@type":"Question","name":"Is Vinayak open to relevant opportunities?","acceptedAnswer":{"@type":"Answer","text":"Vinayak is currently a Demand Planning Executive at Emirates Pride Perfumes and is open to relevant senior demand planning, S&OP and AI-enabled supply chain conversations in Dubai and the GCC."}},{"@type":"Question","name":"What types of companies has Vinayak worked in?","acceptedAnswer":{"@type":"Answer","text":"Fragrance retail at Emirates Pride Perfumes, distribution and consumer goods at ANDS Dubai, and automotive spare parts at Global Automobiles India."}},{"@type":"Question","name":"What formal qualifications back up Vinayak's supply chain expertise?","acceptedAnswer":{"@type":"Answer","text":"Vinayak completed the SP Jain Master of Global Business programme in October 2023 and the award was conferred on June 29, 2025. He also holds an engineering degree, CISCP and CISCM credentials from IPSCMI USA, and is pursuing APICS CPIM."}},{"@type":"Question","name":"How quickly can Vinayak ramp up with our tools and systems?","acceptedAnswer":{"@type":"Answer","text":"Vinayak has hands-on experience with SAP, Odoo, ERP workflows, SQL and browser-based AI supply chain tools, alongside current responsibility for replenishment and stock visibility across 28 UAE retail stores."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I know if my AI demand forecast is actually working?","acceptedAnswer":{"@type":"Answer","text":"Test it out-of-sample against a seasonal naive baseline. Vendor accuracy figures are usually produced in-sample, on data the model has already seen, and are rarely compared to a baseline at all. A model can post a strong in-sample score and still fail to beat a simple seasonal naive forecast on data it has not seen. Walk-forward validation, where the model forecasts only from what it could have known at each point in time, is the way to tell the two apart."}},{"@type":"Question","name":"What does Vinayak do?","acceptedAnswer":{"@type":"Answer","text":"Vinayak Bhadani is a demand planning operator in Dubai who runs independent validation of AI and statistical forecasting systems. He tests whether a forecast beats its baseline out-of-sample and publishes the method, including results that are negative. He takes forecast audits, validation retainers and planning-system builds across the GCC, alongside his role as Demand Planning Executive at Emirates Pride Perfumes."}},{"@type":"Question","name":"What makes Vinayak's validation work credible?","acceptedAnswer":{"@type":"Answer","text":"He published a negative result on his own system. AlphaOS, his agentic trading platform, moved from +0.27 Sharpe in-sample to -0.10 out-of-sample, replicated on crypto at +0.09 to -0.21. The roughly 50% drawdown reduction was the one result that held across every variant, so that is what he reported as real. As an operator he also has documented outcomes at ANDS Dubai: a 30-point forecast accuracy gain at category-month level, 30% lower air freight cost and 25% better on-time delivery, planning 100,000+ units per month across China, MENA and GCC."}},{"@type":"Question","name":"What types of companies has Vinayak worked in?","acceptedAnswer":{"@type":"Answer","text":"Fragrance retail at Emirates Pride Perfumes, distribution and consumer goods at ANDS Dubai, and automotive spare parts at Global Automobiles India."}},{"@type":"Question","name":"What formal qualifications back up Vinayak's supply chain expertise?","acceptedAnswer":{"@type":"Answer","text":"Vinayak completed the SP Jain Master of Global Business programme in October 2023 and the award was conferred on June 29, 2025. He also holds an engineering degree, CISCP and CISCM credentials from IPSCMI USA, and is pursuing APICS CPIM."}},{"@type":"Question","name":"How quickly can Vinayak ramp up with our tools and systems?","acceptedAnswer":{"@type":"Answer","text":"Vinayak has hands-on experience with SAP, Odoo, ERP workflows, SQL and browser-based AI supply chain tools, alongside current responsibility for replenishment and stock visibility across 28 UAE retail stores."}}]}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"VideoObject","@id":"https://vinayakbhadani.com/#three-layer-operating-system-film","name":"The Three-Layer Supply Chain Operating System","description":"Vinayak Bhadani walks through the three-layer operating system he uses to turn market uncertainty into movement — physical logistics, digital forecasting and executive governance — with the Emirates Pride multi-echelon retail scope, the ANDS China–MENA freight results and the four-week S&OP cadence behind it.","thumbnailUrl":"https://vinayakbhadani.com/three-layer-operating-system-poster.jpg","uploadDate":"2026-08-30","duration":"PT2M28S","contentUrl":"https://vinayakbhadani.com/three-layer-supply-chain-operating-system.mp4","url":"https://vinayakbhadani.com/#vid-section","inLanguage":"en","author":{"@id":"https://vinayakbhadani.com/#person"}}
@@ -425,6 +427,13 @@ section{padding:96px 0;position:relative;}
 .stat-l{font-size:.6rem;color:var(--t3);margin-top:5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;}
 .hero-ctas{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
 .hero-ctas-row{display:flex;gap:10px;flex-wrap:nowrap;align-items:center;}
+/* Backtick-terminal hint: only shown when the nav has room for it.
+   The terminal is still reachable via the ` key at any width. */
+.nav-kbd-hint{display:none;}
+@media(min-width:1400px){.nav-kbd-hint{display:block;}}
+.hero-cta-alt{margin:2px 0 0;font-size:.78rem;line-height:1.5;color:var(--t3);}
+.hero-cta-alt a{color:var(--t2);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;}
+.hero-cta-alt a:hover{color:var(--teal);}
 .hero-contact{display:flex;flex-wrap:wrap;gap:18px;}
 .hero-contact a{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--t3);transition:color var(--tr);}
 .hero-contact a:hover{color:#c084fc;}
@@ -2003,20 +2012,20 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         Calculators
       </a>
-      <a href="./hire.html">Hire</a><a href="#contact">Contact</a>
+      <a href="./hire.html">Work with me</a><a href="#contact">Contact</a>
       <!-- Mobile-only CTA row — hidden on desktop by CSS, shown in hamburger dropdown -->
       <div class="nav-mobile-ctas">
-        <a id="nav-cv-btn-mob" href="Vinayak-Bhadani-Resume-Demand-Planning-AI-Supply-Chain.pdf" download class="btn btn-download nav-cta">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download CV
+        <a data-cta="nav-audit-mobile" href="./hire.html" class="btn btn-download nav-cta">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Request an audit
         </a>
       </div>
     </div>
     <div class="nav-divider"></div>
     <div class="nav-cta-wrap">
-      <a id="nav-cv-btn" href="Vinayak-Bhadani-Resume-Demand-Planning-AI-Supply-Chain.pdf" download class="btn btn-download nav-cta" aria-label="Download CV">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download CV
+      <a data-cta="nav-audit" href="./hire.html" class="btn btn-download nav-cta" aria-label="Request a forecast audit">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Request an audit
       </a>
     </div>
     <!-- REMOVED: redundant Contact CTA button (Contact is in nav links) -->
@@ -2100,9 +2109,9 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
         <div class="hero-ctas">
           <!-- Row 1: Primary actions -->
           <div class="hero-ctas-row">
-            <a id="hero-cv-btn" href="Vinayak-Bhadani-Resume-Demand-Planning-AI-Supply-Chain.pdf" download class="btn btn-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Download CV
+            <a data-cta="hero-audit" href="./hire.html" class="btn btn-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Request a forecast audit
             </a>
             <button onclick="openVidModal()" class="btn btn-watch">
               <span class="btn-watch-dot"></span>
@@ -2110,6 +2119,8 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
               Watch Portfolio Film
             </button>
           </div>
+          <p class="hero-cta-alt">Independent validation, S&amp;OP advisory and planning builds &middot;
+            <a id="hero-cv-btn" href="Vinayak-Bhadani-Resume-Demand-Planning-AI-Supply-Chain.pdf" download>or download the CV (PDF)</a></p>
         </div>
         <div class="hero-proof">
           <span class="hero-proof-dot"></span>
@@ -6583,12 +6594,12 @@ function makeGameDecision(round, decision) {
 
     <p class="sec-label">Get In Touch</p>
       <h2 class="sec-title">Ready to Optimise Your <span>Supply Chain?</span></h2>
-      <p class="sec-sub" style="margin:0 auto;">Whether you're looking to hire a demand planning professional, discuss a supply chain challenge, or explore collaboration — let's connect.</p>
+      <p class="sec-sub" style="margin:0 auto;">Whether you want an independent read on a forecast you're being sold, a planning problem diagnosed, or a system built — let's connect.</p>
     </div>
     <div class="contact-grid">
       <div>
         <h3 style="font-size:1.15rem;font-weight:800;margin-bottom:22px;">Let's <span style="color:var(--teal)">Connect</span></h3>
-        <p style="color:var(--t2);font-size:.85rem;margin-bottom:30px;line-height:1.75;">Open to opportunities, consulting discussions, and supply chain network connections across GCC and MENA.</p>
+        <p style="color:var(--t2);font-size:.85rem;margin-bottom:30px;line-height:1.75;">Forecast audits, validation retainers and planning-system builds across the GCC and MENA — plus the occasional good argument about baselines.</p>
         <div class="ci"><div class="ci-label">Email</div><div class="ci-val"><a href="mailto:vinayakbhadani@zohomail.in">vinayakbhadani@zohomail.in</a></div></div>
         <div class="ci"><div class="ci-label">Phone</div><div class="ci-val"><a href="tel:+971556270561">+971 55 627 0561</a></div></div>
         <div class="ci"><div class="ci-label">WhatsApp</div><div class="ci-val"><a href="https://wa.me/971556270561?text=Hi%20Vinayak%20-%20I%20came%20across%20your%20portfolio%20and%20wanted%20to%20ask%20about%20" target="_blank" rel="noopener">Message me directly</a></div></div>
@@ -7499,6 +7510,7 @@ var SF_STILL  = window.matchMedia && window.matchMedia('(prefers-reduced-motion:
   var pal=document.getElementById('cmdPalette'),inp=document.getElementById('cmdInput'),res=document.getElementById('cmdResults');
   if(!pal||!inp)return;
   var CMDS=[
+    {icon:'📐',label:'Request a forecast audit',sub:'Independent out-of-sample validation',action:function(){window.location.href='./hire.html';}},
     {icon:'⬇️',label:'Download CV',sub:'PDF · Updated 2026',action:function(){window.open('Vinayak-Bhadani-Resume-Demand-Planning-AI-Supply-Chain.pdf','_blank');}},
     // HIDDEN (not supply-chain) — restore by uncommenting:
     // {icon:'🤖',label:'Open AlphaOS',sub:'Flagship AI Platform',action:function(){window.open('https://vinayak682.github.io/alpha-os/','_blank');}},
@@ -7579,7 +7591,7 @@ var SF_STILL  = window.matchMedia && window.matchMedia('(prefers-reduced-motion:
     if(e.key==='Escape'&&term.style.display==='flex')term.style.display='none';
   });
   // nav hint
-  var h=document.createElement('div');h.style.cssText='flex-shrink:0;margin-left:4px;';
+  var h=document.createElement('div');h.className='nav-kbd-hint';h.style.cssText='flex-shrink:0;margin-left:4px;';
   h.innerHTML='<kbd style="padding:3px 7px;background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.2);border-radius:5px;font-size:0.65rem;color:rgba(167,139,250,0.5);font-family:monospace;cursor:pointer;">`_</kbd>';
   h.querySelector('kbd').addEventListener('click',function(){term.style.display='flex';setTimeout(function(){inp.focus();},100);});
   var navI=document.querySelector('.nav-i');if(navI)navI.appendChild(h);

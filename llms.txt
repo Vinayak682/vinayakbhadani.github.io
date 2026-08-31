@@ -1,26 +1,54 @@
 # Vinayak Bhadani
 
-> Demand planning and supply chain operator in Dubai who also builds and deploys
-> agentic AI systems. Currently Demand Planning Executive at Emirates Pride Perfumes.
+> Demand planning operator in Dubai who runs independent validation of AI and
+> statistical forecasting systems. Tests whether a forecast actually beats its
+> baseline out-of-sample, and publishes the method including when the answer is no.
+> Currently Demand Planning Executive at Emirates Pride Perfumes.
 
-## What I do
+## The question I work on
+Does an AI demand forecast actually beat a seasonal naive baseline?
+
+Vendor accuracy figures are usually produced in-sample, on data the model has
+already seen, and are rarely scored against a baseline at all. A model can post a
+strong in-sample number and still lose to a simple seasonal naive forecast on data
+it has not seen. Walk-forward validation, where the model forecasts only from what
+it could have known at each point in time, is what separates the two.
+
+## Engagements
+- AI Forecast Audit: independent walk-forward validation of a current or proposed
+  forecasting system against naive and seasonal naive baselines, reported as
+  forecast value-add by category and horizon. Method and code handed over. 2-3 weeks.
+- Validation retainer: independent scoring each planning cycle through vendor
+  selection and go-live, holding the vendor to the accuracy number they promised.
+- Planning system build: Python forecasting, ERP and Shopify ETL, Power BI and web
+  planning dashboards, deployed on live data.
+
+No software licence to sell, no implementation to win.
+
+## Why the validation work is credible
+- [AlphaOS](https://vinayakbhadani.com/alphaos/): agentic multi-market trading
+  platform. Four research agents on Supabase Edge Functions, AI signal pipeline,
+  client-side backtesting engine, portfolio backtester. Notable for publishing its
+  own negative result: walk-forward testing showed the strategies do NOT beat
+  buy-and-hold out-of-sample (in-sample +0.27 Sharpe, out-of-sample -0.10,
+  replicated on crypto at +0.09 -> -0.21). Drawdown reduction of roughly half did
+  hold across every variant and both asset classes, so that is what was reported
+  as real.
+- Operator record at ANDS Dubai, planning 100,000+ units per month across
+  China-MENA-GCC: 30-point forecast accuracy gain at category-month level, 30%
+  lower air freight cost, 25% relative on-time delivery improvement.
+
+## Also does
 - Demand planning, S&OP, inventory and replenishment across UAE retail and GCC distribution
 - Agentic AI engineering: multi-agent systems, RAG, knowledge graphs, deployment on live data
 - 14+ free interactive supply chain tools, no signup
 
-## Flagship AI work
-- [AlphaOS](https://vinayak682.github.io/alphaos/): agentic multi-market trading platform.
-  Four research agents on Supabase Edge Functions, AI signal pipeline, client-side
-  backtesting engine, portfolio backtester. Notable for publishing its own negative
-  result: walk-forward testing showed the strategies do NOT beat buy-and-hold
-  out-of-sample (in-sample +0.27 Sharpe, out-of-sample -0.10, replicated on crypto
-  at +0.09 -> -0.21). Drawdown reduction of roughly half did hold across every
-  variant and both asset classes.
-- [AI Supply Chain Copilot](https://vinayakbhadani.com/ai-supply-chain-copilot.html)
-
 ## Key pages
 - [Home](https://vinayakbhadani.com/)
-- [Hire](https://vinayakbhadani.com/hire.html)
+- [Work with me](https://vinayakbhadani.com/hire.html)
+- [Walk-forward validation write-up](https://vinayakbhadani.com/walk-forward-validation-trading-strategies.html)
+- [AI in demand planning: hype vs reality](https://vinayakbhadani.com/ai-in-demand-planning-hype-vs-reality.html)
+- [AI Supply Chain Copilot](https://vinayakbhadani.com/ai-supply-chain-copilot.html)
 - [Insights](https://vinayakbhadani.com/insights.html)
 - [Supply Chain Calculators](https://vinayakbhadani.com/supply-chain-calculators.html)
 - [Resume](https://vinayakbhadani.com/Vinayak-Bhadani-Resume-Demand-Planning-AI-Supply-Chain.pdf)
