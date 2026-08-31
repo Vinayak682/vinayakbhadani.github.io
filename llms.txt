@@ -9,7 +9,7 @@
 - 14+ free interactive supply chain tools, no signup
 
 ## Flagship AI work
-- [AlphaOS](https://vinayak682.github.io/alphaos/): agentic multi-market trading platform.
+- [AlphaOS](https://vinayakbhadani.com/alphaos-agentic-trading-platform.html): agentic multi-market trading platform.
   Four research agents on Supabase Edge Functions, AI signal pipeline, client-side
   backtesting engine, portfolio backtester. Notable for publishing its own negative
   result: walk-forward testing showed the strategies do NOT beat buy-and-hold
@@ -23,6 +23,8 @@
 - [Hire](https://vinayakbhadani.com/hire.html)
 - [Insights](https://vinayakbhadani.com/insights.html)
 - [Supply Chain Calculators](https://vinayakbhadani.com/supply-chain-calculators.html)
+- [The Corridor newsletter](https://vinayakbhadani.com/the-corridor.html)
+- [Privacy](https://vinayakbhadani.com/privacy.html)
 - [Resume](https://vinayakbhadani.com/Vinayak-Bhadani-Resume-Demand-Planning-AI-Supply-Chain.pdf)
 
 ## Contact

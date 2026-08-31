@@ -182,11 +182,11 @@
     <span class="kicker reveal">DEMAND PLANNING INTELLIGENCE · DUBAI</span>
     <h1 class="reveal" style="--d:.06s">I run AI agents that read the Asia&nbsp;&rarr;&nbsp;Jebel&nbsp;Ali&nbsp;&rarr;&nbsp;World corridor &mdash; and hand you one decision a week.</h1>
     <p class="lede reveal" style="--d:.12s">Singapore to Dubai, lived and operated. Freight, ports, Eid surges and chokepoints &mdash; watched live, distilled to a single call you can act on.</p>
-    <form class="hero-form reveal" style="--d:.18s" action="https://assets.mailerlite.com/jsonp/2475995/forms/191521736629421236/subscribe" method="post" target="ml_iframe">
-      <input type="email" name="fields[email]" placeholder="you@company.com" required>
+    <form class="hero-form reveal" style="--d:.18s" action="https://assets.mailerlite.com/jsonp/2475995/forms/191521736629421236/subscribe" method="post" target="ml_iframe" data-newsletter-form data-analytics-location="corridor_hero" aria-describedby="corridor-hero-status">
+      <input type="email" name="fields[email]" placeholder="you@company.com" autocomplete="email" aria-label="Email address" required>
       <button type="submit">Join the Corridor</button>
     </form>
-    <p class="hero-meta reveal" style="--d:.24s">Free &middot; one email a week &middot; operators across the GCC &amp; SE Asia</p>
+    <p id="corridor-hero-status" class="hero-meta reveal" style="--d:.24s" aria-live="polite">Free &middot; one email a week &middot; operators across the GCC &amp; SE Asia &middot; <a href="privacy.html">Privacy</a></p>
   </div>
 </header>
 
@@ -318,17 +318,18 @@
   <div class="wrap">
     <p class="fh">One corridor decision, every week.</p>
     <p class="fs">Freight, ports, Eid surges, chokepoints &mdash; read by AI agents, distilled to a single call. Free.</p>
-    <form class="foot-form" action="https://assets.mailerlite.com/jsonp/2475995/forms/191521736629421236/subscribe" method="post" target="ml_iframe">
-      <input type="email" name="fields[email]" placeholder="you@company.com" required>
+    <form class="foot-form" action="https://assets.mailerlite.com/jsonp/2475995/forms/191521736629421236/subscribe" method="post" target="ml_iframe" data-newsletter-form data-analytics-location="corridor_footer" aria-describedby="corridor-footer-status">
+      <input type="email" name="fields[email]" placeholder="you@company.com" autocomplete="email" aria-label="Email address" required>
       <button type="submit">Join the Corridor</button>
     </form>
+    <p id="corridor-footer-status" class="foot-fine" aria-live="polite">MailerLite processes subscriptions. Submission is not confirmation. <a href="privacy.html">Privacy</a></p>
     <div class="soc">
       <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
       <a href="https://www.linkedin.com/company/122893988/" target="_blank" rel="noopener" aria-label="LinkedIn Page · Next-Gen Supply Chain">Co</a>
       <a href="https://www.instagram.com/nextgensupplychain.ai/" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
       <a href="https://github.com/Vinayak682" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
     </div>
-    <p class="foot-fine">Vinayak Bhadani &middot; Demand Planning &times; Agentic AI &middot; Dubai</p>
+    <p class="foot-fine">Vinayak Bhadani &middot; Demand Planning Executive &times; Agentic AI &middot; Dubai</p>
   </div>
 </footer>
 
@@ -337,12 +338,13 @@
 <script>
   window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
   gtag('js',new Date());gtag('config','G-08JD9489HY');
-  function ga4(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
 </script>
+<script src="assets/js/analytics.js"></script>
 
 <!-- ── meaningful motion ── -->
 <script>
 (function(){
+  var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
     e.target.classList.add('in');
     var f=e.target.querySelector('#ratioFill');if(f)f.classList.add('go');
@@ -352,19 +354,26 @@
 
   // reroute draw-in
   var cape=document.getElementById('cape');
-  if(cape){setTimeout(function(){cape.style.transition='stroke-dashoffset 2.6s cubic-bezier(.32,.72,0,1)';cape.style.strokeDashoffset='0';},500);}
+  if(cape&&!reduceMotion){setTimeout(function(){cape.style.transition='stroke-dashoffset 2.6s cubic-bezier(.32,.72,0,1)';cape.style.strokeDashoffset='0';},500);}
+  else if(cape){cape.style.strokeDashoffset='0';}
 
   // ratio count-up 1.0x -> 2.5x
   var rn=document.getElementById('ratioN');
-  if(rn){setTimeout(function(){var s=performance.now();
+  if(rn&&!reduceMotion){setTimeout(function(){var s=performance.now();
     (function f(t){var p=Math.min((t-s)/1500,1);rn.innerHTML=(1+1.5*(0.5-Math.cos(Math.PI*p)/2)).toFixed(1)+'&times;';if(p<1)requestAnimationFrame(f);})(performance.now());},1100);}
+  else if(rn){rn.innerHTML='2.5&times;';}
 
-  // subscribe: posts to hidden iframe (no navigation), then shows inline success
-  document.querySelectorAll('form').forEach(function(fm){fm.addEventListener('submit',function(){
-    ga4('newsletter_signup',{page:'the-corridor'});
-    var f=fm;setTimeout(function(){
-      f.innerHTML='<p style="color:#00C08B;font-weight:700;font-size:15px;padding:10px 0;margin:0">✅ You’re in — check your inbox to confirm.</p>';
-    },150);
+  var forms=document.querySelectorAll('[data-newsletter-form]');
+  if(forms[0]&&window.vbAnalytics){
+    window.vbAnalytics.observeView(forms[0],'newsletter_view',{form_purpose:'corridor_newsletter',cta_location:'corridor_hero'},.25);
+  }
+  forms.forEach(function(fm){fm.addEventListener('submit',function(){
+    var location=fm.dataset.analyticsLocation||'corridor';
+    if(window.vbAnalytics)window.vbAnalytics.track('newsletter_submit',{form_purpose:'corridor_newsletter',cta_location:location});
+    var status=document.getElementById(location==='corridor_footer'?'corridor-footer-status':'corridor-hero-status');
+    setTimeout(function(){
+      if(status)status.textContent='Request submitted to MailerLite. Your subscription is complete only after its confirmation step.';
+    },300);
   });});
 })();
 </script>

@@ -10,8 +10,6 @@ root "/" already covers it, and listing both creates a duplicate.
 import subprocess, datetime, glob, os, re, sys
 
 BASE = "https://vinayakbhadani.com/"
-# After the domain migration (T-0.3), change the line above to:
-# BASE = "https://vinayakbhadani.com/"
 
 TODAY = datetime.date.today().isoformat()
 
@@ -28,6 +26,7 @@ RULES = {
     "mrp-bom-planner.html": (0.9, "weekly"),
     "demand-to-delivery-flow.html": (0.9, "weekly"),
     "the-corridor.html": (0.9, "weekly"),
+    "privacy.html": (0.3, "yearly"),
     # Seasonal lead magnet — time-critical until the Oct 2026 PO deadline passes,
     # then drop it to (0.7, "monthly") until the next Ramadan cycle.
     "ramadan-pack.html": (0.9, "weekly"),
@@ -116,19 +115,6 @@ def main():
 
     xml = "\n".join(out) + "\n"
     open("sitemap.xml", "w", encoding="utf-8").write(xml)
-
-    # Mirror to the host-root repo when it is checked out alongside this one.
-    # Search Console and crawlers look for /sitemap.xml at the domain root, but
-    # this site is served from a subdirectory, so the root repo needs the same
-    # file. Writing it here means the two can never drift apart.
-    root_repo = os.path.join(os.path.dirname(repo), "root-repo")
-    root_sitemap = os.path.join(root_repo, "sitemap.xml")
-    if os.path.isdir(os.path.join(root_repo, ".git")):
-        open(root_sitemap, "w", encoding="utf-8").write(xml)
-        print(f"  mirrored to {root_sitemap} — commit and push that repo too")
-    else:
-        print("  note: root-repo not checked out alongside; "
-              "remember to copy sitemap.xml to the vinayak682.github.io repo")
 
     unlisted = [f for f in sorted(glob.glob("*.html"))
                 if f not in EXCLUDE and not f.startswith("_")

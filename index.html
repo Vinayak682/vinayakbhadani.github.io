@@ -25,21 +25,8 @@
 <script>
   window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
   gtag('js',new Date());gtag('config','G-08JD9489HY');
-  document.addEventListener('click',function(e){
-    if(e.target.closest('[id$="-cv-btn"]'))gtag('event','cv_download',{event_category:'engagement'});
-    if(e.target.href&&e.target.href.includes('linkedin'))gtag('event','linkedin_click',{event_category:'engagement'});
-    if(e.target.closest&&e.target.closest('a[href^="mailto:"]'))gtag('event','email_click',{event_category:'engagement'});
-    if(e.target.closest&&e.target.closest('a[href*="wa.me"],a[href*="whatsapp"]'))gtag('event','whatsapp_click',{event_category:'engagement'});
-  });
-  /* Contact form — Formspree POSTs and navigates away; gtag uses sendBeacon so
-     the event still lands. Capture-phase so it fires before any other handler. */
-  document.addEventListener('submit',function(e){
-    var f=e.target;
-    if(f&&f.action&&f.action.indexOf('formspree.io')>-1){
-      gtag('event','contact_form_submit',{event_category:'conversion',event_label:'contact_section'});
-    }
-  },true);
 </script>
+<script src="assets/js/analytics.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
@@ -2032,38 +2019,6 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
         Download CV
       </a>
     </div>
-    <!-- REMOVED: redundant Contact CTA button (Contact is in nav links) -->
-    <div style="display:none">
-      <div class="cc-row">
-            <div class="cc-icon">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            </div>
-            <div>
-              <div class="cc-label">Email</div>
-              <div class="cc-val"><a href="mailto:vinayakbhadani@zohomail.in">vinayakbhadani@zohomail.in</a></div>
-            </div>
-          </div>
-          <div class="cc-row">
-            <div class="cc-icon">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.19 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 5.45 5.45l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            </div>
-            <div>
-              <div class="cc-label">Phone / WhatsApp</div>
-              <div class="cc-val"><a href="tel:+971556270561">+971 55 627 0561</a></div>
-            </div>
-          </div>
-          <div class="cc-row">
-            <div class="cc-icon">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            </div>
-            <div>
-              <div class="cc-label">Location</div>
-              <div class="cc-val">Dubai, UAE</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <button class="hbg" id="hbg" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -2083,7 +2038,7 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
           <span class="seeking-badge">🎯 Targeting: Demand Planning Manager &nbsp;·&nbsp; S&amp;OP Lead &nbsp;·&nbsp; Supply Chain Analyst · Dubai / GCC</span>
         </div>
         <h1 class="hero-name" aria-label="Vinayak Bhadani">Vinayak <span>Bhadani</span></h1>
-        <p class="hero-role"><span id="heroTyped"></span><span style="display:inline-block;width:2px;height:1em;background:#a78bfa;margin-left:3px;vertical-align:middle;animation:blink-cursor 1s step-end infinite;"></span></p>
+        <p class="hero-role">Demand Planning Executive · GCC Planner-Builder</p>
         <p class="hero-tagline">Turning fragmented demand, inventory and logistics signals into decisions, grounded in experience planning 100,000+ units monthly.</p>
         <div class="hero-stats" aria-label="Key metrics">
           <div class="stat"><div class="stat-n">3+</div><div class="stat-l">Years Exp.</div></div>
@@ -2142,9 +2097,11 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
         <div class="profile-frame">
           <div class="profile-inner">
             <img src="./profile-photo.webp"
-                 alt="Vinayak Bhadani – Demand Planning Analyst, Dubai"
+                 srcset="./assets/images/profile-photo-320.webp 320w, ./assets/images/profile-photo-640.webp 640w, ./assets/images/profile-photo-864.webp 864w"
+                 sizes="(max-width: 900px) 270px, 310px"
+                 alt="Vinayak Bhadani – Demand Planning Executive, Dubai"
                  class="profile-photo"
-                 width="310" height="370"/>
+                 width="310" height="425" fetchpriority="high" decoding="async"/>
             <div class="profile-nametag">
               <div>
                 <div class="profile-nametag-name">Vinayak Bhadani</div>
@@ -2862,7 +2819,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 
 
 <div class="plt-section plt-cinema" style="--con:1.08;--b:0.88;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="37" data-vwindow="11">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -2888,7 +2845,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
      two-thirds height instead of full, warm grade against the opener's
      violet, and the camera pans east-to-west the way the route does. -->
 <div class="plt-section plt-major" style="--con:1.08;--b:0.5;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pan-e;--dur:30s;" data-vstart="76" data-vwindow="12">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/02-disruption-poster.jpg"><source src="assets/video/02-disruption.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/02-disruption-poster.jpg"><source src="assets/video/02-disruption.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -2938,7 +2895,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-major" style="--con:1.28;--b:0.31;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:26s;" data-vstart="56" data-vwindow="20">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/05-presentation-poster.jpg"><source src="three-layer-supply-chain-operating-system.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/05-presentation-poster.jpg"><source src="three-layer-supply-chain-operating-system.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -3241,8 +3198,8 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
  
     <!-- CINEMATIC VIDEO PLAYER -->
     <div class="vid-player-wrap" id="vidWrap">
-      <video id="vidPlayer" controls preload="metadata" poster="./three-layer-operating-system-poster.jpg" playsinline aria-label="The Three-Layer Supply Chain Operating System, presented by Vinayak Bhadani" aria-describedby="vid-summary">
-        <source src="./three-layer-supply-chain-operating-system.mp4" type="video/mp4"/>
+      <video id="vidPlayer" controls preload="none" playsinline aria-label="The Three-Layer Supply Chain Operating System, presented by Vinayak Bhadani" aria-describedby="vid-summary" data-video-id="portfolio_film" data-player-location="portfolio_section" data-analytics-ready="false">
+        <source type="video/mp4"/>
         <!-- src and default are set by the film picker below. Hard-coding them
              here makes phones fetch the landscape captions before the script
              can swap in the vertical cut, which burns them into the picture. -->
@@ -3260,7 +3217,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
         <!-- The poster is the table of contents: one band per chapter.
              Built from the chapter list below so there is one source of truth. -->
         <div class="vid-deck" id="vidDeck" role="group"
-             aria-label="Chapters. Hover a chapter to preview it silently, or activate it to watch from there with sound."></div>
+             aria-label="Chapters. Choose a chapter to load the film and watch from that point."></div>
 
         <!-- Says out loud that the preview is silent, so nobody reads a muted
              preview as broken audio. Only shown while previewing. -->
@@ -3325,7 +3282,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
           <button type="button" class="transcript-line" data-time="21" data-end="36">First, retail scale. At Emirates Pride he manages demand for 28 stores across the GCC, replacing manual tracking with a custom AI stock register that creates a single inventory truth across three markets.</button>
           <button type="button" class="transcript-line" data-time="36" data-end="49">Second, governance. The S&amp;OP playbook runs a strict four-week cycle aligning sales, supply and finance — ending siloed meetings and forcing one binding commitment.</button>
           <button type="button" class="transcript-line" data-time="49" data-end="63">Third, inventory science. ABC–XYZ classification segments products by revenue and demand volatility. The approach recovered working capital and cut aged inventory by 18%. <em>Portfolio case study.</em></button>
-          <button type="button" class="transcript-line" data-time="63" data-end="76">Fourth, measurable scale. At ANDS he moved over 100,000 units a month across the Middle East, delivering a 30% gain in forecast accuracy and a 30% drop in air-freight cost. <em>Historical case narrative.</em></button>
+          <button type="button" class="transcript-line" data-time="63" data-end="76">Fourth, measurable scale. At ANDS he planned more than 100,000 units a month across China, MENA and GCC, with documented outcomes of 20% fewer freight errors and 25% better on-time delivery. <em>Resume-backed prior scope and outcomes.</em></button>
           <button type="button" class="transcript-line" data-time="76" data-end="86">A resilient supply chain needs a unified operating system. Physical logistics, AI engineering and governance combine to build exactly that.</button>
         </div>
       </div>
@@ -3392,8 +3349,8 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
   <div class="vid-modal-inner">
     <button class="vid-modal-close" id="vidModalClose" aria-label="Close video">&times;</button>
     <p class="vid-modal-context"><strong>The Three-Layer Supply Chain Operating System:</strong> physical logistics, digital forecasting and executive governance resolved into one operating plan. Live operating outcomes are labelled separately from portfolio case studies.</p>
-    <video id="vidModalPlayer" controls preload="none" poster="./three-layer-operating-system-poster.jpg" playsinline aria-label="The Three-Layer Supply Chain Operating System, presented by Vinayak Bhadani">
-      <source src="./three-layer-supply-chain-operating-system.mp4" type="video/mp4"/>
+    <video id="vidModalPlayer" controls preload="none" playsinline aria-label="The Three-Layer Supply Chain Operating System, presented by Vinayak Bhadani" data-video-id="portfolio_film" data-player-location="hero_modal" data-analytics-ready="false">
+      <source type="video/mp4"/>
       <track kind="captions" srclang="en" label="English"/>
     </video>
   </div>
@@ -3404,7 +3361,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-lit plt-major" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:32s;" data-vstart="92" data-vwindow="10">
   <canvas id="neuralCanvas2" class="plt-neural"></canvas>
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/05-neural-engine-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/05-neural-engine-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -3531,7 +3488,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-lit plt-major" style="--con:1.28;--b:0.3;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-rise;--dur:30s;" data-vstart="3" data-vwindow="20">
   
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -3679,7 +3636,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-lit plt-minor" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="116" data-vwindow="12">
   
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/05-matrix-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/05-matrix-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -3738,7 +3695,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-minor" style="--con:1.08;--b:0.43;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-rise;--dur:30s;" data-vstart="2" data-vwindow="11">
   
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -3782,7 +3739,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-lit plt-major" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pan-e;--dur:28s;" data-vstart="171" data-vwindow="7">
   
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/05-trade-routes-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/05-trade-routes-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -4248,7 +4205,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-lit plt-minor" id="all-projects" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pull;--dur:32s;" data-vstart="280" data-vwindow="9">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/05-ledger-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/05-ledger-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -4268,26 +4225,26 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 
     <!-- ── ACHIEVEMENT STATS ──────────────────────────── -->
     <div class="pj-stats" id="pjStats">
-      <div class="pj-stat" style="--stat-color:#a78bfa"><div class="pj-stat-val" data-target="17" data-suffix="">0</div><div class="pj-stat-lbl">Live Portfolio Projects</div></div>
-      <div class="pj-stat" style="--stat-color:#22c55e"><div class="pj-stat-val" data-target="96.1" data-suffix="%" data-dec="1">0</div><div class="pj-stat-lbl">OTIF Rate Achieved</div></div>
-      <div class="pj-stat" style="--stat-color:#818cf8"><div class="pj-stat-val" data-prefix="~" data-target="30" data-suffix="%">0</div><div class="pj-stat-lbl">Lower MAPE vs Naive Baseline</div></div>
-      <div class="pj-stat" style="--stat-color:#f59e0b"><div class="pj-stat-val" data-target="24" data-suffix=" KPIs">0</div><div class="pj-stat-lbl">Scorecard KPIs Tracked</div></div>
-      <div class="pj-stat" style="--stat-color:#fb7185"><div class="pj-stat-val" data-prefix="−" data-target="33" data-suffix="%">0</div><div class="pj-stat-lbl">Scenario Air Freight Cost</div></div>
+      <div class="pj-stat" style="--stat-color:#a78bfa"><div class="pj-stat-val">17</div><div class="pj-stat-lbl">Portfolio Projects Indexed</div></div>
+      <div class="pj-stat" style="--stat-color:#22c55e"><div class="pj-stat-val">14+</div><div class="pj-stat-lbl">Free Interactive Tools</div></div>
+      <div class="pj-stat" style="--stat-color:#818cf8"><div class="pj-stat-val">6</div><div class="pj-stat-lbl">Planning Calculators</div></div>
+      <div class="pj-stat" style="--stat-color:#f59e0b"><div class="pj-stat-val">3</div><div class="pj-stat-lbl">Evidence Labels Used</div></div>
+      <div class="pj-stat" style="--stat-color:#fb7185"><div class="pj-stat-val">2</div><div class="pj-stat-lbl">Documented Career Outcomes</div></div>
     </div>
 
     <!-- ── FILTER TABS ─────────────────────────────────── -->
     <div class="pj-filter">
-      <button class="pj-ftab active" onclick="filterPJ('all',this)">All 17 Projects</button>
-      <button class="pj-ftab" onclick="filterPJ('agentic',this)">🤖 Agentic AI</button>
-      <button class="pj-ftab" onclick="filterPJ('saas',this)">🚀 AI SaaS</button>
-      <button class="pj-ftab" onclick="filterPJ('analytics',this)">📊 Analytics &amp; Data</button>
-      <button class="pj-ftab" onclick="filterPJ('risk',this)">⚠️ Risk &amp; Geopolitics</button>
-      <button class="pj-ftab" onclick="filterPJ('strategy',this)">🎯 Strategy &amp; Process</button>
-      <button class="pj-ftab" onclick="filterPJ('tools',this)">🧮 Free Tools</button>
+      <button class="pj-ftab active" onclick="filterPJ('all',this)" aria-pressed="true">All 17 Projects</button>
+      <button class="pj-ftab" onclick="filterPJ('agentic',this)" aria-pressed="false">🤖 Agentic AI</button>
+      <button class="pj-ftab" onclick="filterPJ('saas',this)" aria-pressed="false">🚀 AI SaaS</button>
+      <button class="pj-ftab" onclick="filterPJ('analytics',this)" aria-pressed="false">📊 Analytics &amp; Data</button>
+      <button class="pj-ftab" onclick="filterPJ('risk',this)" aria-pressed="false">⚠️ Risk &amp; Geopolitics</button>
+      <button class="pj-ftab" onclick="filterPJ('strategy',this)" aria-pressed="false">🎯 Strategy &amp; Process</button>
+      <button class="pj-ftab" onclick="filterPJ('tools',this)" aria-pressed="false">🧮 Free Tools</button>
     </div>
 
     <div id="pjEmpty" role="status" style="display:none;padding:28px 4px;color:#9aa4b2;font-size:.9rem;">
-      No projects in this category yet — <button type="button" onclick="filterPJ('all',document.querySelector('.pj-ftab'))" style="background:none;border:none;color:#a78bfa;font:inherit;cursor:pointer;text-decoration:underline;padding:0;">show all projects</button>.
+      No projects match this filter — <button type="button" onclick="filterPJ('all',document.querySelector('.pj-ftab'))" style="background:none;border:none;color:#a78bfa;font:inherit;cursor:pointer;text-decoration:underline;padding:0;">show all projects</button>.
     </div>
 
     <!-- ── 6-CARD GRID ────────────────────────────────── -->
@@ -4734,7 +4691,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-lit plt-major" style="--con:1.28;--b:0.27;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:24s;" data-vstart="71" data-vwindow="10">
   
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -5928,7 +5885,7 @@ function makeGameDecision(round, decision) {
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-minor" style="--con:1.08;--b:0.78;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:32s;" data-vstart="62" data-vwindow="11">
   
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -5978,9 +5935,9 @@ function makeGameDecision(round, decision) {
         <!-- TEXT CONTENT -->
         <div class="ct-content">
           <div class="ct-text-wrap" id="ctTextWrap">
-            <h3 class="ct-name" id="ctName"></h3>
-            <p class="ct-desig" id="ctDesig"></p>
-            <p class="ct-quote" id="ctQuote"></p>
+            <h3 class="ct-name" id="ctName">Dorrin Goyal</h3>
+            <p class="ct-desig" id="ctDesig">Academic Manager · SP Jain School of Global Management</p>
+            <p class="ct-quote" id="ctQuote">“I had the privilege of mentoring Vinayak Bhadani in my International Business Research Project course at SP Jain. He consistently demonstrated exceptional analytical ability, intellectual curiosity, and a commitment to excellence. Vinayak is a highly capable professional who I wholeheartedly recommend.”</p>
           </div>
 
           <!-- NAVIGATION ARROWS -->
@@ -6328,6 +6285,7 @@ function makeGameDecision(round, decision) {
     });
 
     function startAutoplay() {
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       autoplayTimer = setInterval(function() { goTo(active + 1); }, 5000);
     }
     function resetAutoplay() {
@@ -6353,7 +6311,7 @@ function makeGameDecision(round, decision) {
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-minor" style="--con:1.08;--b:0.6;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="74" data-vwindow="11">
   
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/01-network-poster.jpg"><source src="assets/video/01-network.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -6464,7 +6422,7 @@ function makeGameDecision(round, decision) {
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-lit plt-minor" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pan-w;--dur:30s;" data-vstart="76" data-vwindow="8">
   
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/04-gcc-strategy-poster.jpg"><source src="assets/video/04-gcc-strategy.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/04-gcc-strategy-poster.jpg"><source src="assets/video/04-gcc-strategy.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -6563,7 +6521,7 @@ function makeGameDecision(round, decision) {
 <!-- ── CINEMATIC TRANSITION ────────────────────────────── -->
 <div class="plt-section plt-lit plt-major" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:28s;" data-vstart="293" data-vwindow="10">
   
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/05-commit-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
+  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-poster="assets/video/05-commit-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
   <div class="plt-overlay"></div>
   <div class="plt-scrim"></div>
   <div class="plt-scanline"></div>
@@ -6616,7 +6574,7 @@ function makeGameDecision(round, decision) {
         </div>
       </div>
       <div class="form-card">
-        <form action="https://formspree.io/f/xreypbro" method="POST" aria-label="Contact form">
+        <form id="contactForm" action="https://formspree.io/f/xreypbro" method="POST" aria-label="Contact form">
           <div class="fr">
             <div class="fg"><label for="fname">First Name</label><input id="fname" name="first_name" type="text" placeholder="Your first name" required/></div>
             <div class="fg"><label for="lname">Last Name</label><input id="lname" name="last_name" type="text" placeholder="Your last name" required/></div>
@@ -6638,6 +6596,8 @@ function makeGameDecision(round, decision) {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             Send Message
           </button>
+          <p id="contactStatus" role="status" aria-live="polite" style="min-height:1.4em;margin-top:12px;color:var(--t2);font-size:.82rem;"></p>
+          <p style="margin-top:6px;color:var(--t3);font-size:.72rem;line-height:1.6;">Your message is sent through Formspree and used only to reply. See the <a href="privacy.html" style="color:var(--teal);">privacy notice</a>.</p>
         </form>
       </div>
     </div>
@@ -6650,7 +6610,7 @@ function makeGameDecision(round, decision) {
 <footer>
   <div class="wrap">
     <div class="footer-i">
-      <p class="footer-copy">© 2026 Vinayak Bhadani · Dubai, UAE · Demand Planning Analyst</p>
+      <p class="footer-copy">© 2026 Vinayak Bhadani · Dubai, UAE · Demand Planning Executive</p>
       <nav class="footer-links" aria-label="Footer navigation">
         <a href="#home">Top</a>
         <a href="#projects">Projects</a>
@@ -6659,6 +6619,7 @@ function makeGameDecision(round, decision) {
         <a href="mrp-bom-planner.html">MRP Planner</a>
         <a href="demand-to-delivery-flow.html">Process Flow</a>
         <a href="the-corridor.html">Newsletter</a>
+        <a href="privacy.html">Privacy</a>
         <a href="mailto:vinayakbhadani@zohomail.in">Email</a>
         <a href="https://www.linkedin.com/in/vinayakbhadani/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://www.instagram.com/nextgensupplychain.ai" target="_blank" rel="noopener">Instagram</a>
@@ -6671,6 +6632,55 @@ function makeGameDecision(round, decision) {
 
 <!-- CV DOWNLOAD — embedded PDF as data URI so it always works -->
 <!-- CV blob embed removed: all CV buttons now use the real PDF file on the server -->
+
+<script>
+(function(){
+  function initViews(){
+    if(!window.vbAnalytics)return;
+    window.vbAnalytics.observeView(document.getElementById('projects'),'projects_view',{section_name:'projects'},0.2);
+    window.vbAnalytics.observeView(document.getElementById('contact'),'contact_view',{section_name:'contact'},0.2);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initViews,{once:true});
+  else initViews();
+
+  var form=document.getElementById('contactForm');
+  var status=document.getElementById('contactStatus');
+  if(!form||!status)return;
+  var started=false;
+
+  form.addEventListener('focusin',function(){
+    if(started)return;
+    started=true;
+    if(window.vbAnalytics)window.vbAnalytics.track('contact_start',{form_location:'contact_section'});
+  });
+
+  form.addEventListener('submit',async function(event){
+    event.preventDefault();
+    var submit=form.querySelector('[type="submit"]');
+    var purpose=document.getElementById('purpose');
+    var purposeValue=purpose&&purpose.value?purpose.value:'unspecified';
+    status.textContent='Sending your message…';
+    form.setAttribute('aria-busy','true');
+    if(submit)submit.disabled=true;
+    if(window.vbAnalytics)window.vbAnalytics.track('contact_submit',{form_location:'contact_section',contact_purpose:purposeValue});
+
+    try{
+      var response=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}});
+      if(!response.ok)throw new Error('Submission failed');
+      status.textContent='Thank you — your message was sent successfully.';
+      if(window.vbAnalytics)window.vbAnalytics.track('contact_success',{form_location:'contact_section',contact_purpose:purposeValue});
+      form.reset();
+      started=false;
+    }catch(error){
+      status.innerHTML='The form could not send right now. Please email <a href="mailto:vinayakbhadani@zohomail.in" style="color:var(--teal);">vinayakbhadani@zohomail.in</a>.';
+      if(window.vbAnalytics)window.vbAnalytics.track('contact_error',{form_location:'contact_section',error_type:'submission_failed'});
+    }finally{
+      form.removeAttribute('aria-busy');
+      if(submit)submit.disabled=false;
+    }
+  });
+})();
+</script>
 
 <script>
 // Nav scroll effect
@@ -6753,12 +6763,11 @@ if('IntersectionObserver' in window){
   };
 
   var srcEl=vid.querySelector('source'), trackEl=vid.querySelector('track');
-  if(srcEl)srcEl.setAttribute('src',FILM.src);
-  vid.setAttribute('poster',FILM.poster);
   vid.setAttribute('aria-label',FILM.title+', presented by Vinayak Bhadani');
   wrap.style.aspectRatio=FILM.ratio;
-  /* The markup ships the track bare, so the caption file is only ever
-     requested once the film is decided - and never on a phone. */
+  /* The film URL is deliberately withheld until a person activates a watch
+     control. Posters and transcripts remain available without downloading a
+     12-20MB MP4 during the initial mobile page journey. */
   function dressTrack(t){
     if(!t)return;
     if(!FILM.vtt){t.remove();return}  // burned-in captions would otherwise double up
@@ -6769,22 +6778,48 @@ if('IntersectionObserver' in window){
     t.setAttribute('default','');
     if(t.track)t.track.mode='showing';
   }
-  dressTrack(trackEl);
-  /* The hero button opens the modal, so it has to follow the same rule -
-     otherwise a phone gets the landscape film there after all. */
+  function ensureFilmLoaded(player){
+    if(!player)return false;
+    player.setAttribute('poster',FILM.poster);
+    if(player.dataset.filmLoaded==='true')return true;
+    var source=player.querySelector('source');
+    if(source)source.setAttribute('src',FILM.src);
+    dressTrack(player.querySelector('track'));
+    player.dataset.filmLoaded='true';
+    player.dataset.analyticsReady='true';
+    if(window.vbAnalytics)window.vbAnalytics.bindVideo(player);
+    player.load();
+    return true;
+  }
+  window.ensurePortfolioFilm=ensureFilmLoaded;
+
+  /* The hero modal follows the same phone/desktop film choice, but also keeps
+     its source empty until the hero watch button is activated. */
   var mp=document.getElementById('vidModalPlayer');
   if(mp){
-    var ms=mp.querySelector('source'), mt=mp.querySelector('track');
-    if(ms)ms.setAttribute('src',FILM.src);
-    mp.setAttribute('poster',FILM.poster);
     mp.setAttribute('aria-label',FILM.title+', presented by Vinayak Bhadani');
-    dressTrack(mt);
   }
 
   var durEl=document.getElementById('vidDur'); if(durEl)durEl.textContent=FILM.dur;
   var tEl=wrap.querySelector('.vid-title'); if(tEl)tEl.textContent=FILM.title;
   var sEl=wrap.querySelector('.vid-subtitle'); if(sEl)sEl.innerHTML=FILM.sub;
-  vid.load();
+  if('IntersectionObserver' in window){
+    var posterObserver=new IntersectionObserver(function(entries){
+      if(!entries.some(function(entry){return entry.isIntersecting}))return;
+      vid.setAttribute('poster',FILM.poster);
+      posterObserver.disconnect();
+    },{rootMargin:'500px 0px'});
+    posterObserver.observe(wrap);
+  }else{
+    vid.setAttribute('poster',FILM.poster);
+  }
+  function bindFilmAnalytics(){
+    if(!window.vbAnalytics)return;
+    window.vbAnalytics.bindVideo(vid);
+    if(mp)window.vbAnalytics.bindVideo(mp);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindFilmAnalytics,{once:true});
+  else bindFilmAnalytics();
 
   /* Only the suite matching the film on screen is shown, and only its
      controls are wired, so a chapter can never seek the wrong film. */
@@ -6802,8 +6837,7 @@ if('IntersectionObserver' in window){
   vid.controls=false;
   vid.muted=true;
 
-  var HOVER=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-  var committed=false, hoverTimer=null, unlocked=false;
+  var committed=false;
 
   /* One source of truth: the deck is built from the chapter list, so the
      two can never drift apart. */
@@ -6822,40 +6856,23 @@ if('IntersectionObserver' in window){
   function showOverlay(){overlay.classList.remove('vid-hidden');}
   function hideOverlay(){overlay.classList.add('vid-hidden');}
 
-  /* Preview is muted by necessity - browsers block audible playback that a
-     click did not start. Pausing leaves currentTime alone, so returning
-     continues instead of restarting. */
-  function preview(t){
-    if(committed)return;
-    if(t!=null&&isFinite(t)){try{vid.currentTime=t;}catch(e){}}
-    wrap.classList.add('vid-previewing');
-    /* Once they have committed once, the browser has a gesture on record and
-       will usually allow sound, so later previews are not needlessly silent.
-       If the policy still refuses, fall back to muted - a silent preview
-       beats play() rejecting and nothing happening at all. */
-    vid.muted=!unlocked;
-    vid.play().catch(function(){
-      vid.muted=true;
-      wrap.classList.remove('vid-sound-unlocked');
-      vid.play().catch(function(){});
-    });
-  }
-  function unpreview(){
-    if(committed)return;
-    wrap.classList.remove('vid-previewing');
-    vid.pause();
-  }
-  /* The single click that gives sound is the same one that hands over to
-     native controls - that pair is what used to take two clicks. */
+  /* A chapter click is the explicit intent that loads the film. The player
+     remains poster-only during hover, focus and ordinary page scrolling. */
   function commit(t){
-    if(t!=null&&isFinite(t)){try{vid.currentTime=t;}catch(e){}}
-    committed=true; unlocked=true;
+    ensureFilmLoaded(vid);
+    committed=true;
     wrap.classList.add('vid-committed','vid-sound-unlocked');
     wrap.classList.remove('vid-previewing');
     hideOverlay();
     vid.muted=false; vid.controls=true; exitBtn.hidden=false;
-    vid.play().catch(function(){});
-    if(typeof gtag!=='undefined') gtag('event','video_play',{event_category:'engagement',event_label:'portfolio_video'});
+    var startFilm=function(){
+      if(t!=null&&isFinite(t)){try{vid.currentTime=t;}catch(e){}}
+      var promise=vid.play();
+      if(promise&&promise.catch)promise.catch(function(){});
+    };
+    if(vid.readyState>=1)startFilm();
+    else vid.addEventListener('loadedmetadata',startFilm,{once:true});
+    if(window.vbAnalytics)window.vbAnalytics.track('video_open',{player_location:'portfolio_section',video_id:'portfolio_film'});
   }
   function release(){
     if(!committed)return;
@@ -6866,27 +6883,10 @@ if('IntersectionObserver' in window){
     showOverlay();
   }
 
-  /* ── Deck: hover previews, activate commits ── */
+  /* ── Deck: activate to load and watch ── */
   deck.addEventListener('click',function(e){
     var z=e.target.closest('.vid-zone'); if(!z)return;
     e.stopPropagation(); commit(parseFloat(z.getAttribute('data-t')));
-  });
-  if(HOVER){
-    deck.addEventListener('mouseover',function(e){
-      var z=e.target.closest('.vid-zone'); if(!z||committed)return;
-      clearTimeout(hoverTimer);
-      var t=parseFloat(z.getAttribute('data-t'));
-      hoverTimer=setTimeout(function(){preview(t);},110);   // sweeping must not thrash seeks
-    });
-    deck.addEventListener('mouseleave',function(){clearTimeout(hoverTimer);unpreview();});
-  }
-  /* Keyboard mirrors hover, so tabbing gives the same preview a mouse gets. */
-  deck.addEventListener('focusin',function(e){
-    var z=e.target.closest('.vid-zone'); if(!z||committed)return;
-    preview(parseFloat(z.getAttribute('data-t')));
-  });
-  deck.addEventListener('focusout',function(e){
-    if(!deck.contains(e.relatedTarget))unpreview();
   });
 
   /* Every action has a mouse route: the chip is the pointer equivalent of
@@ -6899,10 +6899,7 @@ if('IntersectionObserver' in window){
     release();
   });
 
-  vid.addEventListener('ended',function(){
-    release();
-    if(typeof gtag!=='undefined') gtag('event','video_complete',{event_category:'engagement',event_label:'portfolio_video'});
-  });
+  vid.addEventListener('ended',release);
 
   /* Pause when the player leaves the page area. Never start it on scroll. */
   var visibilityObserver = new IntersectionObserver(function(entries) {
@@ -6979,6 +6976,7 @@ function openVidModal(){
   var modal=document.getElementById('vidModal');
   var mp=document.getElementById('vidModalPlayer');
   if(modal.classList.contains('vid-modal-open'))return;
+  if(window.ensurePortfolioFilm)window.ensurePortfolioFilm(mp);
   modal.hidden=false;
   modal.__lastFocus=document.activeElement;
   modal.__inerted=[];
@@ -6991,16 +6989,19 @@ function openVidModal(){
   }
   modal.classList.add('vid-modal-open');
   document.body.style.overflow='hidden';
-  mp.pause();mp.currentTime=0;mp.__played=false;
+  mp.pause();if(mp.readyState>=1)mp.currentTime=0;
+  if(window.vbAnalytics){
+    window.vbAnalytics.resetVideo(mp);
+    window.vbAnalytics.track('video_open',{player_location:'hero_modal',video_id:'portfolio_film'});
+  }
   document.getElementById('vidModalClose').focus();
-  if(typeof gtag!=='undefined') gtag('event','video_modal_open',{event_category:'engagement',event_label:'hero_watch_btn'});
 }
 function closeVidModal(){
   var modal=document.getElementById('vidModal');
   var mp=document.getElementById('vidModalPlayer');
   if(!modal.classList.contains('vid-modal-open'))return;
   mp.pause();
-  mp.currentTime=0;
+  if(mp.readyState>=1)mp.currentTime=0;
   modal.classList.remove('vid-modal-open');
   modal.hidden=true;
   document.body.style.overflow='';
@@ -7013,24 +7014,6 @@ document.getElementById('vidModal').addEventListener('click',function(e){
   if(e.target===this) closeVidModal();
 });
 
-/* The modal player reports the same two events as the inline player above and
-   is told apart by event_label, so the hero funnel — video_modal_open, then
-   video_play — finally compares one player against itself. Until now only the
-   open was instrumented, and every play recorded against the hero button was
-   really the inline player further down the page. video_play fires once per
-   open: the native controls raise 'play' again on each unpause and seek, which
-   would otherwise report a play rate above 100%. */
-(function(){
-  var mp=document.getElementById('vidModalPlayer');
-  mp.addEventListener('play',function(){
-    if(mp.__played)return;
-    mp.__played=true;
-    if(typeof gtag!=='undefined') gtag('event','video_play',{event_category:'engagement',event_label:'portfolio_video_modal'});
-  });
-  mp.addEventListener('ended',function(){
-    if(typeof gtag!=='undefined') gtag('event','video_complete',{event_category:'engagement',event_label:'portfolio_video_modal'});
-  });
-})();
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape') closeVidModal();
   if(e.key==='Tab'){
@@ -7230,6 +7213,7 @@ function filterPJ(cat, btn) {
 // FLAGSHIP CARDS — Particle Canvas + Counters
 // ══════════════════════════════════════════════
 (function(){
+  if(window.matchMedia&&window.matchMedia('(max-width: 900px), (prefers-reduced-motion: reduce)').matches)return;
   // ── Particle canvas factory ──────────────────
   function initParticleCanvas(canvasId, color){
     var canvas = document.getElementById(canvasId);
@@ -7566,11 +7550,9 @@ var SF_STILL  = window.matchMedia && window.matchMedia('(prefers-reduced-motion:
 // HERO CONSTELLATION
 (function(){
   var c=document.getElementById('heroConstellation');if(!c)return;
-  // 55 points linked pairwise is ~1,485 distance checks per frame. Fine on a
-  // MacBook, brutal on a phone. Halve the points on touch — that quarters the
-  // pair count — and skip the whole thing for reduced-motion.
-  if(SF_STILL){c.style.display='none';return;}
-  var COUNT = SF_COARSE ? 26 : 55;
+  // Skip the decorative loop entirely on phones and for reduced motion.
+  if(SF_STILL||SF_COARSE){c.style.display='none';return;}
+  var COUNT = 55;
   var ctx=c.getContext('2d'),pts=[];
   function resize(){c.width=window.innerWidth;c.height=window.innerHeight;
     pts=Array.from({length:COUNT},function(){return{x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3};});}
@@ -7583,21 +7565,6 @@ var SF_STILL  = window.matchMedia && window.matchMedia('(prefers-reduced-motion:
       if(d<130){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
         ctx.strokeStyle='rgba(34,211,238,'+(1-d/130)*.18+')';ctx.lineWidth=0.5;ctx.stroke();}}
     requestAnimationFrame(draw);}draw();
-})();
-
-// TYPEWRITER
-(function(){
-  var el=document.getElementById('heroTyped');if(!el)return;
-  var roles=['Demand Planning Analyst','AI Generalist & Engineer','Supply Chain Architect','Data-Driven Strategist','S&OP · Predictive ML · LLMs'];
-  var ri=0,ci=0,del=false,wait=0;
-  function type(){var r=roles[ri];
-    if(!del){el.textContent=r.substring(0,ci+1);ci++;
-      if(ci===r.length){del=true;setTimeout(type,2400);return;}
-    }else{if(wait>0){wait--;setTimeout(type,18);return;}
-      el.textContent=r.substring(0,ci-1);ci--;
-      if(ci===0){del=false;ri=(ri+1)%roles.length;setTimeout(type,320);return;}}
-    setTimeout(type,del?40:78);}
-  setTimeout(type,1900);
 })();
 
 // MAGNETIC BUTTONS
@@ -7642,10 +7609,8 @@ var SF_STILL  = window.matchMedia && window.matchMedia('(prefers-reduced-motion:
   if(!pal||!inp)return;
   var CMDS=[
     {icon:'⬇️',label:'Download CV',sub:'PDF · Updated 2026',action:function(){window.open('Vinayak-Bhadani-Resume-Demand-Planning-AI-Supply-Chain.pdf','_blank');}},
-    // HIDDEN (not supply-chain) — restore by uncommenting:
-    // {icon:'🤖',label:'Open AlphaOS',sub:'Flagship AI Platform',action:function(){window.open('https://vinayak682.github.io/alpha-os/','_blank');}},
     {icon:'🧠',label:'Open AI Supply Chain Platform',sub:'Flagship AI Platform',action:function(){window.open('https://vinayak682.github.io/ai-supply-chain-platform/','_blank');}},
-    {icon:'📧',label:'Send Email',sub:'vinayakbhadani19@gmail.com',action:function(){window.location='mailto:vinayakbhadani19@gmail.com';}},
+    {icon:'📧',label:'Send Email',sub:'vinayakbhadani@zohomail.in',action:function(){window.location='mailto:vinayakbhadani@zohomail.in';}},
     {icon:'💼',label:'View LinkedIn',sub:'linkedin.com/in/vinayakbhadani',action:function(){window.open('https://linkedin.com/in/vinayakbhadani','_blank');}},
     {icon:'🎯',label:'Go to Contact',sub:'Start a conversation',action:function(){document.getElementById('contact').scrollIntoView({behavior:'smooth'});close();}},
     {icon:'💡',label:'View Projects',sub:'Live demos & tools',action:function(){document.getElementById('projects').scrollIntoView({behavior:'smooth'});close();}},
@@ -7676,7 +7641,7 @@ var SF_STILL  = window.matchMedia && window.matchMedia('(prefers-reduced-motion:
   var hint=document.createElement('div');hint.style.cssText='flex-shrink:0;margin-left:8px;';
   hint.innerHTML='<kbd style="padding:3px 7px;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);border-radius:5px;font-size:0.65rem;color:rgba(167,139,250,0.6);font-family:monospace;cursor:pointer;transition:all 0.2s;">⌘K</kbd>';
   hint.querySelector('kbd').addEventListener('click',open);
-  var navI=document.querySelector('.nav-i');if(navI)navI.appendChild(hint);
+  var navI=document.querySelector('.nav-i');if(navI&&!SF_COARSE)navI.appendChild(hint);
 })();
 
 // TERMINAL ` key
@@ -7724,12 +7689,13 @@ var SF_STILL  = window.matchMedia && window.matchMedia('(prefers-reduced-motion:
   var h=document.createElement('div');h.style.cssText='flex-shrink:0;margin-left:4px;';
   h.innerHTML='<kbd style="padding:3px 7px;background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.2);border-radius:5px;font-size:0.65rem;color:rgba(167,139,250,0.5);font-family:monospace;cursor:pointer;">`_</kbd>';
   h.querySelector('kbd').addEventListener('click',function(){term.style.display='flex';setTimeout(function(){inp.focus();},100);});
-  var navI=document.querySelector('.nav-i');if(navI)navI.appendChild(h);
+  var navI=document.querySelector('.nav-i');if(navI&&!SF_COARSE)navI.appendChild(h);
 })();
 </script>
 <script>
 (function(){
   var c=document.getElementById('neuralCanvas2');if(!c)return;
+  if(window.matchMedia&&window.matchMedia('(max-width: 900px), (prefers-reduced-motion: reduce)').matches){c.style.display='none';return;}
   var ctx=c.getContext('2d'),pts=[];
   function resize(){c.width=c.offsetWidth;c.height=c.offsetHeight;
     pts=Array.from({length:40},function(){return{x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4};});}
@@ -8014,9 +7980,16 @@ footer{background:var(--sf-black)!important;border-top-color:rgba(124,166,255,.1
 
 @media(max-width:900px){
   #home{padding-top:78px!important}.nav-links.open{top:62px!important;background:rgba(8,11,19,.99)!important}
+  .nav-logo{margin-right:0!important}.hbg{margin-left:auto!important;min-width:44px;min-height:44px;align-items:center;justify-content:center}
+  main>section:not(#home){content-visibility:auto;contain-intrinsic-size:auto 900px}
+  #cursorDot,#cursorRing,#heroConstellation,.plt-neural{display:none!important}
+  .plt-section,#route-transition,#dp-demo,#build-log,#instagram{display:none!important}
+  .nav-toggle,.btn,.ct-arrow,.pj-ftab,.chapter-btn{min-height:44px}
 }
 @media(max-width:600px){
   .hero-name{font-size:clamp(2.55rem,15vw,4.6rem)!important}.hero-wrap{gap:42px!important}
+  .hero-ctas-row{display:grid!important;grid-template-columns:1fr!important;width:100%}
+  .hero-ctas-row .btn{width:100%;justify-content:center}
   .footer-i{align-items:flex-start}.footer-links{width:100%;justify-content:flex-start;gap:12px 18px}
   .instagram-grid{grid-template-columns:1fr!important}
 }
@@ -8050,6 +8023,7 @@ footer{background:var(--sf-black)!important;border-top-color:rgba(124,166,255,.1
   function director(band){
     var vid = band.querySelector('.plt-video');
     if(!vid) return null;
+    if(vid.dataset.poster) vid.setAttribute('poster', vid.dataset.poster);
 
     var start  = parseFloat(band.getAttribute('data-vstart'))  || 0;
     var window_ = parseFloat(band.getAttribute('data-vwindow')) || 20;
