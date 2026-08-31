@@ -967,6 +967,15 @@ section{padding:96px 0;position:relative;}
 .pf-card .pj-desc{font-size:.8rem;margin-bottom:14px;}
 .pf-card .pj-hook{font-size:.76rem;}
 .pf-card .pj-cta{padding:9px 17px;font-size:.78rem;margin-top:auto;}
+/* ── Card compaction ──────────────────────────────────────────────
+   Measured at 375x812: the description alone rendered nine lines and
+   198px in every card, and fourteen cards ran to 13.2 phone screens.
+   Clamp the prose rather than cut it. The full text stays in the DOM,
+   so crawlers still read it and no copy has been rewritten. Dropping
+   flex:1 lets a short card be short; .pj-cta keeps margin-top:auto,
+   which is what actually aligns the buttons. */
+.pf-card .pj-desc{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden;flex:0 1 auto;}
+.pf-card .pj-tags .pj-tag:nth-child(n+5){display:none;}
 
 /* Layman note */
 .pj-note{display:flex;align-items:center;gap:12px;background:rgba(167,139,250,.04);border:1px solid rgba(167,139,250,.12);border-radius:12px;padding:14px 20px;margin-bottom:32px;}
@@ -994,6 +1003,23 @@ section{padding:96px 0;position:relative;}
   .pj-grid{grid-template-columns:1fr;}
   .pj-stats{grid-template-columns:repeat(2,1fr);}
   .pf-hero-left{padding:28px 22px;}
+
+  /* One column is where the card cost compounds, so tighten further here. */
+  .pf-card-body{padding:16px 16px 15px;}
+  .pf-card .pj-desc{-webkit-line-clamp:2;line-clamp:2;margin-bottom:12px;}
+  .pf-card .pj-tags{margin-bottom:14px;}
+  .pf-card .pj-tags .pj-tag:nth-child(n+4){display:none;}
+  .pf-card .pj-outcomes{gap:6px;margin-bottom:12px;}
+  .pf-card .pj-outcome{padding:6px 10px;}
+  .pj-stat{padding:12px 8px;}
+
+  /* Seven filter pills wrapped to three rows and cost 188px. One
+     swipeable row costs about forty. The negative margin lets the row
+     bleed to the screen edge so it reads as scrollable rather than
+     clipped; padding puts the first pill back on the text grid. */
+  .pj-filter{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;margin:0 -22px 22px;padding:0 22px 6px;scrollbar-width:none;}
+  .pj-filter::-webkit-scrollbar{display:none;}
+  .pj-ftab{flex:0 0 auto;scroll-snap-align:start;}
   /* In one column this grid ran to roughly thirteen phone screens, which put
      everything below it out of reach of a visitor who stays under a minute.
      Collapse it to a taste of the work behind a control. The cards stay in
@@ -4314,23 +4340,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       <!-- Card 1: Demand Forecasting -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-lit plt-minor" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="48" data-vwindow="14">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
-  <div class="plt-overlay"></div>
-  <div class="plt-scrim"></div>
-  <div class="plt-scanline"></div>
-  <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
-  <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
-  <div class="plt-content" style="padding:44px 24px;">
-    <div class="plt-badge" style="border-color:#22d3ee;color:#22d3ee;background:#22d3ee18;">📊 ANALYTICS & DATA</div>
-    <h2 class="plt-headline" style="font-size:clamp(1.6rem,4vw,2.6rem);">From Raw Data to<br><span>Actionable Intelligence</span></h2>
-    <p class="plt-sub" style="font-size:.88rem;">Dashboards, KPI frameworks and ML models that turn supply chain noise into precision decisions.</p>
-    <div class="plt-divider"></div>
-    <div class="plt-chips"><div class="plt-chip">Power BI Dashboards</div><div class="plt-chip">ML Forecasting</div><div class="plt-chip">KPI Scorecards</div><div class="plt-chip">Data Engineering</div></div>
-  </div>
-</div>
-
-      <article class="pf-card" data-cat="analytics" style="--glow-color:rgba(34,211,238,.14)">
+<article class="pf-card" data-cat="analytics" style="--glow-color:rgba(34,211,238,.14)">
         <div class="pc-strip" style="--strip-color:#22d3ee"></div>
         <div class="pf-card-body">
           <div class="pj-icon" style="background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.18)">🔮</div>
@@ -4376,23 +4386,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       <!-- Card 3: Risk Framework -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-lit plt-minor" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:22s;" data-vstart="10" data-vwindow="12">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/05-red-sea-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
-  <div class="plt-overlay"></div>
-  <div class="plt-scrim"></div>
-  <div class="plt-scanline"></div>
-  <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
-  <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
-  <div class="plt-content" style="padding:44px 24px;">
-    <div class="plt-badge" style="border-color:#ef4444;color:#ef4444;background:#ef444418;">⚠️ RISK & GEOPOLITICS</div>
-    <h2 class="plt-headline" style="font-size:clamp(1.6rem,4vw,2.6rem);">When Wars Disrupt<br><span>Supply Chains</span></h2>
-    <p class="plt-sub" style="font-size:.88rem;">Frameworks built for the real world — where geopolitics, conflict and events reshape logistics overnight.</p>
-    <div class="plt-divider"></div>
-    <div class="plt-chips"><div class="plt-chip">Conflict Impact Models</div><div class="plt-chip">Geopolitical Risk</div><div class="plt-chip">Resilience Frameworks</div><div class="plt-chip">GCC Trade Routes</div></div>
-  </div>
-</div>
-
-      <article class="pf-card" data-cat="risk" style="--glow-color:rgba(239,68,68,.12)">
+<article class="pf-card" data-cat="risk" style="--glow-color:rgba(239,68,68,.12)">
         <div class="pc-strip" style="--strip-color:#ef4444"></div>
         <div class="pf-card-body">
           <div class="pj-icon" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.18)">⚠️</div>
@@ -4438,23 +4432,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       <!-- Card 5: Supply Chain Scorecard -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-lit plt-minor" style="--con:1.28;--b:0.27;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="14" data-vwindow="14">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
-  <div class="plt-overlay"></div>
-  <div class="plt-scrim"></div>
-  <div class="plt-scanline"></div>
-  <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
-  <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
-  <div class="plt-content" style="padding:44px 24px;">
-    <div class="plt-badge" style="border-color:#38bdf8;color:#38bdf8;background:#38bdf818;">🎯 STRATEGY & PROCESS</div>
-    <h2 class="plt-headline" style="font-size:clamp(1.6rem,4vw,2.6rem);">The Operating<br><span>Playbooks</span></h2>
-    <p class="plt-sub" style="font-size:.88rem;">S&OP processes, war-game scenario plans and supply chain strategy frameworks used in real GCC operations.</p>
-    <div class="plt-divider"></div>
-    <div class="plt-chips"><div class="plt-chip">S&OP Playbooks</div><div class="plt-chip">Scenario Planning</div><div class="plt-chip">Process Design</div><div class="plt-chip">GCC Operations</div></div>
-  </div>
-</div>
-
-      <article class="pf-card" data-cat="strategy" style="--glow-color:rgba(56,189,248,.12)">
+<article class="pf-card" data-cat="strategy" style="--glow-color:rgba(56,189,248,.12)">
         <div class="pc-strip" style="--strip-color:#38bdf8"></div>
         <div class="pf-card-body">
           <div class="pj-icon" style="background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.18)">📊</div>
@@ -4500,23 +4478,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       <!-- Card 7: Calculator Hub — traffic driver -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-lit plt-minor" style="--con:1.18;--b:0.38;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pull;--dur:30s;" data-vstart="30" data-vwindow="14">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/04-gcc-strategy-poster.jpg"><source src="assets/video/04-gcc-strategy.mp4" type="video/mp4"></video>
-  <div class="plt-overlay"></div>
-  <div class="plt-scrim"></div>
-  <div class="plt-scanline"></div>
-  <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
-  <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
-  <div class="plt-content" style="padding:44px 24px;">
-    <div class="plt-badge" style="border-color:#fb923c;color:#fb923c;background:#fb923c18;">🧮 FREE TOOLS</div>
-    <h2 class="plt-headline" style="font-size:clamp(1.6rem,4vw,2.6rem);">Tools Built for<br><span>Practitioners</span></h2>
-    <p class="plt-sub" style="font-size:.88rem;">Open-access calculators, simulators and templates — built for supply chain professionals who need answers fast.</p>
-    <div class="plt-divider"></div>
-    <div class="plt-chips"><div class="plt-chip">Free to Use</div><div class="plt-chip">Supply Chain Calculators</div><div class="plt-chip">Interactive Simulators</div><div class="plt-chip">Excel Templates</div></div>
-  </div>
-</div>
-
-      <article class="pf-card" data-cat="tools" style="--glow-color:rgba(249,115,22,.12)">
+<article class="pf-card" data-cat="tools" style="--glow-color:rgba(249,115,22,.12)">
         <div class="pc-strip" style="--strip-color:#f97316"></div>
         <div class="pf-card-body">
           <div class="pj-icon" style="background:rgba(249,115,22,.08);border-color:rgba(249,115,22,.18)">🧮</div>
