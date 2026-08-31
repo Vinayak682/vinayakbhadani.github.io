@@ -52,7 +52,7 @@
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I know if my AI demand forecast is actually working?","acceptedAnswer":{"@type":"Answer","text":"Test it out-of-sample against a seasonal naive baseline. Vendor accuracy figures are usually produced in-sample, on data the model has already seen, and are rarely compared to a baseline at all. A model can post a strong in-sample score and still fail to beat a simple seasonal naive forecast on data it has not seen. Walk-forward validation, where the model forecasts only from what it could have known at each point in time, is the way to tell the two apart."}},{"@type":"Question","name":"What does Vinayak do?","acceptedAnswer":{"@type":"Answer","text":"Vinayak Bhadani is a demand planning operator in Dubai who runs independent validation of AI and statistical forecasting systems. He tests whether a forecast beats its baseline out-of-sample and publishes the method, including results that are negative. He takes forecast audits, validation retainers and planning-system builds across the GCC, alongside his role as Demand Planning Executive at Emirates Pride Perfumes."}},{"@type":"Question","name":"What makes Vinayak's validation work credible?","acceptedAnswer":{"@type":"Answer","text":"He published a negative result on his own system. AlphaOS, his agentic trading platform, moved from +0.27 Sharpe in-sample to -0.10 out-of-sample, replicated on crypto at +0.09 to -0.21. The roughly 50% drawdown reduction was the one result that held across every variant, so that is what he reported as real. As an operator he also has documented outcomes at ANDS Dubai: a 30-point forecast accuracy gain at category-month level, 30% lower air freight cost and 25% better on-time delivery, planning 100,000+ units per month across China, MENA and GCC."}},{"@type":"Question","name":"What types of companies has Vinayak worked in?","acceptedAnswer":{"@type":"Answer","text":"Fragrance retail at Emirates Pride Perfumes, distribution and consumer goods at ANDS Dubai, and automotive spare parts at Global Automobiles India."}},{"@type":"Question","name":"What formal qualifications back up Vinayak's supply chain expertise?","acceptedAnswer":{"@type":"Answer","text":"Vinayak completed the SP Jain Master of Global Business programme in October 2023 and the award was conferred on June 29, 2025. He also holds an engineering degree, CISCP and CISCM credentials from IPSCMI USA, and is pursuing APICS CPIM."}},{"@type":"Question","name":"How quickly can Vinayak ramp up with our tools and systems?","acceptedAnswer":{"@type":"Answer","text":"Vinayak has hands-on experience with SAP, Odoo, ERP workflows, SQL and browser-based AI supply chain tools, alongside current responsibility for replenishment and stock visibility across 28 UAE retail stores."}}]}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"VideoObject","@id":"https://vinayakbhadani.com/#three-layer-operating-system-film","name":"The Three-Layer Supply Chain Operating System","description":"Vinayak Bhadani walks through the three-layer operating system he uses to turn market uncertainty into movement — physical logistics, digital forecasting and executive governance — with the Emirates Pride multi-echelon retail scope, the ANDS China–MENA freight results and the four-week S&OP cadence behind it.","thumbnailUrl":"https://vinayakbhadani.com/three-layer-operating-system-poster.jpg","uploadDate":"2026-08-30","duration":"PT2M28S","contentUrl":"https://vinayakbhadani.com/three-layer-supply-chain-operating-system.mp4","url":"https://vinayakbhadani.com/#vid-section","inLanguage":"en","author":{"@id":"https://vinayakbhadani.com/#person"}}
+{"@context":"https://schema.org","@type":"VideoObject","@id":"https://vinayakbhadani.com/#three-layer-operating-system-film","name":"The Three-Layer Supply Chain Operating System","description":"Vinayak Bhadani walks through the three-layer operating system he uses to turn market uncertainty into movement — physical logistics, digital forecasting and executive governance — with the Emirates Pride multi-echelon retail scope, the ANDS China–MENA freight results and the four-week S&OP cadence behind it.","thumbnailUrl":"https://vinayakbhadani.com/three-layer-operating-system-poster.jpg","uploadDate":"2026-08-30","duration":"PT2M25S","contentUrl":"https://vinayakbhadani.com/three-layer-supply-chain-operating-system.mp4","url":"https://vinayakbhadani.com/#vid-section","inLanguage":"en","author":{"@id":"https://vinayakbhadani.com/#person"},"hasPart":{"@type":"VideoObject","name":"The GCC Supply Chain Operating System (vertical cut)","description":"A vertical cut served to phones: the same operating system in four pillars - retail scale at Emirates Pride, four-week S&OP governance, ABC-XYZ inventory science, and measurable scale at ANDS.","thumbnailUrl":"https://vinayakbhadani.com/gcc-operating-system-vertical-poster.jpg","uploadDate":"2026-08-30","duration":"PT1M25S","contentUrl":"https://vinayakbhadani.com/gcc-supply-chain-operating-system-vertical.mp4"}}
 </script>
 <!-- AURORA DESIGN SYSTEM v2 -->
 <style>
@@ -952,6 +952,9 @@ section{padding:96px 0;position:relative;}
 
 /* ── Card grid ─────────────────────────────────────── */
 .pj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+/* Desktop shows the whole grid; the control below only exists for phones. */
+#pjToggle{display:none;width:100%;min-height:48px;margin-top:20px;padding:14px 20px;border-radius:30px;border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--t1);font:inherit;font-weight:600;font-size:.9rem;letter-spacing:.02em;cursor:pointer;transition:border-color .22s,background .22s;}
+#pjToggle:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.03);}
 .pf-card{position:relative;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:0;display:flex;flex-direction:column;overflow:hidden;transition:transform .28s cubic-bezier(.25,.8,.25,1),box-shadow .28s,border-color .28s;perspective:800px;}
 .pf-card.pj-visible{animation:cardEntrance .55s ease both;}
 .pf-card.pj-hidden{display:none!important;}
@@ -973,6 +976,15 @@ section{padding:96px 0;position:relative;}
 .pf-card .pj-desc{font-size:.8rem;margin-bottom:14px;}
 .pf-card .pj-hook{font-size:.76rem;}
 .pf-card .pj-cta{padding:9px 17px;font-size:.78rem;margin-top:auto;}
+/* ── Card compaction ──────────────────────────────────────────────
+   Measured at 375x812: the description alone rendered nine lines and
+   198px in every card, and fourteen cards ran to 13.2 phone screens.
+   Clamp the prose rather than cut it. The full text stays in the DOM,
+   so crawlers still read it and no copy has been rewritten. Dropping
+   flex:1 lets a short card be short; .pj-cta keeps margin-top:auto,
+   which is what actually aligns the buttons. */
+.pf-card .pj-desc{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden;flex:0 1 auto;}
+.pf-card .pj-tags .pj-tag:nth-child(n+5){display:none;}
 
 /* Layman note */
 .pj-note{display:flex;align-items:center;gap:12px;background:rgba(167,139,250,.04);border:1px solid rgba(167,139,250,.12);border-radius:12px;padding:14px 20px;margin-bottom:32px;}
@@ -1000,6 +1012,37 @@ section{padding:96px 0;position:relative;}
   .pj-grid{grid-template-columns:1fr;}
   .pj-stats{grid-template-columns:repeat(2,1fr);}
   .pf-hero-left{padding:28px 22px;}
+
+  /* One column is where the card cost compounds, so tighten further here. */
+  .pf-card-body{padding:16px 16px 15px;}
+  .pf-card .pj-desc{-webkit-line-clamp:2;line-clamp:2;margin-bottom:12px;}
+  .pf-card .pj-tags{margin-bottom:14px;}
+  .pf-card .pj-tags .pj-tag:nth-child(n+4){display:none;}
+  .pf-card .pj-outcomes{gap:6px;margin-bottom:12px;}
+  .pf-card .pj-outcome{padding:6px 10px;}
+  .pj-stat{padding:12px 8px;}
+
+  /* Seven filter pills wrapped to three rows and cost 188px. One
+     swipeable row costs about forty. The negative margin lets the row
+     bleed to the screen edge so it reads as scrollable rather than
+     clipped; padding puts the first pill back on the text grid. */
+  .pj-filter{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;margin:0 -22px 22px;padding:0 22px 6px;scrollbar-width:none;}
+  .pj-filter::-webkit-scrollbar{display:none;}
+  .pj-ftab{flex:0 0 auto;scroll-snap-align:start;}
+  /* In one column this grid ran to roughly thirteen phone screens, which put
+     everything below it out of reach of a visitor who stays under a minute.
+     Collapse it to a taste of the work behind a control. The cards stay in
+     the DOM in both states, so every link to a project page stays crawlable. */
+  /* --pj-clamp is measured in script to land on a card boundary; the fallback
+     covers the case where that measurement has not run yet. Declaring it here
+     rather than inline keeps the clamp from following the grid to desktop. */
+  #pjGrid.pj-collapsed{position:relative;max-height:var(--pj-clamp,1500px);overflow:hidden;}
+  #pjGrid.pj-collapsed::after{content:"";position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(to bottom,transparent,var(--bg0));pointer-events:none;}
+  #pjToggle{display:block;}
+  /* Set when a filter trims the grid short enough that there is nothing to
+     open. Never an inline style: that would outrank this media query and
+     leak the control onto desktop. */
+  #pjToggle.pj-hide{display:none;}
 }
 
 /* ═══════ TESTIMONIALS — Aurora Glass ═══════ */
@@ -1232,15 +1275,6 @@ footer::before{
   transition:opacity .35s ease;z-index:2;
 }
 .vid-overlay.vid-hidden{opacity:0;pointer-events:none;}
-.vid-play-btn{
-  width:82px;height:82px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.42);padding:0;
-  background:rgba(47,95,227,.94);backdrop-filter:blur(4px);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all .25s ease;
-}
-.vid-play-btn:hover{background:#3c6bef;transform:scale(1.06);box-shadow:0 0 0 5px rgba(124,166,255,.2);}
-.vid-play-btn svg{width:30px;height:30px;fill:#fff;margin-left:5px;}
 .vid-top-bar{
   position:absolute;top:20px;left:20px;right:20px;
   display:flex;align-items:center;justify-content:space-between;
@@ -1297,8 +1331,6 @@ footer::before{
 }
 .vid-modal-close:hover{background:rgba(47,95,227,.9);}
 @media(max-width:480px){
-  .vid-play-btn{width:62px;height:62px;}
-  .vid-play-btn svg{width:22px;height:22px;}
   .hero-ctas-row{flex-wrap:wrap;}
   .hero-ctas-row .btn{flex:1;min-width:120px;justify-content:center;}
 }
@@ -1893,25 +1925,6 @@ canvas.plt-neural { position:absolute;inset:0;width:100%;height:100%;z-index:1;o
     radial-gradient(ellipse 70% 50% at 50% 50%, rgba(192,132,252,.05) 0%, transparent 55%),
     linear-gradient(180deg,var(--bg0) 0%,var(--bg1) 45%,var(--bg0) 100%);
   position:relative;overflow:hidden;
-}
-.vid-play-btn{
-  width:82px;height:82px;border-radius:50%;
-  background:linear-gradient(135deg,rgba(192,132,252,.85),rgba(129,140,248,.85));
-  backdrop-filter:blur(8px);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all .25s ease;
-  animation:vidpulse 2.6s ease infinite;
-}
-.vid-play-btn:hover{
-  background:linear-gradient(135deg,#c084fc,#22d3ee);
-  transform:scale(1.12);
-  box-shadow:0 0 0 6px rgba(192,132,252,.2),0 0 40px rgba(192,132,252,.3);
-}
-.vid-play-btn svg{width:30px;height:30px;fill:#04020e;margin-left:5px;}
-@keyframes vidpulse{
-  0%{box-shadow:0 0 0 0 rgba(192,132,252,.6);}
-  65%{box-shadow:0 0 0 24px rgba(192,132,252,0);}
-  100%{box-shadow:0 0 0 0 rgba(192,132,252,0);}
 }
 .vid-player-wrap{
   position:relative;border-radius:18px;overflow:hidden;background:#000;
@@ -3184,6 +3197,9 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       }
       #vidWrap .vid-zone:nth-child(2n){border-right:none}
       #vidWrap .vid-zone:nth-last-child(-n+2){border-bottom:none}
+      /* The vertical cut has five chapters, so the last one would sit alone
+         in half a row. Let it take the full width instead. */
+      #vidWrap .vid-zone:last-child:nth-child(odd){grid-column:1/-1;border-right:none}
       #vidWrap .vz-num,#vidWrap .vz-lab{
         position:static;opacity:.95;text-align:center;padding:0;bottom:auto;top:auto;
       }
@@ -3215,7 +3231,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
   <div class="vid-inner">
     <p class="sec-label">Portfolio Film · August 2026</p>
     <h2 class="sec-title">The Three-Layer <span>Operating System</span></h2>
-    <p class="sec-sub" id="vid-summary" style="margin-bottom:28px;">A 2-minute 28-second walkthrough of how I turn market uncertainty into movement: sales signals and supply constraints run through <strong>physical</strong> logistics, <strong>digital</strong> forecasting and <strong>governance</strong> — until four reviews output one binding commitment.</p>
+    <p class="sec-sub" id="vid-summary" style="margin-bottom:28px;">A 2-minute 25-second walkthrough of how I turn market uncertainty into movement: sales signals and supply constraints run through <strong>physical</strong> logistics, <strong>digital</strong> forecasting and <strong>governance</strong> — until four reviews output one binding commitment.</p>
 
     <div class="vid-context-panel" aria-label="Film context and current verified profile">
       <div class="vid-context-note">
@@ -3238,7 +3254,10 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
     <div class="vid-player-wrap" id="vidWrap">
       <video id="vidPlayer" controls preload="metadata" poster="./three-layer-operating-system-poster.jpg" playsinline aria-label="The Three-Layer Supply Chain Operating System, presented by Vinayak Bhadani" aria-describedby="vid-summary">
         <source src="./three-layer-supply-chain-operating-system.mp4" type="video/mp4"/>
-        <track kind="captions" srclang="en" label="English" src="./three-layer-supply-chain-operating-system.en.vtt" default/>
+        <!-- src and default are set by the film picker below. Hard-coding them
+             here makes phones fetch the landscape captions before the script
+             can swap in the vertical cut, which burns them into the picture. -->
+        <track kind="captions" srclang="en" label="English"/>
         Your browser does not support the video tag.
       </video>
  
@@ -3247,7 +3266,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
         <!-- Top badge + duration -->
         <div class="vid-top-bar">
           <span class="vid-badge">Portfolio Film · Evidence Labelled</span>
-          <span class="vid-dur">2 min 28 sec</span>
+          <span class="vid-dur" id="vidDur">2 min 25 sec</span>
         </div>
         <!-- The poster is the table of contents: one band per chapter.
              Built from the chapter list below so there is one source of truth. -->
@@ -3276,8 +3295,55 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       </button>
     </div>
  
+    <!-- Phones are served the vertical cut, which is a different, shorter
+         script - so it carries its own chapters and transcript rather than
+         letting the landscape timings point at the wrong moments. Both are
+         in the markup so neither is lost to search. -->
+    <div class="vid-interactive-suite" id="vidSuiteVertical" data-film="vertical" hidden>
+      <div class="vid-chapters">
+        <h3 class="vid-suite-title">Video chapters</h3>
+        <div class="chapters-list">
+          <button class="chapter-btn active" data-time="0" aria-current="true" aria-label="Jump to 0 minutes: The split, and the bridge">
+            <span class="ch-time">0:00</span>
+            <span class="ch-label">The split, and the bridge</span>
+          </button>
+          <button class="chapter-btn" data-time="21" aria-label="Jump to 21 seconds: Retail scale at Emirates Pride">
+            <span class="ch-time">0:21</span>
+            <span class="ch-label">Retail scale</span>
+          </button>
+          <button class="chapter-btn" data-time="36" aria-label="Jump to 36 seconds: Governance and the four-week cycle">
+            <span class="ch-time">0:36</span>
+            <span class="ch-label">Governance</span>
+          </button>
+          <button class="chapter-btn" data-time="49" aria-label="Jump to 49 seconds: Inventory science and ABC-XYZ">
+            <span class="ch-time">0:49</span>
+            <span class="ch-label">Inventory science</span>
+          </button>
+          <button class="chapter-btn" data-time="63" aria-label="Jump to 1 minute 3 seconds: Measurable scale at ANDS">
+            <span class="ch-time">1:03</span>
+            <span class="ch-label">Measurable scale</span>
+          </button>
+        </div>
+      </div>
+      <div class="vid-transcript">
+        <div class="vid-transcript-header">
+          <h3 class="vid-suite-title">Contextual transcript &amp; evidence notes</h3>
+          <span class="transcript-tip">Select a passage to jump to that point</span>
+        </div>
+        <div class="transcript-body" id="transcriptBodyVertical">
+          <button type="button" class="transcript-line active" data-time="0" data-end="8" aria-current="true">Supply chains are often split in half. Operations teams fight physical fires, while data teams build theoretical models.</button>
+          <button type="button" class="transcript-line" data-time="8" data-end="21">Vinayak Bhadani is the bridge. As a demand planner and AI builder, he turns supply-chain uncertainty into movement. His operating system rests on four pillars.</button>
+          <button type="button" class="transcript-line" data-time="21" data-end="36">First, retail scale. At Emirates Pride he manages demand for 28 stores across the GCC, replacing manual tracking with a custom AI stock register that creates a single inventory truth across three markets.</button>
+          <button type="button" class="transcript-line" data-time="36" data-end="49">Second, governance. The S&amp;OP playbook runs a strict four-week cycle aligning sales, supply and finance — ending siloed meetings and forcing one binding commitment.</button>
+          <button type="button" class="transcript-line" data-time="49" data-end="63">Third, inventory science. ABC–XYZ classification segments products by revenue and demand volatility. The approach recovered working capital and cut aged inventory by 18%. <em>Portfolio case study.</em></button>
+          <button type="button" class="transcript-line" data-time="63" data-end="76">Fourth, measurable scale. At ANDS he moved over 100,000 units a month across the Middle East, delivering a 30% gain in forecast accuracy and a 30% drop in air-freight cost. <em>Historical case narrative.</em></button>
+          <button type="button" class="transcript-line" data-time="76" data-end="86">A resilient supply chain needs a unified operating system. Physical logistics, AI engineering and governance combine to build exactly that.</button>
+        </div>
+      </div>
+    </div>
+
     <!-- INTERACTIVE CHAPTERS & TRANSCRIPT UPGRADE -->
-    <div class="vid-interactive-suite">
+    <div class="vid-interactive-suite" id="vidSuiteLandscape" data-film="landscape">
       <!-- Chapters sidebar -->
       <div class="vid-chapters">
         <h3 class="vid-suite-title">Video chapters</h3>
@@ -3339,7 +3405,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
     <p class="vid-modal-context"><strong>The Three-Layer Supply Chain Operating System:</strong> physical logistics, digital forecasting and executive governance resolved into one operating plan. Live operating outcomes are labelled separately from portfolio case studies.</p>
     <video id="vidModalPlayer" controls preload="none" poster="./three-layer-operating-system-poster.jpg" playsinline aria-label="The Three-Layer Supply Chain Operating System, presented by Vinayak Bhadani">
       <source src="./three-layer-supply-chain-operating-system.mp4" type="video/mp4"/>
-      <track kind="captions" srclang="en" label="English" src="./three-layer-supply-chain-operating-system.en.vtt" default/>
+      <track kind="captions" srclang="en" label="English"/>
     </video>
   </div>
 </div>
@@ -4285,23 +4351,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       <!-- Card 1: Demand Forecasting -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-lit plt-minor" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="48" data-vwindow="14">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
-  <div class="plt-overlay"></div>
-  <div class="plt-scrim"></div>
-  <div class="plt-scanline"></div>
-  <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
-  <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
-  <div class="plt-content" style="padding:44px 24px;">
-    <div class="plt-badge" style="border-color:#22d3ee;color:#22d3ee;background:#22d3ee18;">📊 ANALYTICS & DATA</div>
-    <h2 class="plt-headline" style="font-size:clamp(1.6rem,4vw,2.6rem);">From Raw Data to<br><span>Actionable Intelligence</span></h2>
-    <p class="plt-sub" style="font-size:.88rem;">Dashboards, KPI frameworks and ML models that turn supply chain noise into precision decisions.</p>
-    <div class="plt-divider"></div>
-    <div class="plt-chips"><div class="plt-chip">Power BI Dashboards</div><div class="plt-chip">ML Forecasting</div><div class="plt-chip">KPI Scorecards</div><div class="plt-chip">Data Engineering</div></div>
-  </div>
-</div>
-
-      <article class="pf-card" data-cat="analytics" style="--glow-color:rgba(34,211,238,.14)">
+<article class="pf-card" data-cat="analytics" style="--glow-color:rgba(34,211,238,.14)">
         <div class="pc-strip" style="--strip-color:#22d3ee"></div>
         <div class="pf-card-body">
           <div class="pj-icon" style="background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.18)">🔮</div>
@@ -4347,23 +4397,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       <!-- Card 3: Risk Framework -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-lit plt-minor" style="--con:1.28;--b:0.28;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-push;--dur:22s;" data-vstart="10" data-vwindow="12">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/05-red-sea-poster.jpg"><source src="assets/video/05-operating-system.mp4" type="video/mp4"></video>
-  <div class="plt-overlay"></div>
-  <div class="plt-scrim"></div>
-  <div class="plt-scanline"></div>
-  <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
-  <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
-  <div class="plt-content" style="padding:44px 24px;">
-    <div class="plt-badge" style="border-color:#ef4444;color:#ef4444;background:#ef444418;">⚠️ RISK & GEOPOLITICS</div>
-    <h2 class="plt-headline" style="font-size:clamp(1.6rem,4vw,2.6rem);">When Wars Disrupt<br><span>Supply Chains</span></h2>
-    <p class="plt-sub" style="font-size:.88rem;">Frameworks built for the real world — where geopolitics, conflict and events reshape logistics overnight.</p>
-    <div class="plt-divider"></div>
-    <div class="plt-chips"><div class="plt-chip">Conflict Impact Models</div><div class="plt-chip">Geopolitical Risk</div><div class="plt-chip">Resilience Frameworks</div><div class="plt-chip">GCC Trade Routes</div></div>
-  </div>
-</div>
-
-      <article class="pf-card" data-cat="risk" style="--glow-color:rgba(239,68,68,.12)">
+<article class="pf-card" data-cat="risk" style="--glow-color:rgba(239,68,68,.12)">
         <div class="pc-strip" style="--strip-color:#ef4444"></div>
         <div class="pf-card-body">
           <div class="pj-icon" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.18)">⚠️</div>
@@ -4409,23 +4443,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       <!-- Card 5: Supply Chain Scorecard -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-lit plt-minor" style="--con:1.28;--b:0.27;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-drift;--dur:34s;" data-vstart="14" data-vwindow="14">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/03-execution-void-poster.jpg"><source src="assets/video/03-execution-void.mp4" type="video/mp4"></video>
-  <div class="plt-overlay"></div>
-  <div class="plt-scrim"></div>
-  <div class="plt-scanline"></div>
-  <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
-  <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
-  <div class="plt-content" style="padding:44px 24px;">
-    <div class="plt-badge" style="border-color:#38bdf8;color:#38bdf8;background:#38bdf818;">🎯 STRATEGY & PROCESS</div>
-    <h2 class="plt-headline" style="font-size:clamp(1.6rem,4vw,2.6rem);">The Operating<br><span>Playbooks</span></h2>
-    <p class="plt-sub" style="font-size:.88rem;">S&OP processes, war-game scenario plans and supply chain strategy frameworks used in real GCC operations.</p>
-    <div class="plt-divider"></div>
-    <div class="plt-chips"><div class="plt-chip">S&OP Playbooks</div><div class="plt-chip">Scenario Planning</div><div class="plt-chip">Process Design</div><div class="plt-chip">GCC Operations</div></div>
-  </div>
-</div>
-
-      <article class="pf-card" data-cat="strategy" style="--glow-color:rgba(56,189,248,.12)">
+<article class="pf-card" data-cat="strategy" style="--glow-color:rgba(56,189,248,.12)">
         <div class="pc-strip" style="--strip-color:#38bdf8"></div>
         <div class="pf-card-body">
           <div class="pj-icon" style="background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.18)">📊</div>
@@ -4471,23 +4489,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       <!-- Card 7: Calculator Hub — traffic driver -->
       
 <!-- ── CINEMATIC TRANSITION ─────────────────────────────── -->
-<div class="plt-section plt-lit plt-minor" style="--con:1.18;--b:0.38;--hue:0deg;--sat:1.20;--sep:0;--mo:plt-pull;--dur:30s;" data-vstart="30" data-vwindow="14">
-  <video class="plt-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" poster="assets/video/04-gcc-strategy-poster.jpg"><source src="assets/video/04-gcc-strategy.mp4" type="video/mp4"></video>
-  <div class="plt-overlay"></div>
-  <div class="plt-scrim"></div>
-  <div class="plt-scanline"></div>
-  <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
-  <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
-  <div class="plt-content" style="padding:44px 24px;">
-    <div class="plt-badge" style="border-color:#fb923c;color:#fb923c;background:#fb923c18;">🧮 FREE TOOLS</div>
-    <h2 class="plt-headline" style="font-size:clamp(1.6rem,4vw,2.6rem);">Tools Built for<br><span>Practitioners</span></h2>
-    <p class="plt-sub" style="font-size:.88rem;">Open-access calculators, simulators and templates — built for supply chain professionals who need answers fast.</p>
-    <div class="plt-divider"></div>
-    <div class="plt-chips"><div class="plt-chip">Free to Use</div><div class="plt-chip">Supply Chain Calculators</div><div class="plt-chip">Interactive Simulators</div><div class="plt-chip">Excel Templates</div></div>
-  </div>
-</div>
-
-      <article class="pf-card" data-cat="tools" style="--glow-color:rgba(249,115,22,.12)">
+<article class="pf-card" data-cat="tools" style="--glow-color:rgba(249,115,22,.12)">
         <div class="pc-strip" style="--strip-color:#f97316"></div>
         <div class="pf-card-body">
           <div class="pj-icon" style="background:rgba(249,115,22,.08);border-color:rgba(249,115,22,.18)">🧮</div>
@@ -4622,6 +4624,9 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&th.classList.contains('dm-op
       </article>
 
     </div><!-- /pj-grid -->
+
+    <button type="button" id="pjToggle" aria-controls="pjGrid" aria-expanded="false">Show all projects</button>
+
     <div style="text-align:center;margin-top:48px">
       <a href="https://github.com/Vinayak682" target="_blank" rel="noopener"
          style="display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:14px;font-weight:700;font-size:15px;text-decoration:none;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.45);color:#a78bfa;transition:transform .2s ease,box-shadow .2s ease"
@@ -6735,10 +6740,72 @@ if('IntersectionObserver' in window){
   var wrap=document.getElementById('vidWrap');
   var deck=document.getElementById('vidDeck');
   var exitBtn=document.getElementById('vidExit');
-  var chapterBtns = document.querySelectorAll('.chapter-btn');
-  var transcriptLines = document.querySelectorAll('.transcript-line');
-  var transcriptBody = document.getElementById('transcriptBody');
   if(!vid||!deck) return;
+
+  /* Phones get the vertical cut: a 9:16 film fills roughly three times the
+     screen a letterboxed 16:9 one does, and it is the shape phones expect.
+     Desktop keeps the landscape film, which fits the layout. They are
+     different scripts, so each brings its own chapters and transcript. */
+  var PHONE=window.matchMedia('(max-width: 820px)').matches;
+  var FILM=PHONE?{
+    src:'./gcc-supply-chain-operating-system-vertical.mp4',
+    poster:'./gcc-operating-system-vertical-poster.jpg',
+    ratio:'9 / 16', dur:'1 min 25 sec', vtt:null,   // captions are burned into this cut
+    title:'The GCC Supply Chain Operating System',
+    sub:'Vinayak Bhadani &nbsp;·&nbsp; Four pillars: retail scale, governance, inventory science, measurable scale',
+    suite:'vidSuiteVertical'
+  }:{
+    src:'./three-layer-supply-chain-operating-system.mp4',
+    poster:'./three-layer-operating-system-poster.jpg',
+    ratio:'16 / 9', dur:'2 min 25 sec', vtt:'./three-layer-supply-chain-operating-system.en.vtt',
+    title:'The Three-Layer Supply Chain Operating System',
+    sub:'Vinayak Bhadani &nbsp;·&nbsp; Physical, digital and governance layers into one operating plan',
+    suite:'vidSuiteLandscape'
+  };
+
+  var srcEl=vid.querySelector('source'), trackEl=vid.querySelector('track');
+  if(srcEl)srcEl.setAttribute('src',FILM.src);
+  vid.setAttribute('poster',FILM.poster);
+  vid.setAttribute('aria-label',FILM.title+', presented by Vinayak Bhadani');
+  wrap.style.aspectRatio=FILM.ratio;
+  /* The markup ships the track bare, so the caption file is only ever
+     requested once the film is decided - and never on a phone. */
+  function dressTrack(t){
+    if(!t)return;
+    if(!FILM.vtt){t.remove();return}  // burned-in captions would otherwise double up
+    t.setAttribute('src',FILM.vtt);
+    /* default only counts while the parser is building the element, so a track
+       dressed this late stays disabled and never loads its cues. Turning the
+       mode on is what the attribute used to do for us. */
+    t.setAttribute('default','');
+    if(t.track)t.track.mode='showing';
+  }
+  dressTrack(trackEl);
+  /* The hero button opens the modal, so it has to follow the same rule -
+     otherwise a phone gets the landscape film there after all. */
+  var mp=document.getElementById('vidModalPlayer');
+  if(mp){
+    var ms=mp.querySelector('source'), mt=mp.querySelector('track');
+    if(ms)ms.setAttribute('src',FILM.src);
+    mp.setAttribute('poster',FILM.poster);
+    mp.setAttribute('aria-label',FILM.title+', presented by Vinayak Bhadani');
+    dressTrack(mt);
+  }
+
+  var durEl=document.getElementById('vidDur'); if(durEl)durEl.textContent=FILM.dur;
+  var tEl=wrap.querySelector('.vid-title'); if(tEl)tEl.textContent=FILM.title;
+  var sEl=wrap.querySelector('.vid-subtitle'); if(sEl)sEl.innerHTML=FILM.sub;
+  vid.load();
+
+  /* Only the suite matching the film on screen is shown, and only its
+     controls are wired, so a chapter can never seek the wrong film. */
+  var suite=document.getElementById(FILM.suite);
+  var other=document.getElementById(PHONE?'vidSuiteLandscape':'vidSuiteVertical');
+  if(suite)suite.hidden=false;
+  if(other)other.hidden=true;
+  var chapterBtns = suite?suite.querySelectorAll('.chapter-btn'):[];
+  var transcriptLines = suite?suite.querySelectorAll('.transcript-line'):[];
+  var transcriptBody = suite?suite.querySelector('.transcript-body'):null;
 
   /* Progressive enhancement: the markup ships with native controls, so with
      no JS this is still an ordinary, working video. We take them off only
@@ -7018,6 +7085,10 @@ function filterPJ(cat, btn) {
 
   var empty = document.getElementById('pjEmpty');
   if(empty) empty.style.display = shown ? 'none' : 'block';
+
+  // Re-collapse for the newly filtered set, so the control's count stays true
+  // and a filter always drops the reader at the top of what they asked for.
+  if(window.__pjSync) window.__pjSync(true);
 }
 
 // Keep the "All" tab label honest with the real card count
@@ -7027,6 +7098,77 @@ function filterPJ(cat, btn) {
   if(!grid || !allTab) return;
   var n = grid.querySelectorAll('.pf-card').length;
   allTab.textContent = 'All ' + n + ' Projects';
+})();
+
+/* Phones only. One column of fourteen cards ran to about thirteen screens,
+   which pushed the sections below the grid past any realistic mobile session.
+   Collapsed, the grid shows a couple of cards and a control that opens the
+   rest; desktop is untouched, since a three-column grid costs nothing there.
+   Collapsing hides with CSS rather than removing nodes, so the links to each
+   project page stay in the DOM for crawlers in both states. */
+(function(){
+  var grid = document.getElementById('pjGrid');
+  var btn  = document.getElementById('pjToggle');
+  if(!grid || !btn) return;
+  var mq = window.matchMedia('(max-width:600px)');
+  var COLLAPSED_PX = 1500;
+  var expanded = false;
+
+  // Clip on a card boundary rather than mid-element. Children keep their
+  // geometry under overflow:hidden, so this measures correctly even while
+  // the grid is already collapsed.
+  function clampHeight(){
+    var top = grid.getBoundingClientRect().top;
+    var kids = grid.children;
+    for(var i=0;i<kids.length;i++){
+      var r = kids[i].getBoundingClientRect();
+      if(!r.height) continue;
+      var bottom = r.bottom - top;
+      if(bottom >= COLLAPSED_PX) return Math.round(bottom);
+    }
+    return 0;
+  }
+
+  function shownCards(){
+    return Array.prototype.filter.call(
+      grid.querySelectorAll('.pf-card'),
+      function(c){ return c.style.display !== 'none'; }
+    ).length;
+  }
+
+  function sync(reset){
+    if(reset) expanded = false;
+    if(!mq.matches){
+      grid.classList.remove('pj-collapsed');
+      return; // the stylesheet keeps the control off desktop on its own
+    }
+    // scrollHeight reports full content height even while clamped, so this
+    // stays honest once the grid is already collapsed.
+    var overflows = grid.scrollHeight > COLLAPSED_PX;
+    if(!expanded && overflows){
+      var h = clampHeight();
+      if(h) grid.style.setProperty('--pj-clamp', h + 'px');
+    }
+    grid.classList.toggle('pj-collapsed', !expanded && overflows);
+    // A filter that trims the grid short needs no control at all.
+    btn.classList.toggle('pj-hide', !(expanded || overflows));
+    btn.textContent = expanded ? 'Show fewer projects'
+                               : 'Show all ' + shownCards() + ' projects';
+    btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+  }
+
+  btn.addEventListener('click', function(){
+    expanded = !expanded;
+    // Closing from the foot of an open grid would otherwise strand the reader
+    // several screens below the section they were looking at.
+    if(!expanded) grid.scrollIntoView({block:'start'});
+    sync();
+  });
+
+  window.__pjSync = sync;
+  if(mq.addEventListener) mq.addEventListener('change', function(){ sync(); });
+  else if(mq.addListener) mq.addListener(function(){ sync(); });
+  sync();
 })();
 
 // ── Animated counter for stats bar ──────────────────────────────────────────
