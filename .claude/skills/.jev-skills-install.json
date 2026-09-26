@@ -1,0 +1,28 @@
+{
+  "agent": "claude",
+  "package_version": "0.2.0",
+  "schema": 1,
+  "skills": {
+    "jev-bug-triage": {
+      "SKILL.md": "5d6fc2dcd4c44a217c5b2e6ffa3e9ab8293382dd434cea2d7012e22bc8a44eb7"
+    },
+    "jev-context-picker": {
+      "SKILL.md": "f7a76658888446f9395bcc36e6cb7dc3a67df38355ab0aeebfd305b4998a116d"
+    },
+    "jev-controls": {
+      "SKILL.md": "ebcaf28d877a50cd5a76bf76e8617bd10eccc1b51cb5d2d167c16da21dc72e91"
+    },
+    "jev-model-router": {
+      "SKILL.md": "301f3d9299d304b3cd3726318aaca10108cebf8ca3f201e5541b0dc70b3a74b9"
+    },
+    "jev-plan-selector": {
+      "SKILL.md": "1407530e0c6648abecf93036ddf12f0fb03916b442e185f0cfd1c7527dbf48ad"
+    },
+    "jev-skill-picker": {
+      "SKILL.md": "b4cd3536ae701456bcd3aae91adfb07a94a27e7a97043811e0a15191787cd23e"
+    },
+    "jev-test-prioritizer": {
+      "SKILL.md": "cd74f2501793f4032de45bdc8ec739dafe367beb59b655177a58f64c08035a75"
+    }
+  }
+}
