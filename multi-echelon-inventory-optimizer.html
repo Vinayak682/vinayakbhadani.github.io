@@ -153,10 +153,10 @@ header{margin-bottom:36px;}
       <div class="card">
         <div class="card-title">📖 S&amp;OP Context: Multi-Echelon vs Decentralized</div>
         <p style="font-size:.82rem;color:var(--t2);margin-bottom:12px;line-height:1.65;">
-          Under the traditional **Decentralized** model, each regional store operates as an isolated silo. Muscat and Riyadh calculate their safety buffers independently based on their local demand variance. Because they cannot rely on immediate delivery, they must hold massive stock buffers, leading to high capital lockup.
+          Under the traditional <strong>Decentralized</strong> model, each regional store operates as an isolated silo. Muscat and Riyadh calculate their safety buffers independently based on their local demand variance. Because they cannot rely on immediate delivery, they must hold massive stock buffers, leading to high capital lockup.
         </p>
         <p style="font-size:.82rem;color:var(--t2);line-height:1.65;">
-          The **Multi-Echelon (MEIO)** strategy models the network as a single mathematical entity. We hold the primary safety buffer at the **JAFZA Jebel Ali Hub** (where transit variability is pooled and lower) and feed the store nodes dynamically using rapid regional cross-docking. This dramatically offsets the total network safety stock, generating significant capital savings.
+          The <strong>Multi-Echelon (MEIO)</strong> strategy models the network as a single mathematical entity. We hold the primary safety buffer at the <strong>JAFZA Jebel Ali Hub</strong> (where transit variability is pooled and lower) and feed the store nodes dynamically using rapid regional cross-docking. Pooling cuts the long-leg buffer by about 28% (two stores' buffers combine as √(σ₁²+σ₂²), not σ₁+σ₂), but each store still needs a buffer for its hub leg. Whether the network saves depends on how short those legs are and how many stores share the hub. Move the transit sliders to find the break-even.
         </p>
       </div>
     </div>
@@ -214,14 +214,14 @@ header{margin-bottom:36px;}
 
         <!-- Glowing savings badge -->
         <div class="savings-card" id="savingsCard">
-          <div class="savings-title">Estimated Annual Capital Savings</div>
+          <div class="savings-title" id="savingsTitle">Estimated Annual Capital Savings</div>
           <div class="savings-val" id="savingsVal">AED 0</div>
           <p style="font-size:.7rem;color:var(--t2);margin-top:6px;line-height:1.4;">Based on JAFZA central pooling calculations and a standard 25% annual carrying cost rate.</p>
         </div>
 
         <div class="formula-card">
-          📐 **Square Root Law of Inventory**:
-          <code>SS_pooled = ∑(SS_local) × √(N_pooled) / N</code> which mathematically validates centralizing stocks under high transit variability.
+          📐 <strong>Risk pooling</strong>:
+          <code>SS_hub = z × √(L × (σ₁² + σ₂²))</code> replaces the two store buffers on the long China leg (for N identical stores this is the square-root law, ∑SS_local ÷ √N). The stores then still need <code>z × σ × √(hub leg)</code> each. Pooling pays only when the pooling gain is bigger than those hub-to-store buffers: with two stores at 95%, that means hub legs of about 2 days or less.
         </div>
       </div>
     </div>
@@ -274,7 +274,7 @@ function calculateNetwork() {
   // Base daily demand and standard deviation variables
   var demandOman = 15; var sigOman = 4.5;
   var demandKsa = 25; var sigKsa = 6.2;
-  var unitCost = 45; // average cost of inventory Oud Royale
+  var unitCost = 45; // illustrative average unit cost (AED), fragrance SKU
   
   var ssOman, ssKsa, ssJafza;
   
@@ -292,9 +292,10 @@ function calculateNetwork() {
     ssOman = Math.round(z * Math.sqrt(oLt * sigOman * sigOman));
     ssKsa = Math.round(z * Math.sqrt(kLt * sigKsa * sigKsa));
     
-    // Central JAFZA Jebel Ali hub pools demand and holds primary buffer (China lead time)
-    // Applying central square-root variance reduction
-    ssJafza = Math.round(z * Math.sqrt(30 * (sigOman * sigOman + sigKsa * sigKsa)) * 0.72);
+    // Central JAFZA Jebel Ali hub pools demand and holds primary buffer (China lead time).
+    // Risk pooling for independent demand: z·√(L·(σ₁²+σ₂²)). The √(Σσ²) already is the pooling benefit;
+    // it must not be multiplied by the pooling ratio √(Σσ²)/Σσ (≈0.72) a second time.
+    ssJafza = Math.round(z * Math.sqrt(30 * (sigOman * sigOman + sigKsa * sigKsa)));
     
     // UI Node update
     document.getElementById('jafzaStockNode').textContent = "Buffer: " + ssJafza + "u";
@@ -316,15 +317,28 @@ function calculateNetwork() {
   var decentralCapital = decentralStock * unitCost;
   
   var capitalDifference = decentralCapital - totalCapital;
-  var annualSavings = Math.max(Math.round(capitalDifference * 0.25), 0); // 25% carrying rate
-  
+  var annualSavings = Math.round(capitalDifference * 0.25); // 25% carrying rate; negative = pooling costs more
+
   var savingsCard = document.getElementById('savingsCard');
+  var savingsTitle = document.getElementById('savingsTitle');
   if(isEchelon && annualSavings > 0) {
+    savingsTitle.textContent = "Estimated Annual Capital Savings";
+    savingsTitle.style.color = "var(--teal)";
     document.getElementById('savingsVal').textContent = "AED " + annualSavings.toLocaleString() + "/yr";
     savingsCard.style.opacity = "1";
     savingsCard.style.background = "var(--teal-g)";
     savingsCard.style.borderColor = "rgba(0, 212, 168, 0.25)";
+  } else if(isEchelon && annualSavings < 0) {
+    // Show the loss instead of clamping it to zero: the hub-to-store buffers outweigh the pooling gain
+    savingsTitle.textContent = "Extra Annual Carrying Cost";
+    savingsTitle.style.color = "#FFB547";
+    document.getElementById('savingsVal').textContent = "AED " + (-annualSavings).toLocaleString() + "/yr";
+    savingsCard.style.opacity = "1";
+    savingsCard.style.background = "rgba(255,170,60,.08)";
+    savingsCard.style.borderColor = "rgba(255,170,60,.35)";
   } else {
+    savingsTitle.textContent = "Estimated Annual Capital Savings";
+    savingsTitle.style.color = "var(--teal)";
     document.getElementById('savingsVal').textContent = "AED 0";
     savingsCard.style.background = "rgba(0,0,0,.15)";
     savingsCard.style.borderColor = "var(--brd)";
