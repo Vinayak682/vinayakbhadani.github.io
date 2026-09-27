@@ -5288,7 +5288,7 @@ section + section::before,
     <div class="prob-box" style="background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.22);border-left:3px solid var(--teal)">
       <div class="prob-icon">🎮</div>
       <div><div class="prob-title" style="color:var(--teal)">S&OP Executive Challenge</div>
-      <div class="prob-text"><strong>Can you survive the Supply Chain Crisis?</strong> You are the Demand Planning Manager in Dubai. A critical 21-day port congestion delay has occurred on your highest-margin SKU (Oud Royale 100ml) from China. Your S&OP task is to make key replenishment and inventory decisions across 3 rounds. Keep stores in stock (maintain high OTIF) while keeping carrying and freight costs within your cash budget. Prove you're a true Supply Chain Master!</div></div>
+      <div class="prob-text"><strong>Can you survive the Supply Chain Crisis?</strong> You are the Demand Planning Manager in Dubai. A critical 21-day port congestion delay has occurred on your highest-margin SKU (Oud EDP 100ml) from China. Your S&OP task is to make key replenishment and inventory decisions across 3 rounds. Keep stores in stock (maintain high OTIF) while keeping carrying and freight costs within your cash budget. Prove you're a true Supply Chain Master!</div></div>
     </div>
     
     <div class="game-container" style="background:linear-gradient(145deg,rgba(26,15,62,.95),rgba(19,11,48,.95));border:1px solid var(--brd);border-radius:16px;padding:24px;margin-top:20px;box-shadow:var(--sh);">
@@ -5329,7 +5329,7 @@ section + section::before,
 var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 var abcSkus=[
-  {id:'FRGN-001',name:'Oud Royale 100ml',rev:285000,vol:1140,cv:.18,stock:82,lt:30,demand:238,class:'A',strategy:'Review weekly. Hold 3-week safety stock. Source dual suppliers. Any stockout costs ~AED 9,500/day in lost margin.'},
+  {id:'FRGN-001',name:'Oud EDP 100ml',rev:285000,vol:1140,cv:.18,stock:82,lt:30,demand:238,class:'A',strategy:'Review weekly. Hold 3-week safety stock. Source dual suppliers. Any stockout costs ~AED 9,500/day in lost margin.'},
   {id:'FRGN-002',name:'Velvet Noir 75ml',rev:198000,vol:2200,cv:.22,stock:310,lt:25,demand:183,class:'A',strategy:'Review bi-weekly. High volume compensates lower margin. Fast mover — monitor sell-through daily.'},
   {id:'FRGN-003',name:'Desert Rose 50ml',rev:142000,vol:3550,cv:.35,stock:540,lt:21,demand:296,class:'B',strategy:'Monthly review. High variability (CoV 35%) — consider VMI with supplier. Buffer +20% above formula.'},
   {id:'FRGN-004',name:'White Musk 30ml',rev:96000,vol:4800,cv:.28,stock:720,lt:18,demand:400,class:'B',strategy:'Bi-monthly review. Stable demand profile — standard ROP works. Low unit cost means overstock risk is low.'},
@@ -5340,13 +5340,13 @@ var abcSkus=[
 ];
 
 var fcSkus=[
-  {id:'FRGN-001',name:'Oud Royale',data:[185,192,310,285,208,196,182,190,198,194,204,248],stock:82,lt:30},
+  {id:'FRGN-001',name:'Oud EDP',data:[185,192,310,285,208,196,182,190,198,194,204,248],stock:82,lt:30},
   {id:'FRGN-003',name:'Desert Rose',data:[248,262,385,355,285,268,252,261,272,266,278,335],stock:540,lt:21},
   {id:'FRGN-005',name:'Amber Intense',data:[22,24,48,42,28,25,22,24,26,24,27,35],stock:28,lt:45},
 ];
 
 var roData=[
-  {id:'FRGN-001',name:'Oud Royale 100ml',stock:82,demand:238,lt:30,minStock:50},
+  {id:'FRGN-001',name:'Oud EDP 100ml',stock:82,demand:238,lt:30,minStock:50},
   {id:'FRGN-002',name:'Velvet Noir 75ml',stock:310,demand:183,lt:25,minStock:80},
   {id:'FRGN-005',name:'Amber Intense 100ml',stock:28,demand:30,lt:45,minStock:20},
   {id:'FRGN-006',name:'Citrus Splash 50ml',stock:12,demand:117,lt:14,minStock:40},
@@ -5718,7 +5718,7 @@ function renderGameRound() {
   if (gameRound === 1) {
     board.innerHTML = 
       '<h4 style="font-size:1.15rem;font-weight:800;color:#fff;margin-bottom:12px;">Round 1: Initial Disruption Alert (Day 5)</h4>' +
-      '<p style="font-size:.85rem;color:var(--t2);margin-bottom:20px;line-height:1.65;">Your supplier in Shenzhen reports a <strong>21-day port congestion delay</strong> on Oud Royale. Current stock is 82 units. Daily demand is 10 units. The delay will hit in 5 days, causing a complete stockout in 8 days. What is your S&OP mitigation strategy?</p>' +
+      '<p style="font-size:.85rem;color:var(--t2);margin-bottom:20px;line-height:1.65;">Your supplier in Shenzhen reports a <strong>21-day port congestion delay</strong> on Oud EDP. Current stock is 82 units. Daily demand is 10 units. The delay will hit in 5 days, causing a complete stockout in 8 days. What is your S&OP mitigation strategy?</p>' +
       '<div style="display:grid;grid-template-columns:1fr;gap:12px;">' +
         '<button class="dis-scenario-btn" style="text-align:left;" onclick="makeGameDecision(1, 1)">' +
           '<span class="dis-s-tag" style="background:rgba(244,63,94,.15);color:var(--rose);">AED 12,000</span>' +
