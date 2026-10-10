@@ -1,0 +1,813 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex, nofollow"><meta name="description" content="Beginner crash course for a demand planning analyst interview: the weekly loop, 18 concepts with worked numbers, calculators, flashcards, quiz and a 2-day plan."></head><body><title>Demand Planning Crash Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a planning binder. One reading column, a sticky tab strip, and spreadsheet-like grids wherever numbers appear. */
+:root {
+  --bg: #f2f5f8; --surface: #ffffff; --ink: #15212c; --muted: #566573; --line: #d3dce4; --grid: #edf2f6;
+  --accent: #1d5d8a; --accent-ink: #ffffff; --accent-soft: #e2edf6;
+  --warn: #a8530a; --warn-soft: #fcefdf; --good: #2c7a4c; --good-soft: #e3f2e8; --bad: #b3261e; --bad-soft: #fbe8e6;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e141a; --surface: #151e26; --ink: #e4eaf0; --muted: #9caab7; --line: #2a3742; --grid: #1a2530;
+  --accent: #72b3df; --accent-ink: #0a1620; --accent-soft: #16303f;
+  --warn: #f0a35a; --warn-soft: #33250f; --good: #6cc38d; --good-soft: #12281b; --bad: #f28b82; --bad-soft: #351715;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0e141a; --surface: #151e26; --ink: #e4eaf0; --muted: #9caab7; --line: #2a3742; --grid: #1a2530;
+  --accent: #72b3df; --accent-ink: #0a1620; --accent-soft: #16303f;
+  --warn: #f0a35a; --warn-soft: #33250f; --good: #6cc38d; --good-soft: #12281b; --bad: #f28b82; --bad-soft: #351715;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; margin: 0; }
+.wrap { max-width: 860px; margin: 0 auto; padding-inline: 16px; padding-block: 0 64px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 6vw, 3.1rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.45rem, 3.6vw, 1.9rem); font-weight: 800; letter-spacing: -0.01em; }
+h3 { font-size: 1.08rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, label:focus-within { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.eyebrow { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.mono, code { font-family: var(--mono); font-size: 0.88em; }
+code { background: var(--grid); padding: 0.08em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
+.muted { color: var(--muted); }
+.stack { display: grid; gap: 14px; }
+section { padding-block: 40px 8px; scroll-margin-top: 64px; display: grid; gap: 18px; }
+section > header { display: grid; gap: 6px; }
+
+/* hero */
+.hero { padding-block: 36px 8px; display: grid; gap: 16px; }
+.hero .sub { font-size: 1.08rem; color: var(--muted); max-width: 60ch; }
+.horizon { display: grid; gap: 6px; }
+.buckets { display: grid; grid-template-columns: repeat(24, minmax(0, 1fr)); gap: 3px; }
+.buckets span { height: 26px; border-radius: 3px; background: var(--accent-soft); border: 1px solid var(--line); }
+.buckets span.lock { background: var(--accent); border-color: var(--accent); }
+.horizon .legend { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-family: var(--mono); font-size: 0.74rem; color: var(--muted); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.fact { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 2px; min-width: 0; }
+.fact b { font-family: var(--display); font-size: 1.05rem; }
+.rule { border-left: 4px solid var(--warn); background: var(--warn-soft); padding: 12px 14px; border-radius: 0 var(--r) var(--r) 0; }
+
+/* sticky tabs */
+nav.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); margin-inline: -16px; padding: 8px 16px; }
+nav.tabs ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+nav.tabs a { display: block; white-space: nowrap; text-decoration: none; color: var(--ink); font-size: 0.86rem; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
+nav.tabs a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* loop */
+ol.loop { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: s; }
+ol.loop li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; }
+ol.loop li::before { content: counter(s); font-family: var(--display); font-weight: 800; font-size: 1.3rem; color: var(--accent-ink); background: var(--accent); width: 36px; height: 36px; border-radius: 8px; display: grid; place-items: center; }
+ol.loop li div { min-width: 0; }
+ol.loop .jd { font-size: 0.85rem; color: var(--muted); }
+
+/* journey */
+.journey { display: flex; flex-wrap: wrap; align-items: stretch; gap: 6px; }
+.journey .node { flex: 1 1 120px; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px; display: grid; gap: 2px; }
+.journey .node b { font-family: var(--display); }
+.journey .node small { color: var(--muted); line-height: 1.35; }
+.journey .arrow { align-self: center; color: var(--accent); font-family: var(--mono); font-weight: 600; }
+.flowlabels { display: flex; flex-wrap: wrap; gap: 8px; font-size: 0.85rem; }
+.pill { display: inline-block; font-family: var(--mono); font-size: 0.75rem; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--line); }
+.pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.good { background: var(--good-soft); color: var(--good); }
+.pill.bad { background: var(--bad-soft); color: var(--bad); }
+
+/* tables */
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+th { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); background: var(--grid); font-weight: 600; }
+td.n, th.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+tr.total td { font-weight: 700; background: var(--grid); }
+.hl { background: var(--warn-soft); }
+
+/* concepts */
+.group { display: grid; gap: 8px; }
+.group > .eyebrow { margin-top: 10px; }
+details.c { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+details.c > summary { cursor: pointer; list-style: none; padding: 12px 14px; display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; align-items: center; }
+details.c > summary::-webkit-details-marker { display: none; }
+details.c > summary .num { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
+details.c > summary .t { font-family: var(--display); font-weight: 600; font-size: 1.04rem; min-width: 0; }
+details.c > summary .t small { display: block; font-family: var(--body); font-weight: 400; color: var(--muted); font-size: 0.86rem; }
+details.c > summary::after { content: "+"; font-family: var(--mono); font-size: 1.2rem; color: var(--accent); }
+details.c[open] > summary::after { content: "−"; }
+details.c .body { padding: 0 14px 16px; display: grid; gap: 12px; }
+.kv { display: grid; grid-template-columns: 130px 1fr; gap: 6px 14px; }
+.kv dt { font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+.kv dd { margin: 0; min-width: 0; }
+.formula { font-family: var(--mono); font-size: 0.92rem; background: var(--accent-soft); color: var(--ink); border: 1px solid var(--line); padding: 10px 12px; border-radius: 8px; overflow-x: auto; }
+.ask { border-top: 1px dashed var(--line); padding-top: 10px; display: grid; gap: 4px; }
+.ask .q { font-weight: 700; }
+.ask .a { background: var(--good-soft); border-radius: 8px; padding: 8px 10px; }
+
+/* tools */
+.tool { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 12px; }
+.tool .row { display: flex; flex-wrap: wrap; gap: 12px; }
+.field { display: grid; gap: 4px; font-size: 0.85rem; color: var(--muted); }
+input[type="number"] { font: inherit; font-family: var(--mono); font-size: 0.95rem; width: 100%; min-width: 0; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); }
+.field input { width: 120px; }
+td input[type="number"] { width: 84px; text-align: right; }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.out { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.out div { background: var(--grid); border-radius: 8px; padding: 8px 10px; display: grid; }
+.out span { font-size: 0.78rem; color: var(--muted); }
+.out b { font-family: var(--mono); font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.say { font-size: 0.95rem; background: var(--accent-soft); border-radius: 8px; padding: 10px 12px; }
+
+/* flashcards */
+.deck { display: grid; gap: 10px; }
+.card { min-height: 190px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 22px; display: grid; place-items: center; text-align: center; cursor: pointer; user-select: none; }
+.card .front { font-family: var(--display); font-weight: 800; font-size: clamp(1.4rem, 4vw, 1.9rem); }
+.card .back { font-size: 1.02rem; max-width: 52ch; }
+.card .back .formula { margin-top: 10px; display: inline-block; }
+.card.flipped { background: var(--accent-soft); }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+button { font: inherit; font-size: 0.92rem; cursor: pointer; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 8px 14px; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button:hover { border-color: var(--accent); }
+
+/* quiz */
+.qz { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 10px; }
+.qz .opts { display: grid; gap: 6px; }
+.qz .opts button { text-align: left; }
+.qz .opts button.right { background: var(--good-soft); border-color: var(--good); color: var(--ink); }
+.qz .opts button.wrong { background: var(--bad-soft); border-color: var(--bad); color: var(--ink); }
+.qz .why { font-size: 0.92rem; background: var(--grid); border-radius: 8px; padding: 8px 10px; }
+.score { font-family: var(--mono); }
+
+/* questions */
+details.iq { border-bottom: 1px solid var(--line); }
+details.iq > summary { cursor: pointer; padding: 10px 2px; font-weight: 700; list-style-position: outside; }
+details.iq .ans { padding: 0 2px 14px; display: grid; gap: 8px; }
+details.iq .ans ul { margin: 0; padding-left: 20px; }
+.round { display: grid; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 6px 14px; }
+.round > .eyebrow { padding-top: 8px; }
+
+/* plan */
+.day { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 8px; }
+.day h3 { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.day label { display: grid; grid-template-columns: 22px 1fr; gap: 8px; align-items: start; padding: 4px 0; cursor: pointer; }
+.day input[type="checkbox"] { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--accent); }
+.day label:has(input:checked) span { color: var(--muted); text-decoration: line-through; }
+.progress { height: 6px; background: var(--grid); border-radius: 99px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.3s; }
+
+/* resources */
+.res { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.res a, .res div.item { display: grid; gap: 2px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; text-decoration: none; color: var(--ink); min-width: 0; }
+.res a:hover { border-color: var(--accent); }
+.res b { font-family: var(--display); font-weight: 600; }
+.res small { color: var(--muted); overflow-wrap: anywhere; }
+.cheat { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 8px; }
+.cheat div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: grid; gap: 4px; min-width: 0; }
+.cheat span { font-size: 0.82rem; color: var(--muted); }
+.cheat code { background: none; padding: 0; font-size: 0.9rem; }
+footer { padding-top: 40px; color: var(--muted); font-size: 0.85rem; }
+
+@media (max-width: 560px) {
+  .kv { grid-template-columns: 1fr; gap: 2px; }
+  .kv dd { margin-bottom: 8px; }
+  .journey .arrow { display: none; }
+  details.c > summary { grid-template-columns: 28px 1fr auto; }
+  .buckets span { height: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <span class="eyebrow">Interview prep sample · Demand planning analyst, consumer electronics</span>
+  <h1>Demand Planning Crash Course</h1>
+  <p class="sub">Everything in a demand planning job description, explained from zero for someone new to supply chain. Read it top to bottom on day one, practise on day two, skim the cheat sheet on the morning of the interview.</p>
+  <div class="horizon" aria-label="Illustration of a 24-week rolling forecast horizon">
+    <div class="buckets" id="buckets"></div>
+    <div class="legend"><span>Next week</span><span>Your forecast window: 24 weekly buckets. Dark = near term, mostly fixed by supply lead time</span><span>24 weeks out</span></div>
+  </div>
+  <div class="facts">
+    <div class="fact"><span class="eyebrow">The job</span><b>Weekly forecast and inventory analyst</b><span class="muted">Between the sales teams and the supply chain</span></div>
+    <div class="fact"><span class="eyebrow">The core tool</span><b>PSI table + Excel</b><span class="muted">Purchases, sales and inventory by account, product and week</span></div>
+    <div class="fact"><span class="eyebrow">Your edge</span><b>Your real background</b><span class="muted">The data, operations or customer work you have actually done</span></div>
+  </div>
+  <p class="rule"><b>One rule for every answer:</b> talk only about experience you really have. Where you have none, say so plainly and show what you've learned and practised. All numbers on this page are illustrative, not real company data.</p>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <ul>
+    <li><a href="#loop">The job</a></li>
+    <li><a href="#journey">The flow</a></li>
+    <li><a href="#concepts">18 concepts</a></li>
+    <li><a href="#practice">Practice</a></li>
+    <li><a href="#flashcards">Flashcards</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+    <li><a href="#story">Your story</a></li>
+    <li><a href="#questions">Questions</a></li>
+    <li><a href="#plan">2-day plan</a></li>
+    <li><a href="#cheat">Cheat sheet</a></li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+</nav>
+
+<section id="loop">
+  <header><span class="eyebrow">If you remember one thing</span><h2>The job is a six-step weekly loop</h2>
+  <p>Every responsibility in the JD is one of these steps. If you can explain them in your own words, you understand the role.</p></header>
+  <ol class="loop">
+    <li><div><h3>Check the numbers (PSI)</h3><p>Pull the week's sales, purchases and stock for every account and product. Spot what moved.</p></div></li>
+    <li><div><h3>Clean and shape demand</h3><p>Fix data errors, tag one-off promotions, adjust for known events, all before the weekly deadline.</p></div></li>
+    <li><div><h3>Agree and load the forecast</h3><p>Agree the numbers with the sales and account teams, add the safety buffer, and load the forecast into the planning system.</p></div></li>
+    <li><div><h3>Publish the weekly report</h3><p>What changed since last week, what's at risk, and what it means in dollars against the sales plan.</p></div></li>
+    <li><div><h3>Match supply to the plan</h3><p>Check factory arrival dates, reconcile channel inventory, and confirm or adjust purchase orders.</p></div></li>
+    <li><div><h3>Stop stock from getting old</h3><p>Find aging stock, plan how to sell it down, and move it to where it sells faster.</p></div></li>
+  </ol>
+</section>
+
+<section id="journey">
+  <header><span class="eyebrow">The business in one picture</span><h2>Follow one phone from factory to customer</h2>
+  <p>The factory has to decide how many to build weeks before anyone buys. Too few means empty shelves and lost sales. Too many means phones losing value in a warehouse. Demand planning exists to get that number right.</p></header>
+  <div class="journey" role="list">
+    <div class="node" role="listitem"><b>Factory</b><small>The brand's factory (for phones, often in Asia) builds it; ship takes weeks, air takes days</small></div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <div class="node" role="listitem"><b>Sales subsidiary</b><small>The brand's company in each country, with its warehouses</small></div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <div class="node" role="listitem"><b>Account</b><small>Wireless carriers, big-box retailers, online marketplaces</small></div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <div class="node" role="listitem"><b>Consumer</b><small>Buys in a store or online</small></div>
+  </div>
+  <div class="flowlabels"><span class="pill">Factory → subsidiary: arrivals, POs</span><span class="pill">Subsidiary → account: sell-in</span><span class="pill">Account → consumer: sell-through</span><span class="pill warn">Stock left at the account: channel inventory</span></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Who</th><th>What they are</th><th>Software comparison</th></tr></thead>
+    <tbody>
+      <tr><td><b>Sales subsidiary</b></td><td>The brand's company in one country. Buys from HQ, sells to accounts</td><td>A regional deployment</td></tr>
+      <tr><td><b>Planning / business operations</b></td><td>Turns sales input into numbers the supply chain can act on. This is the team you'd join</td><td>The integration layer between two systems</td></tr>
+      <tr><td><b>Carriers</b></td><td>Wireless carriers. Sell phones with service plans; promotions cause sudden spikes</td><td>A client with bursty traffic</td></tr>
+      <tr><td><b>Retailers</b></td><td>Electronics chains, hypermarkets, warehouse clubs and online marketplaces. Many brands; seasonal peaks (back-to-school, holidays)</td><td>A client with predictable seasonal load</td></tr>
+      <tr><td><b>Account teams</b></td><td>The brand's people who own each customer relationship. Your main counterparts every week</td><td>Client-facing account managers</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="concepts">
+  <header><span class="eyebrow">Tap each one open</span><h2>The 18 concepts, from zero</h2>
+  <p>Each card has the plain-English meaning, an everyday example, the numbers, a software comparison, and how interviewers ask about it with a one-line answer you can adapt.</p></header>
+  <div id="concept-list" class="stack"></div>
+</section>
+
+<section id="practice">
+  <header><span class="eyebrow">Change the numbers, watch what happens</span><h2>Practice calculators</h2>
+  <p>These are the three calculations most likely to come up. Change any input. The sentence under each tool is how you'd say the result in the interview.</p></header>
+
+  <div class="tool" id="psi-tool">
+    <h3>1 · PSI table and weeks of supply</h3>
+    <div class="row">
+      <label class="field" for="psi-open">Opening stock, week 1<input type="number" id="psi-open" value="2000" min="0"></label>
+      <label class="field" for="psi-fwd">Forward weekly forecast<input type="number" id="psi-fwd" value="1000" min="1"></label>
+      <label class="field" for="psi-target">Target WOS (weeks)<input type="number" id="psi-target" value="4" min="0" step="0.5"></label>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Week</th><th class="n">Opening</th><th class="n">Purchases (sell-in)</th><th class="n">Sales (sell-through)</th><th class="n">Ending (EOH)</th><th class="n">WOS</th></tr></thead>
+      <tbody id="psi-body"></tbody>
+    </table></div>
+    <p class="say" id="psi-say"></p>
+  </div>
+
+  <div class="tool" id="acc-tool">
+    <h3>2 · Forecast accuracy: MAPE vs WAPE vs bias</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Model</th><th class="n">Forecast</th><th class="n">Actual</th><th class="n">Error F − A</th><th class="n">% error</th></tr></thead>
+      <tbody id="acc-body"></tbody>
+    </table></div>
+    <div class="out">
+      <div><span>MAPE (each model equal)</span><b id="acc-mape">–</b></div>
+      <div><span>WAPE (weighted by volume)</span><b id="acc-wape">–</b></div>
+      <div><span>Accuracy = 1 − WAPE</span><b id="acc-acc">–</b></div>
+      <div><span>Bias (+ = too high)</span><b id="acc-bias">–</b></div>
+    </div>
+    <p class="say" id="acc-say"></p>
+  </div>
+
+  <div class="tool" id="re-tool">
+    <h3>3 · Reallocating company-held stock between two locations</h3>
+    <div class="row">
+      <label class="field" for="re-xs">Location X stock<input type="number" id="re-xs" value="1200" min="0"></label>
+      <label class="field" for="re-xr">X sells per week<input type="number" id="re-xr" value="100" min="1"></label>
+      <label class="field" for="re-ys">Location Y stock<input type="number" id="re-ys" value="300" min="0"></label>
+      <label class="field" for="re-yr">Y sells per week<input type="number" id="re-yr" value="250" min="1"></label>
+    </div>
+    <label class="field" for="re-move">Units to move from X to Y: <b class="mono" id="re-move-v">600</b><input type="range" id="re-move" min="0" max="1200" step="50" value="600"></label>
+    <div class="out">
+      <div><span>X weeks to deplete</span><b id="re-x">–</b></div>
+      <div><span>Y weeks to deplete</span><b id="re-y">–</b></div>
+    </div>
+    <p class="say" id="re-say"></p>
+  </div>
+</section>
+
+<section id="flashcards">
+  <header><span class="eyebrow">Tap the card to flip it</span><h2>Flashcards</h2><p>Say the answer out loud before you flip. Shuffle and go again until none of them surprise you.</p></header>
+  <div class="deck">
+    <div class="card" id="card" role="button" tabindex="0" aria-live="polite"></div>
+    <div class="controls">
+      <span class="score" id="card-n"></span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button type="button" id="card-prev">Back</button>
+        <button type="button" id="card-shuffle">Shuffle</button>
+        <button type="button" class="primary" id="card-next">Next card</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="quiz">
+  <header><span class="eyebrow">Twelve questions, instant feedback</span><h2>Self-check quiz</h2><p>Work the maths on paper first, then tap your answer. <span class="score" id="quiz-score"></span></p></header>
+  <div id="quiz-list" class="stack"></div>
+  <div><button type="button" id="quiz-reset">Reset the quiz</button></div>
+</section>
+
+<section id="story">
+  <header><span class="eyebrow">Map your real background to the job</span><h2>Your story</h2>
+  <p>Every answer comes from what you've actually done, studied or built. Use this table to connect your background to what the team needs.</p></header>
+  <div class="tbl"><table>
+    <thead><tr><th>What the JD wants</th><th>Ask yourself</th><th>How to use it</th></tr></thead>
+    <tbody>
+      <tr><td>Find trends, variances, risks</td><td>When did you trace a wrong number back to its source?</td><td>A short STAR story: what was wrong, how you found it, what changed</td></tr>
+      <tr><td>Advanced Excel</td><td>Which Excel tools can you use live, without help?</td><td>Claim only those, and practise the rest before the interview</td></tr>
+      <tr><td>Reports and dashboards</td><td>What report or dashboard have you built, and who used it?</td><td>A real STAR story with what you built and who used it</td></tr>
+      <tr><td>Presenting to senior people</td><td>When did you explain numbers or progress to managers or clients?</td><td>Use the headline → drivers → risks → decision structure</td></tr>
+      <tr><td>Multi-cultural teams</td><td>Have you worked across countries or time zones?</td><td>A real STAR story</td></tr>
+      <tr class="hl"><td>Demand planning job experience</td><td>If you have none yet, say so</td><td>Then show what you've learned and practised. Interviewers trust this more than a vague claim</td></tr>
+    </tbody>
+  </table></div>
+  <div class="stack">
+    <div class="tool">
+      <h3>60–90 second pitch (a template)</h3>
+      <ol style="margin:0;padding-left:20px;display:grid;gap:6px">
+        <li>Your background in one sentence, and where you worked with data or operations.</li>
+        <li>Why planning: a real reason connected to your experience.</li>
+        <li>What you've done to learn it: courses, projects and practice you've actually completed.</li>
+        <li>What you'd bring to this team's weekly cycle.</li>
+      </ol>
+    </div>
+    <p class="rule"><b>Real experience only.</b> If you're asked about something you haven't done, say so plainly and explain how you'd approach it. Invented details fall apart under the second follow-up question, and employment history gets checked.</p>
+  </div>
+</section>
+
+<section id="questions">
+  <header><span class="eyebrow">Tap a question to see what a strong answer covers</span><h2>Likely interview questions</h2>
+  <p>These are frameworks, not scripts. Put them in your own words and practise out loud. Behavioural answers must use your real experience.</p></header>
+  <div id="iq-list" class="stack"></div>
+</section>
+
+<section id="plan">
+  <header><span class="eyebrow">Ticks are saved in this browser only</span><h2>Your 2-day plan</h2>
+  <div class="progress" aria-hidden="true"><i id="plan-bar"></i></div><p class="muted" id="plan-count"></p></header>
+  <div id="plan-list" class="stack"></div>
+</section>
+
+<section id="cheat">
+  <header><span class="eyebrow">Interview morning, 10 minutes</span><h2>Cheat sheet</h2></header>
+  <div class="cheat">
+    <div><span>PSI identity</span><code>EOH = Opening + Purchases − Sales</code></div>
+    <div><span>Channel inventory change</span><code>Sell-in − Sell-through</code></div>
+    <div><span>Weeks of supply</span><code>WOS = EOH ÷ forward weekly sales</code></div>
+    <div><span>Forecast to load</span><code>Consensus × (1 + buffer %)</code></div>
+    <div><span>Accuracy</span><code>WAPE = Σ|F − A| ÷ ΣA · Acc = 1 − WAPE</code></div>
+    <div><span>Direction of error</span><code>Bias = Σ(F − A) ÷ ΣA</code></div>
+    <div><span>Every model equal</span><code>MAPE = average of |F − A| ÷ A</code></div>
+    <div><span>Money</span><code>$ impact = units × ASP</code></div>
+    <div><span>Aging</span><code>Weeks to deplete = stock ÷ weekly sales</code></div>
+    <div><span>Supply check</span><code>Gap = requirement − confirmed arrivals (+ = short)</code></div>
+  </div>
+  <div class="tool">
+    <h3>Five questions to ask them</h3>
+    <ol style="margin:0;padding-left:20px;display:grid;gap:4px">
+      <li>How many forecast versions does the team run each week, and who owns each one?</li>
+      <li>Which accounts or product lines would I support first?</li>
+      <li>How does the team measure forecast accuracy and bias today?</li>
+      <li>Which systems and data sources does the team use day to day?</li>
+      <li>What does a great first 90 days look like in this role?</li>
+    </ol>
+  </div>
+</section>
+
+<section id="resources">
+  <header><span class="eyebrow">Watch, listen, practise</span><h2>Resources</h2>
+  <p>The videos and articles below cover every concept on this page. In a full prep pack they also go into a NotebookLM notebook, with AI-generated audio and video overviews.</p></header>
+  <div class="res">
+    <div class="item"><b>AI-generated audio and video</b><small>Part of a full prep pack: a NotebookLM notebook built from these sources, with a podcast-style overview, a video explainer, a quiz and flashcards.</small></div>
+    <div class="item"><b>Excel practice workbook</b><small>"demand-planning-excel-practice-workbook.xlsx": six exercises (lookups, PSI, accuracy, WoW report + pivot, aging, reconciliation + PO) with answer keys</small></div>
+    <div class="item"><b>Podcasts and videos (files)</b><small>Beginner deep-dive podcast, a second deep-dive podcast, a beginner whiteboard video, an analyst playbook video, slides (PDF/PPTX), study guides, question bank</small></div>
+  </div>
+  <h3>Watch first (in this order)</h3>
+  <div class="res">
+    <a href="https://www.youtube.com/watch?v=X_Aj1F2PPGE" target="_blank" rel="noopener"><b>What is Demand Planning? Supply Chain Basics</b><small>Start here: the basic idea</small></a>
+    <a href="https://www.youtube.com/watch?v=lhwYt7cm84U" target="_blank" rel="noopener"><b>Forecasting and Demand Planning Explained Simply</b><small>Forecasting from the ground up</small></a>
+    <a href="https://www.youtube.com/watch?v=i4lo8vkc5DI" target="_blank" rel="noopener"><b>Calculating Weeks of Supply (WOS)</b><small>The inventory number you'll use every week</small></a>
+    <a href="https://www.youtube.com/watch?v=PSTjoaYr3pA" target="_blank" rel="noopener"><b>Forecast Accuracy: MAPE vs WAPE</b><small>Why WAPE is the better headline</small></a>
+    <a href="https://www.youtube.com/watch?v=3gJRBdaqBMA" target="_blank" rel="noopener"><b>5 Steps of S&amp;OP Explained</b><small>Where the weekly work feeds in</small></a>
+    <a href="https://www.youtube.com/watch?v=FfJ-6Jk64Hk" target="_blank" rel="noopener"><b>SUMIFS &amp; PivotTables for a Monthly Sales Report</b><small>The two Excel tools you'll use most</small></a>
+    <a href="https://www.youtube.com/watch?v=UGwowaUENbQ" target="_blank" rel="noopener"><b>Demand Planner Interview Questions and Answers</b><small>Hear how questions are asked</small></a>
+    <a href="https://www.youtube.com/watch?v=_9Zeb6azz0g" target="_blank" rel="noopener"><b>Demand Planner Job Interview: Top Skills and 10 Questions</b><small>A second set of common questions</small></a>
+  </div>
+  <h3>More videos and reading</h3>
+  <div class="res">
+    <a href="https://www.youtube.com/watch?v=DuKxJ_V44OI" target="_blank" rel="noopener"><b>What is Demand Planning? Lesson 8</b><small>YouTube</small></a>
+    <a href="https://www.youtube.com/watch?v=Ixfs0NrnXzE" target="_blank" rel="noopener"><b>Forecasting and Demand Planning Lecture</b><small>YouTube, longer lecture</small></a>
+    <a href="https://www.youtube.com/watch?v=gKG50ePysQQ" target="_blank" rel="noopener"><b>Operations &amp; SCM: Forecasting &amp; Demand Planning</b><small>YouTube</small></a>
+    <a href="https://www.channelengine.com/en/blog/sell-in-vs-sell-through" target="_blank" rel="noopener"><b>Sell-in vs sell-through</b><small>ChannelEngine</small></a>
+    <a href="https://www.inventory-planner.com/weeks-of-supply/" target="_blank" rel="noopener"><b>Weeks of supply: formula and examples</b><small>Inventory Planner</small></a>
+    <a href="https://www.baeldung.com/cs/mape-vs-wape-vs-wmape" target="_blank" rel="noopener"><b>MAPE vs WAPE vs WMAPE</b><small>Baeldung, written for CS readers</small></a>
+    <a href="https://www.horizonsolutions.ai/supply-chain-planning/what-is-forecast-bias" target="_blank" rel="noopener"><b>Forecast bias explained</b><small>Horizon Solutions</small></a>
+    <a href="https://www.shipbob.com/blog/inventory-aging-report/" target="_blank" rel="noopener"><b>Inventory aging reports</b><small>ShipBob</small></a>
+    <a href="https://demand-planning.com/2024/07/22/how-to-drive-consensus-in-sop-decision-making/" target="_blank" rel="noopener"><b>Driving consensus in S&amp;OP</b><small>demand-planning.com</small></a>
+    
+  </div>
+</section>
+
+<footer>All worked numbers are illustrative.</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const $ = (s, r) => (r || document).querySelector(s);
+  const fmt = n => Math.round(n).toLocaleString("en-US");
+  const pct = n => (isFinite(n) ? (n * 100).toFixed(1) + "%" : "–");
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } }
+  };
+
+  /* 24-week horizon strip */
+  const b = $("#buckets");
+  for (let i = 0; i < 24; i++) { const s = document.createElement("span"); if (i < 4) s.className = "lock"; s.title = "Week +" + (i + 1); b.appendChild(s); }
+
+  /* concepts */
+  const T = (h, rows) => '<div class="tbl"><table><thead><tr>' + h.map(x => '<th' + (/^[#$0-9]|units|Opening|Purch|Sales|Ending|Fore|Actual|Error|Stock|Weekly|Weeks|%/.test(x) ? ' class="n"' : "") + '>' + x + "</th>").join("") + "</tr></thead><tbody>" + rows.map(r => "<tr" + (r.cls ? ' class="' + r.cls + '"' : "") + ">" + (r.c || r).map((c, i) => "<td" + (i > 0 && /^[\-−+$0-9(.]/.test(String(c)) ? ' class="n"' : "") + ">" + c + "</td>").join("") + "</tr>").join("") + "</tbody></table></div>";
+  const groups = [
+    { name: "Basics", items: [
+      { t: "Demand vs supply", s: "What people want vs what we can deliver",
+        what: "<b>Demand</b> is how much customers want to buy. <b>Supply</b> is how much product we can get to them. The difference is a <b>supply/demand gap</b>.",
+        ex: "A pizza shop expects 200 orders on Friday but only has dough for 150. That 50-pizza gap means lost sales.",
+        num: "An account wants 5,000 units of a phone; factories confirm 4,200. Gap = 5,000 − 4,200 = <b>800 units short</b>.",
+        sw: "Demand is the traffic you expect; supply is the server capacity you provisioned.",
+        q: "What's the difference between demand planning and supply planning?",
+        a: "Demand planning estimates what customers will buy; supply planning works out how to make and deliver it. S&amp;OP is where the two are matched." },
+      { t: "Forecast vs plan vs target", s: "Three numbers that are easy to mix up",
+        what: "A <b>forecast</b> is the honest best estimate of what will sell. A <b>plan</b> is what the business commits to buy, ship and stock. A <b>target</b> is what sales wants to achieve.",
+        ex: "You hope to run 10 km (target), think you'll manage 8 (forecast), and pack water for 9 (plan).",
+        num: "Target 50,000 units, forecast 44,000, plan 46,000 (forecast plus buffer). The forecast is <b>6,000 units (12%) below target</b>. Your job is to show that gap clearly.",
+        sw: "Target = the roadmap promise; forecast = the realistic estimate from the team's velocity; plan = what you actually schedule.",
+        q: "What do you do when the forecast is below the sales target?",
+        a: "Show the gap in units and dollars, explain what's driving it, and let the business decide how to close it, rather than inflate the forecast." },
+      { t: "Sell-in vs sell-through", s: "Shipped to the account vs sold to consumers",
+        what: "<b>Sell-in</b> is what the brand sells <i>to</i> an account. <b>Sell-through</b> (also <b>sell-out</b>) is what the account sells <i>to consumers</i>. Sell-through is the real demand signal.",
+        ex: "You run a phone shop. You buy 100 phones from the brand (the brand's sell-in). You sell 70 to customers (your sell-through). 30 are left on your shelf.",
+        num: "Carrier A bought 10,000 units in September and sold 7,000 to consumers. Its stock grew by <b>3,000</b>. If that keeps happening, it will soon stop ordering. You'll also hear <b>sell-through rate</b>: units sold ÷ units received (or available), as a %. Ask which denominator a team uses.",
+        sw: "Sell-in = messages published to a queue; sell-through = messages consumed. Publish faster than you consume and the queue grows.",
+        q: "Explain sell-in vs sell-through. Why track both?",
+        a: "Sell-in is what we ship to the account, sell-through is what it sells to consumers. The gap between them is the account's inventory, and that predicts its next orders." },
+      { t: "Channel inventory", s: "Stock sitting at the accounts",
+        what: "The stock held <b>at the accounts</b>, in their warehouses and stores. \"The channel\" means all accounts together.",
+        f: "Channel inventory change = Sell-in − Sell-through",
+        ex: "Your phone shop's shelves. The brand already sold those phones to you, but if they don't sell, you won't order more.",
+        num: "Carrier A started September with 5,000, bought 10,000, sold 7,000: ended with <b>8,000</b>.",
+        sw: "A cache sitting between you and the user: when it's full, upstream requests stop.",
+        q: "Why does the brand care about stock it has already sold to the account?",
+        a: "Because it decides future sell-in. If the account sits on lots of stock it won't reorder, and if that stock ages the brand may have to fund price protection or promotions." },
+      { t: "24-week rolling horizon and cutoff", s: "Weekly buckets, always looking 6 months ahead",
+        what: "The forecast is in <b>weekly buckets</b> and covers the next <b>24 weeks</b>. Every week the window moves forward one week, and you update <i>all</i> 24 weeks. The <b>cutoff</b> is the weekly deadline to load the numbers.",
+        ex: "A weather forecast that always shows the next 10 days. Tomorrow it shows a new day 10, and every other day may change too.",
+        num: "In Week 20 the forecast covers Weeks 21–44. Next week it covers 22–45. (Near year-end the window runs on into next year's Weeks 1, 2, 3….) Near-term weeks are mostly locked because product is already being made or shipped.",
+        sw: "A 24-step sliding window that advances one step per week. The cutoff is a code freeze before a weekly release.",
+        q: "What is a rolling 24-week forecast?",
+        a: "A forecast in weekly buckets that always looks 24 weeks ahead. Every week the window moves forward and I update all 24 weeks with the latest sales, inventory and account input." } ] },
+    { name: "The weekly numbers", items: [
+      { t: "PSI (Purchase – Sales – Inventory)", s: "The analyst's main table",
+        what: "A weekly table of what was <b>purchased</b>, what was <b>sold</b>, and what <b>inventory</b> is left, for each account and product.",
+        f: "Ending inventory = Opening + Purchases − Sales",
+        ex: "A bank account: opening balance + deposits − withdrawals = closing balance. Same logic with phones.",
+        tbl: T(["Week", "Opening", "Purchases", "Sales", "Ending"], [["41", "2,000", "800", "1,000", "1,800"], { c: ["42", "1,800", "800", "1,600", "1,000"], cls: "hl" }, ["43", "1,000", "1,200", "900", "1,300"]]),
+        num: "Each week's ending becomes next week's opening. Week 42 sales jumped to 1,600 from a normal ~1,000, so ask why before changing anything.",
+        sw: "A running balance computed row by row, like a ledger or a cumulative sum in SQL.",
+        q: "Walk me through a PSI table.",
+        a: "Purchases, sales and inventory side by side by week; ending equals opening plus purchases minus sales. I use it to spot unusual sales, inventory building up, and accounts running low." },
+      { t: "EOH and weeks of supply (WOS)", s: "How long will the stock last?",
+        what: "<b>EOH</b> (end on hand) is stock at the end of the week. <b>WOS</b> is how many weeks it will last at the expected sales rate.",
+        f: "WOS = EOH ÷ average forward weekly sales",
+        ex: "30 litres of fuel, using 10 a day: 3 days of fuel left.",
+        num: "A different account holds 1,300 units and expects to sell 650 a week: 1,300 ÷ 650 = <b>2 weeks</b>. Its target is 4 weeks = 2,600 units, so it is <b>1,300 short</b>: plan more sell-in. At 12 weeks you'd slow sell-in instead.",
+        sw: "Disk runway: free space ÷ daily growth = days until full.",
+        q: "What is weeks of supply, and what's a healthy level?",
+        a: "Stock divided by forward weekly demand. The healthy level depends on the account, the product's life stage and the lead time, so I compare each account to its own target." },
+      { t: "Demand cleaning and shaping", s: "Fix the signal before you forecast",
+        what: "<b>Cleaning</b> fixes history: duplicates, wrong records, one-off events. <b>Shaping</b> adjusts the future for known events like promotions and price changes.",
+        ex: "A friend's restaurant sold 3× normal on the day of a festival. You wouldn't plan every Saturday on that number.",
+        num: "Week 42's 1,600 included a one-week carrier promotion. Tag it as an event so the <b>baseline</b> forecast stays around 1,000.",
+        sw: "Data cleaning and outlier handling before training a model. Garbage in, garbage out.",
+        q: "Sell-through dropped 30% at one account this week. What do you check first?",
+        a: "Whether it's real: a data feed error, an ended promotion, a store stock-out, a competitor launch. I check with the account team before I touch the forecast." } ] },
+    { name: "Forecast and accuracy", items: [
+      { t: "Loading the forecast, with a buffer", s: "The weekly number the planning team commits to",
+        what: "Each week the planning team loads one agreed forecast into the planning system before the cutoff. Companies give these forecast versions their own internal names. You won't know them before you join, so ask how theirs work. A <b>buffer</b> is extra quantity on top of the agreed forecast to cover uncertainty.",
+        f: "Loaded quantity = consensus forecast × (1 + buffer %)",
+        ex: "Leaving 15 minutes early for an important meeting in case of traffic.",
+        num: "Consensus 1,000 units, buffer 5%: load <b>1,050</b>. If demand doesn't come, the extra 50 become aging stock, so buffers shrink as a model gets older.",
+        sw: "Capacity headroom: you provision 10% spare, but you don't keep paying for headroom on a service you're retiring.",
+        q: "How would you apply buffer logic?",
+        a: "Consensus forecast times one plus the buffer percentage, with the buffer set by uncertainty and life stage: bigger for a new launch, smaller for an aging model." },
+      { t: "Forecast accuracy: MAPE, WAPE, bias", s: "How wrong, and in which direction",
+        what: "<b>Error</b> = forecast − actual (positive = too high). <b>MAPE</b> averages the % error of every item equally. <b>WAPE</b> divides total error by total sales, so big items count more. <b>Bias</b> shows direction. Some companies flip the sign, so say which convention you use.",
+        f: "WAPE = Σ|F − A| ÷ ΣA   ·   Accuracy = 1 − WAPE   ·   Bias = Σ(F − A) ÷ ΣA",
+        tbl: T(["Model", "Forecast", "Actual", "Error", "% error"], [["A", "100", "80", "+20", "25.0%"], ["B", "50", "60", "−10", "16.7%"], { c: ["C (tiny)", "10", "2", "+8", "400%"], cls: "hl" }, { c: ["Total", "160", "142", "+18", ""], cls: "total" }]),
+        num: "MAPE = (25 + 16.7 + 400) ÷ 3 = <b>147.2%</b>. Tiny Model C wrecks it. WAPE = 38 ÷ 142 = <b>26.8%</b>, so accuracy = <b>73.2%</b>. Bias = 18 ÷ 142 = <b>+12.7%</b>: forecasting too high.",
+        sw: "The same metrics you'd use to evaluate an ML model. Bias is a model that always predicts high.",
+        q: "How do you measure forecast accuracy?",
+        a: "WAPE for accuracy because it weights by volume, and bias for direction. MAPE alone is distorted by small items. Persistent positive bias builds aging inventory even when accuracy looks fine." },
+      { t: "Week-over-week changes and $ impact", s: "What moved since last week, in dollars",
+        what: "A <b>WoW change</b> compares this week's forecast with last week's for the same account, product and future week. Multiply by the <b>ASP</b> (average selling price) to get dollars, then compare the total to the sales plan.",
+        f: "$ impact = unit change × ASP",
+        ex: "Your monthly budget review: what changed since last month, and how much money it means.",
+        num: "Carrier A, Model X, Week 45: 1,200 → 900 = <b>−300 units</b>. At $800 ASP that's <b>−$240,000</b> versus last week's view.",
+        sw: "A weekly diff or release changelog: what changed, why, and its impact.",
+        q: "What goes in a weekly forecast report for senior management?",
+        a: "Headline first, then the biggest changes with reasons, the risks, the dollar gap to plan, and the decisions I need from them." } ] },
+    { name: "Inventory and supply", items: [
+      { t: "Channel inventory reconciliation", s: "Why two stock numbers disagree",
+        what: "Checking that the brand's view of an account's stock matches what the account reports, and explaining every difference.",
+        ex: "Your banking app shows a different balance from your bank statement because a payment is still pending.",
+        num: "System says 5,000; account reports 4,600. Gap 400 = <b>300 in transit</b> + <b>100 pending return</b>. 4,600 + 300 + 100 = 5,000. Reconciled.",
+        sw: "Comparing two tables that should match: replication lag, a failed sync, a unit mismatch.",
+        q: "How would you reconcile channel inventory that doesn't match the account's report?",
+        a: "Line up both sources by product and date, then explain the gap step by step: in-transit, returns, timing differences, then data or unit-of-measure errors." },
+      { t: "Factory arrivals and PO confirmation", s: "Will what's coming cover what's needed?",
+        what: "Factories update their <b>arrival schedules</b> daily or weekly. Each week you <b>confirm, increase or reduce purchase orders</b> so arrivals match the latest plan.",
+        ex: "You ordered party supplies for Saturday; the shop says half arrive Monday. You decide: pay for express, borrow, or cut the guest list.",
+        num: "Week 44 needs 3,000 units; factories confirm 2,200 (800 delayed). <b>800 short</b>. Options: expedite by air (costly), prioritise key accounts, pull forward a later shipment, and report the revenue at risk (800 × ASP).",
+        sw: "A dependency ships late, so you re-plan the release and tell stakeholders early.",
+        q: "The factory delays 800 units of a hot model. What do you do?",
+        a: "Size the gap, list the options with their cost, protect priority accounts, and flag the revenue at risk in the weekly report." },
+      { t: "Aging, depletion and reallocating EOH", s: "Old stock costs money; move it before it ages",
+        what: "<b>Aging inventory</b> has sat too long (buckets: 0–30, 31–60, 61–90, 90+ days). Prices fall and new models launch, so the brand may pay <b>price protection</b>. A <b>depletion plan</b> sells it down. <b>Reallocating EOH</b> moves stock the company still controls (for example between its own warehouses or sales subsidiaries) to where it sells faster. Stock an account has already bought belongs to the account, so there the levers are different: slow its sell-in, support sell-through with promotions, or negotiate a stock rotation.",
+        f: "Weeks to deplete = stock on hand ÷ weekly sell-through",
+        tbl: T(["Location", "Stock", "Weekly sales", "Weeks"], [["X", "1,200", "100", "12.0"], ["Y", "300", "250", "1.2"]]),
+        num: "Move 600 from X to Y: X = 600 ÷ 100 = <b>6.0 weeks</b>, Y = 900 ÷ 250 = <b>3.6 weeks</b>. Check who owns the stock, the transfer cost and time, allocation rules and upcoming promotions first.",
+        sw: "Load balancing: move work from an idle node to an overloaded one.",
+        q: "X has 12 weeks of supply and Y has 1. What do you do?",
+        a: "First ask who owns the stock. If it's company-held, reallocate from X to Y after checking transfer cost and allocation rules. If it's already at an account, slow X's sell-in, support its sell-through, and push more sell-in to Y." } ] },
+    { name: "People, tools and industry", items: [
+      { t: "S&OP and consensus", s: "One number everyone signs up to",
+        what: "<b>S&amp;OP</b> (Sales and Operations Planning) is the regular, usually monthly, meeting where sales, supply, finance and operations agree <b>one plan</b>. The weekly work feeds it. The <b>consensus forecast</b> is the agreed number, with assumptions written down.",
+        ex: "A family agreeing one holiday budget: everyone's wish list goes in, one number comes out.",
+        num: "Presenting in four steps: (1) headline, e.g. \"Q4 demand for Model X is 8% above plan; supply covers 95%\"; (2) the 3 biggest drivers; (3) risks; (4) the decision you need.",
+        sw: "Sprint planning with every stakeholder in the room, ending with one agreed backlog.",
+        q: "What happens when sales wants a higher number than the data supports?",
+        a: "I bring the data and the assumptions, we agree one number together, and I track it afterwards so the next debate runs on evidence." },
+      { t: "The Excel toolkit", s: "Expect questions and maybe a live task",
+        what: "<b>PivotTable</b> summarises by account × week. <b>XLOOKUP / VLOOKUP</b> fetch a value from another table. <b>SUMIFS / COUNTIFS</b> sum or count with conditions. <b>IFERROR</b> avoids #DIV/0!. <b>Conditional formatting</b> highlights risks. <b>Macros / VBA</b> automate the weekly refresh.",
+        f: "=SUMIFS(Units, Account, \"Carrier A\", Week, 42)    =XLOOKUP(A2, Models, ASPs, \"Not found\")",
+        ex: "XLOOKUP can look left or right, defaults to exact match, and has a built-in \"not found\" value. VLOOKUP only looks right and needs FALSE for an exact match. XLOOKUP needs Excel 2021 or Microsoft 365, so on older Excel expect VLOOKUP or INDEX/MATCH.",
+        num: "WAPE in one cell: <code>=SUMPRODUCT(ABS(F2:F10-A2:A10))/SUM(A2:A10)</code>",
+        sw: "PivotTable = GROUP BY. SUMIFS = SUM … WHERE. XLOOKUP = a JOIN on one key. Your SQL is your fastest bridge.",
+        q: "Have you used VBA or macros?",
+        a: "Be honest about your level. If you've done any scripting or automation, mention it, and say what you'd automate here (the weekly data refresh and report)." },
+      { t: "AI and Claude in the job", s: "The JD calls Claude experience \"helpful\"",
+        what: "Good uses: drafting weekly report commentary from PSI tables, explaining an unusual movement, writing or checking formulas and VBA. Rules: check every number against the source, and never paste company data into a tool the employer hasn't approved.",
+        ex: "Like a sharp intern who drafts fast but whose work you always check.",
+        num: "Example: paste a WoW table into an approved AI tool, ask for a 3-line headline, then verify each number against the table before sending.",
+        sw: "Same as using an AI coding assistant: speed up the draft, review every line.",
+        q: "How would you use Claude in this job?",
+        a: "To speed up writing and formula work, like drafting weekly commentary from my PSI tables, while checking every number myself and using only company-approved tools for company data." },
+      { t: "Telecom and electronics context", s: "Why this industry is hard to plan",
+        what: "<b>Launches</b>: a new flagship phone cuts demand for the old one (<b>cannibalisation</b>), so plan the old model's depletion <i>before</i> launch. <b>Carrier promotions</b> (trade-ins, $0 down) cause spikes. <b>Retail seasons</b>: back-to-school, Black Friday, holidays. <b>Price drops</b> raise demand and can trigger price protection.",
+        ex: "When a new flagship phone is announced, last year's model suddenly sells slower and gets discounted.",
+        num: "If the old model still has 10 weeks of supply a month before launch, shrink its buffer now and plan promotions or reallocation.",
+        sw: "Deprecating an old API version: migrate users before the new one ships, not after.",
+        q: "How does a new phone launch affect the previous model's planning?",
+        a: "Demand for the old model drops, so I'd cut its buffer early, plan its depletion before the launch, and watch channel inventory and price-protection exposure." } ] }
+  ];
+  let n = 0;
+  $("#concept-list").innerHTML = groups.map(g => '<div class="group"><span class="eyebrow">' + g.name + "</span>" + g.items.map(c => {
+    n++;
+    return '<details class="c"><summary><span class="num">' + String(n).padStart(2, "0") + '</span><span class="t">' + c.t + "<small>" + c.s + "</small></span></summary><div class=\"body\">" +
+      '<dl class="kv"><dt>Plain English</dt><dd>' + c.what + "</dd>" +
+      (c.f ? '<dt>Formula</dt><dd><div class="formula">' + c.f + "</div></dd>" : "") +
+      "<dt>Everyday</dt><dd>" + c.ex + "</dd>" +
+      "<dt>The numbers</dt><dd>" + (c.tbl || "") + (c.tbl ? '<p style="margin-top:8px">' + c.num + "</p>" : c.num) + "</dd>" +
+      "<dt>Software twin</dt><dd>" + c.sw + "</dd></dl>" +
+      '<div class="ask"><span class="eyebrow">They ask</span><span class="q">"' + c.q + '"</span><span class="a">' + c.a + "</span></div></div></details>";
+  }).join("") + "</div>").join("");
+
+  /* PSI tool */
+  const psiRows = [[800, 1000], [800, 1600], [1200, 900], [900, 950]];
+  $("#psi-body").innerHTML = psiRows.map((r, i) => "<tr><td>Week " + (41 + i) + '</td><td class="n" id="psi-o' + i + '"></td><td class="n"><input type="number" id="psi-p' + i + '" value="' + r[0] + '" min="0" aria-label="Purchases week ' + (41 + i) + '"></td><td class="n"><input type="number" id="psi-s' + i + '" value="' + r[1] + '" min="0" aria-label="Sales week ' + (41 + i) + '"></td><td class="n" id="psi-e' + i + '"></td><td class="n" id="psi-w' + i + '"></td></tr>').join("");
+  function psi() {
+    let open = +$("#psi-open").value || 0; const fwd = Math.max(1, +$("#psi-fwd").value || 1), tgt = +$("#psi-target").value || 0;
+    let last = 0, lastW = 0;
+    for (let i = 0; i < 4; i++) {
+      const p = +$("#psi-p" + i).value || 0, s = +$("#psi-s" + i).value || 0, e = open + p - s, w = e / fwd;
+      $("#psi-o" + i).textContent = fmt(open); $("#psi-e" + i).textContent = fmt(e);
+      const cell = $("#psi-w" + i); cell.innerHTML = w.toFixed(1) + " " + (w > tgt * 2 ? '<span class="pill warn">high</span>' : w < tgt / 2 ? '<span class="pill bad">low</span>' : '<span class="pill good">ok</span>');
+      open = e; last = e; lastW = w;
+    }
+    const gap = last - tgt * fwd;
+    $("#psi-say").innerHTML = "\"Ending stock after week 44 is <b>" + fmt(last) + "</b> units, which is <b>" + lastW.toFixed(1) + " weeks</b> of supply against a " + tgt + "-week target, so the account is <b>" + fmt(Math.abs(gap)) + " units " + (gap < 0 ? "short" : "over") + "</b>. " + (gap < 0 ? "I'd plan more sell-in." : "I'd slow sell-in and watch for aging.") + "\"";
+  }
+  ["psi-open", "psi-fwd", "psi-target", "psi-p0", "psi-p1", "psi-p2", "psi-p3", "psi-s0", "psi-s1", "psi-s2", "psi-s3"].forEach(id => $("#" + id).addEventListener("input", psi));
+  psi();
+
+  /* accuracy tool */
+  const acc = [["A", 100, 80], ["B", 50, 60], ["C (tiny)", 10, 2], ["D", 400, 380]];
+  $("#acc-body").innerHTML = acc.map((r, i) => "<tr><td>" + r[0] + '</td><td class="n"><input type="number" id="acc-f' + i + '" value="' + r[1] + '" min="0" aria-label="Forecast ' + r[0] + '"></td><td class="n"><input type="number" id="acc-a' + i + '" value="' + r[2] + '" min="0" aria-label="Actual ' + r[0] + '"></td><td class="n" id="acc-e' + i + '"></td><td class="n" id="acc-p' + i + '"></td></tr>').join("");
+  function accCalc() {
+    let sa = 0, se = 0, sabs = 0, ps = 0, pn = 0;
+    acc.forEach((r, i) => {
+      const f = +$("#acc-f" + i).value || 0, a = +$("#acc-a" + i).value || 0, e = f - a;
+      $("#acc-e" + i).textContent = (e > 0 ? "+" : "") + fmt(e);
+      $("#acc-p" + i).textContent = a > 0 ? pct(Math.abs(e) / a) : "n/a";
+      sa += a; se += e; sabs += Math.abs(e); if (a > 0) { ps += Math.abs(e) / a; pn++; }
+    });
+    const mape = pn ? ps / pn : NaN, wape = sa ? sabs / sa : NaN, bias = sa ? se / sa : NaN;
+    $("#acc-mape").textContent = pct(mape); $("#acc-wape").textContent = pct(wape); $("#acc-acc").textContent = pct(1 - wape); $("#acc-bias").textContent = (bias > 0 ? "+" : "") + pct(bias);
+    $("#acc-say").innerHTML = "\"Accuracy is <b>" + pct(1 - wape) + "</b> on a WAPE basis, with a bias of <b>" + (bias > 0 ? "+" : "") + pct(bias) + "</b>, so we're " + (Math.abs(bias) < 0.02 ? "roughly unbiased" : bias > 0 ? "forecasting too high overall" : "forecasting too low overall") + ". MAPE shows " + pct(mape) + (mape > wape * 2 ? ", inflated by the small item, which is why I report WAPE." : ".") + "\"";
+  }
+  acc.forEach((r, i) => { $("#acc-f" + i).addEventListener("input", accCalc); $("#acc-a" + i).addEventListener("input", accCalc); });
+  accCalc();
+
+  /* reallocation tool */
+  function re() {
+    const xs = +$("#re-xs").value || 0, xr = Math.max(1, +$("#re-xr").value || 1), ys = +$("#re-ys").value || 0, yr = Math.max(1, +$("#re-yr").value || 1);
+    const slider = $("#re-move"); slider.max = xs; const m = Math.min(+slider.value, xs);
+    $("#re-move-v").textContent = fmt(m);
+    const wx = (xs - m) / xr, wy = (ys + m) / yr, even = (xs + ys) / (xr + yr), best = Math.round(xs - even * xr);
+    $("#re-x").textContent = wx.toFixed(1) + " wks"; $("#re-y").textContent = wy.toFixed(1) + " wks";
+    $("#re-say").innerHTML = "\"Moving <b>" + fmt(m) + "</b> units leaves X with " + wx.toFixed(1) + " weeks and Y with " + wy.toFixed(1) + " weeks. Spreading stock evenly would give both about <b>" + even.toFixed(1) + " weeks</b>, which means moving about <b>" + fmt(Math.max(0, best)) + "</b>. Before moving anything I'd confirm the stock is ours to move and check transfer cost, allocation rules and upcoming promotions.\"";
+  }
+  ["re-xs", "re-xr", "re-ys", "re-yr", "re-move"].forEach(id => $("#" + id).addEventListener("input", re));
+  re();
+
+  /* flashcards */
+  const cards = [
+    ["Sell-in", "What the brand sells to an account (the account's purchases)."],
+    ["Sell-through / sell-out", "What the account sells to consumers. The real demand signal."],
+    ["Channel inventory", "Stock held at the accounts.", "Change = Sell-in − Sell-through"],
+    ["PSI", "Purchase – Sales – Inventory: weekly table by account, product and week.", "Ending = Opening + Purchases − Sales"],
+    ["EOH", "End on hand: stock at the end of the week."],
+    ["WOS", "Weeks of supply: how long stock lasts.", "WOS = EOH ÷ forward weekly sales"],
+    ["24-week rolling horizon", "Forecast always covers the next 24 weekly buckets; the window moves forward each week and all weeks are updated."],
+    ["Cutoff", "The weekly deadline to load the forecast into the system."],
+    ["Demand cleaning", "Fixing history: duplicates, errors, one-off events tagged so they don't inflate the baseline."],
+    ["Demand shaping", "Adjusting the forward forecast for known events such as promotions or price changes."],
+    ["Baseline", "Normal demand without one-off events."],
+    ["Forecast version", "The agreed forecast the planning team loads each week before the cutoff. Companies name these versions internally; ask how theirs work."],
+    ["Buffer", "Extra quantity above the forecast to cover uncertainty. Shrinks as a model ages.", "Load = Consensus × (1 + buffer %)"],
+    ["Consensus forecast", "One number agreed by sales, planning, supply and finance, with assumptions written down."],
+    ["MAPE", "Average % error, every item counted equally. Distorted by small items.", "avg of |F − A| ÷ A"],
+    ["WAPE", "Total absolute error as a % of total actual. Weighted by volume.", "Σ|F − A| ÷ ΣA"],
+    ["Bias", "Direction of error. Positive = forecasting too high (by this convention).", "Σ(F − A) ÷ ΣA"],
+    ["WoW change", "This week's forecast minus last week's, for the same account, product and week."],
+    ["ASP", "Average selling price. Units × ASP = dollars."],
+    ["Reconciliation", "Explaining why two inventory numbers differ: in-transit, returns, timing, data errors, units."],
+    ["PO confirmation", "Weekly confirm, increase or reduce of purchase orders so factory arrivals match the plan."],
+    ["Aging buckets", "Stock grouped by age: 0–30, 31–60, 61–90, 90+ days."],
+    ["Depletion plan", "How and by when stock will be sold down.", "Weeks to deplete = stock ÷ weekly sales"],
+    ["Reallocation", "Moving company-held ending stock (EOH) from where it sells slowly to where it sells fast. Stock an account already owns needs other levers: slower sell-in, promotions, or a negotiated rotation."],
+    ["Price protection", "Compensation to accounts when the price drops on stock they already hold."],
+    ["Cannibalisation", "A new model taking demand from the old one."],
+    ["S&OP", "Sales and Operations Planning: the regular meeting where one plan is agreed across functions."],
+    ["SUMIFS", "Sum with conditions. SQL twin: SUM(...) WHERE ...", "=SUMIFS(Units, Account, \"A\", Week, 42)"],
+    ["XLOOKUP vs VLOOKUP", "XLOOKUP looks either direction, exact match by default, built-in not-found value. VLOOKUP looks right only, needs FALSE."],
+    ["PivotTable", "Summarise a table by rows and columns. SQL twin: GROUP BY."]
+  ];
+  let order = cards.map((_, i) => i), ci = 0, flipped = false;
+  const cardEl = $("#card");
+  function showCard() {
+    const c = cards[order[ci]];
+    cardEl.classList.toggle("flipped", flipped);
+    cardEl.innerHTML = flipped ? '<div class="back">' + esc(c[1]) + (c[2] ? '<br><span class="formula">' + esc(c[2]) + "</span>" : "") + "</div>" : '<div class="front">' + esc(c[0]) + "</div>";
+    $("#card-n").textContent = "Card " + (ci + 1) + " of " + cards.length + (flipped ? " · answer" : " · tap to flip");
+  }
+  const flip = () => { flipped = !flipped; showCard(); };
+  cardEl.addEventListener("click", flip);
+  cardEl.addEventListener("keydown", e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); flip(); } });
+  $("#card-next").addEventListener("click", () => { ci = (ci + 1) % cards.length; flipped = false; showCard(); });
+  $("#card-prev").addEventListener("click", () => { ci = (ci - 1 + cards.length) % cards.length; flipped = false; showCard(); });
+  $("#card-shuffle").addEventListener("click", () => { for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; } ci = 0; flipped = false; showCard(); });
+  showCard();
+
+  /* quiz */
+  const quiz = [
+    ["Carrier A buys 10,000 units from the brand and sells 7,000 to consumers this month. What is the sell-through?", ["10,000", "7,000", "3,000", "17,000"], 1, "Sell-through is what the account sells to consumers: 7,000. The 10,000 is sell-in, and the 3,000 difference is added to channel inventory."],
+    ["Opening stock 2,000, purchases 800, sales 1,000. What is ending inventory?", ["1,800", "2,200", "3,800", "1,200"], 0, "Ending = Opening + Purchases − Sales = 2,000 + 800 − 1,000 = 1,800."],
+    ["An account holds 1,300 units and is expected to sell 650 a week. Weeks of supply?", ["0.5", "2.0", "4.0", "6.5"], 1, "WOS = 1,300 ÷ 650 = 2.0 weeks."],
+    ["Consensus forecast is 1,000 units and the buffer rule is 5%. What do you load?", ["950", "1,005", "1,050", "1,500"], 2, "1,000 × (1 + 0.05) = 1,050."],
+    ["Total absolute error is 38 and total actual sales are 142. What is WAPE?", ["13.8%", "26.8%", "38.0%", "73.2%"], 1, "WAPE = 38 ÷ 142 = 26.8%. Accuracy = 1 − WAPE = 73.2%."],
+    ["Bias is +12% for three months running. What does it mean?", ["Forecasts are too low", "Forecasts are too high", "Accuracy is 88%", "Nothing; bias doesn't matter"], 1, "With bias = Σ(F − A) ÷ ΣA, positive means forecasts are consistently above actuals. That builds inventory and aging risk."],
+    ["Why can MAPE look terrible even when the business impact is small?", ["It ignores direction", "Small-volume items with large % errors count as much as big items", "It uses squared errors", "It only works weekly"], 1, "MAPE averages % errors equally, so a tiny item that sold 2 against a forecast of 10 (400% error) dominates. WAPE weights by volume."],
+    ["A forecast drops 300 units week over week and the ASP is $800. What is the $ impact?", ["−$2,400", "−$24,000", "−$240,000", "−$2,400,000"], 2, "300 × $800 = $240,000 lower than last week's view."],
+    ["System shows 5,000 units at an account; the account reports 4,600. 300 are in transit and 100 are pending return. Unexplained difference?", ["0", "100", "300", "400"], 0, "400 difference − 300 in transit − 100 returns = 0. Reconciled."],
+    ["Account X has 1,200 units and sells 100 a week, against a 4-week target. What's the right flag?", ["Stock-out risk", "Healthy", "Aging risk: 12 weeks to deplete", "Reconciliation error"], 2, "1,200 ÷ 100 = 12 weeks to deplete, three times the 4-week target. That stock is likely to age: slow sell-in to X and plan a depletion promotion."],
+    ["Sell-in has run above sell-through for six weeks at one account. What happens next?", ["Channel inventory falls", "The account will likely order less soon", "Sell-through will rise automatically", "Nothing changes"], 1, "Stock builds up at the account, so future orders (sell-in) slow down. Flag it and adjust the forecast."],
+    ["Which Excel function can return a value from a column to the LEFT of the lookup column, with a built-in 'not found' value?", ["VLOOKUP", "XLOOKUP", "SUMIFS", "COUNTIFS"], 1, "XLOOKUP looks in either direction and has an if-not-found argument. VLOOKUP only looks to the right."]
+  ];
+  let answered = store.get("dp-crash-quiz", {});
+  function renderQuiz() {
+    $("#quiz-list").innerHTML = quiz.map((q, i) => '<div class="qz"><b>' + (i + 1) + ". " + esc(q[0]) + '</b><div class="opts">' + q[1].map((o, j) => {
+      const a = answered[i]; let cls = "";
+      if (a !== undefined) { if (j === q[2]) cls = "right"; else if (j === a) cls = "wrong"; }
+      return '<button type="button" data-q="' + i + '" data-o="' + j + '" class="' + cls + '"' + (a !== undefined ? " disabled" : "") + ">" + esc(o) + "</button>";
+    }).join("") + "</div>" + (answered[i] !== undefined ? '<div class="why">' + (answered[i] === q[2] ? "Correct. " : "Not quite. ") + esc(q[3]) + "</div>" : "") + "</div>").join("");
+    const done = Object.keys(answered).length, right = Object.keys(answered).filter(k => answered[k] === quiz[k][2]).length;
+    $("#quiz-score").textContent = done ? "Score: " + right + " / " + done + " answered" : "";
+  }
+  $("#quiz-list").addEventListener("click", e => {
+    const btn = e.target.closest("button[data-q]"); if (!btn) return;
+    answered[btn.dataset.q] = +btn.dataset.o; store.set("dp-crash-quiz", answered); renderQuiz();
+  });
+  $("#quiz-reset").addEventListener("click", () => { answered = {}; store.set("dp-crash-quiz", answered); renderQuiz(); });
+  renderQuiz();
+
+  /* interview questions */
+  const rounds = [
+    ["Screening", [
+      ["Walk me through your background.", ["60–90 seconds: your previous role → working in the data (SQL validation, root causes) → why demand planning → what you're doing to learn it → what you'd bring.", "Use the pitch in “Your story”. Practise until it fits in 90 seconds."]],
+      ["Have you done demand planning before?", ["\"Not in a planning job yet.\" Then: your data background, the training program, and (only for the ones you've actually completed) the Excel exercises you did (PSI with weeks of supply, accuracy, WoW report, aging).", "Calm and direct. Don't apologise and don't inflate."]],
+      ["Why demand planning, and why this team?", ["A real reason: you like turning data into decisions, and planning is where data quality has direct business impact.", "Show you read the JD: weekly PSI, the forecast cycle, aging inventory, telecom and retail accounts."]],
+      ["What do you know about this role?", ["Recite the six-step weekly loop from the top of this page in your own words."]]
+    ]],
+    ["Concepts", [
+      ["Explain sell-in vs sell-through.", ["Definitions, then why both matter: the gap is channel inventory, which predicts future orders."]],
+      ["What's a rolling 24-week forecast?", ["Weekly buckets, 24 weeks ahead, moves forward each week, all weeks updated, near term constrained by lead time, cutoff each week."]],
+      ["Walk me through a PSI table.", ["Ending = Opening + Purchases − Sales. Read it for spikes, inventory building, WOS vs target. Use the concept-06 example."]],
+      ["MAPE vs WAPE vs bias?", ["Formulas; MAPE is distorted by small items; WAPE is volume-weighted; bias shows direction. Do the worked example on paper if asked."]],
+      ["What goes in the weekly report?", ["Headline → top WoW changes with reasons → risks → gap to plan in units and $ → actions and owners."]]
+    ]],
+    ["Case questions", [
+      ["Sell-through dropped 30% at one account. What do you check before changing the forecast?", ["Is it real? Data feed error, ended promotion, store stock-out (nothing to sell), competitor launch, store reset.", "Talk to the account team, then decide: one-off (don't change baseline) or trend (re-forecast)."]],
+      ["Account X has 12 weeks of supply, Account Y has 1. What do you do?", ["First ask who owns the stock. Stock already sold to an account is the account's, so you can't simply move it.", "Account-owned: slow X's sell-in, support X's sell-through (promotion), push more sell-in to Y, or negotiate a stock rotation.", "Company-held (its warehouses or sales subsidiaries): reallocate using weeks-to-deplete maths (practice tool 3), after checking transfer cost, allocation rules and upcoming promotions."]],
+      ["The factory delays 800 units of a hot model.", ["Quantify the gap and revenue at risk (800 × ASP).", "Options with trade-offs: expedite by air, prioritise key accounts, pull forward a later shipment.", "Communicate early in the weekly report."]],
+      ["Sales wants a higher number than the data supports.", ["Bring sell-through, WOS and accuracy history; write down both assumptions; agree one number; track who was right afterwards."]],
+      ["Accuracy looks fine but inventory keeps building. Why?", ["Persistent positive bias, buffers too big, or sell-in running ahead of sell-through."]]
+    ]],
+    ["Excel and tools", [
+      ["XLOOKUP vs VLOOKUP?", ["XLOOKUP: either direction, exact match by default, built-in not-found value. VLOOKUP: right only, needs FALSE."]],
+      ["How would you build a PSI summary by account and week?", ["Clean table → PivotTable (rows account, columns week, values sum) or a SUMIFS grid; add WoW change columns; conditional formatting for WOS."]],
+      ["Have you used VBA?", ["Say honestly whether you have. If not, say how you'd learn (record a macro and read its code) and that you'd automate the weekly data refresh first."]],
+      ["How would you use Claude here?", ["Drafting commentary, checking formulas, explaining anomalies. Verify every number. Only approved tools for company data."]]
+    ]],
+    ["Behavioural (real stories only)", [
+      ["Tell me about a time you found an error in data others relied on.", ["Use a real data-validation story from your own work: what was wrong, how you traced it, what you fixed, who benefited."]],
+      ["Explain something technical to non-technical people.", ["A real sprint demo or status update to client stakeholders. What you simplified and how you checked they understood."]],
+      ["Working across cultures or time zones.", ["A real onshore/offshore release or handover. How you kept priorities aligned."]],
+      ["What's your biggest gap for this role?", ["\"I haven't run a forecast in a planning job yet.\" Then what you're doing: the training, the practice models, and a 90-day ramp-up plan."]]
+    ]]
+  ];
+  $("#iq-list").innerHTML = rounds.map(r => '<div class="round"><span class="eyebrow">' + r[0] + "</span>" + r[1].map(q => '<details class="iq"><summary>' + esc(q[0]) + '</summary><div class="ans"><ul>' + q[1].map(x => "<li>" + esc(x) + "</li>").join("") + "</ul></div></details>").join("") + "</div>").join("");
+
+  /* plan */
+  const plan = [
+    ["Day 1", "about 5 hours", [
+      "Listen to the beginner podcast once, without notes",
+      "Read “The job” and “The flow” on this page",
+      "Open concepts 01–08 and redo every number example on paper",
+      "Watch: Supply Chain Basics, Explained Simply, Weeks of Supply",
+      "Excel workbook: Ex1 Lookups and Ex2 PSI",
+      "Flashcards: one full round"
+    ]],
+    ["Day 2", "about 5 hours", [
+      "Open concepts 09–18; watch the whiteboard video overview",
+      "Watch: MAPE vs WAPE, 5 Steps of S&OP, SUMIFS & PivotTables",
+      "Excel workbook: Ex3 accuracy, Ex4 WoW report + PivotTable",
+      "Excel workbook: Ex5 aging, Ex6 reconciliation + PO",
+      "Write your 90-second pitch and 5 STAR stories from real experience; say each out loud",
+      "Take the quiz on this page; re-read any concept you missed",
+      "Mock interview with your coach if possible (screening, concepts, one case)"
+    ]],
+    ["Interview morning", "30–45 minutes", [
+      "Say the six-step weekly loop from memory",
+      "Read the cheat sheet",
+      "Pitch once, out loud",
+      "Pick 3 of the 5 questions to ask",
+      "Logistics: time zone, link, quiet room, charged laptop, the resume version the recruiter sent"
+    ]]
+  ];
+  let ticks = store.get("dp-crash-plan", {});
+  const total = plan.reduce((s, d) => s + d[2].length, 0);
+  $("#plan-list").innerHTML = plan.map((d, di) => '<div class="day"><h3><span>' + d[0] + '</span><span class="eyebrow">' + d[1] + "</span></h3>" + d[2].map((t, ti) => { const id = "p" + di + "-" + ti; return '<label for="' + id + '"><input type="checkbox" id="' + id + '"' + (ticks[id] ? " checked" : "") + "><span>" + esc(t) + "</span></label>"; }).join("") + "</div>").join("");
+  function planProgress() { const c = Object.values(ticks).filter(Boolean).length; $("#plan-bar").style.width = (c / total * 100) + "%"; $("#plan-count").textContent = c + " of " + total + " done"; }
+  $("#plan-list").addEventListener("change", e => { if (e.target.type === "checkbox") { ticks[e.target.id] = e.target.checked; store.set("dp-crash-plan", ticks); planProgress(); } });
+  planProgress();
+})();
+</script>
+</body></html>

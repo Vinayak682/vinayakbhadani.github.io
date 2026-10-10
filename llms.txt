@@ -3,7 +3,7 @@
 > Demand planning operator in Dubai who runs independent validation of AI and
 > statistical forecasting systems. Tests whether a forecast actually beats its
 > baseline out-of-sample, and publishes the method including when the answer is no.
-> Currently Demand Planning Executive at Emirates Pride Perfumes.
+> Currently Demand Planner at Emirates Pride Perfumes.
 
 ## The question I work on
 Does an AI demand forecast actually beat a seasonal naive baseline?
@@ -56,6 +56,7 @@ No software licence to sell, no implementation to win.
 ## Key pages
 - [Home](https://vinayakbhadani.com/)
 - [Work with me](https://vinayakbhadani.com/hire.html)
+- [Career coaching](https://vinayakbhadani.com/careers/): resume and LinkedIn rebuilds, interview prep and a hands-on program for people moving into supply chain planning roles
 - [Walk-forward validation write-up](https://vinayakbhadani.com/walk-forward-validation-trading-strategies.html)
 - [AI in demand planning: hype vs reality](https://vinayakbhadani.com/ai-in-demand-planning-hype-vs-reality.html)
 - [AI Supply Chain Copilot](https://vinayakbhadani.com/ai-supply-chain-copilot.html)
