@@ -10,7 +10,7 @@ function mmss(s){s=Math.max(0,Math.floor(s));return ('0'+Math.floor(s/60)).slice
 function replay(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls)}
 
 /* hero reel: agenda follows the reel's four acts */
-var reel=$('[data-reel]'),agenda=$$('[data-agenda]'),cuts=[2.6,11.1,19.6,28.1];
+var reel=$('[data-reel]'),agenda=$$('[data-agenda]'),cuts=[0,10.6,28.4,67.2];
 if(reel){
   var cur=-1;
   reel.addEventListener('timeupdate',function(){var t=reel.currentTime,i=-1;cuts.forEach(function(c,k){if(t>=c)i=k});if(i!==cur){cur=i;agenda.forEach(function(a,k){a.classList.toggle('on',k===i)})}});
@@ -19,6 +19,7 @@ if(reel){
   function sync(){tg.textContent=reel.paused?'PLAY':'PAUSE';tg.setAttribute('aria-pressed',reel.paused?'true':'false')}
   tg.addEventListener('click',function(){if(reel.paused)reel.play();else reel.pause();sync()});
   reel.addEventListener('play',sync);reel.addEventListener('pause',sync);sync();
+  var snd=$('[data-reel-sound]');snd.addEventListener('click',function(){reel.muted=!reel.muted;if(!reel.muted){reel.currentTime=0;reel.play()}snd.textContent=reel.muted?'SOUND OFF':'SOUND ON';snd.setAttribute('aria-pressed',reel.muted?'false':'true');track('academy_trailer_sound',{on:!reel.muted})});
 }
 
 /* readiness check */
@@ -64,24 +65,33 @@ $$('[data-module]').forEach(function(b){b.addEventListener('click',function(){sh
 showModule(0,false);
 
 /* lesson cinema */
-var LESSONS={fundamentals:{src:'./assets/video/supply-chain-fundamentals-metrics-mastery.mp4',vtt:'./assets/video/fundamentals-chapters.vtt',poster:'./assets/video/fundamentals-poster.webp',label:'LESSON 01 / FUNDAMENTALS',time:'06:45',dur:405,ch:D.fund,cap:'<cite>Supply Chain Fundamentals: Metrics, Alignment and Mastery</cite> — inventory risk, ABC, S&amp;OP, OTIF, turns, accuracy vs bias, a live reorder-point simulation and STAR interview answers.'},
-architecture:{src:'../careers/assets/mentoring/architecture-of-supply-end-to-end-chain.mp4',vtt:'./assets/video/architecture-chapters.vtt',poster:'./assets/video/architecture-poster.webp',label:'LESSON 02 / ARCHITECTURE',time:'09:57',dur:597,ch:D.arch,cap:'<cite>The Architecture of Supply: Engineering the End-to-End Chain</cite> — the three flows, equilibrium, forecasting, bullwhip, ABC, replenishment, safety stock and working capital.'}};
-var vid=$('[data-lesson-video]'),chList=$('[data-chapters]'),wipe=$('[data-wipe]'),curLesson='fundamentals';
+var LESSONS={opsystem:{n:1,title:"The Operating System Behind the Plan",src:'./assets/video/operating-system-behind-the-plan.mp4',vtt:'./assets/video/opsystem-chapters.vtt',poster:'./assets/video/opsystem-poster.webp',time:'05:25',dur:325,ch:[[0, "Volatility breaks rigid plans"], [24, "The eleven-day Ramadan problem"], [44, "Planning reduced to history"], [91, "Layer 1 · the digital engine"], [111, "ABC × XYZ nine-zone matrix"], [134, "Owning the forecasting logic"], [159, "Layer 2 · physical execution"], [219, "Layer 3 · governance and S&OP"], [267, "Proof discipline: real vs synthetic"], [298, "The hybrid planner"]],cap:"Why rigid plans break, and the three layers — digital engine, physical execution, governance — that turn uncertainty into movement."},
+resilience:{n:2,title:"Engineering Resilience",src:'./assets/video/engineering-resilience-30-percent-cost.mp4',vtt:'./assets/video/resilience-chapters.vtt',poster:'./assets/video/resilience-poster.webp',time:'09:19',dur:559,ch:[[0, "The inventory trade-off"], [59, "Naive baseline: 14.1% MAPE"], [102, "Holt's double exponential smoothing"], [195, "Safety stock: combined variability"], [248, "EOQ under Gulf holding costs"], [297, "S&OP governance, week by week"], [404, "Macro risk radar"], [429, "Red Sea stress test"], [512, "Resilience is engineered"]],cap:"Deconstructing a 30% cost saving: Holt’s smoothing, safety stock, EOQ under Gulf holding costs, S&OP governance and the Red Sea stress test."},
+exception:{n:3,title:"The Exception Brain",src:'./assets/video/exception-brain-ai-wrapper-trap.mp4',vtt:'./assets/video/exception-chapters.vtt',poster:'./assets/video/exception-poster.webp',time:'06:26',dur:386,ch:[[0, "Thousands of raw events a day"], [23, "Why LLMs fail at compliance math"], [44, "A dual-agent architecture"], [72, "Credential fencing with MCP"], [145, "Deterministic delegation"], [219, "Retrieval without tenant bleed"], [272, "Idempotent orchestration"], [322, "Platform design and cost"], [367, "Opinionated pipelines win"]],cap:"The AI-wrapper trap: credential fencing with MCP, deterministic math before the LLM, retrieval without tenant bleed and idempotent orchestration."},
+liquidity:{n:4,title:"The Liquidity Paradox",src:'./assets/video/liquidity-paradox-supply-chain-ai.mp4',vtt:'./assets/video/liquidity-chapters.vtt',poster:'./assets/video/liquidity-poster.webp',time:'06:19',dur:379,ch:[[0, "Forecasting as liquidity protection"], [33, "Hub, spokes and dark stores"], [56, "The bonded hub and the 55% trigger"], [104, "AI as tax gatekeeper"], [123, "ABC/XYZ tax-risk matrix"], [161, "Hypergrowth breaks history"], [207, "Demand sensing with search data"], [235, "Breaking the distributor duopoly"], [288, "The end-to-end ecosystem"], [336, "Engineering financial physics"]],cap:"Why supply chain AI fails in regulated markets: bonded hubs, tax-risk ABC/XYZ, demand sensing and forecasting as cash protection."},
+architecture:{n:5,title:"The Architecture of Supply",src:'../careers/assets/mentoring/architecture-of-supply-end-to-end-chain.mp4',vtt:'./assets/video/architecture-chapters.vtt',poster:'./assets/video/architecture-poster.webp',time:'09:57',dur:597,ch:D.arch,cap:"The three flows, equilibrium, forecasting, bullwhip, ABC, replenishment, safety stock and working capital."},
+fundamentals:{n:6,title:"Metrics, Alignment & Mastery",src:'./assets/video/supply-chain-fundamentals-metrics-mastery.mp4',vtt:'./assets/video/fundamentals-chapters.vtt',poster:'./assets/video/fundamentals-poster.webp',time:'06:45',dur:405,ch:D.fund,cap:"Inventory risk, ABC, S&OP, OTIF, turns, accuracy vs bias, a live reorder-point simulation and STAR answers."},
+threelayer:{n:7,title:"Meet the instructor",src:'./assets/video/three-layer-operating-system.mp4',vtt:'./assets/video/threelayer-chapters.vtt',poster:'./assets/video/threelayer-poster.webp',time:'02:28',dur:148,ch:[[0, "Uncertainty into movement"], [17, "Three layers, one plan"], [31, "Planning at physical scale"], [60, "Results waterfall"], [72, "Eight-dimension risk radar"], [90, "The S&OP playbook"], [109, "Proof discipline"], [128, "Connect"]],cap:"A two-minute film on the three-layer operating system behind the way I plan and teach."}};
+var ORDER=Object.keys(LESSONS);
+var vid=$('[data-lesson-video]'),chList=$('[data-chapters]'),wipe=$('[data-wipe]'),curLesson=null,plist=$('[data-playlist]');
+plist.innerHTML=ORDER.map(function(k){var L=LESSONS[k];return '<button type="button" role="tab" aria-selected="false" data-lesson="'+k+'"><img src="'+L.poster+'" alt="" loading="lazy" width="320" height="180"/><span><b>'+(k==='threelayer'?'INSTRUCTOR':'LESSON '+('0'+L.n).slice(-2))+' · '+L.time+'</b>'+esc(L.title)+'</span></button>'}).join('');
 function renderCh(L){chList.innerHTML=L.ch.map(function(c){return '<li><button type="button" data-t="'+c[0]+'"><span>'+mmss(c[0])+'</span>'+esc(c[1])+'<i class="prog"></i></button></li>'}).join('')}
+var first=true;
 function loadLesson(k,t,play){
   var L=LESSONS[k];
   $$('[data-lesson]').forEach(function(b){b.setAttribute('aria-selected',b.getAttribute('data-lesson')===k?'true':'false')});
-  if(k===curLesson&&vid.currentSrc){if(t!=null){vid.currentTime=t;if(play)vid.play()}return}
+  if(k===curLesson){if(t!=null){vid.currentTime=t;if(play)vid.play()}return}
   curLesson=k;
   function swap(){
     vid.pause();vid.innerHTML='<source src="'+L.src+'" type="video/mp4"/><track kind="chapters" srclang="en" src="'+L.vtt+'" default/>';vid.poster=L.poster;vid.load();
-    $('[data-lesson-label]').textContent=L.label;$('[data-lesson-time]').textContent=L.time;$('[data-lesson-caption]').innerHTML=L.cap;renderCh(L);
+    $('[data-lesson-label]').textContent=(k==='threelayer'?'INSTRUCTOR FILM':'LESSON '+('0'+L.n).slice(-2))+' / '+L.title.toUpperCase();$('[data-lesson-time]').textContent=L.time;$('[data-lesson-caption]').innerHTML='<cite>'+esc(L.title)+'</cite> — '+esc(L.cap);renderCh(L);
     if(t!=null){vid.addEventListener('loadedmetadata',function h(){vid.removeEventListener('loadedmetadata',h);vid.currentTime=t;if(play)vid.play()})}
   }
-  if(reduce){swap();return}
+  if(reduce||first){first=false;swap();return}
   replay(wipe,'run');setTimeout(swap,340);
 }
-$$('[data-lesson]').forEach(function(b){b.addEventListener('click',function(){loadLesson(b.getAttribute('data-lesson'));track('academy_lesson',{lesson:b.getAttribute('data-lesson')})})});
+plist.addEventListener('click',function(e){var b=e.target.closest('[data-lesson]');if(!b)return;loadLesson(b.getAttribute('data-lesson'));track('academy_lesson',{lesson:b.getAttribute('data-lesson')})});
+loadLesson(ORDER[0]);
 chList.addEventListener('click',function(e){var b=e.target.closest('button[data-t]');if(!b)return;vid.currentTime=+b.getAttribute('data-t');vid.play();track('academy_chapter',{lesson:curLesson,t:+b.getAttribute('data-t')})});
 vid.addEventListener('timeupdate',function(){var L=LESSONS[curLesson],t=vid.currentTime,btns=$$('button[data-t]',chList);
   btns.forEach(function(b,i){var s=L.ch[i][0],e=i+1<L.ch.length?L.ch[i+1][0]:L.dur,on=t>=s&&t<e;b.classList.toggle('on',on);b.querySelector('.prog').style.width=on?((t-s)/(e-s)*100)+'%':'0'})});
