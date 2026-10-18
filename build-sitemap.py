@@ -62,6 +62,7 @@ RULES = {
     # Career coaching mini-site (subdirectory, see SUBDIRS)
     "careers/index.html": (0.8, "monthly"),
     "careers/samples.html": (0.6, "monthly"),
+    "academy/index.html": (0.8, "monthly"),
     "bizops-crash-course/index.html": (0.8, "monthly"),
     "bizops-crash-course/arena/index.html": (0.7, "monthly"),
 }
@@ -69,7 +70,7 @@ RULES = {
 # Hand-written sub-sites that live in a folder. Their index.html is listed by the
 # folder URL ("careers/"), never as ".../index.html", so it isn't a duplicate.
 # Noindex pages inside them (e.g. careers/samples/*.html) are skipped like any other.
-SUBDIRS = ["careers", "bizops-crash-course", "bizops-crash-course/arena"]
+SUBDIRS = ["careers", "academy", "bizops-crash-course", "bizops-crash-course/arena"]
 
 # Pages that exist but should never be indexed.
 EXCLUDE = {"index.html", "404.html"}

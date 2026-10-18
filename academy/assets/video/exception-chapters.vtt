@@ -1,0 +1,38 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:23.000
+Thousands of raw events a day
+
+2
+00:00:23.000 --> 00:00:44.000
+Why LLMs fail at compliance math
+
+3
+00:00:44.000 --> 00:01:12.000
+A dual-agent architecture
+
+4
+00:01:12.000 --> 00:02:25.000
+Credential fencing with MCP
+
+5
+00:02:25.000 --> 00:03:39.000
+Deterministic delegation
+
+6
+00:03:39.000 --> 00:04:32.000
+Retrieval without tenant bleed
+
+7
+00:04:32.000 --> 00:05:22.000
+Idempotent orchestration
+
+8
+00:05:22.000 --> 00:06:07.000
+Platform design and cost
+
+9
+00:06:07.000 --> 00:06:26.100
+Opinionated pipelines win
+
