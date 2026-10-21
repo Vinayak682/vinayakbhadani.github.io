@@ -60,6 +60,10 @@ section > header { display: grid; gap: 6px; }
 .arena-cta .go { font-weight: 700; color: var(--accent); }
 .arena-cta:hover { box-shadow: 0 0 0 3px var(--accent-soft); }
 nav.tabs a.arena-tab { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+.project-cta { border-color: var(--warn); background: linear-gradient(135deg, var(--warn-soft), var(--surface) 70%); }
+.project-cta .go { color: var(--warn); }
+.project-cta:hover { box-shadow: 0 0 0 3px var(--warn-soft); }
+nav.tabs a.project-tab { background: var(--warn); border-color: var(--warn); color: var(--accent-ink); }
 
 /* sticky tabs */
 nav.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); margin-inline: -16px; padding: 8px 16px; }
@@ -197,8 +201,14 @@ html { scroll-behavior: smooth; }
   <span class="eyebrow">Interview prep · Monday 12 October 2026 · Samsung Biz Ops demand planning</span>
   <h1>Biz Ops Crash Course</h1>
   <p class="sub">Everything in the job description, explained from zero for someone coming from IT. Read it top to bottom on Saturday, practise on Sunday, skim the cheat sheet on Monday morning.</p>
+  <a class="arena-cta project-cta" href="project/">
+    <span class="eyebrow">New · start here</span>
+    <b>Planner Project: do the job before the interview</b>
+    <span>Eight weeks as a demand planner at an invented electronics company, then practise the answers out loud. The Loop (the whole job in one picture), 8 hands-on missions that each become a STAR story with real numbers, an Interview Studio with a structure for every question type, and a decoder that explains each line of a job description.</span>
+    <span class="go">Start the project →</span>
+  </a>
   <a class="arena-cta" href="arena/">
-    <span class="eyebrow">New · go deeper</span>
+    <span class="eyebrow">Go deeper</span>
     <b>Planning Arena: learn it by playing it</b>
     <span>17 interactive modules: supply chain cycle, demand planning cycle, S&amp;OP and stakeholders, seasonality, forecasting techniques, accuracy and bias, ABC, inventory levels, holding cost, lead time, safety stock, reorder point, bullwhip. Plus forecast-against-the-bots, the Beer Game, ROP Survival, spaced-repetition flashcards and a final exam.</span>
     <span class="go">Enter the Arena →</span>
@@ -217,6 +227,7 @@ html { scroll-behavior: smooth; }
 
 <nav class="tabs" aria-label="Sections">
   <ul>
+    <li><a class="arena-tab project-tab" href="project/">Planner Project ↗</a></li>
     <li><a class="arena-tab" href="arena/">Planning Arena ↗</a></li>
     <li><a href="#loop">The job</a></li>
     <li><a href="#journey">The flow</a></li>
@@ -372,6 +383,7 @@ html { scroll-behavior: smooth; }
         <li>"I'd bring accuracy, speed with data tools and clear communication to your weekly PSI and forecast cycle."</li>
       </ol>
     </div>
+    <p class="rule"><b>Project stories:</b> the stories you build in the <a href="project/">Planner Project</a> can be told as project experience (“in my demand planning simulation project…”), never as a job. Because you did each step yourself, you can explain where every number came from when the follow-up questions come.</p>
     <p class="rule"><b>About the resume:</b> check which version the recruiter sent. If any line on it isn't true, tell the recruiter before Monday. In the interview, answer only from real experience: if you're asked about a line you can't back up with real detail, don't improvise a story; say plainly what your actual experience is. Invented details fall apart under the second follow-up question, and employment history gets checked.</p>
   </div>
 </section>
