@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" role="img" aria-label="SupplyMind">
+  <title>SupplyMind</title>
+  <g transform="translate(8 16)">
+  <rect width="64" height="64" rx="14" fill="#1A1612"/><rect x=".5" y=".5" width="63" height="63" rx="13.5" fill="none" stroke="#FFFFFF" stroke-opacity=".07"/>
+  <path d="M44 17H24.5Q19 17 19 22.5V25.5Q19 31 24.5 31H39.5Q45 31 45 36.5V40.5Q45 46 39.5 46H24" fill="none" stroke="#EDE6DA" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="28.5" cy="31" r="2.6" fill="#1A1612" stroke="#EDE6DA" stroke-width="1.9"/>
+  <circle cx="36" cy="31" r="2.6" fill="#1A1612" stroke="#EDE6DA" stroke-width="1.9"/>
+  <circle cx="48.5" cy="15.5" r="4.6" fill="#1A1612" stroke="#D9A441" stroke-width="2.6"/>
+  <rect x="14.6" y="41.6" width="8.8" height="8.8" rx="1" fill="#9B2B25" stroke="#EDE6DA" stroke-width="1.6"/>
+</g>
+  <text x="92" y="64" fill="#EDE6DA" font-family="'Fira Sans','Avenir Next','Segoe UI',Helvetica,Arial,sans-serif" font-size="46" letter-spacing="-1"><tspan font-weight="700">Supply</tspan><tspan font-weight="300">Mind</tspan></text>
+</svg>
